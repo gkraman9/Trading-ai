@@ -1,7 +1,7 @@
 from trend import detect_trend
 
-def get_signal():
-    # fake price data for now (latest last)
+def get_signal(symbol, timeframe):
+    # Fake price behavior for now
     prices = [100, 105, 110]
 
     trend = detect_trend(prices)

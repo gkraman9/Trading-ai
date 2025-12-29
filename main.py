@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from decision import get_signal
 from reasoning import explain
 
@@ -13,10 +13,17 @@ def home():
 
 @app.route("/analyze")
 def analyze():
-    signal = get_signal()
-    reasons = explain()
+    # 1. Read inputs from URL
+    symbol = request.args.get("symbol", "UNKNOWN")
+    timeframe = request.args.get("timeframe", "UNKNOWN")
+
+    # 2. Get AI decision
+    signal = get_signal(symbol, timeframe)
+    reasons = explain(symbol, timeframe)
 
     return jsonify({
+        "symbol": symbol,
+        "timeframe": timeframe,
         "signal": signal,
         "reasoning": reasons
     })
