@@ -1,17 +1,22 @@
 from flask import Flask, jsonify
-from decision import get_signal
-from reasoning import explain
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    signal = get_signal()
-    reasons = explain()
-
     return jsonify({
-        "signal": signal,
-        "reasoning": reasons
+        "status": "OK",
+        "message": "Trading AI is running"
+    })
+
+@app.route("/analyze")
+def analyze():
+    return jsonify({
+        "signal": "BUY",
+        "reasoning": [
+            "Test route active",
+            "Routing is working correctly"
+        ]
     })
 
 if __name__ == "__main__":
