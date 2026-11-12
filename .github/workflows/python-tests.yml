@@ -8,12 +8,14 @@ on:
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
       - feat/iat2-session-quality
+      - feat/iat2-windows-demo
   pull_request:
     branches:
       - main
       - feat/iat2-foundation
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
+      - feat/iat2-session-quality
   workflow_dispatch:
 
 permissions:
@@ -21,11 +23,12 @@ permissions:
 
 jobs:
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ['3.11', '3.12']
+        os: [ubuntu-latest, windows-latest]
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -38,3 +41,16 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Windows runner fail-closed smoke test
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $reports = Join-Path $env:RUNNER_TEMP ('iat-smoke-' + [Guid]::NewGuid().ToString('N'))
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -File diagnostics/Run-IATDemoValidation.ps1 -PythonExe $python -SessionConfig 'missing-fixture.json' -ReportDirectory $reports
+          if ($LASTEXITCODE -ne 1) { throw 'Expected fail-closed preflight exit' }
+          $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
+          if ($files.Count -ne 1) { throw 'Expected one isolated failure report' }
+          $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
+          if ($report.status -ne 'FAIL' -or $report.execution_allowed -ne $false) { throw 'Unsafe preflight report' }
+          if ($report.code -notin @('CONFIG_FILE_UNAVAILABLE', 'PYTHON_311_X64_REQUIRED')) { throw 'Unexpected preflight reason' }
