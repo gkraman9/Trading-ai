@@ -6,10 +6,12 @@ on:
       - main
       - feat/iat2-foundation
       - feat/iat2-mt5-data
+      - feat/iat2-readonly-api
   pull_request:
     branches:
       - main
       - feat/iat2-foundation
+      - feat/iat2-mt5-data
   workflow_dispatch:
 
 permissions:

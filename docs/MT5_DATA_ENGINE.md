@@ -31,5 +31,5 @@ finally:
 - Returned bars are checked for closure using UTC clock time.
 - Stale, malformed, duplicate, missing or out-of-order data raises an error.
 - Trading decisions remain WAIT and execution is disabled.
-- Existing legacy `/analyze` still uses hardcoded values; do not use it as a trading signal.
-- Next: symbol metadata, session/market-closure handling, gaps, broker clock alignment and safe endpoint migration.
+- `/analyze` now uses this validator and always returns WAIT with execution disabled; see [API contract](READ_ONLY_API.md).
+- Next: symbol metadata, session/market-closure handling, gaps and broker clock alignment.
