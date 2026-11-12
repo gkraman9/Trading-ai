@@ -1,0 +1,154 @@
+{
+  "version": 2,
+  "symbol": "XAUUSD",
+  "timezone": "UTC",
+  "coverage": {
+    "start": "2026-11-06",
+    "end": "2026-11-16"
+  },
+  "verification": {
+    "quote_schedule_verified": true,
+    "trade_schedule_verified": true,
+    "holidays_verified": true,
+    "maintenance_verified": true,
+    "expires_at": "2026-11-16T00:00:00Z",
+    "provenance": [
+      {
+        "id": "fixture",
+        "kind": "SYNTHETIC_TEST",
+        "reference": "SYNTHETIC OFFLINE ONLY",
+        "captured_at": "2026-11-05T00:00:00Z"
+      }
+    ]
+  },
+  "candle_finality": {
+    "policy": "MT5_POSITION_1_ELAPSED",
+    "verified": true
+  },
+  "weekdays": {
+    "mon": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "tue": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "wed": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "thu": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "fri": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "sat": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "sun": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    }
+  },
+  "holidays": [],
+  "exceptions": {},
+  "maintenance": [],
+  "closures": [],
+  "assurance_holds": []
+}

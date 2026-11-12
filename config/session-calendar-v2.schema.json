@@ -1,0 +1,872 @@
+{
+  "type": "object",
+  "required": [
+    "version",
+    "symbol",
+    "timezone",
+    "coverage",
+    "verification",
+    "candle_finality",
+    "weekdays",
+    "holidays",
+    "exceptions",
+    "maintenance",
+    "closures",
+    "assurance_holds"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 2
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^\\S+$"
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "end": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "required": [
+        "quote_schedule_verified",
+        "trade_schedule_verified",
+        "holidays_verified",
+        "maintenance_verified",
+        "expires_at",
+        "provenance"
+      ],
+      "properties": {
+        "quote_schedule_verified": {
+          "type": "boolean"
+        },
+        "trade_schedule_verified": {
+          "type": "boolean"
+        },
+        "holidays_verified": {
+          "type": "boolean"
+        },
+        "maintenance_verified": {
+          "type": "boolean"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "provenance": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "kind",
+              "reference",
+              "captured_at"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1,64}$"
+              },
+              "kind": {
+                "enum": [
+                  "PUBLISHED",
+                  "LOCAL_OBSERVATION",
+                  "SYNTHETIC_TEST"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "captured_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "candle_finality": {
+      "type": "object",
+      "required": [
+        "policy",
+        "verified"
+      ],
+      "properties": {
+        "policy": {
+          "const": "MT5_POSITION_1_ELAPSED"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "weekdays": {
+      "type": "object",
+      "required": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "properties": {
+        "mon": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "tue": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "wed": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "thu": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "fri": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "sat": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "sun": {
+          "type": "object",
+          "required": [
+            "quotes",
+            "phases"
+          ],
+          "properties": {
+            "quotes": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "phases": {
+              "type": "array",
+              "maxItems": 32,
+              "items": {
+                "type": "object",
+                "required": [
+                  "open",
+                  "close",
+                  "close_day_offset",
+                  "state"
+                ],
+                "properties": {
+                  "open": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close": {
+                    "type": "string",
+                    "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                  },
+                  "close_day_offset": {
+                    "type": "integer",
+                    "enum": [
+                      0,
+                      1
+                    ]
+                  },
+                  "state": {
+                    "enum": [
+                      "FULL_TRADING",
+                      "CLOSE_ONLY",
+                      "QUOTE_ONLY",
+                      "CLOSED",
+                      "UNKNOWN"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "holidays": {
+      "type": "array",
+      "maxItems": 366,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "date",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      }
+    },
+    "exceptions": {
+      "type": "object",
+      "maxProperties": 366,
+      "propertyNames": {
+        "type": "string",
+        "format": "date",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "quotes",
+          "phases"
+        ],
+        "properties": {
+          "quotes": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "required": [
+                "open",
+                "close",
+                "close_day_offset"
+              ],
+              "properties": {
+                "open": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                },
+                "close": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                },
+                "close_day_offset": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "phases": {
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "required": [
+                "open",
+                "close",
+                "close_day_offset",
+                "state"
+              ],
+              "properties": {
+                "open": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                },
+                "close": {
+                  "type": "string",
+                  "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                },
+                "close_day_offset": {
+                  "type": "integer",
+                  "enum": [
+                    0,
+                    1
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "FULL_TRADING",
+                    "CLOSE_ONLY",
+                    "QUOTE_ONLY",
+                    "CLOSED",
+                    "UNKNOWN"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "maintenance": {
+      "type": "array",
+      "maxItems": 366,
+      "items": {
+        "type": "object",
+        "required": [
+          "start",
+          "end"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "closures": {
+      "type": "array",
+      "maxItems": 366,
+      "items": {
+        "type": "object",
+        "required": [
+          "start",
+          "end"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "assurance_holds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "CALENDAR_COVERAGE_UNVERIFIED",
+          "SESSION_PHASE_UNKNOWN",
+          "HOLIDAY_COVERAGE_UNKNOWN",
+          "MAINTENANCE_COVERAGE_UNKNOWN",
+          "CANDLE_FINALITY_UNCERTAIN",
+          "CALENDAR_SCHEDULE_CONFLICT"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IAT Session Engine v2",
+  "$comment": "Runtime additionally checks DST uniqueness, interval contradictions, overrides and evidence. JSON validity never certifies a broker."
+}

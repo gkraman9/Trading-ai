@@ -88,6 +88,9 @@ def subtract(windows, closures):
 def compile_session_config(config):
     """Validate all fields, then compile finite UTC windows; never infer hours."""
     try:
+        if isinstance(config, dict) and type(config.get('version')) is int and config['version'] == 2:
+            from iat.session_v2_config import compile_v2
+            return compile_v2(config)
         return _compile(config)
     except SessionConfigError:
         raise

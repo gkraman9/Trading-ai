@@ -4,6 +4,7 @@ import os
 import tempfile
 from pathlib import Path
 from iat.calendar_assurance import ASSURANCE_MESSAGES
+from iat.session_v2 import V2_MESSAGES
 
 # All explanations are fixed vocabulary. Never copy exception text or arbitrary
 # strings from terminal/account/symbol/bridge records into evidence.
@@ -61,6 +62,8 @@ MESSAGES = {
 
 
 MESSAGES.update({code: ("ERROR", message) for code, message in ASSURANCE_MESSAGES.items()})
+MESSAGES.update({code: ("ERROR", message) for code, message in V2_MESSAGES.items()})
+MESSAGES["BROKER_PHASE_METADATA_UNVERIFIED"] = ("WARNING", "Available broker metadata does not independently establish v2 phases and quote coverage.")
 
 def diagnostic(code):
     if code not in MESSAGES:
@@ -175,7 +178,7 @@ def validate_report(report):
         boolean(value)
     keys(report['calendar'], 'scope comparison configured_window_count broker_window_count configured_exception_rules metadata_age_seconds mismatch_intervals dated_exceptions_covered codes')
     calendar = report['calendar']
-    if calendar['scope'] not in ('UNAVAILABLE', 'DATED', 'WEEKLY') or calendar['comparison'] not in ('NOT_RUN', 'UNAVAILABLE', 'INVALID', 'MISMATCH', 'MATCH', 'UNCERTAIN'):
+    if calendar['scope'] not in ('UNAVAILABLE', 'DATED', 'WEEKLY', 'PHASES_V2') or calendar['comparison'] not in ('NOT_RUN', 'UNAVAILABLE', 'INVALID', 'MISMATCH', 'MATCH', 'UNCERTAIN'):
         raise ValueError('Invalid calendar evidence')
     for name in ('configured_window_count', 'broker_window_count', 'configured_exception_rules', 'mismatch_intervals'):
         number(calendar[name], True)
