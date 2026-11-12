@@ -110,3 +110,18 @@ jobs:
           if ('HOLIDAY_COVERAGE_UNKNOWN' -notin @($report.diagnostics.code)) { throw 'Holiday uncertainty was hidden' }
           if ('SESSION_ALIGNMENT_INVALID' -notin @($report.timeframes.M5.codes)) { throw 'M5 boundary mismatch was hidden' }
           exit 0
+      - name: Windows v2 research remains blocked without terminal access
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
+        shell: pwsh
+        run: |
+          $reports = Join-Path $env:RUNNER_TEMP ('iat v2 research ' + [Guid]::NewGuid().ToString('N'))
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -File diagnostics/Run-IATSessionResearch.ps1 -PythonExe $python -SessionConfig 'config/profiles/exness-xauusd-v2.candidate.json' -ReportDirectory $reports -CaptureDemo
+          if ($LASTEXITCODE -ne 3) { throw 'Unverified v2 profile must remain BLOCKED' }
+          $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
+          if ($files.Count -ne 1) { throw 'Expected one v2 research report' }
+          $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
+          if ($report.status -ne 'BLOCKED' -or $report.safety.execution_allowed -ne $false -or $report.safety.ordinary_strategy_inputs_emitted -ne $false) { throw 'Unsafe research evidence' }
+          if ($report.provenance.terminal_capture_attempted -ne $false) { throw 'Blocked calendar must not touch terminal' }
+          if ('HOLIDAY_COVERAGE_UNKNOWN' -notin @($report.requirements)) { throw 'Missing evidence was silently cleared' }
+          exit 0

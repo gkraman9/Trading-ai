@@ -1,6 +1,8 @@
 """Strict v2 config compiler. v1 parsing and minute semantics are unchanged."""
 from datetime import datetime, time, timedelta, timezone
 import re
+import hashlib
+import json
 from zoneinfo import ZoneInfo
 
 from iat.session_config import fields, require, day, local_utc, SessionConfigError, WEEKDAYS
@@ -190,4 +192,5 @@ def _compile(config):
             raise SessionConfigError('Verified phase coverage is incomplete', 'SESSION_PHASE_UNKNOWN')
     return SessionCalendarV2(config['symbol'], start, end, expiry, tuple(sorted(quotes)), tuple(phases),
                               tuple(holds), tuple(sorted(set(kinds))), verification['quote_schedule_verified'],
-                              config['candle_finality']['verified'], verification['trade_schedule_verified'])
+                              config['candle_finality']['verified'], verification['trade_schedule_verified'],
+                              hashlib.sha256(json.dumps(config,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')).hexdigest(),len(provenance))

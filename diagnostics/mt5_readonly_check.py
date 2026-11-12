@@ -94,6 +94,8 @@ def _validate(config_path, mt5, clock, metadata_path, terminal_path, report):
         # A schema-valid research candidate is not an assured broker calendar.
         # Do not even import/initialize MT5 while explicit assurance holds remain.
         if calendar.assurance_codes:
+            if getattr(calendar, 'version', 1) == 2:
+                report['session_v2'] = calendar.public_state(clock())
             for code in calendar.assurance_codes:
                 add(code)
             for entry in report['timeframes'].values():
@@ -105,6 +107,8 @@ def _validate(config_path, mt5, clock, metadata_path, terminal_path, report):
             if not calendar.coverage_start <= clock() < calendar.coverage_end:
                 add('SESSION_COVERAGE_UNKNOWN')
             return _finish(report, codes, clock)
+        if getattr(calendar, 'version', 1) == 2:
+            report['session_v2'] = calendar.public_state(clock())
         metadata = UNSET
         if metadata_path is not None:
             try:

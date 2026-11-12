@@ -45,6 +45,7 @@ def compare_v2_metadata(metadata, config, calendar, summary, now):
     require(not set(broker.assurance_codes) - {'CANDLE_FINALITY_UNCERTAIN'})
     require(broker.coverage_start <= calendar.coverage_start and broker.coverage_end >= calendar.coverage_end)
     require(aware(metadata['collected_at_utc']) < broker.expires_at)
+    require((datetime.now(timezone.utc) if now is None else now) < broker.expires_at)
     clip = lambda windows: [(max(a, calendar.coverage_start), min(b, calendar.coverage_end))
                             for a, b in windows if a < calendar.coverage_end and b > calendar.coverage_start]
     count = difference(merge(calendar.windows), merge(clip(broker.windows)))

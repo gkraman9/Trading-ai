@@ -58,7 +58,7 @@ class V2Tests(unittest.TestCase):
         self.assertEqual(unknown['classification'], 'FULL_SESSION_BAR')
         self.assertEqual(unknown['broker_finality'], 'UNESTABLISHED')
         self.assertFalse(unknown['eligible_for_strategy'])
-        known = calendar.classify_bar(self.at('10:00:00'), 'M5', observed_finalized=True)
+        known = calendar.classify_bar(self.at('10:00:00'), 'M5', observed_finalized=True, as_of=NOW)
         self.assertTrue(known['eligible_for_strategy'])
         self.assertFalse(known['iat_execution_allowed'])
 

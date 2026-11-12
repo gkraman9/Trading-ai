@@ -98,7 +98,8 @@ def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_p
                        "quality": snapshot.quality.to_dict()})
         if session_details is not None:
             session_details['last_bar'] = calendar.classify_bar(
-                datetime.fromisoformat(snapshot.candles[-1]['timestamp']), timeframe, observed_finalized=True)
+                datetime.fromisoformat(snapshot.candles[-1]['timestamp']), timeframe, observed_finalized=True,
+                as_of=datetime.fromisoformat(session_details['evaluated_at_utc']))
             result['session_v2'] = session_details
         return jsonify(result)
 

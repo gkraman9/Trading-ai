@@ -8,3 +8,5 @@ iat-sessions-*.json
 .iat-runner-*
 config/local/
 .iat-profile-*
+iat-session-research-*.json
+.iat-research-*

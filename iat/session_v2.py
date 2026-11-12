@@ -1,8 +1,10 @@
 """Generic second-level phases and quote-boundary classification; no execution."""
 from dataclasses import dataclass
+from bisect import bisect_right
 from datetime import timedelta
 
 from iat.sessions import SessionValidationError, utc, duration_seconds
+from iat.calendar_assurance import ASSURANCE_MESSAGES
 
 STATES = ('FULL_TRADING', 'CLOSE_ONLY', 'QUOTE_ONLY', 'CLOSED', 'UNKNOWN')
 CLASSES = ('FULL_SESSION_BAR', 'PARTIAL_SESSION_OPEN', 'PARTIAL_SESSION_CLOSE',
@@ -61,12 +63,21 @@ class SessionCalendarV2:
     quote_schedule_verified: bool
     finality_verified: bool
     trade_schedule_verified: bool
+    configuration_sha256: str
+    provenance_count: int
     version: int = 2
 
     def __post_init__(self):
         start, end, expiry = utc(self.coverage_start), utc(self.coverage_end), utc(self.expires_at)
         if not isinstance(self.symbol, str) or not self.symbol or not start < end or expiry <= start:
             raise SessionValidationError('Invalid v2 coverage', 'CALENDAR_COVERAGE_UNVERIFIED')
+        import re
+        if not isinstance(self.configuration_sha256,str) or not re.fullmatch('[a-f0-9]{64}',self.configuration_sha256) or type(self.provenance_count) is not int or not 1<=self.provenance_count<=32:
+            raise SessionValidationError('Invalid v2 provenance fingerprint','CALENDAR_COVERAGE_UNVERIFIED')
+        if self.version != 2 or any(type(value) is not bool for value in (self.quote_schedule_verified,self.trade_schedule_verified,self.finality_verified)):
+            raise SessionValidationError('Invalid v2 verification types','CALENDAR_COVERAGE_UNVERIFIED')
+        if any(code not in set(V2_MESSAGES)|set(ASSURANCE_MESSAGES) for code in self.assurance_codes) or any(kind not in ('PUBLISHED','LOCAL_OBSERVATION','SYNTHETIC_TEST') for kind in self.provenance_kinds):
+            raise SessionValidationError('Invalid v2 assurance metadata','CALENDAR_COVERAGE_UNVERIFIED')
         windows = tuple((utc(a), utc(b)) for a, b in self.windows)
         if any(a >= b or a < start or b > end for a, b in windows) or any(a[1] > b[0] for a, b in zip(windows, windows[1:])):
             raise SessionValidationError('Overlapping quote intervals', 'PHASE_CONFLICT')
@@ -84,12 +95,15 @@ class SessionCalendarV2:
                            ('windows', merge(windows)), ('phases', phases),
                            ('assurance_codes', tuple(self.assurance_codes)), ('provenance_kinds', tuple(self.provenance_kinds))):
             object.__setattr__(self, key, value)
+        object.__setattr__(self, '_phase_starts', tuple(p.start for p in self.phases))
+        object.__setattr__(self, '_quote_starts', tuple(a for a,b in self.windows))
 
     def phase_at(self, moment):
         moment = utc(moment)
         if not self.coverage_start <= moment < self.coverage_end:
             return 'UNKNOWN'
-        return next((p.state for p in self.phases if p.start <= moment < p.end), 'UNKNOWN')
+        index=bisect_right(self._phase_starts,moment)-1
+        return self.phases[index].state if index>=0 and moment<self.phases[index].end else 'UNKNOWN'
 
     def permissions_at(self, moment):
         state = self.phase_at(moment)
@@ -115,7 +129,7 @@ class SessionCalendarV2:
             permissions.update(phase='UNKNOWN', market_data_expected=None,
                                broker_open_positions=None, broker_close_positions=None,
                                broker_permissions_verified=False)
-        return {'version': 2, 'coverage_start_utc': self.coverage_start.isoformat(),
+        return {'version': 2, 'configuration_sha256':self.configuration_sha256,'provenance_count':self.provenance_count, 'evaluated_at_utc': now.isoformat(), 'coverage_start_utc': self.coverage_start.isoformat(),
                 'coverage_end_utc': self.coverage_end.isoformat(), 'expires_at_utc': self.expires_at.isoformat(),
                 'verification': 'BLOCKED' if codes else 'VERIFIED_DECLARATIONS',
                 'reason_codes': list(dict.fromkeys(codes)), 'provenance_kinds': list(self.provenance_kinds),
@@ -123,11 +137,12 @@ class SessionCalendarV2:
 
     def validate_request(self, symbol, now, duration):
         now = utc(now)
-        duration_seconds(duration)
-        if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
-            raise SessionValidationError('Unverified calendar coverage', 'CALENDAR_COVERAGE_UNVERIFIED')
+        if duration_seconds(duration) not in (60,300):
+            raise SessionValidationError('Only M1/M5 intervals supported','TIMEFRAME_UNSUPPORTED')
         if now >= self.expires_at:
             raise SessionValidationError('Calendar verification expired', 'CALENDAR_EXPIRED')
+        if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
+            raise SessionValidationError('Unverified calendar coverage', 'CALENDAR_COVERAGE_UNVERIFIED')
         if self.assurance_codes:
             raise SessionValidationError('Mandatory calendar evidence is missing', self.assurance_codes[0])
         state = self.phase_at(now)
@@ -139,7 +154,7 @@ class SessionCalendarV2:
         if state != 'FULL_TRADING':
             raise SessionValidationError('Current phase is restricted for ordinary analysis', 'BROKER_PHASE_RESTRICTED')
 
-    def classify_bar(self, opened, timeframe, *, observed_finalized=None, research=False):
+    def classify_bar(self, opened, timeframe, *, observed_finalized=None, research=False, as_of=None):
         opened = utc(opened)
         if timeframe not in ('M1', 'M5'):
             raise SessionValidationError('Unsupported candle timeframe', 'TIMEFRAME_UNSUPPORTED')
@@ -148,8 +163,19 @@ class SessionCalendarV2:
             raise SessionValidationError('Scheduled candle is misaligned', 'TIMEFRAME_MISALIGNED')
         end = opened + duration
         covered = self.coverage_start <= opened and end <= self.coverage_end
-        portions = merge((max(a, opened), min(b, end)) for a, b in self.windows if a < end and b > opened) if covered else ()
-        phases = [p for p in self.phases if p.start < end and p.end > opened]
+        quote_index=max(0,bisect_right(self._quote_starts,opened)-1)
+        portions=[]
+        for index in range(quote_index,len(self.windows)):
+            a,b=self.windows[index]
+            if a>=end:break
+            if b>opened:portions.append((max(a,opened),min(b,end)))
+        portions=merge(portions) if covered else ()
+        phase_index=max(0,bisect_right(self._phase_starts,opened)-1)
+        phases=[]
+        for index in range(phase_index,len(self.phases)):
+            phase=self.phases[index]
+            if phase.start>=end:break
+            if phase.end>opened:phases.append(phase)
         phase_seconds = sum((min(p.end, end) - max(p.start, opened)).total_seconds() for p in phases)
         phase_known = phase_seconds == duration.total_seconds() and all(p.state != 'UNKNOWN' for p in phases)
         verified = covered and all(code == 'CANDLE_FINALITY_UNCERTAIN' for code in self.assurance_codes) and self.quote_schedule_verified and phase_known
@@ -168,10 +194,11 @@ class SessionCalendarV2:
         def permission(index):
             values = [PERMISSIONS[p.state][index] for p in phases]
             return all(values) if phase_known and verified else None
-        eligible = verified and label == 'FULL_SESSION_BAR' and all(p.state == 'FULL_TRADING' for p in phases) and observed_finalized is True and self.finality_verified
+        live_context = as_of is not None and self.coverage_start <= utc(as_of) < min(self.coverage_end,self.expires_at) and end <= utc(as_of) and self.phase_at(as_of) == 'FULL_TRADING'
+        eligible = live_context and verified and label == 'FULL_SESSION_BAR' and all(p.state == 'FULL_TRADING' for p in phases) and observed_finalized is True and self.finality_verified
         return {'classification': label, 'scheduled_open_utc': opened.isoformat(), 'scheduled_end_utc': end.isoformat(),
                 'market_open_portions': [{'start': a.isoformat(), 'end': b.isoformat()} for a, b in portions],
-                'market_open_seconds': sum((b - a).total_seconds() for a, b in portions),
+                'market_open_seconds': sum((b - a).total_seconds() for a, b in portions) if covered and (research or verified) else None,
                 'schedule_verified': verified, 'phase_states': sorted(set(p.state for p in phases)) or ['UNKNOWN'],
                 'broker_open_positions': permission(0), 'broker_close_positions': permission(1),
                 'broker_finality': 'CONFIRMED_BY_DECLARED_PROVIDER_CONTRACT' if observed_finalized is True and self.finality_verified and label == 'FULL_SESSION_BAR' else 'UNESTABLISHED',
@@ -212,7 +239,7 @@ class SessionCalendarV2:
             raise SessionValidationError('Invalid chronology', 'TIMESTAMP_OUT_OF_ORDER')
         timeframe = 'M1' if duration.total_seconds() == 60 else 'M5'
         for opened in openings:
-            result = self.classify_bar(opened, timeframe, observed_finalized=observed_finality)
+            result = self.classify_bar(opened, timeframe, observed_finalized=observed_finality, as_of=now)
             if opened + duration > utc(now):
                 raise SessionValidationError('An unclosed bar was returned', 'BAR_UNCLOSED')
             label = result['classification']

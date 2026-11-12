@@ -55,7 +55,7 @@ class V2EdgeTests(unittest.TestCase):
             config['weekdays'][day] = {'quotes':[window('22:00:00','02:00:00',1)],
               'phases':[window('22:00:00','02:00:00',1,'FULL_TRADING'),window('02:00:00','22:00:00',0,'CLOSED')]}
         calendar = compile_session_config(config)
-        result = calendar.classify_bar(datetime(2026,11,12,23,55,tzinfo=timezone.utc),'M5', observed_finalized=True)
+        result = calendar.classify_bar(datetime(2026,11,12,23,55,tzinfo=timezone.utc),'M5', observed_finalized=True, as_of=datetime(2026,11,13,1,tzinfo=timezone.utc))
         self.assertEqual(result['classification'], 'FULL_SESSION_BAR')
         self.assertTrue(result['eligible_for_strategy'])
         self.assertEqual(calendar.phase_at(datetime(2026,11,13,1,tzinfo=timezone.utc)), 'FULL_TRADING')
@@ -173,6 +173,43 @@ class V2EdgeTests(unittest.TestCase):
         self.assertEqual(calendar.phase_at(datetime(2026,11,12,23,0,30,tzinfo=timezone.utc)),'CLOSE_ONLY')
         self.assertEqual(calendar.classify_bar(datetime(2026,11,12,21,55,tzinfo=timezone.utc),'M5',research=True)['classification'],'PARTIAL_SESSION_CLOSE')
         with self.assertRaises(SessionValidationError): calendar.validate_request('XAUUSD',NOW,timedelta(minutes=1))
+
+    def test_classifier_needs_current_asof_for_ordinary_eligibility(self):
+        calendar=compile_session_config(synthetic_v2())
+        opened=datetime(2026,11,12,10,tzinfo=timezone.utc)
+        self.assertFalse(calendar.classify_bar(opened,'M1',observed_finalized=True)['eligible_for_strategy'])
+        self.assertFalse(calendar.classify_bar(opened,'M1',observed_finalized=True,as_of=opened)['eligible_for_strategy'])
+        self.assertFalse(calendar.classify_bar(opened,'M1',observed_finalized=True,as_of=calendar.expires_at)['eligible_for_strategy'])
+        self.assertTrue(calendar.classify_bar(opened,'M1',observed_finalized=True,as_of=NOW)['eligible_for_strategy'])
+
+    def test_unknown_coverage_does_not_claim_zero_market_open_seconds(self):
+        calendar=compile_session_config(synthetic_v2())
+        result=calendar.classify_bar(datetime(2027,1,1,tzinfo=timezone.utc),'M5')
+        self.assertIsNone(result['market_open_seconds'])
+        self.assertEqual(result['classification'],'UNKNOWN_SESSION')
+
+    def test_unsupported_duration_rejected_and_missing_verified_phase_coverage_rejected(self):
+        calendar=compile_session_config(synthetic_v2())
+        with self.assertRaises(SessionValidationError):calendar.validate_request('XAUUSD',NOW,timedelta(minutes=2))
+        config=synthetic_v2();config['weekdays']['thu']['phases']=[]
+        with self.assertRaises(SessionConfigError) as raised:compile_session_config(config)
+        self.assertEqual(raised.exception.code,'SESSION_PHASE_UNKNOWN')
+
+    def test_later_exception_overrides_previous_overnight_exception(self):
+        config=synthetic_v2()
+        config['exceptions']['2026-11-12']={'quotes':[window('22:00:00','02:00:00',1)],
+           'phases':[window('00:00:00','22:00:00',0,'CLOSED'),window('22:00:00','02:00:00',1,'FULL_TRADING')]}
+        config['exceptions']['2026-11-13']={'quotes':[],'phases':[window(state='CLOSED')]}
+        calendar=compile_session_config(config)
+        self.assertEqual(calendar.phase_at(datetime(2026,11,13,1,tzinfo=timezone.utc)),'CLOSED')
+        self.assertEqual(calendar.phase_at(datetime(2026,11,12,23,tzinfo=timezone.utc)),'FULL_TRADING')
+
+    def test_expired_phase_metadata_cannot_match_as_current(self):
+        config=synthetic_v2();metadata_config=copy.deepcopy(config)
+        metadata_config['verification']['expires_at']='2026-11-12T10:00:00Z'
+        payload={'version':2,'kind':'PHASES_V2','symbol':'XAUUSD','collected_at_utc':'2026-11-12T09:00:00Z','calendar':metadata_config}
+        result=compare_broker_sessions(object(),config,compile_session_config(config),payload,now=NOW)
+        self.assertEqual(result['comparison'],'INVALID')
 
     def test_schema_and_synthetic_example_load(self):
         self.assertIsInstance(load_session_config(ROOT/'config/examples/session-v2.synthetic.json'),SessionCalendarV2)
