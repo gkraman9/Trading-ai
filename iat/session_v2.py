@@ -65,6 +65,7 @@ class SessionCalendarV2:
     trade_schedule_verified: bool
     configuration_sha256: str
     provenance_count: int
+    evidence_latest_at: object
     version: int = 2
 
     def __post_init__(self):
@@ -91,7 +92,7 @@ class SessionCalendarV2:
                 raise SessionValidationError('Quoted phase has no complete quote availability', 'PHASE_CONFLICT')
             if phase.state == 'CLOSED' and overlap:
                 raise SessionValidationError('Closed phase contradicts quote availability', 'PHASE_CONFLICT')
-        for key, value in (('coverage_start', start), ('coverage_end', end), ('expires_at', expiry),
+        for key, value in (('coverage_start', start), ('coverage_end', end), ('expires_at', expiry), ('evidence_latest_at',utc(self.evidence_latest_at)),
                            ('windows', merge(windows)), ('phases', phases),
                            ('assurance_codes', tuple(self.assurance_codes)), ('provenance_kinds', tuple(self.provenance_kinds))):
             object.__setattr__(self, key, value)
@@ -120,16 +121,16 @@ class SessionCalendarV2:
     def public_state(self, now):
         now = utc(now)
         codes = list(self.assurance_codes)
-        if not self.coverage_start <= now < self.coverage_end:
+        if not self.coverage_start <= now < self.coverage_end or now < self.evidence_latest_at:
             codes.append('CALENDAR_COVERAGE_UNVERIFIED')
         if now >= self.expires_at:
             codes.append('CALENDAR_EXPIRED')
         permissions = self.permissions_at(now)
-        if now >= self.expires_at or not self.coverage_start <= now < self.coverage_end:
+        if now >= self.expires_at or not self.coverage_start <= now < self.coverage_end or now < self.evidence_latest_at:
             permissions.update(phase='UNKNOWN', market_data_expected=None,
                                broker_open_positions=None, broker_close_positions=None,
                                broker_permissions_verified=False)
-        return {'version': 2, 'configuration_sha256':self.configuration_sha256,'provenance_count':self.provenance_count, 'evaluated_at_utc': now.isoformat(), 'coverage_start_utc': self.coverage_start.isoformat(),
+        return {'version': 2, 'configuration_sha256':self.configuration_sha256,'provenance_count':self.provenance_count, 'evaluated_at_utc': now.isoformat(), 'evidence_latest_at_utc':self.evidence_latest_at.isoformat(), 'coverage_start_utc': self.coverage_start.isoformat(),
                 'coverage_end_utc': self.coverage_end.isoformat(), 'expires_at_utc': self.expires_at.isoformat(),
                 'verification': 'BLOCKED' if codes else 'VERIFIED_DECLARATIONS',
                 'reason_codes': list(dict.fromkeys(codes)), 'provenance_kinds': list(self.provenance_kinds),
@@ -141,7 +142,7 @@ class SessionCalendarV2:
             raise SessionValidationError('Only M1/M5 intervals supported','TIMEFRAME_UNSUPPORTED')
         if now >= self.expires_at:
             raise SessionValidationError('Calendar verification expired', 'CALENDAR_EXPIRED')
-        if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
+        if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end or now < self.evidence_latest_at:
             raise SessionValidationError('Unverified calendar coverage', 'CALENDAR_COVERAGE_UNVERIFIED')
         if self.assurance_codes:
             raise SessionValidationError('Mandatory calendar evidence is missing', self.assurance_codes[0])
@@ -194,7 +195,7 @@ class SessionCalendarV2:
         def permission(index):
             values = [PERMISSIONS[p.state][index] for p in phases]
             return all(values) if phase_known and verified else None
-        live_context = as_of is not None and self.coverage_start <= utc(as_of) < min(self.coverage_end,self.expires_at) and end <= utc(as_of) and self.phase_at(as_of) == 'FULL_TRADING'
+        live_context = as_of is not None and self.evidence_latest_at <= utc(as_of) and self.coverage_start <= utc(as_of) < min(self.coverage_end,self.expires_at) and end <= utc(as_of) and self.phase_at(as_of) == 'FULL_TRADING'
         eligible = live_context and verified and label == 'FULL_SESSION_BAR' and all(p.state == 'FULL_TRADING' for p in phases) and observed_finalized is True and self.finality_verified
         return {'classification': label, 'scheduled_open_utc': opened.isoformat(), 'scheduled_end_utc': end.isoformat(),
                 'market_open_portions': [{'start': a.isoformat(), 'end': b.isoformat()} for a, b in portions],

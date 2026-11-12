@@ -97,13 +97,15 @@ def _compile(config):
     require(start < expiry <= end, 'Explicit verification expiry must lie within coverage')
     provenance = verification['provenance']
     require(isinstance(provenance, list) and 0 < len(provenance) <= 32, 'Dated provenance required')
-    ids, kinds = set(), []
+    ids, kinds, captures = set(), [], []
     for source in provenance:
         fields(source, ('id', 'kind', 'reference', 'captured_at'))
         require(isinstance(source['id'], str) and re.fullmatch('[A-Za-z0-9_-]{1,64}', source['id']) and source['id'] not in ids, 'Unique provenance ID required')
         require(source['kind'] in ('PUBLISHED', 'LOCAL_OBSERVATION', 'SYNTHETIC_TEST'), 'Unsupported provenance kind')
         require(isinstance(source['reference'], str) and 0 < len(source['reference'].strip()) <= 1024, 'Provenance reference required')
-        require(stamp(source['captured_at']) < expiry, 'Provenance cannot postdate expiry')
+        captured=stamp(source['captured_at'])
+        require(captured < expiry, 'Provenance cannot postdate expiry')
+        captures.append(captured)
         ids.add(source['id'])
         kinds.append(source['kind'])
     fields(config['candle_finality'], ('policy', 'verified'))
@@ -193,4 +195,4 @@ def _compile(config):
     return SessionCalendarV2(config['symbol'], start, end, expiry, tuple(sorted(quotes)), tuple(phases),
                               tuple(holds), tuple(sorted(set(kinds))), verification['quote_schedule_verified'],
                               config['candle_finality']['verified'], verification['trade_schedule_verified'],
-                              hashlib.sha256(json.dumps(config,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')).hexdigest(),len(provenance))
+                              hashlib.sha256(json.dumps(config,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')).hexdigest(),len(provenance),max(captures))

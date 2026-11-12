@@ -172,6 +172,9 @@ class V2EdgeTests(unittest.TestCase):
         self.assertEqual(calendar.phase_at(datetime(2026,11,12,23,0,tzinfo=timezone.utc)),'UNKNOWN')
         self.assertEqual(calendar.phase_at(datetime(2026,11,12,23,0,30,tzinfo=timezone.utc)),'CLOSE_ONLY')
         self.assertEqual(calendar.classify_bar(datetime(2026,11,12,21,55,tzinfo=timezone.utc),'M5',research=True)['classification'],'PARTIAL_SESSION_CLOSE')
+        self.assertEqual(calendar.classify_bar(datetime(2026,11,8,23,0,tzinfo=timezone.utc),'M5',research=True)['classification'],'PARTIAL_SESSION_OPEN')
+        self.assertEqual(calendar.classify_bar(datetime(2026,11,13,21,55,tzinfo=timezone.utc),'M5',research=True)['classification'],'PARTIAL_SESSION_CLOSE')
+        self.assertEqual(calendar.classify_bar(datetime(2026,11,14,12,tzinfo=timezone.utc),'M1',research=True)['classification'],'OUTSIDE_SESSION')
         with self.assertRaises(SessionValidationError): calendar.validate_request('XAUUSD',NOW,timedelta(minutes=1))
 
     def test_classifier_needs_current_asof_for_ordinary_eligibility(self):
@@ -203,6 +206,14 @@ class V2EdgeTests(unittest.TestCase):
         calendar=compile_session_config(config)
         self.assertEqual(calendar.phase_at(datetime(2026,11,13,1,tzinfo=timezone.utc)),'CLOSED')
         self.assertEqual(calendar.phase_at(datetime(2026,11,12,23,tzinfo=timezone.utc)),'FULL_TRADING')
+
+    def test_future_provenance_cannot_approve_current_provider_request(self):
+        config=synthetic_v2();config['verification']['provenance'][0]['captured_at']='2026-11-15T00:00:00Z'
+        calendar=compile_session_config(config)
+        with self.assertRaises(MarketDataError) as raised:
+            get_candle_snapshot(mt5=ForbiddenMT5(),session_calendar=calendar,count=100,now=NOW)
+        self.assertEqual(raised.exception.code,'CALENDAR_COVERAGE_UNVERIFIED')
+        self.assertIsNone(calendar.public_state(NOW)['permissions']['broker_open_positions'])
 
     def test_expired_phase_metadata_cannot_match_as_current(self):
         config=synthetic_v2();metadata_config=copy.deepcopy(config)

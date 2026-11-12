@@ -226,13 +226,13 @@ def validate_session_summary(value):
     """Strict allowlist for additive v2 diagnostic state; no provenance refs."""
     from datetime import datetime
     from iat.session_v2 import STATES
-    fields = {'version','configuration_sha256','provenance_count','evaluated_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc','verification','reason_codes','provenance_kinds','permissions'}
+    fields = {'version','configuration_sha256','provenance_count','evaluated_at_utc','evidence_latest_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc','verification','reason_codes','provenance_kinds','permissions'}
     if not isinstance(value, dict) or set(value) != fields or value['version'] != 2:
         raise ValueError('Invalid v2 diagnostic schema')
     import re
     if not isinstance(value['configuration_sha256'],str) or not re.fullmatch('[a-f0-9]{64}',value['configuration_sha256']) or type(value['provenance_count']) is not int or not 1<=value['provenance_count']<=32:
         raise ValueError('Invalid configuration fingerprint')
-    for key in ('evaluated_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc'):
+    for key in ('evaluated_at_utc','evidence_latest_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc'):
         timestamp = datetime.fromisoformat(value[key])
         if timestamp.utcoffset() is None or timestamp.utcoffset().total_seconds() != 0:
             raise ValueError('Invalid v2 UTC evidence')
