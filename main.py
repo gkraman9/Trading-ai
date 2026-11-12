@@ -50,15 +50,20 @@ def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_p
             supplied_timeframe.lower(), supplied_timeframe.upper()
         )
 
+        session_details = None
+
         def failure(status, error, reason, quality=None):
-            return jsonify({
+            body = {
                 "symbol": symbol, "timeframe": supplied_timeframe,
                 "signal": "WAIT", "execution_allowed": False,
                 "mode": "READ_ONLY_SHADOW", "data_source": "MT5",
                 "market_state": "UNKNOWN", "last_closed_candle": None,
                 "error": error, "reasoning": [reason],
                 "quality": (quality if quality is not None else failed(error, reason)).to_dict(),
-            }), status
+            }
+            if session_details is not None:
+                body['session_v2'] = session_details
+            return jsonify(body), status
 
         if not symbol or len(symbol) > 128 or any(c.isspace() or ord(c) < 32 for c in symbol):
             return failure(400, "INVALID_REQUEST", "A valid broker symbol is required.")
@@ -74,6 +79,8 @@ def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_p
             return failure(503, "SESSION_CALENDAR_UNAVAILABLE",
                            "Verified broker session coverage is required; analysis withheld.")
         try:
+            if getattr(calendar, 'version', 1) == 2:
+                session_details = calendar.public_state(utc_now())
             snapshot = get_candle_snapshot(symbol=symbol, timeframe=timeframe,
                                       count=100, mt5=mt5, clock=utc_now,
                                       session_calendar=calendar)
@@ -89,6 +96,11 @@ def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_p
         result.update({"timeframe": supplied_timeframe, "data_timeframe": timeframe,
                        "data_source": "MT5", "signal": "WAIT", "execution_allowed": False,
                        "quality": snapshot.quality.to_dict()})
+        if session_details is not None:
+            session_details['last_bar'] = calendar.classify_bar(
+                datetime.fromisoformat(snapshot.candles[-1]['timestamp']), timeframe, observed_finalized=True,
+                as_of=datetime.fromisoformat(session_details['evaluated_at_utc']))
+            result['session_v2'] = session_details
         return jsonify(result)
 
     return app

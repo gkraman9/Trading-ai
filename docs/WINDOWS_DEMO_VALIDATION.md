@@ -140,3 +140,9 @@ schema-valid but explicitly blocked: the diagnostic records assurance failures
 before initializing MT5. The 21:58 and Sunday 23:01 boundaries are preserved;
 M5 support and second-level restricted phases are not guessed. A successful
 local demo connection does not clear missing calendar evidence.
+
+## Explicit Session Engine v2
+
+The v1 contract remains unchanged. See [Session Engine v2](SESSION_ENGINE_V2.md)
+for the opt-in seconds/phase model and [local research procedure](SESSION_V2_LOCAL_VALIDATION.md)
+for blocked Exness evidence and Windows instructions.

@@ -124,3 +124,9 @@ The [Windows runner](WINDOWS_DEMO_VALIDATION.md) adds demo-only safety gates and
 [broker metadata comparison](BROKER_SESSION_METADATA.md) reports independent
 source differences and uncertainty. The API and validated-list provider remain
 unchanged. No real-terminal validation is claimed by these offline checks.
+
+## Explicit Session Engine v2
+
+The v1 contract remains unchanged. See [Session Engine v2](SESSION_ENGINE_V2.md)
+for the opt-in seconds/phase model and [local research procedure](SESSION_V2_LOCAL_VALIDATION.md)
+for blocked Exness evidence and Windows instructions.

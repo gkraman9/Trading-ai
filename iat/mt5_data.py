@@ -131,7 +131,7 @@ def get_candle_snapshot(
         rows.append(row)
     report = assess_candles(rows, timeframe, now, session_calendar=session_calendar,
                             request_time=request_time, expected_count=count,
-                            max_delay_bars=max_delay_bars)
+                            max_delay_bars=max_delay_bars, observed_finality=True)
     if not report.valid:
         raise MarketDataError(report.diagnostics[0].message, report=report)
     return CandleSnapshot(rows, report)

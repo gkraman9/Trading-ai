@@ -4,6 +4,7 @@ import os
 import tempfile
 from pathlib import Path
 from iat.calendar_assurance import ASSURANCE_MESSAGES
+from iat.session_v2 import V2_MESSAGES
 
 # All explanations are fixed vocabulary. Never copy exception text or arbitrary
 # strings from terminal/account/symbol/bridge records into evidence.
@@ -61,6 +62,14 @@ MESSAGES = {
 
 
 MESSAGES.update({code: ("ERROR", message) for code, message in ASSURANCE_MESSAGES.items()})
+MESSAGES.update({code: ("ERROR", message) for code, message in V2_MESSAGES.items()})
+MESSAGES["RESEARCH_LIMIT_EXCEEDED"]=("ERROR","The bounded research comparison limit was exceeded; missing counts remain unknown.")
+MESSAGES.update({"OBSERVATIONS_UNAVAILABLE": ("WARNING", "No observed candle timestamps were supplied."),
+                 "FILE_OBSERVATIONS_UNVERIFIED": ("WARNING", "Observation file provenance is not independently verified."),
+                 "SYNTHETIC_EVIDENCE": ("WARNING", "Inputs are explicitly synthetic offline test evidence."),
+                 "OBSERVATIONS_MALFORMED": ("ERROR", "Observation records are malformed."),
+                 "MISSING_PARTIAL_SESSION_BAR": ("WARNING", "Expected partial-interval observation is absent; no finality is inferred.")})
+MESSAGES["BROKER_PHASE_METADATA_UNVERIFIED"] = ("WARNING", "Available broker metadata does not independently establish v2 phases and quote coverage.")
 
 def diagnostic(code):
     if code not in MESSAGES:
@@ -80,8 +89,9 @@ class AtomicEvidence:
     Existing reports are never overwritten. A crash or failed final publication
     leaves the reserved RUN_INCOMPLETE failure, never an earlier success result.
     """
-    def __init__(self, path, initial):
-        validate_report(initial)
+    def __init__(self, path, initial, *, validator=None):
+        self.validator = validate_report if validator is None else validator
+        self.validator(initial)
         self.path = Path(path)
         self.run_id = initial['run_id']
         if initial['status'] != 'FAIL':
@@ -94,8 +104,8 @@ class AtomicEvidence:
             os.fsync(handle.fileno())
 
     def publish(self, report):
-        validate_report(report)
-        if report['run_id'] != self.run_id or report['status'] not in ('PASS', 'WARN', 'FAIL'):
+        self.validator(report)
+        if report['run_id'] != self.run_id or report['status'] not in ('PASS', 'WARN', 'FAIL', 'BLOCKED'):
             raise ValueError('Invalid evidence publication')
         if report['safety']['execution_allowed'] is not False or report['safety']['signal'] != 'WAIT':
             raise ValueError('Unsafe evidence publication')
@@ -146,7 +156,9 @@ def validate_report(report):
         if not isinstance(values, list) or any(value not in MESSAGES for value in values):
             raise ValueError('Unrecognized evidence code')
 
-    keys(report, 'report_version run_id started_at_utc finished_at_utc status diagnostics runtime symbol terminal calendar timeframes safety')
+    if 'session_v2' in report:
+        validate_session_summary(report['session_v2'])
+    keys({k:v for k,v in report.items() if k != 'session_v2'}, 'report_version run_id started_at_utc finished_at_utc status diagnostics runtime symbol terminal calendar timeframes safety')
     if type(report['report_version']) is not int or report['report_version'] != 1:
         raise ValueError('Unsupported evidence version')
     if str(UUID(report['run_id'])) != report['run_id']:
@@ -175,7 +187,7 @@ def validate_report(report):
         boolean(value)
     keys(report['calendar'], 'scope comparison configured_window_count broker_window_count configured_exception_rules metadata_age_seconds mismatch_intervals dated_exceptions_covered codes')
     calendar = report['calendar']
-    if calendar['scope'] not in ('UNAVAILABLE', 'DATED', 'WEEKLY') or calendar['comparison'] not in ('NOT_RUN', 'UNAVAILABLE', 'INVALID', 'MISMATCH', 'MATCH', 'UNCERTAIN'):
+    if calendar['scope'] not in ('UNAVAILABLE', 'DATED', 'WEEKLY', 'PHASES_V2') or calendar['comparison'] not in ('NOT_RUN', 'UNAVAILABLE', 'INVALID', 'MISMATCH', 'MATCH', 'UNCERTAIN'):
         raise ValueError('Invalid calendar evidence')
     for name in ('configured_window_count', 'broker_window_count', 'configured_exception_rules', 'mismatch_intervals'):
         number(calendar[name], True)
@@ -208,3 +220,50 @@ def validate_report(report):
             any(entry['validated_closed_count'] != 100 or entry['status'] != 'PASS'
                 for entry in report['timeframes'].values())):
         raise ValueError('Incomplete checks cannot establish PASS')
+
+
+def validate_session_summary(value):
+    """Strict allowlist for additive v2 diagnostic state; no provenance refs."""
+    from datetime import datetime
+    from iat.session_v2 import STATES
+    fields = {'version','configuration_sha256','provenance_count','evaluated_at_utc','evidence_latest_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc','verification','reason_codes','provenance_kinds','permissions'}
+    if not isinstance(value, dict) or set(value) != fields or value['version'] != 2:
+        raise ValueError('Invalid v2 diagnostic schema')
+    import re
+    if not isinstance(value['configuration_sha256'],str) or not re.fullmatch('[a-f0-9]{64}',value['configuration_sha256']) or type(value['provenance_count']) is not int or not 1<=value['provenance_count']<=32:
+        raise ValueError('Invalid configuration fingerprint')
+    for key in ('evaluated_at_utc','evidence_latest_at_utc','coverage_start_utc','coverage_end_utc','expires_at_utc'):
+        timestamp = datetime.fromisoformat(value[key])
+        if timestamp.utcoffset() is None or timestamp.utcoffset().total_seconds() != 0:
+            raise ValueError('Invalid v2 UTC evidence')
+    if value['verification'] not in ('BLOCKED','VERIFIED_DECLARATIONS') or any(code not in MESSAGES for code in value['reason_codes']):
+        raise ValueError('Invalid v2 verification evidence')
+    if any(kind not in ('PUBLISHED','LOCAL_OBSERVATION','SYNTHETIC_TEST') for kind in value['provenance_kinds']):
+        raise ValueError('Unredacted provenance')
+    permissions = value['permissions']
+    if set(permissions) != {'phase','market_data_expected','broker_open_positions','broker_close_positions','broker_permissions_verified','iat_execution_allowed'} or permissions['phase'] not in STATES:
+        raise ValueError('Invalid phase evidence')
+    if any(type(permissions[key]) not in (bool,type(None)) for key in permissions if key != 'phase') or permissions['iat_execution_allowed'] is not False:
+        raise ValueError('Unsafe phase evidence')
+
+
+def publish_research_preflight_failure(path, code):
+    """Atomically publish a new fixed-vocabulary failure without valid config."""
+    from datetime import datetime, timezone
+    from uuid import uuid4
+    code = code if code in MESSAGES else 'CONFIG_INVALID'
+    payload = {'report_version':1,'kind':'SESSION_RESEARCH_PREFLIGHT','run_id':str(uuid4()),
+               'status':'FAIL','as_of_utc':datetime.now(timezone.utc).isoformat(),
+               'diagnostics':[diagnostic(code)],'safety':{'signal':'WAIT','execution_allowed':False}}
+    destination=Path(path)
+    temporary=None
+    try:
+        with tempfile.NamedTemporaryFile(dir=destination.parent,prefix='.iat-research-',delete=False) as handle:
+            temporary=Path(handle.name)
+            handle.write((json.dumps(payload,indent=2)+'\n').encode('utf-8'))
+            handle.flush();os.fsync(handle.fileno())
+        if os.name=='nt':os.rename(temporary,destination)
+        else:os.link(temporary,destination)
+    finally:
+        if temporary is not None:temporary.unlink(missing_ok=True)
+    return payload

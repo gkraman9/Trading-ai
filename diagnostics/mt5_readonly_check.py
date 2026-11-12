@@ -94,17 +94,21 @@ def _validate(config_path, mt5, clock, metadata_path, terminal_path, report):
         # A schema-valid research candidate is not an assured broker calendar.
         # Do not even import/initialize MT5 while explicit assurance holds remain.
         if calendar.assurance_codes:
+            if getattr(calendar, 'version', 1) == 2:
+                report['session_v2'] = calendar.public_state(clock())
             for code in calendar.assurance_codes:
                 add(code)
             for entry in report['timeframes'].values():
                 entry.update(status='FAIL', codes=list(calendar.assurance_codes))
             duration = timedelta(minutes=5)
-            if any(boundary.timestamp() % duration.total_seconds() for pair in calendar.windows for boundary in pair):
+            if getattr(calendar, 'version', 1) == 1 and any(boundary.timestamp() % duration.total_seconds() for pair in calendar.windows for boundary in pair):
                 report['timeframes']['M5']['codes'].append('SESSION_ALIGNMENT_INVALID')
                 add('SESSION_ALIGNMENT_INVALID')
             if not calendar.coverage_start <= clock() < calendar.coverage_end:
                 add('SESSION_COVERAGE_UNKNOWN')
             return _finish(report, codes, clock)
+        if getattr(calendar, 'version', 1) == 2:
+            report['session_v2'] = calendar.public_state(clock())
         metadata = UNSET
         if metadata_path is not None:
             try:
@@ -214,7 +218,8 @@ def _inspect_symbol(mt5, config, calendar, metadata, report, add, clock):
             duration = timedelta(minutes=1 if timeframe == 'M1' else 5)
             now = clock()
             # Recheck at evidence time, not just the pre-fetch clock sample.
-            calendar.validate_history(opens, now, duration, 2)
+            options = {'observed_finality': True} if getattr(calendar, 'version', 1) == 2 else {}
+            calendar.validate_history(opens, now, duration, 2, **options)
             missing = sum(1 for _ in calendar.expected_opens(opens[-1] + duration,
                           now - duration + timedelta(microseconds=1), duration))
             if missing and 'RECENT_BARS_MISSING' not in safe_codes:

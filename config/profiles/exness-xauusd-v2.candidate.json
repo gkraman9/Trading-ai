@@ -1,0 +1,302 @@
+{
+  "version": 2,
+  "symbol": "XAUUSD",
+  "timezone": "UTC",
+  "coverage": {
+    "start": "2026-11-06",
+    "end": "2026-11-16"
+  },
+  "verification": {
+    "quote_schedule_verified": false,
+    "trade_schedule_verified": false,
+    "holidays_verified": false,
+    "maintenance_verified": false,
+    "expires_at": "2026-11-16T00:00:00Z",
+    "provenance": [
+      {
+        "id": "timezone",
+        "kind": "PUBLISHED",
+        "reference": "https://get.exness.help/hc/en-us/articles/360014390760-What-is-the-default-timezone-set-for-MetaTrader",
+        "captured_at": "2026-11-12T13:10:47Z"
+      },
+      {
+        "id": "winter_notice",
+        "kind": "PUBLISHED",
+        "reference": "https://get.exness.help/hc/en-us/articles/31342732737180-Trading-Hours-Update-End-of-US-Daylight-Saving-Time-01-Nov-2026",
+        "captured_at": "2026-11-12T13:10:47Z"
+      },
+      {
+        "id": "display_transcription",
+        "kind": "LOCAL_OBSERVATION",
+        "reference": "USER_SUPPLIED_TRANSCRIPTION_NOT_INDEPENDENTLY_INSPECTED",
+        "captured_at": "2026-11-12T13:10:47Z"
+      }
+    ]
+  },
+  "candle_finality": {
+    "policy": "MT5_POSITION_1_ELAPSED",
+    "verified": false
+  },
+  "weekdays": {
+    "mon": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0
+        },
+        {
+          "open": "23:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0,
+          "state": "FULL_TRADING"
+        },
+        {
+          "open": "21:58:00",
+          "close": "23:00:00",
+          "close_day_offset": 0,
+          "state": "CLOSED"
+        },
+        {
+          "open": "23:00:00",
+          "close": "23:00:30",
+          "close_day_offset": 0,
+          "state": "UNKNOWN"
+        },
+        {
+          "open": "23:00:30",
+          "close": "23:02:00",
+          "close_day_offset": 0,
+          "state": "CLOSE_ONLY"
+        },
+        {
+          "open": "23:02:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "tue": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0
+        },
+        {
+          "open": "23:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0,
+          "state": "FULL_TRADING"
+        },
+        {
+          "open": "21:58:00",
+          "close": "23:00:00",
+          "close_day_offset": 0,
+          "state": "CLOSED"
+        },
+        {
+          "open": "23:00:00",
+          "close": "23:00:30",
+          "close_day_offset": 0,
+          "state": "UNKNOWN"
+        },
+        {
+          "open": "23:00:30",
+          "close": "23:02:00",
+          "close_day_offset": 0,
+          "state": "CLOSE_ONLY"
+        },
+        {
+          "open": "23:02:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "wed": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0
+        },
+        {
+          "open": "23:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0,
+          "state": "FULL_TRADING"
+        },
+        {
+          "open": "21:58:00",
+          "close": "23:00:00",
+          "close_day_offset": 0,
+          "state": "CLOSED"
+        },
+        {
+          "open": "23:00:00",
+          "close": "23:00:30",
+          "close_day_offset": 0,
+          "state": "UNKNOWN"
+        },
+        {
+          "open": "23:00:30",
+          "close": "23:02:00",
+          "close_day_offset": 0,
+          "state": "CLOSE_ONLY"
+        },
+        {
+          "open": "23:02:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "thu": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0
+        },
+        {
+          "open": "23:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0,
+          "state": "FULL_TRADING"
+        },
+        {
+          "open": "21:58:00",
+          "close": "23:00:00",
+          "close_day_offset": 0,
+          "state": "CLOSED"
+        },
+        {
+          "open": "23:00:00",
+          "close": "23:00:30",
+          "close_day_offset": 0,
+          "state": "UNKNOWN"
+        },
+        {
+          "open": "23:00:30",
+          "close": "23:02:00",
+          "close_day_offset": 0,
+          "state": "CLOSE_ONLY"
+        },
+        {
+          "open": "23:02:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    },
+    "fri": {
+      "quotes": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "21:58:00",
+          "close_day_offset": 0,
+          "state": "FULL_TRADING"
+        },
+        {
+          "open": "21:58:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "CLOSED"
+        }
+      ]
+    },
+    "sat": {
+      "quotes": [],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "CLOSED"
+        }
+      ]
+    },
+    "sun": {
+      "quotes": [
+        {
+          "open": "23:01:00",
+          "close": "00:00:00",
+          "close_day_offset": 1
+        }
+      ],
+      "phases": [
+        {
+          "open": "00:00:00",
+          "close": "23:01:00",
+          "close_day_offset": 0,
+          "state": "CLOSED"
+        },
+        {
+          "open": "23:01:00",
+          "close": "23:01:30",
+          "close_day_offset": 0,
+          "state": "UNKNOWN"
+        },
+        {
+          "open": "23:01:30",
+          "close": "23:05:00",
+          "close_day_offset": 0,
+          "state": "CLOSE_ONLY"
+        },
+        {
+          "open": "23:05:00",
+          "close": "00:00:00",
+          "close_day_offset": 1,
+          "state": "FULL_TRADING"
+        }
+      ]
+    }
+  },
+  "holidays": [],
+  "exceptions": {},
+  "maintenance": [],
+  "closures": [],
+  "assurance_holds": [
+    "CALENDAR_SCHEDULE_CONFLICT"
+  ]
+}

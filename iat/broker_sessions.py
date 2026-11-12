@@ -45,7 +45,7 @@ def compare_broker_sessions(mt5, config, calendar, metadata_document=UNSET, *, n
     """
     summary = {'scope': 'UNAVAILABLE', 'comparison': 'UNAVAILABLE',
                'configured_window_count': len(calendar.windows), 'broker_window_count': None,
-               'configured_exception_rules': sum(len(config[name]) for name in ('holidays', 'exceptions', 'closures')),
+               'configured_exception_rules': sum(len(config.get(name, [])) for name in ('holidays', 'exceptions', 'closures', 'maintenance')),
                'metadata_age_seconds': None, 'mismatch_intervals': None, 'dated_exceptions_covered': False, 'codes': []}
     try:
         if metadata_document is UNSET:
@@ -56,6 +56,9 @@ def compare_broker_sessions(mt5, config, calendar, metadata_document=UNSET, *, n
             metadata = collect(calendar.symbol, calendar.coverage_start, calendar.coverage_end)
         else:
             metadata = metadata_document
+        if getattr(calendar, 'version', 1) == 2:
+            from iat.broker_phases import compare_v2_metadata
+            return compare_v2_metadata(metadata, config, calendar, summary, now)
         require(isinstance(metadata, dict) and type(metadata.get('version')) is int and metadata['version'] == 1)
         require(metadata.get('symbol') == calendar.symbol)
         collected = aware(metadata.get('collected_at_utc'))

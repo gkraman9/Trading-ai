@@ -66,3 +66,9 @@ Endpoint tests inject raw fake MT5 rates through the real validator and exercise
 bullish/bearish/range inputs, M5 aliases, request rejection, stale/forming/bad
 candles, missing/disconnected adapters, error privacy, and read-only invariants.
 They do not initialize MT5 or contact a broker.
+
+## Explicit Session Engine v2
+
+The v1 contract remains unchanged. See [Session Engine v2](SESSION_ENGINE_V2.md)
+for the opt-in seconds/phase model and [local research procedure](SESSION_V2_LOCAL_VALIDATION.md)
+for blocked Exness evidence and Windows instructions.

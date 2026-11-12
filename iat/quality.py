@@ -30,7 +30,7 @@ def failed(code, message, severity='ERROR'):
 
 
 def assess_candles(rows, timeframe, now, *, session_calendar=None, request_time=None,
-                   expected_count=None, max_delay_bars=2):
+                   expected_count=None, max_delay_bars=2, observed_finality=None):
     """Assess normalized UTC OHLC rows. Reports the first blocking defect.
 
     Caller retains the original rows; this function never fills or reorders them.
@@ -67,7 +67,8 @@ def assess_candles(rows, timeframe, now, *, session_calendar=None, request_time=
         diagnostics = []
         if session_calendar is not None:
             try:
-                session_calendar.validate_history(openings, now, duration, max_delay_bars)
+                options = {'observed_finality': observed_finality} if getattr(session_calendar, 'version', 1) == 2 else {}
+                session_calendar.validate_history(openings, now, duration, max_delay_bars, **options)
             except SessionValidationError as exc:
                 return failed(exc.code, str(exc), 'INFO' if exc.code == 'SESSION_CLOSED' else 'ERROR')
             if any(b - a != duration for a, b in zip(openings, openings[1:])):
