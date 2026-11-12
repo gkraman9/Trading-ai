@@ -6,15 +6,27 @@ from math import isfinite
 from typing import Any, Callable
 from itertools import islice
 
-from iat.analysis import validate_candles
+from dataclasses import dataclass
+from iat.quality import QualityReport, assess_candles, failed
 from iat.sessions import SessionCalendar, SessionValidationError
 
 TIMEFRAMES = {"M1": 60, "M5": 300}
 
 class MarketDataError(RuntimeError):
     """Data unavailable, incomplete, stale, or inconsistent."""
+    def __init__(self, message, code="PROVIDER_FAILURE", severity="ERROR", report=None):
+        super().__init__(message)
+        self.report = report if report is not None else failed(code, message, severity)
+        self.code = self.report.diagnostics[0].code
 
-def get_closed_candles(
+
+@dataclass(frozen=True)
+class CandleSnapshot:
+    candles: list[dict]
+    quality: QualityReport
+
+
+def get_candle_snapshot(
     symbol: str = "XAUUSD",
     timeframe: str = "M1",
     count: int = 100,
@@ -24,7 +36,7 @@ def get_closed_candles(
     mt5: Any = None,
     max_delay_bars: int = 2,
     session_calendar: SessionCalendar | None = None,
-) -> list[dict]:
+) -> CandleSnapshot:
     """Fetch fully closed bars only. MT5 terminal must already be initialized.
 
     MT5 timestamps are UTC epoch seconds and represent bar OPEN times.
@@ -61,37 +73,39 @@ def get_closed_candles(
         try:
             session_calendar.validate_request(symbol, now, duration)
         except SessionValidationError as exc:
-            raise MarketDataError(str(exc)) from exc
+            raise MarketDataError(str(exc), exc.code, "INFO" if exc.code == "SESSION_CLOSED" else "ERROR") from exc
     if mt5 is None:
         try:
             import MetaTrader5 as mt5
         except ImportError as exc:
-            raise MarketDataError("MetaTrader5 is not installed; use Windows MT5 terminal") from exc
+            raise MarketDataError("MetaTrader5 is not installed; use Windows MT5 terminal", "PROVIDER_UNAVAILABLE") from exc
     try:
         connected = mt5.terminal_info()
-        if connected is None or not getattr(connected, "connected", False):
-            raise MarketDataError("MT5 terminal is not connected")
+        is_connected = connected is not None and getattr(connected, "connected", False)
+    except Exception as exc:
+        raise MarketDataError("MT5 data request failed") from exc
+    if not is_connected:
+        raise MarketDataError("MT5 terminal is not connected", "PROVIDER_DISCONNECTED")
+    try:
         tf = getattr(mt5, "TIMEFRAME_" + timeframe)
         rates = mt5.copy_rates_from_pos(symbol, tf, 1, count)
-    except MarketDataError:
-        raise
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
     now = read_now()
     if now < request_time:
-        raise MarketDataError("UTC clock moved backwards during data request")
+        raise MarketDataError("UTC clock moved backwards during data request", "CLOCK_MOVED_BACKWARD")
     if rates is None:
-        raise MarketDataError("Incomplete MT5 candle history")
+        raise MarketDataError("Incomplete MT5 candle history", "HISTORY_INCOMPLETE")
     try:
         if len(rates) != count:
-            raise MarketDataError("Incomplete MT5 candle history")
+            raise MarketDataError("Incomplete MT5 candle history", "HISTORY_INCOMPLETE")
         rates = list(islice(iter(rates), count + 1))
     except MarketDataError:
         raise
-    except (TypeError, ValueError, RuntimeError) as exc:
-        raise MarketDataError("Malformed MT5 history container") from exc
+    except Exception as exc:
+        raise MarketDataError("Malformed MT5 history container", "HISTORY_MALFORMED") from exc
     if len(rates) != count:
-        raise MarketDataError("Incomplete MT5 candle history")
+        raise MarketDataError("Incomplete MT5 candle history", "HISTORY_INCOMPLETE")
     rows = []
     for rate in rates:
         try:
@@ -100,33 +114,29 @@ def get_closed_candles(
             if isinstance(epoch, bool) or not isfinite(float(epoch)) or epoch != seconds:
                 raise ValueError("Invalid epoch seconds")
             if seconds % TIMEFRAMES[timeframe]:
-                raise ValueError("Bar open must align with timeframe")
+                raise MarketDataError("Bar open must align with timeframe", "TIMEFRAME_MISALIGNED")
+            opened = datetime.fromtimestamp(seconds, tz=timezone.utc)
+        except MarketDataError:
+            raise
+        except Exception as exc:
+            raise MarketDataError("Malformed MT5 timestamp", "TIMESTAMP_MALFORMED") from exc
+        try:
             if any(isinstance(rate[key], bool) for key in ("open", "high", "low", "close")):
                 raise ValueError("Boolean prices are invalid")
-            opened = datetime.fromtimestamp(seconds, tz=timezone.utc)
             row = {"timestamp": opened.isoformat(), "open": float(rate["open"]),
                    "high": float(rate["high"]), "low": float(rate["low"]),
                    "close": float(rate["close"])}
-        except (KeyError, IndexError, TypeError, ValueError, OverflowError, OSError) as exc:
-            raise MarketDataError("Malformed MT5 candle") from exc
-        if opened + duration > now:
-            raise MarketDataError("MT5 returned an unclosed or future candle")
+        except Exception as exc:
+            raise MarketDataError("Malformed MT5 candle", "OHLC_MALFORMED") from exc
         rows.append(row)
-    try:
-        candles = validate_candles(rows)
-    except ValueError as exc:
-        raise MarketDataError("MT5 candle validation failed") from exc
-    openings = [c.timestamp for c in candles]
-    if session_calendar is not None:
-        try:
-            session_calendar.validate_history(openings, now, duration, max_delay_bars)
-        except SessionValidationError as exc:
-            raise MarketDataError(str(exc)) from exc
-        return rows
-    # Without a verified calendar, never assume that a hole is a market break.
-    if any(b - a != duration for a, b in zip(openings, openings[1:])):
-        raise MarketDataError("Missing candle or unverified market-session gap")
-    last_open = openings[-1]
-    if now - (last_open + duration) > duration * max_delay_bars:
-        raise MarketDataError("MT5 candle history is stale")
-    return rows
+    report = assess_candles(rows, timeframe, now, session_calendar=session_calendar,
+                            request_time=request_time, expected_count=count,
+                            max_delay_bars=max_delay_bars)
+    if not report.valid:
+        raise MarketDataError(report.diagnostics[0].message, report=report)
+    return CandleSnapshot(rows, report)
+
+
+def get_closed_candles(symbol="XAUUSD", timeframe="M1", count=100, **kwargs) -> list[dict]:
+    """Compatibility interface returning only validated candles, with no fill or fallback."""
+    return get_candle_snapshot(symbol, timeframe, count, **kwargs).candles

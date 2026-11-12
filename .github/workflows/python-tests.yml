@@ -7,11 +7,13 @@ on:
       - feat/iat2-foundation
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
+      - feat/iat2-session-quality
   pull_request:
     branches:
       - main
       - feat/iat2-foundation
       - feat/iat2-mt5-data
+      - feat/iat2-readonly-api
   workflow_dispatch:
 
 permissions:

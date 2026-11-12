@@ -35,3 +35,11 @@ finally:
 - Optional `session_calendar` validates explicit broker windows and detects missing bars across open sessions; see [session configuration](MARKET_SESSIONS.md).
 - Without a calendar, the provider preserves the existing strict wall-clock freshness policy and now rejects every internal gap; it never assumes a hole is a scheduled closure. The HTTP endpoint requires a calendar.
 - Next: independently verify actual broker session inputs, symbol metadata and broker clock alignment.
+
+## Configured quality pipeline
+
+`get_candle_snapshot(...)` adds structured diagnostics while
+`get_closed_candles(...)` preserves the validated-list interface. See
+[session configuration](SESSION_CONFIGURATION.md), [quality rules](DATA_QUALITY.md),
+and [Windows demo validation](WINDOWS_DEMO_VALIDATION.md). No live broker
+validation is claimed by the offline tests.

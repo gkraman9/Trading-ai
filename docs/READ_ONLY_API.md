@@ -27,6 +27,12 @@ Failures include the original response fields, `market_state: "UNKNOWN"`, and
 messages are not exposed or logged. `/analyze` responses use `Cache-Control:
 no-store` to prevent a cached response being mistaken for current data.
 
+The additive `quality` response contains `valid` and diagnostics with stable
+`code`, `severity`, and `message` fields. See [quality contract](DATA_QUALITY.md).
+Use [v1 configuration loading](SESSION_CONFIGURATION.md) through
+`IAT_SESSION_CONFIG` or `create_app(session_config_path=...)`; missing/invalid
+configuration withholds analysis without contacting MT5.
+
 ## Runtime boundary
 
 The HTTP app never initializes MT5, authenticates, reads account credentials, or

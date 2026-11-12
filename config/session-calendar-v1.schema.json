@@ -1,0 +1,213 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "symbol",
+    "timezone",
+    "coverage",
+    "verification",
+    "weekdays",
+    "holidays",
+    "exceptions",
+    "closures"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^\\S+$"
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "format": "date"
+        },
+        "end": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "format": "date"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "verified_at"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "weekdays": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "properties": {
+        "mon": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "tue": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "wed": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "thu": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "fri": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "sat": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        },
+        "sun": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/window"
+          }
+        }
+      }
+    },
+    "holidays": {
+      "type": "array",
+      "maxItems": 366,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "format": "date"
+      }
+    },
+    "exceptions": {
+      "type": "object",
+      "maxProperties": 366,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "format": "date"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "maxItems": 8,
+        "items": {
+          "$ref": "#/$defs/window"
+        }
+      }
+    },
+    "closures": {
+      "type": "array",
+      "maxItems": 366,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "start",
+          "end"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IAT broker session calendar v1",
+  "$comment": "Runtime compiler additionally validates IANA timezones, DST uniqueness, duplicate JSON keys, interval semantics, verification metadata, and finite coverage. No broker hours are supplied.",
+  "$defs": {
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "open",
+        "close",
+        "close_day_offset"
+      ],
+      "properties": {
+        "open": {
+          "type": "string",
+          "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+        },
+        "close": {
+          "type": "string",
+          "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
+        },
+        "close_day_offset": {
+          "type": "integer",
+          "enum": [
+            0,
+            1
+          ]
+        }
+      }
+    }
+  }
+}
