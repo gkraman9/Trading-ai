@@ -1,0 +1,24 @@
+{
+  "review_version": 2,
+  "state": "BLOCKED",
+  "broker_certified": false,
+  "terminal_tested": false,
+  "config_sha256": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4",
+  "access_date": "2026-11-12",
+  "source_details": "See docs/SESSION_ENGINE_V2.md and unchanged v1 research; screenshot transcription is not independently inspected.",
+  "quote_boundaries": "Exact supplied display boundaries; dated quote coverage remains unverified.",
+  "phase_boundary_conflict": "Published CLOSED phase lasts until 23:00:30 weekdays / 23:01:30 Sunday, but displayed quotes begin 30 seconds earlier. That interval remains UNKNOWN.",
+  "published_phases_preserved": "Close-only 23:00:30-23:02 weekdays and 23:01:30-23:05 Sunday. Local applicability remains unverified.",
+  "outstanding_requirements": [
+    "CALENDAR_SCHEDULE_CONFLICT",
+    "CALENDAR_COVERAGE_UNVERIFIED",
+    "SESSION_PHASE_UNKNOWN",
+    "HOLIDAY_COVERAGE_UNKNOWN",
+    "MAINTENANCE_COVERAGE_UNKNOWN",
+    "CANDLE_FINALITY_UNCERTAIN"
+  ],
+  "holidays": "UNKNOWN; no entries invented.",
+  "maintenance": "UNKNOWN; no duration invented.",
+  "finality": "UNKNOWN; no partial-bar completion inferred.",
+  "recorded_at_utc": "2026-11-12T13:10:47Z"
+}

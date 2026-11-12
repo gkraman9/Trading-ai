@@ -10,6 +10,7 @@ on:
       - feat/iat2-session-quality
       - feat/iat2-windows-demo
       - feat/iat2-exness-calendar
+      - feat/iat2-session-engine-v2
   pull_request:
     branches:
       - main
@@ -18,6 +19,7 @@ on:
       - feat/iat2-readonly-api
       - feat/iat2-session-quality
       - feat/iat2-windows-demo
+      - feat/iat2-exness-calendar
   workflow_dispatch:
 
 permissions:
