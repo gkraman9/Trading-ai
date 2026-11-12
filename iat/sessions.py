@@ -5,6 +5,9 @@ from datetime import datetime, timedelta, timezone
 
 class SessionValidationError(ValueError):
     """Session coverage is unknown, inconsistent, or currently closed."""
+    def __init__(self, message, code="SESSION_INVALID"):
+        super().__init__(message)
+        self.code = code
 
 
 def utc(value):
@@ -55,12 +58,12 @@ class SessionCalendar:
     def validate_request(self, symbol, now, duration):
         now = utc(now)
         if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
-            raise SessionValidationError("Session calendar does not cover this symbol and time")
+            raise SessionValidationError("Session calendar does not cover this symbol and time", "SESSION_COVERAGE_UNKNOWN")
         seconds = duration_seconds(duration)
         if any(boundary.timestamp() % seconds for window in self.windows for boundary in window):
-            raise SessionValidationError("Session boundaries must align with the requested timeframe")
+            raise SessionValidationError("Session boundaries must align with the requested timeframe", "SESSION_ALIGNMENT_INVALID")
         if not any(a <= now < b for a, b in self.windows):
-            raise SessionValidationError("Market session is closed")
+            raise SessionValidationError("Market session is closed", "SESSION_CLOSED")
 
     def expected_opens(self, start, end, duration):
         """Yield fully covered bar opens in [start, end), skipping confirmed closures."""
@@ -91,17 +94,19 @@ class SessionCalendar:
         if any(opened > now - duration for opened in openings):
             raise SessionValidationError("Candle history contains an unclosed or future bar")
         if openings[0] < self.coverage_start:
-            raise SessionValidationError("History extends outside verified session coverage")
+            raise SessionValidationError("History extends outside verified session coverage", "SESSION_COVERAGE_UNKNOWN")
         expected = iter(self.expected_opens(openings[0], openings[-1] + duration, duration))
         for opened in openings:
             if next(expected, None) != opened:
-                raise SessionValidationError("Missing candle or candle outside a market session")
+                raise SessionValidationError("Missing candle or candle outside a market session",
+                    "BAR_OUTSIDE_SESSION" if not any(a <= opened and opened + duration <= b
+                                                    for a, b in self.windows) else "CANDLES_MISSING")
         if next(expected, None) is not None:
-            raise SessionValidationError("Missing candle")
+            raise SessionValidationError("Missing candle", "CANDLES_MISSING")
         # Count missing *closed market bars*, excluding scheduled closures and
         # the still-forming bar, rather than charging weekends as data delay.
         missing = self.expected_opens(openings[-1] + duration,
                                       now - duration + timedelta(microseconds=1), duration)
         for index, _ in enumerate(missing, 1):
             if index > max_delay_bars:
-                raise SessionValidationError("MT5 candle history is stale")
+                raise SessionValidationError("MT5 candle history is stale", "DATA_STALE")

@@ -1,13 +1,16 @@
 """HTTP interface for validated, read-only MT5 market analysis."""
 from datetime import datetime, timezone
+import os
 
 from flask import Flask, jsonify, request
 
 from iat.analysis import analyze as analyze_candles
-from iat.mt5_data import TIMEFRAMES, get_closed_candles
+from iat.mt5_data import TIMEFRAMES, MarketDataError, get_candle_snapshot
+from iat.quality import ClockGuard, ClockValidationError, failed
+from iat.session_config import SessionConfigError, load_session_config
 
 
-def create_app(*, mt5=None, clock=None, session_calendars=None):
+def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_path=None):
     """Inject a read-only MT5 adapter and UTC clock for offline testing.
 
     The default adapter uses an already-connected terminal. This application
@@ -16,7 +19,18 @@ def create_app(*, mt5=None, clock=None, session_calendars=None):
     """
     app = Flask(__name__)
     calendars = dict(session_calendars or {})
-    utc_now = clock if clock is not None else lambda: datetime.now(timezone.utc)
+    config_error = None
+    path = session_config_path if session_config_path is not None else os.environ.get("IAT_SESSION_CONFIG")
+    if path is not None:
+        try:
+            if session_calendars is not None:
+                raise SessionConfigError("Choose a configuration file or explicit calendars, not both")
+            calendar = load_session_config(path)
+            calendars = {calendar.symbol: calendar}
+        except SessionConfigError as exc:
+            calendars = {}
+            config_error = exc.code
+    utc_now = ClockGuard(clock if clock is not None else lambda: datetime.now(timezone.utc))
 
     @app.after_request
     def prevent_cached_analysis(response):
@@ -36,13 +50,14 @@ def create_app(*, mt5=None, clock=None, session_calendars=None):
             supplied_timeframe.lower(), supplied_timeframe.upper()
         )
 
-        def failure(status, error, reason):
+        def failure(status, error, reason, quality=None):
             return jsonify({
                 "symbol": symbol, "timeframe": supplied_timeframe,
                 "signal": "WAIT", "execution_allowed": False,
                 "mode": "READ_ONLY_SHADOW", "data_source": "MT5",
                 "market_state": "UNKNOWN", "last_closed_candle": None,
                 "error": error, "reasoning": [reason],
+                "quality": (quality if quality is not None else failed(error, reason)).to_dict(),
             }), status
 
         if not symbol or len(symbol) > 128 or any(c.isspace() or ord(c) < 32 for c in symbol):
@@ -52,15 +67,19 @@ def create_app(*, mt5=None, clock=None, session_calendars=None):
         if len(request.args.getlist("symbol")) != 1 or len(request.args.getlist("timeframe")) != 1:
             return failure(400, "INVALID_REQUEST", "Supply symbol and timeframe exactly once.")
 
+        if config_error is not None:
+            return failure(503, config_error, "Broker session configuration is invalid; analysis withheld.")
         calendar = calendars.get(symbol)
         if calendar is None:
             return failure(503, "SESSION_CALENDAR_UNAVAILABLE",
                            "Verified broker session coverage is required; analysis withheld.")
         try:
-            rows = get_closed_candles(symbol=symbol, timeframe=timeframe,
+            snapshot = get_candle_snapshot(symbol=symbol, timeframe=timeframe,
                                       count=100, mt5=mt5, clock=utc_now,
                                       session_calendar=calendar)
-            result = analyze_candles(symbol, timeframe, rows)
+            result = analyze_candles(symbol, timeframe, snapshot.candles)
+        except (MarketDataError, ClockValidationError) as exc:
+            return failure(503, "MARKET_DATA_UNAVAILABLE", exc.report.diagnostics[0].message, exc.report)
         except Exception:
             # Adapter failures must never yield a signal, leak provider details,
             # or fall back to synthetic prices. Do not log raw broker errors.
@@ -68,7 +87,8 @@ def create_app(*, mt5=None, clock=None, session_calendars=None):
             return failure(503, "MARKET_DATA_UNAVAILABLE",
                            "Validated closed-candle market data is unavailable; analysis withheld.")
         result.update({"timeframe": supplied_timeframe, "data_timeframe": timeframe,
-                       "data_source": "MT5", "signal": "WAIT", "execution_allowed": False})
+                       "data_source": "MT5", "signal": "WAIT", "execution_allowed": False,
+                       "quality": snapshot.quality.to_dict()})
         return jsonify(result)
 
     return app

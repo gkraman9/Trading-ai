@@ -6,6 +6,13 @@ broker symbol to enable read-only HTTP analysis. Broker symbols, holidays, daily
 maintenance, and DST vary; there is deliberately no built-in XAUUSD schedule.
 No broker credentials or account API calls are needed by this calendar code.
 
+## Versioned configuration files
+
+Use [strict v1 configuration](SESSION_CONFIGURATION.md) for broker-local weekday
+rules, breaks, holidays, exceptions and closures. It compiles into the existing
+calendar contract below; no verified hours are bundled. See [quality diagnostics](DATA_QUALITY.md)
+and the [remaining Windows demo procedure](WINDOWS_DEMO_VALIDATION.md).
+
 ## Configuration contract
 
 `iat.sessions.SessionCalendar(symbol, coverage_start, coverage_end, windows)`
