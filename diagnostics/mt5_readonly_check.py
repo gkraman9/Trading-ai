@@ -91,6 +91,20 @@ def _validate(config_path, mt5, clock, metadata_path, terminal_path, report):
         except Exception:
             add('CONFIG_INVALID')
             return _finish(report, codes, clock)
+        # A schema-valid research candidate is not an assured broker calendar.
+        # Do not even import/initialize MT5 while explicit assurance holds remain.
+        if calendar.assurance_codes:
+            for code in calendar.assurance_codes:
+                add(code)
+            for entry in report['timeframes'].values():
+                entry.update(status='FAIL', codes=list(calendar.assurance_codes))
+            duration = timedelta(minutes=5)
+            if any(boundary.timestamp() % duration.total_seconds() for pair in calendar.windows for boundary in pair):
+                report['timeframes']['M5']['codes'].append('SESSION_ALIGNMENT_INVALID')
+                add('SESSION_ALIGNMENT_INVALID')
+            if not calendar.coverage_start <= clock() < calendar.coverage_end:
+                add('SESSION_COVERAGE_UNKNOWN')
+            return _finish(report, codes, clock)
         metadata = UNSET
         if metadata_path is not None:
             try:

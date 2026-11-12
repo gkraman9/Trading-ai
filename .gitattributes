@@ -1,0 +1,2 @@
+# Profile digests must describe identical bytes on Linux, Windows and ZIP downloads.
+config/profiles/*.json text eol=lf

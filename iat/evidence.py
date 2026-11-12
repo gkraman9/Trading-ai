@@ -3,6 +3,7 @@ import json
 import os
 import tempfile
 from pathlib import Path
+from iat.calendar_assurance import ASSURANCE_MESSAGES
 
 # All explanations are fixed vocabulary. Never copy exception text or arbitrary
 # strings from terminal/account/symbol/bridge records into evidence.
@@ -58,6 +59,8 @@ MESSAGES = {
     'CHECKS_PASSED': ('INFO', 'The scoped read-only checks completed; this is not independent broker certification.'),
 }
 
+
+MESSAGES.update({code: ("ERROR", message) for code, message in ASSURANCE_MESSAGES.items()})
 
 def diagnostic(code):
     if code not in MESSAGES:

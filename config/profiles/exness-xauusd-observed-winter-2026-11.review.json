@@ -1,0 +1,75 @@
+{
+  "review_version": 1,
+  "profile": "exness-xauusd-observed-winter-2026-11",
+  "config_sha256": "46ab178a380d9de3ddf38bba7485059e5aee25c559672e9e11e293d7baeffffd",
+  "accessed_at_utc": "2026-11-12T12:25:58Z",
+  "state": "BLOCKED",
+  "broker_certified": false,
+  "terminal_independently_tested": false,
+  "observation_kind": "USER_SUPPLIED_SCREENSHOT_TRANSCRIPTION_NOT_INDEPENDENTLY_INSPECTED",
+  "timezone_basis": "Official Exness MetaTrader GMT+0 documentation; UTC has no DST offset change.",
+  "coverage_basis": "2026-11-06 through exclusive 2026-11-16, including preceding Friday; fixed review horizon, not automatic renewal.",
+  "unresolved_codes": [
+    "CALENDAR_SCHEDULE_CONFLICT",
+    "CALENDAR_PHASES_UNREPRESENTABLE",
+    "HOLIDAY_COVERAGE_UNKNOWN",
+    "MAINTENANCE_COVERAGE_UNKNOWN"
+  ],
+  "m5_alignment": "21:58 and Sunday 23:01 are not five-minute boundaries. No rounding or fabricated partial candles.",
+  "holidays_state": "UNKNOWN; empty v1 arrays do not certify absence of holidays or closures.",
+  "sources": [
+    {
+      "url": "https://get.exness.help/hc/en-us/articles/360014390760-What-is-the-default-timezone-set-for-MetaTrader",
+      "access_date": "2026-11-12",
+      "applicability": "Exness MetaTrader server/display timezone GMT+0; not proof of this terminal connection."
+    },
+    {
+      "url": "https://get.exness.help/hc/en-us/articles/31342732737180-Trading-Hours-Update-End-of-US-Daylight-Saving-Time-01-Nov-2026",
+      "access_date": "2026-11-12",
+      "applicability": "Post-2026-11-01 ordinary XAUUSD, not XAUUSD 247; second-level close-only phases differ from minute display."
+    },
+    {
+      "url": "https://get.exness.help/hc/en-us/articles/4405235684498-Instrument-trading-hours",
+      "access_date": "2026-11-12",
+      "applicability": "US-season schedule changes and possible trial-environment maintenance; duration/applicability unresolved."
+    },
+    {
+      "url": "https://get.exness.help/hc/en-us/articles/17923046759836-Holiday-trading-hours",
+      "access_date": "2026-11-12",
+      "applicability": "General holiday list is not a dated XAUUSD schedule for the coverage; November 11 is listed, but no closure is inferred."
+    },
+    {
+      "url": "https://get.exness.help/hc/en-us/articles/11449086534044--Only-Close-error",
+      "access_date": "2026-11-12",
+      "applicability": "Close-only is a distinct instrument/session state, not ordinary opening."
+    }
+  ],
+  "published_winter_phases_utc": {
+    "sunday": {
+      "close_only": [
+        "23:01:30",
+        "23:05:00"
+      ],
+      "full_open": "23:05:00"
+    },
+    "mon_thu": {
+      "close": "21:58:00",
+      "close_only": [
+        "23:00:30",
+        "23:02:00"
+      ],
+      "full_reopen": "23:02:00"
+    },
+    "friday": {
+      "close": "21:58:00"
+    },
+    "saturday": "closed"
+  },
+  "published_summer_reference_utc": {
+    "sunday_full_open": "22:05:00",
+    "mon_thu_close": "20:58:00",
+    "mon_thu_full_reopen": "22:02:00",
+    "friday_close": "20:58:00"
+  },
+  "reconciliation": "Do not replace displayed openings with full-open times, infer holidays, shift UTC by DST, or encode second-level phases by rounding. Obtain dated operator-reviewed evidence and design a phase/partial-bar policy first."
+}
