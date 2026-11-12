@@ -48,9 +48,11 @@ jobs:
           $reports = Join-Path $env:RUNNER_TEMP ('iat-smoke-' + [Guid]::NewGuid().ToString('N'))
           $python = (Get-Command python).Source
           & powershell.exe -NoProfile -File diagnostics/Run-IATDemoValidation.ps1 -PythonExe $python -SessionConfig 'missing-fixture.json' -ReportDirectory $reports
-          if ($LASTEXITCODE -ne 1) { throw 'Expected fail-closed preflight exit' }
+          if ($LASTEXITCODE -ne 1) { Write-Output '::error::SMOKE_EXPECTED_FAIL_CLOSED_EXIT'; exit 1 }
           $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
-          if ($files.Count -ne 1) { throw 'Expected one isolated failure report' }
+          if ($files.Count -ne 1) { Write-Output '::error::SMOKE_FAILURE_REPORT_MISSING'; exit 1 }
           $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
-          if ($report.status -ne 'FAIL' -or $report.execution_allowed -ne $false) { throw 'Unsafe preflight report' }
-          if ($report.code -notin @('CONFIG_FILE_UNAVAILABLE', 'PYTHON_311_X64_REQUIRED')) { throw 'Unexpected preflight reason' }
+          if ($report.status -ne 'FAIL' -or $report.execution_allowed -ne $false) { Write-Output '::error::SMOKE_UNSAFE_FAILURE_REPORT'; exit 1 }
+          if ($report.code -notin @('CONFIG_FILE_UNAVAILABLE', 'PYTHON_311_X64_REQUIRED')) { Write-Output ('::error::SMOKE_UNEXPECTED_PREFLIGHT_CODE_' + $report.code); exit 1 }
+          # GitHub's pwsh wrapper otherwise propagates the intentionally failing child's LASTEXITCODE.
+          exit 0
