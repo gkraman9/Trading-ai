@@ -101,8 +101,9 @@ HTTP path never accepts this compatibility mode.
 
 ## Validation evidence and remaining limits
 
-The full offline suite passes **127 tests** on Python **3.11.18** and **3.12.14**.
-CI repeats the suite on both 3.11 and 3.12. Coverage includes v1 file parsing,
+The full offline suite passes **173 tests** on Python **3.11.18** and **3.12.14**.
+CI repeats the suite on both 3.11 and 3.12 on Linux and Windows, including
+PowerShell fail-closed preflight checks. Coverage includes v1 file parsing,
 unknown/duplicate/missing fields, weekday/break/weekend/holiday/exception rules,
 overnight carry-in, DST folds/gaps and M1/M5 continuity through both transitions,
 provider errors, malformed OHLC, chronology, gaps, stale/forming/aligned bars,
@@ -115,3 +116,11 @@ metadata; independently verify it before use. MT5 data correctness relative to
 the actual terminal, broker timestamp conventions and sparse/tick-free minutes
 remain integration questions. There is no persistent quality history, signed
 calendar provenance, distributed clock guard or trading strategy validation.
+
+## Local evidence package
+
+The [Windows runner](WINDOWS_DEMO_VALIDATION.md) adds demo-only safety gates and
+[atomic redacted evidence](VALIDATION_EVIDENCE.md). Optional
+[broker metadata comparison](BROKER_SESSION_METADATA.md) reports independent
+source differences and uncertainty. The API and validated-list provider remain
+unchanged. No real-terminal validation is claimed by these offline checks.

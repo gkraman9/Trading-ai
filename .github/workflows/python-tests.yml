@@ -8,12 +8,14 @@ on:
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
       - feat/iat2-session-quality
+      - feat/iat2-windows-demo
   pull_request:
     branches:
       - main
       - feat/iat2-foundation
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
+      - feat/iat2-session-quality
   workflow_dispatch:
 
 permissions:
@@ -21,11 +23,12 @@ permissions:
 
 jobs:
   unit-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         python-version: ['3.11', '3.12']
+        os: [ubuntu-latest, windows-latest]
     timeout-minutes: 10
     steps:
       - name: Check out repository
@@ -38,3 +41,44 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Windows runner fail-closed smoke test
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $reports = Join-Path $env:RUNNER_TEMP ('iat-smoke-' + [Guid]::NewGuid().ToString('N'))
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -File diagnostics/Run-IATDemoValidation.ps1 -PythonExe $python -SessionConfig 'missing-fixture.json' -ReportDirectory $reports
+          if ($LASTEXITCODE -ne 1) { Write-Output '::error::SMOKE_EXPECTED_FAIL_CLOSED_EXIT'; exit 1 }
+          $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
+          if ($files.Count -ne 1) { Write-Output '::error::SMOKE_FAILURE_REPORT_MISSING'; exit 1 }
+          $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
+          if ($report.status -ne 'FAIL' -or $report.execution_allowed -ne $false) { Write-Output '::error::SMOKE_UNSAFE_FAILURE_REPORT'; exit 1 }
+          if ($report.code -notin @('CONFIG_FILE_UNAVAILABLE', 'PYTHON_311_X64_REQUIRED')) { Write-Output ('::error::SMOKE_UNEXPECTED_PREFLIGHT_CODE_' + $report.code); exit 1 }
+          # GitHub's pwsh wrapper otherwise propagates the intentionally failing child's LASTEXITCODE.
+          exit 0
+      - name: Windows runner missing-package evidence test
+        if: runner.os == 'Windows' && matrix.python-version == '3.11'
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP ('iat smoke with spaces ' + [Guid]::NewGuid().ToString('N'))
+          New-Item -ItemType Directory -Path $root | Out-Null
+          $env:IAT_SMOKE_CONFIG = Join-Path $root 'config with spaces.json'
+          @'
+          import importlib.util, json, os, sys
+          from pathlib import Path
+          assert importlib.util.find_spec('MetaTrader5') is None, 'No real terminal package may be loaded in this smoke check'
+          sys.path.insert(0, 'tests')
+          from test_session_config import fixture
+          Path(os.environ['IAT_SMOKE_CONFIG']).write_text(json.dumps(fixture()), encoding='utf-8')
+          '@ | python -
+          if ($LASTEXITCODE -ne 0) { throw 'Smoke environment must have no MT5 package' }
+          $reports = Join-Path $root 'evidence with spaces'
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -File diagnostics/Run-IATDemoValidation.ps1 -PythonExe $python -SessionConfig $env:IAT_SMOKE_CONFIG -ReportDirectory $reports
+          if ($LASTEXITCODE -ne 1) { throw 'Missing MT5 must fail closed' }
+          $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
+          if ($files.Count -ne 1) { throw 'Expected one completed failure report' }
+          $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
+          if ($report.status -ne 'FAIL' -or $report.safety.execution_allowed -ne $false) { throw 'Unsafe diagnostic outcome' }
+          if ('MT5_UNAVAILABLE' -notin @($report.diagnostics.code)) { throw 'Expected structured missing-package diagnostic' }
+          exit 0

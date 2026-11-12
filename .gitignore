@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv*/
+evidence/
+iat-demo-*.json
+iat-sessions-*.json
+.iat-evidence-*
+.iat-runner-*

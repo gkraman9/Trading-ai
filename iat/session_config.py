@@ -179,7 +179,7 @@ def unique_object(pairs):
     return result
 
 
-def load_session_config(path):
+def load_session_bundle(path):
     """Read one non-secret JSON config; bound its size and reject duplicate keys."""
     try:
         with Path(path).open('rb') as handle:
@@ -187,8 +187,13 @@ def load_session_config(path):
         require(len(raw) <= MAX_BYTES, 'Session configuration exceeds 1 MiB')
         config = json.loads(raw.decode('utf-8'), object_pairs_hook=unique_object,
                             parse_constant=reject_constant)
-        return compile_session_config(config)
+        return config, compile_session_config(config)
     except SessionConfigError:
         raise
     except (OSError, ValueError, TypeError, RecursionError) as exc:
         raise SessionConfigError('Session configuration could not be read or parsed') from exc
+
+
+def load_session_config(path):
+    """Compatibility loader returning the compiled UTC calendar alone."""
+    return load_session_bundle(path)[1]
