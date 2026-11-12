@@ -1,6 +1,7 @@
 """Explicit broker session windows; no inferred hours or market-price generation."""
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
+from iat.calendar_assurance import ASSURANCE_MESSAGES
 
 
 class SessionValidationError(ValueError):
@@ -37,8 +38,13 @@ class SessionCalendar:
     coverage_start: datetime
     coverage_end: datetime
     windows: tuple[tuple[datetime, datetime], ...]
+    assurance_codes: tuple[str, ...] = ()
 
     def __post_init__(self):
+        codes = tuple(self.assurance_codes)
+        if any(code not in ASSURANCE_MESSAGES for code in codes):
+            raise SessionValidationError("Unknown calendar assurance state")
+        object.__setattr__(self, "assurance_codes", codes)
         start, end = utc(self.coverage_start), utc(self.coverage_end)
         if not isinstance(self.symbol, str) or not self.symbol.strip() or start >= end:
             raise SessionValidationError("Invalid session coverage")
@@ -56,6 +62,9 @@ class SessionCalendar:
         object.__setattr__(self, "windows", windows)
 
     def validate_request(self, symbol, now, duration):
+        if self.assurance_codes:
+            code = self.assurance_codes[0]
+            raise SessionValidationError(ASSURANCE_MESSAGES[code], code)
         now = utc(now)
         if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
             raise SessionValidationError("Session calendar does not cover this symbol and time", "SESSION_COVERAGE_UNKNOWN")

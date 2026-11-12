@@ -6,6 +6,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from iat.sessions import SessionCalendar
+from iat.calendar_assurance import source_holds
 
 WEEKDAYS = ('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
 MAX_BYTES = 1024 * 1024
@@ -164,7 +165,7 @@ def _compile(config):
             merged[-1] = (merged[-1][0], b)
         else:
             merged.append((a, b))
-    return SessionCalendar(symbol, start, end, tuple(merged))
+    return SessionCalendar(symbol, start, end, tuple(merged), source_holds(source))
 
 
 def reject_constant(_):

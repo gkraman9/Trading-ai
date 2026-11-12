@@ -6,3 +6,5 @@ iat-demo-*.json
 iat-sessions-*.json
 .iat-evidence-*
 .iat-runner-*
+config/local/
+.iat-profile-*

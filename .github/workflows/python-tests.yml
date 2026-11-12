@@ -9,6 +9,7 @@ on:
       - feat/iat2-readonly-api
       - feat/iat2-session-quality
       - feat/iat2-windows-demo
+      - feat/iat2-exness-calendar
   pull_request:
     branches:
       - main
@@ -16,6 +17,7 @@ on:
       - feat/iat2-mt5-data
       - feat/iat2-readonly-api
       - feat/iat2-session-quality
+      - feat/iat2-windows-demo
   workflow_dispatch:
 
 permissions:
@@ -27,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11', '3.12']
+        python-version: ['3.11.9', '3.12']
         os: [ubuntu-latest, windows-latest]
     timeout-minutes: 10
     steps:
@@ -57,7 +59,7 @@ jobs:
           # GitHub's pwsh wrapper otherwise propagates the intentionally failing child's LASTEXITCODE.
           exit 0
       - name: Windows runner missing-package evidence test
-        if: runner.os == 'Windows' && matrix.python-version == '3.11'
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
         shell: pwsh
         run: |
           $root = Join-Path $env:RUNNER_TEMP ('iat smoke with spaces ' + [Guid]::NewGuid().ToString('N'))
@@ -81,4 +83,28 @@ jobs:
           $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
           if ($report.status -ne 'FAIL' -or $report.safety.execution_allowed -ne $false) { throw 'Unsafe diagnostic outcome' }
           if ('MT5_UNAVAILABLE' -notin @($report.diagnostics.code)) { throw 'Expected structured missing-package diagnostic' }
+          exit 0
+      - name: Windows Exness candidate installer and blocked-run smoke test
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP ('iat exness with spaces ' + [Guid]::NewGuid().ToString('N'))
+          New-Item -ItemType Directory -Path $root | Out-Null
+          $candidate = Join-Path $root 'candidate with spaces.json'
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -NonInteractive -File diagnostics/Install-IATExnessCalendar.ps1 -PythonExe $python -Destination $candidate
+          if ($LASTEXITCODE -ne 2 -or -not (Test-Path -LiteralPath $candidate)) { throw 'Expected installed but BLOCKED candidate' }
+          $before = (Get-FileHash -LiteralPath $candidate -Algorithm SHA256).Hash
+          & powershell.exe -NoProfile -NonInteractive -File diagnostics/Install-IATExnessCalendar.ps1 -PythonExe $python -Destination $candidate
+          if ($LASTEXITCODE -ne 1) { throw 'Replacement must require interactive confirmation' }
+          if ((Get-FileHash -LiteralPath $candidate -Algorithm SHA256).Hash -ne $before) { throw 'Unconfirmed overwrite occurred' }
+          $reports = Join-Path $root 'evidence with spaces'
+          & powershell.exe -NoProfile -File diagnostics/Run-IATDemoValidation.ps1 -PythonExe $python -SessionConfig $candidate -ReportDirectory $reports
+          if ($LASTEXITCODE -ne 1) { throw 'Unverified candidate must fail closed' }
+          $files = @(Get-ChildItem -LiteralPath $reports -Filter '*.json')
+          if ($files.Count -ne 1) { throw 'Expected one redacted failure report' }
+          $report = Get-Content -LiteralPath $files[0].FullName -Raw | ConvertFrom-Json
+          if ($report.status -ne 'FAIL' -or $report.safety.execution_allowed -ne $false -or $report.safety.binding_initialization_attempted -ne $false) { throw 'Unsafe Exness candidate handling' }
+          if ('HOLIDAY_COVERAGE_UNKNOWN' -notin @($report.diagnostics.code)) { throw 'Holiday uncertainty was hidden' }
+          if ('SESSION_ALIGNMENT_INVALID' -notin @($report.timeframes.M5.codes)) { throw 'M5 boundary mismatch was hidden' }
           exit 0

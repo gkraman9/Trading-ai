@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "symbol": "XAUUSD",
+  "timezone": "UTC",
+  "coverage": {
+    "start": "2026-11-06",
+    "end": "2026-11-16"
+  },
+  "verification": {
+    "source": "IAT_UNVERIFIED:EXNESS_XAUUSD_SCREENSHOT_WINTER_2026_11",
+    "verified_at": "2026-11-12T12:25:58Z"
+  },
+  "weekdays": {
+    "mon": [
+      {
+        "open": "00:00",
+        "close": "21:58",
+        "close_day_offset": 0
+      },
+      {
+        "open": "23:00",
+        "close": "00:00",
+        "close_day_offset": 1
+      }
+    ],
+    "tue": [
+      {
+        "open": "00:00",
+        "close": "21:58",
+        "close_day_offset": 0
+      },
+      {
+        "open": "23:00",
+        "close": "00:00",
+        "close_day_offset": 1
+      }
+    ],
+    "wed": [
+      {
+        "open": "00:00",
+        "close": "21:58",
+        "close_day_offset": 0
+      },
+      {
+        "open": "23:00",
+        "close": "00:00",
+        "close_day_offset": 1
+      }
+    ],
+    "thu": [
+      {
+        "open": "00:00",
+        "close": "21:58",
+        "close_day_offset": 0
+      },
+      {
+        "open": "23:00",
+        "close": "00:00",
+        "close_day_offset": 1
+      }
+    ],
+    "fri": [
+      {
+        "open": "00:00",
+        "close": "21:58",
+        "close_day_offset": 0
+      }
+    ],
+    "sat": [],
+    "sun": [
+      {
+        "open": "23:01",
+        "close": "00:00",
+        "close_day_offset": 1
+      }
+    ]
+  },
+  "holidays": [],
+  "exceptions": {},
+  "closures": []
+}
