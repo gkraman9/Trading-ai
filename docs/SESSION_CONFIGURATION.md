@@ -100,3 +100,13 @@ checks remain available. Raw file contents and filesystem paths are not returned
 Neither this loader nor the HTTP app initializes MT5, authenticates, reads broker
 credentials, or enables trading. The runtime still requires an initialized MT5
 binding in the serving process, not merely an open terminal on the same machine.
+
+## Explicit unverified research candidates
+
+`verification.source` beginning `IAT_UNVERIFIED:` is a deny-only assurance marker.
+Its v1 JSON can be structurally valid while its compiled calendar rejects runtime
+requests. The source label is still not authentication; deleting a marker is not
+verification. See the [Exness research candidate workflow](EXNESS_LOCAL_WORKFLOW.md)
+for known source/phase, holiday and maintenance uncertainties. Empty holiday
+arrays in that marked profile must not be interpreted as verified no-holiday
+coverage. Existing trusted-host calendars remain compatible.

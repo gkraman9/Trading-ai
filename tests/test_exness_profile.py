@@ -195,6 +195,18 @@ class ExnessProfileTests(unittest.TestCase):
             self.assertTrue(result['installed'])
             self.assertEqual(load_session_config(target).assurance_codes, EXNESS_HOLDS)
 
+    def test_concurrently_created_destination_is_not_overwritten_without_confirmation(self):
+        from iat.exness_profile import publish_new
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'candidate.json'
+            def concurrent(temporary, destination):
+                target.write_bytes(b'concurrent user configuration')
+                return publish_new(temporary, destination)
+            with patch('iat.exness_profile.publish_new', side_effect=concurrent), self.assertRaises(FileExistsError):
+                install_profile(target, now=NOW)
+            self.assertEqual(target.read_bytes(), b'concurrent user configuration')
+            self.assertEqual(list(Path(directory).iterdir()), [target])
+
     def test_configuration_changed_since_confirmation_is_not_overwritten(self):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory) / 'existing.json'

@@ -130,3 +130,13 @@ raw metadata or configuration files without separate review.
 The standalone diagnostic shuts down its binding before publishing. It does not
 initialize a separate Flask serving process. No live endpoint migration or
 trading activation is performed by this package. All PRs remain draft/unmerged.
+
+## Exness observed-schedule candidate
+
+For the supplied XAUUSD display times, use the
+[Exness-specific installation and E-drive instructions](EXNESS_LOCAL_WORKFLOW.md)
+and [source reconciliation](EXNESS_SESSION_RESEARCH.md). The candidate is v1
+schema-valid but explicitly blocked: the diagnostic records assurance failures
+before initializing MT5. The 21:58 and Sunday 23:01 boundaries are preserved;
+M5 support and second-level restricted phases are not guessed. A successful
+local demo connection does not clear missing calendar evidence.

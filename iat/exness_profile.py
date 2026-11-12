@@ -62,6 +62,17 @@ def inspect_profile(*, now=None, directory=None):
             'signal': 'WAIT', 'execution_allowed': False}
 
 
+def publish_new(temporary, destination):
+    """Atomic no-replace publication, including a concurrently created target."""
+    if os.name == 'nt':
+        # Windows rename refuses an existing destination, including on exFAT.
+        os.rename(temporary, destination)
+    else:
+        # Same-filesystem link creates the name exclusively; no POSIX rename
+        # overwrite semantics. Unsupported filesystems fail rather than replace.
+        os.link(temporary, destination)
+
+
 def install_profile(destination, *, replace_confirmed=False, expected_current_sha256=None,
                     now=None, directory=None):
     raw, _, _, _ = read_profile(directory)
@@ -79,14 +90,8 @@ def install_profile(destination, *, replace_confirmed=False, expected_current_sh
     elif expected_current_sha256 is not None:
         raise ValueError('Replacement was not confirmed')
     path.parent.mkdir(parents=True, exist_ok=True)
-    if not replace_confirmed:
-        # Reserve exclusively. A crash here leaves invalid/incomplete config,
-        # never a falsely approved calendar or an overwritten user configuration.
-        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        with os.fdopen(fd, 'wb') as handle:
-            handle.write(b'{"status":"INSTALL_INCOMPLETE"}\n')
-            handle.flush()
-            os.fsync(handle.fileno())
+    if not replace_confirmed and path.exists():
+        raise FileExistsError('Existing configuration requires confirmation')
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(dir=path.parent, prefix='.iat-profile-', delete=False) as handle:
@@ -100,7 +105,10 @@ def install_profile(destination, *, replace_confirmed=False, expected_current_sh
             raise ValueError('Staged configuration lost assurance holds')
         if replace_confirmed and hashlib.sha256(path.read_bytes()).hexdigest() != expected_current_sha256:
             raise ValueError('Existing configuration changed during installation')
-        os.replace(temporary, path)
+        if replace_confirmed:
+            os.replace(temporary, path)
+        else:
+            publish_new(temporary, path)
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)
