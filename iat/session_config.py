@@ -111,7 +111,9 @@ def _compile(config):
     fields(config['verification'], ('source', 'verified_at'))
     source, verified_at = config['verification']['source'], config['verification']['verified_at']
     require(isinstance(source, str) and 0 < len(source.strip()) <= 512, 'Verification source is required')
-    require(isinstance(verified_at, str), 'Expected aware verification timestamp')
+    require(isinstance(verified_at, str) and re.fullmatch(
+        r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})', verified_at),
+        'Expected an explicit-offset ISO verification timestamp')
     stamp = datetime.fromisoformat(verified_at.replace('Z', '+00:00'))
     require(stamp.utcoffset() is not None, 'Verification timestamp must include an offset')
     fields(config['weekdays'], WEEKDAYS)

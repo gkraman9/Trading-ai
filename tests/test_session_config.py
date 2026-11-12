@@ -152,7 +152,9 @@ class ConfigTests(unittest.TestCase):
     def test_verification_metadata_required_and_aware(self):
         for metadata in ({'source': '', 'verified_at': '2026-11-01T00:00:00Z'},
                          {'source': 'fixture', 'verified_at': '2026-11-01T00:00:00'},
-                         {'source': 'fixture', 'verified_at': 1}):
+                         {'source': 'fixture', 'verified_at': 1},
+                         {'source': 'fixture', 'verified_at': '20261101T000000Z'},
+                         {'source': 'fixture', 'verified_at': '2026-11-01 00:00:00Z'}):
             with self.subTest(metadata=metadata), self.assertRaises(SessionConfigError):
                 compile_session_config(dict(fixture(), verification=metadata))
 
