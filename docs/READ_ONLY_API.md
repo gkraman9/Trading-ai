@@ -20,7 +20,7 @@ Three closing prices describe short-term movement, not validated trading logic.
 | --- | --- |
 | 200 | Candle history passed validation and descriptive analysis is available. |
 | 400 | Missing, ambiguous, or unsupported request parameters (`INVALID_REQUEST`). |
-| 503 | MT5 unavailable, disconnected, stale, incomplete, malformed, or analysis failed (`MARKET_DATA_UNAVAILABLE`). |
+| 503 | Session calendar missing (`SESSION_CALENDAR_UNAVAILABLE`), or market closed, coverage invalid, MT5 unavailable/disconnected, data stale/incomplete/malformed/gapped, or analysis failed (`MARKET_DATA_UNAVAILABLE`). |
 
 Failures include the original response fields, `market_state: "UNKNOWN"`, and
 `last_closed_candle: null`; no market movement is inferred. Raw provider exception
@@ -35,14 +35,16 @@ package and an **already initialized binding in the serving Python process**
 connected to a terminal. Opening the terminal alone is not sufficient. Without
 that setup the endpoint intentionally returns 503, rather than invented data.
 An independently prepared read-only host may construct the app using
-`create_app(mt5=existing_adapter)`; initialization is outside this application's
+`create_app(mt5=existing_adapter, session_calendars=verified_calendars)`; initialization is outside this application's
 scope. No live integration was performed for this change.
 
 Validation checks count, UTC chronology and uniqueness, timeframe-aligned epoch
-seconds, finite positive OHLC ranges, closure, and freshness. Market-session
-calendars and internal history gaps are not yet validated; weekends/market
-closures may return 503. All trade proposals remain disabled pending independent
-data and trading-logic validation.
+seconds, finite positive OHLC ranges, closure, session coverage, missing bars,
+and freshness. [Session configuration](MARKET_SESSIONS.md) requires independently
+verified finite broker windows for each exact symbol. Missing calendar coverage,
+closed sessions, and data gaps return 503. No default broker hours are assumed.
+All trade proposals remain disabled pending independent data and trading-logic
+validation.
 
 Legacy `decision.get_signal(symbol, timeframe)` always returns WAIT.
 `reasoning.explain(symbol, timeframe)` discloses missing data; optional supplied

@@ -7,6 +7,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from main import create_app
+from iat.sessions import SessionCalendar
 from decision import get_signal
 from reasoning import explain
 
@@ -40,7 +41,12 @@ class ReadOnlyMT5:
 
 class APITests(unittest.TestCase):
     def client(self, provider):
-        return create_app(mt5=provider, clock=lambda: NOW).test_client()
+        start = NOW - timedelta(days=1, seconds=30)
+        end = NOW + timedelta(days=1, seconds=-30)
+        calendars = {symbol: SessionCalendar(symbol, start, end, ((start, end),))
+                     for symbol in ("XAUUSD", "XAUUSDm")}
+        return create_app(mt5=provider, clock=lambda: NOW,
+                          session_calendars=calendars).test_client()
 
     def assert_safe(self, response, status):
         self.assertEqual(response.status_code, status)
@@ -55,7 +61,7 @@ class APITests(unittest.TestCase):
             self.assertIsNone(body["last_closed_candle"])
         return body
 
-    def test_real_input_changes_market_state_but_never_signal(self):
+    def test_provider_ohlc_changes_market_state_but_never_signal(self):
         cases = ((list(range(100, 200)), "BULLISH"),
                  (list(range(200, 100, -1)), "BEARISH"),
                  ([100] * 100, "RANGE"))
@@ -136,6 +142,36 @@ class APITests(unittest.TestCase):
             import main
             importlib.reload(main)
             self.assertEqual(main.app.test_client().get('/').get_json()['status'], 'OK')
+
+    def test_query_parameters_cannot_enable_execution(self):
+        response = self.client(ReadOnlyMT5(rates([100] * 100))).get(
+            '/analyze?symbol=XAUUSD&timeframe=M1&execution_allowed=true&signal=BUY')
+        self.assert_safe(response, 200)
+
+    def test_unknown_session_calendar_withholds_analysis_without_fetching(self):
+        provider = ReadOnlyMT5([])
+        app = create_app(mt5=provider, clock=lambda: NOW)
+        body = self.assert_safe(app.test_client().get('/analyze?symbol=XAUUSD&timeframe=M1'), 503)
+        self.assertEqual(body['error'], 'SESSION_CALENDAR_UNAVAILABLE')
+        self.assertEqual(provider.calls, [])
+
+    def test_closed_or_expired_session_withholds_analysis(self):
+        provider = ReadOnlyMT5([])
+        start = NOW.replace(hour=0, minute=0, second=0)
+        end = start + timedelta(days=1)
+        calendars = (SessionCalendar('XAUUSD', start, end, ()),
+                     SessionCalendar('XAUUSD', start - timedelta(days=1), start, ()))
+        for calendar in calendars:
+            with self.subTest(calendar=calendar):
+                app = create_app(mt5=provider, clock=lambda: NOW,
+                                 session_calendars={'XAUUSD': calendar})
+                self.assert_safe(app.test_client().get('/analyze?symbol=XAUUSD&timeframe=M1'), 503)
+        self.assertEqual(provider.calls, [])
+
+    def test_http_rejects_missing_candle_without_filling_prices(self):
+        data = rates([100] * 101)
+        del data[50]
+        self.assert_safe(self.client(ReadOnlyMT5(data)).get('/analyze?symbol=XAUUSD&timeframe=M1'), 503)
 
     def test_legacy_helpers_never_fabricate_observations(self):
         self.assertEqual(get_signal('XAUUSD', 'M1'), 'WAIT')

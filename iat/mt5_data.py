@@ -6,6 +6,7 @@ from math import isfinite
 from typing import Any
 
 from iat.analysis import validate_candles
+from iat.sessions import SessionCalendar, SessionValidationError
 
 TIMEFRAMES = {"M1": 60, "M5": 300}
 
@@ -20,6 +21,7 @@ def get_closed_candles(
     now: datetime | None = None,
     mt5: Any = None,
     max_delay_bars: int = 2,
+    session_calendar: SessionCalendar | None = None,
 ) -> list[dict]:
     """Fetch fully closed bars only. MT5 terminal must already be initialized.
 
@@ -38,6 +40,12 @@ def get_closed_candles(
     if not isinstance(now, datetime) or now.utcoffset() is None:
         raise ValueError("now must be timezone-aware")
     now = now.astimezone(timezone.utc)
+    duration = timedelta(seconds=TIMEFRAMES[timeframe])
+    if session_calendar is not None:
+        try:
+            session_calendar.validate_request(symbol, now, duration)
+        except SessionValidationError as exc:
+            raise MarketDataError(str(exc)) from exc
     if mt5 is None:
         try:
             import MetaTrader5 as mt5
@@ -56,7 +64,6 @@ def get_closed_candles(
     if rates is None or len(rates) != count:
         raise MarketDataError("Incomplete MT5 candle history")
     rows = []
-    duration = timedelta(seconds=TIMEFRAMES[timeframe])
     for rate in rates:
         try:
             epoch = rate["time"]
@@ -77,10 +84,20 @@ def get_closed_candles(
             raise MarketDataError("MT5 returned an unclosed or future candle")
         rows.append(row)
     try:
-        validate_candles(rows)
+        candles = validate_candles(rows)
     except ValueError as exc:
         raise MarketDataError("MT5 candle validation failed") from exc
-    last_open = datetime.fromisoformat(rows[-1]["timestamp"])
+    openings = [c.timestamp for c in candles]
+    if session_calendar is not None:
+        try:
+            session_calendar.validate_history(openings, now, duration, max_delay_bars)
+        except SessionValidationError as exc:
+            raise MarketDataError(str(exc)) from exc
+        return rows
+    # Without a verified calendar, never assume that a hole is a market break.
+    if any(b - a != duration for a, b in zip(openings, openings[1:])):
+        raise MarketDataError("Missing candle or unverified market-session gap")
+    last_open = openings[-1]
     if now - (last_open + duration) > duration * max_delay_bars:
         raise MarketDataError("MT5 candle history is stale")
     return rows

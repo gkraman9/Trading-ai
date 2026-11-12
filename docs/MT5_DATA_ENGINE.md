@@ -32,4 +32,6 @@ finally:
 - Stale, malformed, duplicate, missing or out-of-order data raises an error.
 - Trading decisions remain WAIT and execution is disabled.
 - `/analyze` now uses this validator and always returns WAIT with execution disabled; see [API contract](READ_ONLY_API.md).
-- Next: symbol metadata, session/market-closure handling, gaps and broker clock alignment.
+- Optional `session_calendar` validates explicit broker windows and detects missing bars across open sessions; see [session configuration](MARKET_SESSIONS.md).
+- Without a calendar, the provider preserves the existing strict wall-clock freshness policy and now rejects every internal gap; it never assumes a hole is a scheduled closure. The HTTP endpoint requires a calendar.
+- Next: independently verify actual broker session inputs, symbol metadata and broker clock alignment.
