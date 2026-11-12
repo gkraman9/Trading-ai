@@ -15,6 +15,18 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(result["signal"], "WAIT")
         self.assertFalse(result["execution_allowed"])
 
+    def test_reject_malformed_prices(self):
+        for value in (True, 10 ** 1000, float("nan"), float("inf"), 0, -1):
+            with self.subTest(value_type=type(value).__name__):
+                rows = candles([100, 101, 102])
+                rows[0]["low"] = value
+                with self.assertRaises(ValueError):
+                    validate_candles(rows)
+
+    def test_reject_nonmapping_row(self):
+        with self.assertRaises(ValueError):
+            validate_candles([[], {}, {}])
+
     def test_bearish(self):
         self.assertEqual(analyze("XAUUSD", "M5", candles([102, 101, 100]))["market_state"], "BEARISH")
 

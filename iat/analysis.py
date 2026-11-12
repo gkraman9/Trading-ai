@@ -21,8 +21,11 @@ def validate_candles(rows: Sequence[Mapping]) -> list[Candle]:
     for row in rows:
         try:
             timestamp = datetime.fromisoformat(str(row["timestamp"]).replace("Z", "+00:00"))
-            values = [float(row[k]) for k in ("open", "high", "low", "close")]
-        except (KeyError, TypeError, ValueError) as exc:
+            prices = [row[k] for k in ("open", "high", "low", "close")]
+            if any(isinstance(value, bool) for value in prices):
+                raise ValueError("Boolean prices are invalid")
+            values = [float(value) for value in prices]
+        except (KeyError, TypeError, ValueError, OverflowError) as exc:
             raise ValueError("Invalid candle fields") from exc
         if timestamp.tzinfo is None:
             raise ValueError("Timestamps must include a timezone")
