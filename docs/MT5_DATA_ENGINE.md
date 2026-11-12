@@ -1,6 +1,6 @@
 # IAT 2.0 — MT5 Data Engine (read-only)
 
-This module fetches only completed MT5 bars, validates UTC timestamps, strict chronology and OHLC integrity, and rejects stale or incomplete history.
+This module fetches only completed MT5 bars, validates UTC timestamps, strict chronology, timeframe-aligned integer epoch seconds and OHLC integrity, and rejects stale or incomplete history.
 
 ## Requirements
 - Windows PC with MetaTrader 5 terminal installed and connected to a demo account

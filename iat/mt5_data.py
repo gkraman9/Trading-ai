@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 from math import isfinite
-from typing import Any, Callable
+from typing import Any
 
 from iat.analysis import validate_candles
 
@@ -28,14 +28,14 @@ def get_closed_candles(
     """
     if not isinstance(symbol, str) or not symbol.strip():
         raise ValueError("A symbol is required")
-    if timeframe not in TIMEFRAMES:
+    if not isinstance(timeframe, str) or timeframe not in TIMEFRAMES:
         raise ValueError("Supported timeframes: M1, M5")
     if not isinstance(count, int) or isinstance(count, bool) or count < 3 or count > 5000:
         raise ValueError("count must be an integer between 3 and 5000")
     if not isinstance(max_delay_bars, int) or isinstance(max_delay_bars, bool) or max_delay_bars < 0:
         raise ValueError("max_delay_bars must be a nonnegative integer")
-    now = now or datetime.now(timezone.utc)
-    if now.tzinfo is None:
+    now = datetime.now(timezone.utc) if now is None else now
+    if not isinstance(now, datetime) or now.utcoffset() is None:
         raise ValueError("now must be timezone-aware")
     now = now.astimezone(timezone.utc)
     if mt5 is None:
@@ -59,11 +59,19 @@ def get_closed_candles(
     duration = timedelta(seconds=TIMEFRAMES[timeframe])
     for rate in rates:
         try:
-            opened = datetime.fromtimestamp(int(rate["time"]), tz=timezone.utc)
+            epoch = rate["time"]
+            seconds = int(epoch)
+            if isinstance(epoch, bool) or not isfinite(float(epoch)) or epoch != seconds:
+                raise ValueError("Invalid epoch seconds")
+            if seconds % TIMEFRAMES[timeframe]:
+                raise ValueError("Bar open must align with timeframe")
+            if any(isinstance(rate[key], bool) for key in ("open", "high", "low", "close")):
+                raise ValueError("Boolean prices are invalid")
+            opened = datetime.fromtimestamp(seconds, tz=timezone.utc)
             row = {"timestamp": opened.isoformat(), "open": float(rate["open"]),
                    "high": float(rate["high"]), "low": float(rate["low"]),
                    "close": float(rate["close"])}
-        except (KeyError, TypeError, ValueError, OverflowError) as exc:
+        except (KeyError, IndexError, TypeError, ValueError, OverflowError, OSError) as exc:
             raise MarketDataError("Malformed MT5 candle") from exc
         if opened + duration > now:
             raise MarketDataError("MT5 returned an unclosed or future candle")

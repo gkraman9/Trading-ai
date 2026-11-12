@@ -26,6 +26,64 @@ def make_rates(period=60, count=3, last_open=None):
             for i in range(count)]
 
 class MT5DataTests(unittest.TestCase):
+    def test_reject_malformed_times(self):
+        for value in (True, float("nan"), float("inf"), 1e100,
+                      make_rates()[0]["time"] + 0.5, make_rates()[0]["time"] + 1):
+            with self.subTest(value=value):
+                rates = make_rates()
+                rates[0]["time"] = value
+                with self.assertRaises(MarketDataError):
+                    get_closed_candles(mt5=FakeMT5(rates), now=NOW, count=3)
+
+    def test_reject_malformed_row(self):
+        with self.assertRaises(MarketDataError):
+            get_closed_candles(mt5=FakeMT5([(), {}, {}]), now=NOW, count=3)
+
+    def test_reject_malformed_prices(self):
+        for value in (True, 10 ** 1000, float("nan"), float("inf")):
+            with self.subTest(value_type=type(value).__name__):
+                rates = make_rates()
+                rates[0]["low"] = value
+                with self.assertRaises(MarketDataError):
+                    get_closed_candles(mt5=FakeMT5(rates), now=NOW, count=3)
+
+    def test_freshness_boundary(self):
+        for delay, accepted in ((120, True), (121, False)):
+            with self.subTest(delay=delay):
+                now = datetime(2026, 11, 12, 10, 30, tzinfo=timezone.utc) + timedelta(seconds=delay)
+                if accepted:
+                    self.assertEqual(len(get_closed_candles(mt5=FakeMT5(make_rates()), now=now, count=3)), 3)
+                else:
+                    with self.assertRaisesRegex(MarketDataError, "stale"):
+                        get_closed_candles(mt5=FakeMT5(make_rates()), now=now, count=3)
+
+    def test_closed_at_exact_boundary(self):
+        rows = get_closed_candles(mt5=FakeMT5(make_rates()), count=3,
+                                  now=NOW.replace(second=0), max_delay_bars=0)
+        self.assertTrue(all(row["timestamp"].endswith("+00:00") for row in rows))
+
+    def test_reject_reversed_history(self):
+        with self.assertRaises(MarketDataError):
+            get_closed_candles(mt5=FakeMT5(make_rates()[::-1]), now=NOW, count=3)
+
+    def test_reject_short_history(self):
+        with self.assertRaisesRegex(MarketDataError, "Incomplete"):
+            get_closed_candles(mt5=FakeMT5(make_rates()[:2]), now=NOW, count=3)
+
+    def test_provider_exception(self):
+        class BrokenMT5(FakeMT5):
+            def copy_rates_from_pos(self, *args):
+                raise RuntimeError("provider failure")
+        with self.assertRaisesRegex(MarketDataError, "request failed"):
+            get_closed_candles(mt5=BrokenMT5([]), now=NOW, count=3)
+
+    def test_analysis_remains_read_only(self):
+        from iat.analysis import analyze
+        rows = get_closed_candles(mt5=FakeMT5(make_rates()), now=NOW, count=3)
+        result = analyze("XAUUSD", "M1", rows)
+        self.assertEqual(result["signal"], "WAIT")
+        self.assertFalse(result["execution_allowed"])
+
     def test_closed_m1_only(self):
         provider = FakeMT5(make_rates())
         rows = get_closed_candles(mt5=provider, now=NOW, count=3)
