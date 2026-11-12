@@ -26,6 +26,40 @@ def make_rates(period=60, count=3, last_open=None):
             for i in range(count)]
 
 class MT5DataTests(unittest.TestCase):
+    def test_running_clock_rejects_data_stale_after_fetch(self):
+        from unittest.mock import Mock
+        with self.assertRaisesRegex(MarketDataError, "stale"):
+            get_closed_candles(mt5=FakeMT5(make_rates()), count=3,
+                               clock=Mock(side_effect=[NOW, NOW + timedelta(minutes=10)]))
+
+    def test_running_clock_rejects_backwards_jump(self):
+        from unittest.mock import Mock
+        with self.assertRaisesRegex(MarketDataError, "backwards"):
+            get_closed_candles(mt5=FakeMT5(make_rates()), count=3,
+                               clock=Mock(side_effect=[NOW, NOW - timedelta(seconds=1)]))
+
+    def test_invalid_clock_options_do_not_fetch(self):
+        for options in ({'now': NOW, 'clock': lambda: NOW}, {'clock': 123},
+                        {'clock': lambda: NOW.replace(tzinfo=None)}):
+            fake = FakeMT5(make_rates())
+            with self.subTest(options=tuple(options)), self.assertRaises(ValueError):
+                get_closed_candles(mt5=fake, count=3, **options)
+            self.assertIsNone(fake.request)
+
+    def test_sized_container_with_wrong_iteration_count_is_rejected(self):
+        class Inconsistent:
+            def __len__(self):
+                return 3
+            def __iter__(self):
+                return iter(make_rates(count=4))
+        with self.assertRaisesRegex(MarketDataError, 'Incomplete'):
+            get_closed_candles(mt5=FakeMT5(Inconsistent()), now=NOW, count=3)
+
+    def test_malformed_history_container_uses_market_data_error(self):
+        for malformed in (123, object(), iter(make_rates())):
+            with self.subTest(kind=type(malformed).__name__), self.assertRaises(MarketDataError):
+                get_closed_candles(mt5=FakeMT5(malformed), now=NOW, count=3)
+
     def test_reject_malformed_times(self):
         for value in (True, float("nan"), float("inf"), 1e100,
                       make_rates()[0]["time"] + 0.5, make_rates()[0]["time"] + 1):
