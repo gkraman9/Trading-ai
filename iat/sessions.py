@@ -13,6 +13,15 @@ def utc(value):
     return value.astimezone(timezone.utc)
 
 
+def duration_seconds(duration):
+    if not isinstance(duration, timedelta):
+        raise SessionValidationError("Bar duration must be a positive whole number of seconds")
+    seconds = duration.total_seconds()
+    if seconds < 1 or not seconds.is_integer():
+        raise SessionValidationError("Bar duration must be a positive whole number of seconds")
+    return int(seconds)
+
+
 @dataclass(frozen=True)
 class SessionCalendar:
     """Authoritative, finite coverage for one exact broker symbol.
@@ -30,7 +39,10 @@ class SessionCalendar:
         start, end = utc(self.coverage_start), utc(self.coverage_end)
         if not isinstance(self.symbol, str) or not self.symbol.strip() or start >= end:
             raise SessionValidationError("Invalid session coverage")
-        windows = tuple((utc(a), utc(b)) for a, b in self.windows)
+        try:
+            windows = tuple((utc(a), utc(b)) for a, b in self.windows)
+        except (TypeError, ValueError) as exc:
+            raise SessionValidationError("Each session window must contain two aware datetimes") from exc
         previous = start
         for a, b in windows:
             if a < previous or a < start or a >= b or b > end:
@@ -44,7 +56,7 @@ class SessionCalendar:
         now = utc(now)
         if symbol != self.symbol or not self.coverage_start <= now < self.coverage_end:
             raise SessionValidationError("Session calendar does not cover this symbol and time")
-        seconds = duration.total_seconds()
+        seconds = duration_seconds(duration)
         if any(boundary.timestamp() % seconds for window in self.windows for boundary in window):
             raise SessionValidationError("Session boundaries must align with the requested timeframe")
         if not any(a <= now < b for a, b in self.windows):
@@ -52,7 +64,8 @@ class SessionCalendar:
 
     def expected_opens(self, start, end, duration):
         """Yield fully covered bar opens in [start, end), skipping confirmed closures."""
-        seconds = duration.total_seconds()
+        seconds = duration_seconds(duration)
+        start, end = utc(start), utc(end)
         for a, b in self.windows:
             cursor = max(start, a)
             remainder = cursor.timestamp() % seconds
@@ -63,6 +76,20 @@ class SessionCalendar:
                 cursor += duration
 
     def validate_history(self, openings, now, duration, max_delay_bars):
+        now = utc(now)
+        self.validate_request(self.symbol, now, duration)
+        if not isinstance(max_delay_bars, int) or isinstance(max_delay_bars, bool) or max_delay_bars < 0:
+            raise SessionValidationError("max_delay_bars must be a nonnegative integer")
+        try:
+            openings = tuple(utc(opened) for opened in openings)
+        except TypeError as exc:
+            raise SessionValidationError("Candle openings must be an iterable of aware datetimes") from exc
+        if not openings:
+            raise SessionValidationError("Candle history must not be empty")
+        if any(b <= a for a, b in zip(openings, openings[1:])):
+            raise SessionValidationError("Candle openings must be chronological and unique")
+        if any(opened > now - duration for opened in openings):
+            raise SessionValidationError("Candle history contains an unclosed or future bar")
         if openings[0] < self.coverage_start:
             raise SessionValidationError("History extends outside verified session coverage")
         expected = iter(self.expected_opens(openings[0], openings[-1] + duration, duration))

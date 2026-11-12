@@ -39,7 +39,8 @@ requests until a host supplies one. Import and health checks remain offline.
 
 ## Validation behavior
 
-- Session validation happens before MT5 access. Closed, expired, wrong-symbol,
+- Session validation happens before MT5 access and is repeated using the time
+  sampled after the fetch. Closed, expired, wrong-symbol,
   unknown, or timeframe-incompatible coverage fails safely.
 - All returned candles must be fully contained in open windows, closed by the
   request's UTC time, ordered, unique, and valid OHLC.
@@ -68,5 +69,13 @@ Offline tests use clearly marked synthetic fixtures to exercise validator
 behavior; fixtures are never runtime data sources. Tests cover internal gaps,
 breaks, bars inside closures, M1/M5 alignment, weekends, holidays, DST conversion,
 finite coverage, freshness boundaries, HTTP error handling and safety flags.
+The session history validator also checks its own public inputs (nonempty,
+chronological, aware, closed candles; positive whole-second durations and
+nonnegative integer tolerances). Malformed window structures consistently raise
+`SessionValidationError`; malformed MT5 history containers raise `MarketDataError`.
+The provider's optional `now` argument retains fixed-time snapshot behavior for
+replay/testing; live callers should use its running `clock` or the default UTC
+clock. `now` and `clock` cannot be combined. CI covers Python 3.11 and 3.12.
+
 No live terminal, broker credentials, orders, or fabricated runtime market data
 are involved. Live broker session/data validation remains unperformed.

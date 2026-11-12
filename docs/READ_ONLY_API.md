@@ -36,7 +36,9 @@ connected to a terminal. Opening the terminal alone is not sufficient. Without
 that setup the endpoint intentionally returns 503, rather than invented data.
 An independently prepared read-only host may construct the app using
 `create_app(mt5=existing_adapter, session_calendars=verified_calendars)`; initialization is outside this application's
-scope. No live integration was performed for this change.
+scope. No live integration was performed for this change. The running clock is sampled
+before and after fetching, so data becoming stale or sessions closing during a
+slow fetch produce 503. A backward UTC clock jump also withholds analysis.
 
 Validation checks count, UTC chronology and uniqueness, timeframe-aligned epoch
 seconds, finite positive OHLC ranges, closure, session coverage, missing bars,

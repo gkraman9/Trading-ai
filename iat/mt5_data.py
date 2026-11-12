@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 from math import isfinite
-from typing import Any
+from typing import Any, Callable
+from itertools import islice
 
 from iat.analysis import validate_candles
 from iat.sessions import SessionCalendar, SessionValidationError
@@ -19,6 +20,7 @@ def get_closed_candles(
     count: int = 100,
     *,
     now: datetime | None = None,
+    clock: Callable[[], datetime] | None = None,
     mt5: Any = None,
     max_delay_bars: int = 2,
     session_calendar: SessionCalendar | None = None,
@@ -27,6 +29,8 @@ def get_closed_candles(
 
     MT5 timestamps are UTC epoch seconds and represent bar OPEN times.
     Position 0 is the forming bar and is deliberately never requested.
+    A running UTC clock is sampled before and after fetching. Explicit `now`
+    preserves deterministic snapshot validation; do not combine it with clock.
     """
     if not isinstance(symbol, str) or not symbol.strip():
         raise ValueError("A symbol is required")
@@ -36,10 +40,22 @@ def get_closed_candles(
         raise ValueError("count must be an integer between 3 and 5000")
     if not isinstance(max_delay_bars, int) or isinstance(max_delay_bars, bool) or max_delay_bars < 0:
         raise ValueError("max_delay_bars must be a nonnegative integer")
-    now = datetime.now(timezone.utc) if now is None else now
-    if not isinstance(now, datetime) or now.utcoffset() is None:
-        raise ValueError("now must be timezone-aware")
-    now = now.astimezone(timezone.utc)
+    if now is not None and clock is not None:
+        raise ValueError("Supply either a snapshot now or a running clock")
+    if clock is not None and not callable(clock):
+        raise ValueError("clock must be callable")
+    if now is not None:
+        read_clock = lambda snapshot=now: snapshot
+    else:
+        read_clock = clock if clock is not None else lambda: datetime.now(timezone.utc)
+
+    def read_now():
+        value = read_clock()
+        if not isinstance(value, datetime) or value.utcoffset() is None:
+            raise ValueError("now must be timezone-aware")
+        return value.astimezone(timezone.utc)
+
+    now = request_time = read_now()
     duration = timedelta(seconds=TIMEFRAMES[timeframe])
     if session_calendar is not None:
         try:
@@ -61,7 +77,20 @@ def get_closed_candles(
         raise
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
-    if rates is None or len(rates) != count:
+    now = read_now()
+    if now < request_time:
+        raise MarketDataError("UTC clock moved backwards during data request")
+    if rates is None:
+        raise MarketDataError("Incomplete MT5 candle history")
+    try:
+        if len(rates) != count:
+            raise MarketDataError("Incomplete MT5 candle history")
+        rates = list(islice(iter(rates), count + 1))
+    except MarketDataError:
+        raise
+    except (TypeError, ValueError, RuntimeError) as exc:
+        raise MarketDataError("Malformed MT5 history container") from exc
+    if len(rates) != count:
         raise MarketDataError("Incomplete MT5 candle history")
     rows = []
     for rate in rates:

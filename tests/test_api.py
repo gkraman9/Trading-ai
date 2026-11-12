@@ -143,6 +143,24 @@ class APITests(unittest.TestCase):
             importlib.reload(main)
             self.assertEqual(main.app.test_client().get('/').get_json()['status'], 'OK')
 
+    def test_data_becoming_stale_during_fetch_is_rejected(self):
+        from unittest.mock import Mock
+        clock = Mock(side_effect=[NOW, NOW + timedelta(minutes=10)])
+        start, end = NOW.replace(hour=0, minute=0, second=0), NOW.replace(hour=23, minute=0, second=0)
+        calendar = SessionCalendar('XAUUSD', start, end, ((start, end),))
+        app = create_app(mt5=ReadOnlyMT5(rates([100] * 100)), clock=clock,
+                         session_calendars={'XAUUSD': calendar})
+        self.assert_safe(app.test_client().get('/analyze?symbol=XAUUSD&timeframe=M1'), 503)
+
+    def test_session_closing_during_fetch_is_rejected(self):
+        from unittest.mock import Mock
+        start, end = NOW.replace(hour=0, minute=0, second=0), NOW.replace(minute=31, second=0)
+        calendar = SessionCalendar('XAUUSD', start, end + timedelta(hours=1), ((start, end),))
+        app = create_app(mt5=ReadOnlyMT5(rates([100] * 100)),
+                         clock=Mock(side_effect=[NOW, end]),
+                         session_calendars={'XAUUSD': calendar})
+        self.assert_safe(app.test_client().get('/analyze?symbol=XAUUSD&timeframe=M1'), 503)
+
     def test_query_parameters_cannot_enable_execution(self):
         response = self.client(ReadOnlyMT5(rates([100] * 100))).get(
             '/analyze?symbol=XAUUSD&timeframe=M1&execution_allowed=true&signal=BUY')

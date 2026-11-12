@@ -58,7 +58,7 @@ def create_app(*, mt5=None, clock=None, session_calendars=None):
                            "Verified broker session coverage is required; analysis withheld.")
         try:
             rows = get_closed_candles(symbol=symbol, timeframe=timeframe,
-                                      count=100, mt5=mt5, now=utc_now(),
+                                      count=100, mt5=mt5, clock=utc_now,
                                       session_calendar=calendar)
             result = analyze_candles(symbol, timeframe, rows)
         except Exception:

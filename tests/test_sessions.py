@@ -32,6 +32,32 @@ class SessionTests(unittest.TestCase):
                                   timeframe=timeframe, session_calendar=sessions,
                                   max_delay_bars=delay)
 
+    def test_direct_history_validation_rejects_unordered_or_naive_data(self):
+        for opens in ([at(2), at(1), at(3)], [at(1), at(1), at(2)],
+                      [at(0).replace(tzinfo=None)], None):
+            with self.subTest(opens=opens), self.assertRaises(SessionValidationError):
+                calendar().validate_history(opens, at(5), MINUTE, 2)
+
+    def test_direct_history_validation_rejects_empty_or_future_data(self):
+        for opens in ([], [at(1), at(2), at(3)]):
+            with self.subTest(opens=opens), self.assertRaises(SessionValidationError):
+                calendar().validate_history(opens, at(3), MINUTE, 2)
+
+    def test_direct_history_validation_checks_request_and_tolerance(self):
+        for now, delay in ((at(15), 2), (at(4), -1), (at(4), True)):
+            with self.subTest(now=now, delay=delay), self.assertRaises(SessionValidationError):
+                calendar().validate_history([at(0), at(1), at(2)], now, MINUTE, delay)
+
+    def test_invalid_duration_uses_session_validation_error(self):
+        for duration in (timedelta(0), -MINUTE, timedelta(microseconds=1), None):
+            with self.subTest(duration=duration), self.assertRaises(SessionValidationError):
+                calendar().validate_request('XAUUSD', at(5), duration)
+
+    def test_malformed_window_container_uses_session_validation_error(self):
+        for windows in (None, [None], [(at(0),)], [123]):
+            with self.subTest(windows=windows), self.assertRaises(SessionValidationError):
+                SessionCalendar('XAUUSD', at(-60), at(120), windows)
+
     def test_continuous_history_without_calendar(self):
         self.assertEqual(len(self.fetch([at(0), at(1), at(2)], at(3))), 3)
 
