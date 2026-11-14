@@ -1,0 +1,1388 @@
+{
+  "pilot_report_version": 1,
+  "classification": "SYNTHETIC_ONLY",
+  "plan_sha256": "2e4c22aaba8cf82c327c78de6685cd2f71073692e2b770384cf78b699f21573f",
+  "dataset_id": "af0dbc5512712de68435f1f0796809971105694d6c83429de05ccb811d3da38b",
+  "configuration_hashes": {
+    "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+    "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+    "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+    "review": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd"
+  },
+  "metrics_policy": {
+    "version": 1,
+    "regime": "EXACT_OR_UNCERTAIN_PARTIAL_OTHERWISE_DISAGREEMENT",
+    "bias": "EXACT_OR_UNCERTAIN_PARTIAL_OTHERWISE_DISAGREEMENT",
+    "structure": "TIMEFRAME_EVENT_SET_JACCARD_COUNTS",
+    "evidence": "BENCHMARK_V1_CODED_OVERLAP",
+    "reasoning": "PRIVATE_PROSE_RETAINED_NO_AUTOMATED_SEMANTIC_GRADE",
+    "uncertainty": "FLAGS_SEPARATE_FROM_CONFIDENCE_NO_IAT_CONFIDENCE_MAPPING",
+    "decision": "RESEARCH_OPINION_ONLY_NEVER_AN_EXECUTION_SIGNAL"
+  },
+  "synthetic_workflow_metrics": {
+    "iat_to_reviewer": {
+      "regime": {
+        "denominator": 4,
+        "counts": {
+          "EXACT": 2,
+          "PARTIAL_UNCERTAIN": 1,
+          "DISAGREEMENT": 1
+        }
+      },
+      "bias": {
+        "denominator": 4,
+        "counts": {
+          "EXACT": 1,
+          "PARTIAL_UNCERTAIN": 2,
+          "DISAGREEMENT": 1
+        }
+      }
+    },
+    "reviewer_to_reviewer": {
+      "regime": {
+        "denominator": 2,
+        "counts": {
+          "EXACT": 0,
+          "PARTIAL_UNCERTAIN": 1,
+          "DISAGREEMENT": 1
+        }
+      },
+      "bias": {
+        "denominator": 2,
+        "counts": {
+          "EXACT": 0,
+          "PARTIAL_UNCERTAIN": 2,
+          "DISAGREEMENT": 0
+        }
+      }
+    },
+    "structure": {
+      "iat_to_reviewer": {
+        "denominator": 4,
+        "nonempty_union_denominator": 4,
+        "counts": {
+          "EXACT": 0,
+          "PARTIAL": 2,
+          "DISAGREEMENT": 2,
+          "UNMEASURED": 0
+        },
+        "intersection_count": 2,
+        "union_denominator": 18
+      },
+      "reviewer_to_reviewer": {
+        "denominator": 2,
+        "nonempty_union_denominator": 2,
+        "counts": {
+          "EXACT": 0,
+          "PARTIAL": 0,
+          "DISAGREEMENT": 2,
+          "UNMEASURED": 0
+        },
+        "intersection_count": 0,
+        "union_denominator": 4
+      }
+    },
+    "evidence_and_uncertainty": {
+      "annotation_denominator": 4,
+      "regime_agreement_count": 2,
+      "leader_set_agreement_count": 0,
+      "uncertainty_flag_set_agreement_count": 0,
+      "unknown_regime_count": 1,
+      "known_regime_pair_denominator": 3,
+      "known_regime_agreement_count": 2,
+      "regime_confusion_counts": {
+        "TRANSITION / TRANSITION": 1,
+        "TREND_UP / TRANSITION": 1,
+        "TREND_UP / TREND_UP": 1,
+        "UNKNOWN / TREND_UP": 1
+      },
+      "uncertainty_flag_denominators": {
+        "DATA_LIMITATION": {
+          "denominator": 4,
+          "presence_agreement_count": 4
+        },
+        "STRUCTURE_CONFLICT": {
+          "denominator": 4,
+          "presence_agreement_count": 2
+        },
+        "SCENARIO_TIE": {
+          "denominator": 4,
+          "presence_agreement_count": 4
+        },
+        "HIGH_VOLATILITY": {
+          "denominator": 4,
+          "presence_agreement_count": 2
+        },
+        "NO_SUITABLE_STRATEGY": {
+          "denominator": 4,
+          "presence_agreement_count": 0
+        },
+        "EXPERIMENTAL_METHOD": {
+          "denominator": 4,
+          "presence_agreement_count": 0
+        }
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "comparison_denominator": 4,
+          "nonempty_union_denominator": 4,
+          "shared_token_count": 0,
+          "union_token_denominator": 14,
+          "empty_union_count": 0
+        },
+        "conflicting_evidence": {
+          "comparison_denominator": 4,
+          "nonempty_union_denominator": 4,
+          "shared_token_count": 2,
+          "union_token_denominator": 4,
+          "empty_union_count": 0
+        }
+      }
+    },
+    "pairwise_evidence": {
+      "supporting_evidence": {
+        "denominator": 2,
+        "nonempty_union_denominator": 2,
+        "counts": {
+          "EXACT": 2,
+          "PARTIAL": 0,
+          "DISAGREEMENT": 0,
+          "UNMEASURED": 0
+        },
+        "intersection_count": 2,
+        "union_denominator": 2
+      },
+      "conflicting_evidence": {
+        "denominator": 2,
+        "nonempty_union_denominator": 2,
+        "counts": {
+          "EXACT": 2,
+          "PARTIAL": 0,
+          "DISAGREEMENT": 0,
+          "UNMEASURED": 0
+        },
+        "intersection_count": 2,
+        "union_denominator": 2
+      }
+    },
+    "annotation_denominator": 4,
+    "packet_denominator": 2,
+    "reviewer_uncertain_regime_count": 1,
+    "reviewer_trade_opinion_count": 2,
+    "reviewer_wait_count": 2,
+    "reviewer_uncertain_decision_count": 0,
+    "confidence_counts": {
+      "LOW": 2,
+      "MEDIUM": 0,
+      "HIGH": 2,
+      "UNCERTAIN": 0
+    },
+    "regime_goal_coverage": {
+      "TREND_UP": {
+        "goal": 1,
+        "observed_iat_count": 1,
+        "observed_reviewer_counts": {
+          "R001": 2,
+          "R002": 0
+        }
+      },
+      "TREND_DOWN": {
+        "goal": 0,
+        "observed_iat_count": 0,
+        "observed_reviewer_counts": {
+          "R001": 0,
+          "R002": 0
+        }
+      },
+      "RANGE": {
+        "goal": 0,
+        "observed_iat_count": 0,
+        "observed_reviewer_counts": {
+          "R001": 0,
+          "R002": 0
+        }
+      },
+      "TRANSITION": {
+        "goal": 1,
+        "observed_iat_count": 1,
+        "observed_reviewer_counts": {
+          "R001": 0,
+          "R002": 1
+        }
+      },
+      "UNCERTAIN": {
+        "goal": 0,
+        "observed_iat_count": 0,
+        "observed_reviewer_counts": {
+          "R001": 0,
+          "R002": 1
+        }
+      }
+    }
+  },
+  "independent_analyst_agreement": "UNMEASURED",
+  "real_review_metrics": null,
+  "iat_to_reviewer": [
+    {
+      "packet_id": "8fcf1e2d4e0a872f388ab475696adf8f0145fb0b7964ae19eb0082199fded46d",
+      "reviewer": "R001",
+      "regime_relation": "EXACT",
+      "reviewer_regime": "TREND_UP",
+      "iat_regime": "TREND_UP",
+      "bias_relation": "EXACT",
+      "reviewer_bias": "BULLISH",
+      "iat_bias": "BULLISH",
+      "structure": {
+        "relation": "PARTIAL",
+        "intersection_count": 1,
+        "union_denominator": 4,
+        "reviewer_only": [],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 3,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_only": [],
+          "intersection_count": 0,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "NO_SUITABLE_STRATEGY"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "HIGH",
+      "research_decision": "TRADE",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "8fcf1e2d4e0a872f388ab475696adf8f0145fb0b7964ae19eb0082199fded46d",
+      "reviewer": "R002",
+      "regime_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_regime": "UNCERTAIN",
+      "iat_regime": "TREND_UP",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_bias": "UNCERTAIN",
+      "iat_bias": "BULLISH",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 5,
+        "reviewer_only": [
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M1",
+            "HH_HL"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 3,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_only": [],
+          "intersection_count": 0,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "NO_SUITABLE_STRATEGY"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "LOW",
+      "research_decision": "WAIT",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "reviewer": "R001",
+      "regime_relation": "DISAGREEMENT",
+      "reviewer_regime": "TREND_UP",
+      "iat_regime": "TRANSITION",
+      "bias_relation": "DISAGREEMENT",
+      "reviewer_bias": "BULLISH",
+      "iat_bias": "BEARISH",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 5,
+        "reviewer_only": [
+          [
+            "M1",
+            "HH_HL"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "HIGH",
+      "research_decision": "TRADE",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "reviewer": "R002",
+      "regime_relation": "EXACT",
+      "reviewer_regime": "TRANSITION",
+      "iat_regime": "TRANSITION",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_bias": "UNCERTAIN",
+      "iat_bias": "BEARISH",
+      "structure": {
+        "relation": "PARTIAL",
+        "intersection_count": 1,
+        "union_denominator": 4,
+        "reviewer_only": [],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "LOW",
+      "research_decision": "WAIT",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    }
+  ],
+  "reviewer_to_reviewer": [
+    {
+      "packet_id": "8fcf1e2d4e0a872f388ab475696adf8f0145fb0b7964ae19eb0082199fded46d",
+      "reviewers": [
+        "R001",
+        "R002"
+      ],
+      "regime_relation": "PARTIAL_UNCERTAIN",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 2,
+        "reviewer_only": [
+          [
+            "M1",
+            "HH_HL"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ]
+        ]
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "relation": "EXACT",
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "reviewer_only": [],
+          "reference_only": []
+        },
+        "conflicting_evidence": {
+          "relation": "EXACT",
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "reviewer_only": [],
+          "reference_only": []
+        }
+      },
+      "confidence_agrees": false,
+      "decision_agrees": false
+    },
+    {
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "reviewers": [
+        "R001",
+        "R002"
+      ],
+      "regime_relation": "DISAGREEMENT",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 2,
+        "reviewer_only": [
+          [
+            "M1",
+            "HH_HL"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ]
+        ]
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "relation": "EXACT",
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "reviewer_only": [],
+          "reference_only": []
+        },
+        "conflicting_evidence": {
+          "relation": "EXACT",
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "reviewer_only": [],
+          "reference_only": []
+        }
+      },
+      "confidence_agrees": false,
+      "decision_agrees": false
+    }
+  ],
+  "representative_disagreements": [
+    {
+      "packet_id": "8fcf1e2d4e0a872f388ab475696adf8f0145fb0b7964ae19eb0082199fded46d",
+      "reviewer": "R001",
+      "regime_relation": "EXACT",
+      "reviewer_regime": "TREND_UP",
+      "iat_regime": "TREND_UP",
+      "bias_relation": "EXACT",
+      "reviewer_bias": "BULLISH",
+      "iat_bias": "BULLISH",
+      "structure": {
+        "relation": "PARTIAL",
+        "intersection_count": 1,
+        "union_denominator": 4,
+        "reviewer_only": [],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 3,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_only": [],
+          "intersection_count": 0,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "NO_SUITABLE_STRATEGY"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "HIGH",
+      "research_decision": "TRADE",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "8fcf1e2d4e0a872f388ab475696adf8f0145fb0b7964ae19eb0082199fded46d",
+      "reviewer": "R002",
+      "regime_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_regime": "UNCERTAIN",
+      "iat_regime": "TREND_UP",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_bias": "UNCERTAIN",
+      "iat_bias": "BULLISH",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 5,
+        "reviewer_only": [
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M1",
+            "HH_HL"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BULLISH"
+            ],
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 3,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_only": [],
+          "intersection_count": 0,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BULLISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "NO_SUITABLE_STRATEGY"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "LOW",
+      "research_decision": "WAIT",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "reviewer": "R001",
+      "regime_relation": "DISAGREEMENT",
+      "reviewer_regime": "TREND_UP",
+      "iat_regime": "TRANSITION",
+      "bias_relation": "DISAGREEMENT",
+      "reviewer_bias": "BULLISH",
+      "iat_bias": "BEARISH",
+      "structure": {
+        "relation": "DISAGREEMENT",
+        "intersection_count": 0,
+        "union_denominator": 5,
+        "reviewer_only": [
+          [
+            "M1",
+            "HH_HL"
+          ]
+        ],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M1",
+            "CHOCH_DOWN"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "HIGH",
+      "research_decision": "TRADE",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    },
+    {
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "reviewer": "R002",
+      "regime_relation": "EXACT",
+      "reviewer_regime": "TRANSITION",
+      "iat_regime": "TRANSITION",
+      "bias_relation": "PARTIAL_UNCERTAIN",
+      "reviewer_bias": "UNCERTAIN",
+      "iat_bias": "BEARISH",
+      "structure": {
+        "relation": "PARTIAL",
+        "intersection_count": 1,
+        "union_denominator": 4,
+        "reviewer_only": [],
+        "reference_only": [
+          [
+            "M1",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "BOS_UP"
+          ],
+          [
+            "M5",
+            "HH_HL"
+          ]
+        ]
+      },
+      "structure_scope": "ALL_CONFIRMED_PHASE7_EVENTS_AND_CONTEXT_SWEEPS_AVAILABLE_AT_CUTOFF",
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "confidence": "LOW",
+      "research_decision": "WAIT",
+      "reasoning_comparison": "NOT_AUTOMATICALLY_GRADED_PRIVATE_ANNOTATIONS_RETAINED"
+    }
+  ],
+  "reasoning_review": "PRIVATE_SIDE_BY_SIDE_ANNOTATIONS_NO_SEMANTIC_ACCURACY_SCORE",
+  "structure_limitations": [
+    "EVENT_CATEGORY_MATCH_NOT_EXACT_LEVEL_OR_EVENT_ID_MATCH",
+    "LIQUIDITY_IS_OHLC_PROXY_NOT_OBSERVED_ORDERS"
+  ],
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED",
+  "sha256": "465934fbe4296b95ffd989f5c26d087bb7fc8331b8856fadc114493bbd34facc"
+}

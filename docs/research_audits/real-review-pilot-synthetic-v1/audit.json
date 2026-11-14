@@ -1,0 +1,45 @@
+{
+  "audit_version": 1,
+  "classification": "SYNTHETIC_ONLY",
+  "real_independent_human_reviews_performed": false,
+  "plan_sha256": "2e4c22aaba8cf82c327c78de6685cd2f71073692e2b770384cf78b699f21573f",
+  "dataset_id": "af0dbc5512712de68435f1f0796809971105694d6c83429de05ccb811d3da38b",
+  "configuration_hashes": {
+    "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+    "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+    "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+    "review": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd"
+  },
+  "full_full_bundle_identical": true,
+  "full_full_export_identical": true,
+  "prefix_packets_identical": true,
+  "prefix_confirmed_events_identical": true,
+  "packet_counts": {
+    "2026-11-12T08:21:00+00:00": {
+      "M1": 21,
+      "M5": 21
+    },
+    "2026-11-12T08:23:00+00:00": {
+      "M1": 23,
+      "M5": 21
+    }
+  },
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "real_review_metrics": null,
+  "anonymous_export_sha256": "465934fbe4296b95ffd989f5c26d087bb7fc8331b8856fadc114493bbd34facc",
+  "real_data_qualification": {
+    "status": "DATA_NOT_QUALIFIED",
+    "dataset_id": "5b07c9f88e8b532cef35a85061c752d8d918fcd428703e7b626c1b0dfa222bf9",
+    "reason_codes": [
+      "CANDLE_FINALITY_UNCERTAIN",
+      "EVIDENCE_CALENDAR_PENDING",
+      "EVIDENCE_FINALITY_PENDING",
+      "HUMAN_QUALIFICATION_REVIEW_REQUIRED",
+      "INDEPENDENT_REVIEW_PENDING",
+      "SESSION_CALENDAR_REQUIRED"
+    ],
+    "historical_validation": "PENDING",
+    "historical_comparisons": "NOT_RUN"
+  }
+}

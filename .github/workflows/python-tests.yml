@@ -23,6 +23,7 @@ on:
       - feat/iat2-market-reasoning-journal-v1
       - feat/iat2-journal-dataset-evaluation
       - feat/iat2-blinded-chart-benchmark
+      - feat/iat2-real-data-review-pilot-v1
   pull_request:
     branches:
       - main
@@ -44,6 +45,7 @@ on:
       - feat/iat2-adaptive-intelligence-v1
       - feat/iat2-market-reasoning-journal-v1
       - feat/iat2-journal-dataset-evaluation
+      - feat/iat2-blinded-chart-benchmark
   workflow_dispatch:
 
 permissions:
@@ -204,3 +206,16 @@ jobs:
               result = subprocess.run([sys.executable, 'diagnostics/chart_benchmark.py', 'prepare', '--manifest', str(root / 'missing.json'), '--at', '2026-11-12T08:23:00Z', '--reviewer', 'anonymous-a', '--output-directory', str(output)], capture_output=True, text=True)
               assert result.returncode == 3, 'EXPECTED_PREFLIGHT_REJECTION'
               assert not output.exists(), 'NO_PACKET_WITHOUT_ELIGIBLE_DATA'
+
+      - name: Real review pilot refuses unavailable data without synthetic fallback
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat real review pilot ') as folder:
+              report = pathlib.Path(folder) / 'qualification.json'
+              result = subprocess.run([sys.executable, 'diagnostics/review_pilot.py', 'qualify', '--report-path', str(report)], capture_output=True, text=True)
+              assert result.returncode == 3, 'EXPECTED_DATA_NOT_QUALIFIED'
+              data = json.loads(report.read_text(encoding='utf-8'))
+              assert data['status'] == 'DATA_NOT_QUALIFIED'
+              assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
+              assert data['safety']['execution_allowed'] is False and data['exness'] == 'BLOCKED'
