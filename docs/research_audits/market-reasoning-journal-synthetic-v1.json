@@ -1,0 +1,2419 @@
+{
+  "audit_version": 1,
+  "base_commit": "f19933e28847246416acd1b6a7b363ea3c8fea46",
+  "fixture_recipe": "tests/test_reasoning_journal.py:journal_fixture",
+  "settings": "INHERITED_SMALL_WINDOW_SYNTHETIC_CONFIGS_NOT_DEFAULT_REPLACEMENTS",
+  "review_policy": {
+    "version": 1,
+    "horizons_minutes": [
+      5,
+      15
+    ],
+    "criteria_version": 1
+  },
+  "review_policy_sha256": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd",
+  "cases": [
+    {
+      "case": "persistent_trend",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "64e11826d3c9c0051e7c21647c7aeb1b717903f33545b4babfb8589fae511187",
+        "M5": "ef9f929a96d9b1d0a2195039e61949d17e37b610b921e64182143a5451bebaf9"
+      },
+      "journal_sha256": "176b2f4dcc7e615efe68b7be2b473d52d2968eafb0463e4bd841251249c631fe",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 29,
+        "transitions_denominator": 28,
+        "material_assessment_changes": 4,
+        "change_counts": {
+          "leading_scenarios": 1,
+          "regime": 1,
+          "scenario_ranking": 1,
+          "status": 2,
+          "strategy_fit": 2,
+          "volatility": 3
+        },
+        "original_status_counts": {
+          "READY": 21,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 0,
+        "outcome_record_versions": 503,
+        "latest_assessment_horizon_pairs": 58,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 24,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 16,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 13
+            },
+            "unique_leader_denominator": 21,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 16,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 5
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 16,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 16,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 16,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 5
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 16,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 16,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 14,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 23
+            },
+            "unique_leader_denominator": 21,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 15
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 6,
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 15
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:9c6915eebbbba142e177564efc624b544e6c8be4c903520a3d2beed7f43b6cb4",
+        "original_assessment_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+        "original_regime": "TREND_UP",
+        "original_scenario_leaders": [
+          "BULLISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:26:00+00:00",
+        "horizon_complete": true,
+        "review_status": "SUPPORTED",
+        "reason_codes": [
+          "FIRST_OBSERVED_UPPER_BREACH"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "SUPPORTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:65e217df5056ada1b65ee22aaa62585d3385bc4859397439c3f375f1897dbf6d",
+          "closed_at_utc": "2026-11-12T08:22:00+00:00",
+          "kind": "UPPER"
+        },
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:25:00+00:00",
+          "changes": {
+            "volatility": {
+              "before": {
+                "overall": "NORMAL",
+                "frames": {
+                  "M1": "NORMAL_VOLATILITY",
+                  "M5": "NORMAL_VOLATILITY"
+                }
+              },
+              "after": {
+                "overall": "HIGH",
+                "frames": {
+                  "M1": "NORMAL_VOLATILITY",
+                  "M5": "HIGH_VOLATILITY"
+                }
+              }
+            }
+          },
+          "new_evidence_ids": [
+            "M1:MOMENTUM:d28598b0b303d74c1871db2a92722f2b067e60aa70c503a4dedb8a1be6e45b9e",
+            "M1:VOLATILITY:9d25bec54d000987b19e9f0da2e11b6007d014941ecbf41b6e34402a95535a50",
+            "M5:CANDLE:ae52d6823df4b61842dfbd0fb7887f95825f818701d358bd0a7090582aecbb58",
+            "M5:CANDLE:c593d751f50287a7ff8d19aa9e9f3cc23669c2c526d063445e10be902ff64941",
+            "M5:MOMENTUM:3b5e17a0cdd579836fcc3d28341dde61e828f1007973551bc627a45d71e15050",
+            "M5:VOLATILITY:2e4f571748e27b0ca2e48fc5f5f1a55da64a49e40cb8526bfff6f3b0313076eb"
+          ],
+          "reason_codes": [
+            "CONFIRMED_UP_STRUCTURE_BOTH_FRAMES",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "VOLATILITY_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "176b2f4dcc7e615efe68b7be2b473d52d2968eafb0463e4bd841251249c631fe",
+          "176b2f4dcc7e615efe68b7be2b473d52d2968eafb0463e4bd841251249c631fe"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "opposing_choch",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "bee1fcbc5c7fbca8fd68cc706a9c3341bdced5eaaf319e80e1e800b1dba87980",
+        "M5": "ef9f929a96d9b1d0a2195039e61949d17e37b610b921e64182143a5451bebaf9"
+      },
+      "journal_sha256": "0c5288747bf9ce80573ffe065f9c062730949042a08defad63949cba5b06e7e6",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 29,
+        "transitions_denominator": 28,
+        "material_assessment_changes": 8,
+        "change_counts": {
+          "leading_scenarios": 3,
+          "regime": 2,
+          "scenario_ranking": 3,
+          "status": 2,
+          "strategy_fit": 4,
+          "volatility": 5
+        },
+        "original_status_counts": {
+          "READY": 21,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 6,
+        "outcome_record_versions": 503,
+        "latest_assessment_horizon_pairs": 58,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 24,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 5,
+              "UNRESOLVED": 14
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 5,
+              "UNRESOLVED": 0
+            },
+            "tied_leader_denominator": 6,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 6
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_LOWER_BREACH": 6,
+              "FIRST_OBSERVED_UPPER_BREACH": 9,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "ORIGINAL_SCENARIO_TIE": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 14
+                },
+                "leader_membership_denominator": 20,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 5,
+                  "UNRESOLVED": 6
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 9,
+                  "UNRESOLVED": 14
+                },
+                "leader_membership_denominator": 7,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 1,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 6
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 1,
+                  "CONTRADICTED": 15,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 14,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 23
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 9
+            },
+            "tied_leader_denominator": 6,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 6
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 6,
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "ORIGINAL_SCENARIO_TIE": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 20,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 14
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 7,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 7
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:9c6915eebbbba142e177564efc624b544e6c8be4c903520a3d2beed7f43b6cb4",
+        "original_assessment_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+        "original_regime": "TREND_UP",
+        "original_scenario_leaders": [
+          "BULLISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:26:00+00:00",
+        "horizon_complete": true,
+        "review_status": "CONTRADICTED",
+        "reason_codes": [
+          "FIRST_OBSERVED_LOWER_BREACH"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_LOWER_BREACH"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "SUPPORTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_LOWER_BREACH"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_LOWER_BREACH"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:4051f6e6fd041fd37d656b1a8da4948062597d54777ee9541e6346cea5f0e8e3",
+          "closed_at_utc": "2026-11-12T08:23:00+00:00",
+          "kind": "LOWER"
+        },
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:23:00+00:00",
+          "changes": {
+            "regime": {
+              "before": "TREND_UP",
+              "after": "TRANSITION"
+            },
+            "scenario_ranking": {
+              "before": [
+                [
+                  "BULLISH"
+                ],
+                [
+                  "BEARISH",
+                  "NEUTRAL"
+                ]
+              ],
+              "after": [
+                [
+                  "BEARISH"
+                ],
+                [
+                  "BULLISH"
+                ],
+                [
+                  "NEUTRAL"
+                ]
+              ]
+            },
+            "leading_scenarios": {
+              "before": [
+                "BULLISH"
+              ],
+              "after": [
+                "BEARISH"
+              ]
+            },
+            "strategy_fit": {
+              "before": [
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "INCOMPATIBLE",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BULLISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "CONDITIONAL",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BULLISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                }
+              ],
+              "after": [
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "CONDITIONAL",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BULLISH",
+                  "rule_status": "INVALIDATED",
+                  "compatibility": "CONDITIONAL",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BULLISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                }
+              ]
+            }
+          },
+          "new_evidence_ids": [
+            "M1:CANDLE:507bb0c162d278ad6504c99847c53973cfbab42a1c06401002c1fc205ee9a09a",
+            "M1:LIQUIDITY:0e3187d345425e68ec0cb6a2ab1edb1a45a332c7500cb9b155c030f1e8b9575a",
+            "M1:LIQUIDITY:2eb1e314d0db9fc9d57d66f4201e1c5c08012c6262b31b0baa94e100470b4a62",
+            "M1:LIQUIDITY:60f6532356792fbd65471848cbc2213d6507d9eb5a49c7f73bccacf8241598db",
+            "M1:LIQUIDITY:6361718e65b64badbe0d772b2afa836e9f841b10fb56443f6686497991be7ef7",
+            "M1:LIQUIDITY:842b03f0030474a6c6c0d89e8831a5266608ea6ca553896e15e0784e5fd8fe4f",
+            "M1:MOMENTUM:afab36b25bd100ad4bdc8ce41ac64e6dd444b689949bf0137cbfd27fe1e0606b",
+            "M1:STRUCTURE:977d0133e7c6d2b0863603af79b96016d3f2c541401b9ce3d9b0b3f420187a6a",
+            "M1:TRANSITION:12017f5103deabb77af43abb5b1b87b0bee23ae9eafd7d70d33db4b58400bea3",
+            "M1:TRANSITION:332e21b91392c081e2732be988384ccf66fabf6ec694187b87225493719884e5",
+            "M1:TRANSITION:415b6f6ef1950871a02f4a2ab91962c093a94ac4e346d33f60090bf4cb70aff0",
+            "M1:TRANSITION:7255033d6c88088afa2b463a77e0d5fcb0dbe41f22ba278e02fd9a9dad205540",
+            "M1:TRANSITION:a0ca886c702ddc86c60f3abf31d8ec3aa5f578fb306aed9a5fc5e8802d477cfa",
+            "M1:VOLATILITY:c49012ee97b575f97d3ac7feb435c6a7cc09d752fd2fef4340372dd7f48f15f1"
+          ],
+          "reason_codes": [
+            "BIDIRECTIONAL_EVIDENCE_PRESENT",
+            "FRESH_M1_STRUCTURE_CHANGE_AGAINST_M5",
+            "FRESH_OPPOSING_M1_CHOCH",
+            "LEADING_SCENARIOS_CHANGED",
+            "M1_M5_STRUCTURE_DISAGREEMENT",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "REGIME_CHANGED",
+            "SCENARIO_RANKING_CHANGED",
+            "STRATEGY_FIT_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "0c5288747bf9ce80573ffe065f9c062730949042a08defad63949cba5b06e7e6",
+          "0c5288747bf9ce80573ffe065f9c062730949042a08defad63949cba5b06e7e6"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "98122dfba9f1ba03d893829a020c324f5c809573e38dd2bf5fa95f4fafdc39a3",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "tie",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "64e11826d3c9c0051e7c21647c7aeb1b717903f33545b4babfb8589fae511187",
+        "M5": "961631e9aee03aa84b2c61037ff4d4016e23fe6b11ca520667a4742c1e8d3024"
+      },
+      "journal_sha256": "01dd6e28a656b20735f79ca2390a274f99be3738c1c1e1644f0e4a850a943290",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 29,
+        "transitions_denominator": 28,
+        "material_assessment_changes": 5,
+        "change_counts": {
+          "leading_scenarios": 2,
+          "regime": 1,
+          "scenario_ranking": 3,
+          "status": 2,
+          "strategy_fit": 2,
+          "volatility": 3
+        },
+        "original_status_counts": {
+          "READY": 21,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 13,
+        "outcome_record_versions": 503,
+        "latest_assessment_horizon_pairs": 58,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 24,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 3,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 26
+            },
+            "unique_leader_denominator": 8,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 3,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 5
+            },
+            "tied_leader_denominator": 13,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 13
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 3,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "ORIGINAL_SCENARIO_TIE": 13,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 16,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 16,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 5
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 16,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 13,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 13,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 16,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 14,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 29
+            },
+            "unique_leader_denominator": 8,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 8
+            },
+            "tied_leader_denominator": 13,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 13
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "ORIGINAL_SCENARIO_TIE": 13,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 15
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 13,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 7
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:8e8aad0f76d2427c35117a95197ff3d1093c8617fd6d1a49acbb364e89927862",
+        "original_assessment_sha256": "25871904d54e0569d75727a15f9efe122ec6b233221f6aba1dd57cf560c9525a",
+        "original_regime": "TRANSITION",
+        "original_scenario_leaders": [
+          "BULLISH",
+          "BEARISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:26:00+00:00",
+        "horizon_complete": true,
+        "review_status": "UNRESOLVED",
+        "reason_codes": [
+          "ORIGINAL_SCENARIO_TIE"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "SUPPORTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": true,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "CONTRADICTED",
+            "reason_codes": [
+              "FIRST_OBSERVED_UPPER_BREACH"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:65e217df5056ada1b65ee22aaa62585d3385bc4859397439c3f375f1897dbf6d",
+          "closed_at_utc": "2026-11-12T08:22:00+00:00",
+          "kind": "UPPER"
+        },
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:22:00+00:00",
+          "changes": {
+            "scenario_ranking": {
+              "before": [
+                [
+                  "BEARISH",
+                  "BULLISH"
+                ],
+                [
+                  "NEUTRAL"
+                ]
+              ],
+              "after": [
+                [
+                  "BULLISH"
+                ],
+                [
+                  "BEARISH"
+                ],
+                [
+                  "NEUTRAL"
+                ]
+              ]
+            },
+            "leading_scenarios": {
+              "before": [
+                "BEARISH",
+                "BULLISH"
+              ],
+              "after": [
+                "BULLISH"
+              ]
+            }
+          },
+          "new_evidence_ids": [
+            "M1:LIQUIDITY:238c455d8b2fcd7491db9bf7c0f0b8fed5127c7a9b6050e2c89552ae042c90fa",
+            "M1:MOMENTUM:861a081d1a59d53870fccd016b1c84605164be0420a61d62e6bd2108c5ff2bf1",
+            "M1:VOLATILITY:d26e098acab5ac9e943527176cf7f9c72ae7bcea82928fdbf9f02c2848180dc0"
+          ],
+          "reason_codes": [
+            "BIDIRECTIONAL_EVIDENCE_PRESENT",
+            "CONFIRMED_STRUCTURE_DISAGREEMENT_OR_TRANSITION",
+            "LEADING_SCENARIOS_CHANGED",
+            "M1_M5_STRUCTURE_DISAGREEMENT",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "SCENARIO_RANKING_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "01dd6e28a656b20735f79ca2390a274f99be3738c1c1e1644f0e4a850a943290",
+          "01dd6e28a656b20735f79ca2390a274f99be3738c1c1e1644f0e4a850a943290"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "03a2bcca68bcba467d1fd84bd57f7bdef7896647ba7ea5e32b2ca993bd538d14",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "blocked_interval",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "49e69319e9b3d7cb4bfda20c400d00e379fae0cce973ea2b76c38d1758567c85",
+        "M5": "ef9f929a96d9b1d0a2195039e61949d17e37b610b921e64182143a5451bebaf9"
+      },
+      "journal_sha256": "c1ffc663c4847e99a6ed09e53f4f6016c6204674cb94d4a287c4ccdea52c8d92",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 28,
+        "transitions_denominator": 27,
+        "material_assessment_changes": 4,
+        "change_counts": {
+          "leading_scenarios": 2,
+          "regime": 2,
+          "scenario_ranking": 2,
+          "status": 3,
+          "strategy_fit": 3,
+          "volatility": 3
+        },
+        "original_status_counts": {
+          "READY": 15,
+          "UNKNOWN": 6,
+          "BLOCKED": 7
+        },
+        "tied_assessments": 0,
+        "outcome_record_versions": 473,
+        "latest_assessment_horizon_pairs": 56,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 28,
+            "complete_horizons": 23,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 18
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 5
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 13,
+            "original_status_denominators": {
+              "READY": 15,
+              "UNKNOWN": 6,
+              "BLOCKED": 7
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 10,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 13,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 7,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 13,
+              "REVIEW_INTERVAL_BLOCKED": 9,
+              "REVIEW_M1_COVERAGE_INCOMPLETE": 9,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 10,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 18
+                },
+                "leader_membership_denominator": 15,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 10,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 5
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 10,
+                  "UNRESOLVED": 18
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 10,
+                  "UNRESOLVED": 18
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 28,
+            "complete_horizons": 14,
+            "incomplete_horizons": 14,
+            "assessment_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 28
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 15
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 13,
+            "original_status_denominators": {
+              "READY": 15,
+              "UNKNOWN": 6,
+              "BLOCKED": 7
+            },
+            "reason_counts": {
+              "HORIZON_INCOMPLETE": 14,
+              "NO_ORIGINAL_LEADING_SCENARIO": 13,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 7,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 13,
+              "REVIEW_INTERVAL_BLOCKED": 19,
+              "REVIEW_M1_COVERAGE_INCOMPLETE": 19,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 28
+                },
+                "leader_membership_denominator": 15,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 15
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 28
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 28,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 28
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:9c6915eebbbba142e177564efc624b544e6c8be4c903520a3d2beed7f43b6cb4",
+        "original_assessment_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+        "original_regime": "TREND_UP",
+        "original_scenario_leaders": [
+          "BULLISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:26:00+00:00",
+        "horizon_complete": true,
+        "review_status": "UNRESOLVED",
+        "reason_codes": [
+          "REVIEW_INTERVAL_BLOCKED",
+          "REVIEW_M1_COVERAGE_INCOMPLETE"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "REVIEW_INTERVAL_BLOCKED",
+              "REVIEW_M1_COVERAGE_INCOMPLETE"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "REVIEW_INTERVAL_BLOCKED",
+              "REVIEW_M1_COVERAGE_INCOMPLETE"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "REVIEW_INTERVAL_BLOCKED",
+              "REVIEW_M1_COVERAGE_INCOMPLETE"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:65e217df5056ada1b65ee22aaa62585d3385bc4859397439c3f375f1897dbf6d",
+          "closed_at_utc": "2026-11-12T08:22:00+00:00",
+          "kind": "UPPER"
+        },
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:25:00+00:00",
+          "changes": {
+            "status": {
+              "before": "READY",
+              "after": "BLOCKED"
+            },
+            "regime": {
+              "before": "TREND_UP",
+              "after": "UNKNOWN"
+            },
+            "scenario_ranking": {
+              "before": [
+                [
+                  "BULLISH"
+                ],
+                [
+                  "BEARISH",
+                  "NEUTRAL"
+                ]
+              ],
+              "after": []
+            },
+            "leading_scenarios": {
+              "before": [
+                "BULLISH"
+              ],
+              "after": []
+            },
+            "volatility": {
+              "before": {
+                "overall": "NORMAL",
+                "frames": {
+                  "M1": "NORMAL_VOLATILITY",
+                  "M5": "NORMAL_VOLATILITY"
+                }
+              },
+              "after": {
+                "overall": "UNKNOWN",
+                "frames": {}
+              }
+            },
+            "strategy_fit": {
+              "before": [
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "INCOMPATIBLE",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BULLISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BEARISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "CONDITIONAL",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BULLISH",
+                  "rule_status": "ABSTAINS",
+                  "compatibility": "SUPPORTED",
+                  "assessment_status": "RULES_FAILED",
+                  "rank": null
+                }
+              ],
+              "after": [
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BEARISH",
+                  "rule_status": "NOT_EVALUATED",
+                  "compatibility": "UNKNOWN",
+                  "assessment_status": "BLOCKED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "M5_TREND_M1_CONFIRMATION",
+                  "direction": "BULLISH",
+                  "rule_status": "NOT_EVALUATED",
+                  "compatibility": "UNKNOWN",
+                  "assessment_status": "BLOCKED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BEARISH",
+                  "rule_status": "NOT_EVALUATED",
+                  "compatibility": "UNKNOWN",
+                  "assessment_status": "BLOCKED",
+                  "rank": null
+                },
+                {
+                  "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+                  "direction": "BULLISH",
+                  "rule_status": "NOT_EVALUATED",
+                  "compatibility": "UNKNOWN",
+                  "assessment_status": "BLOCKED",
+                  "rank": null
+                }
+              ]
+            }
+          },
+          "new_evidence_ids": [],
+          "reason_codes": [
+            "BLOCKED_DATA_QUALITY",
+            "GAP_UNVERIFIED",
+            "LEADING_SCENARIOS_CHANGED",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "REGIME_CHANGED",
+            "SCENARIO_RANKING_CHANGED",
+            "STATUS_CHANGED",
+            "STRATEGY_FIT_CHANGED",
+            "VOLATILITY_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "c1ffc663c4847e99a6ed09e53f4f6016c6204674cb94d4a287c4ccdea52c8d92",
+          "c1ffc663c4847e99a6ed09e53f4f6016c6204674cb94d4a287c4ccdea52c8d92"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "incomplete",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "de46073b7c0275d744e700f9d1f8f54ffee21a79dd343a9d811db4ccdfd61207",
+        "M5": "4e1d4b853becfd38fcf11c31b28ba7545854a3d393e734ae9b1fef8adb9acb4c"
+      },
+      "journal_sha256": "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 23,
+        "transitions_denominator": 22,
+        "material_assessment_changes": 3,
+        "change_counts": {
+          "leading_scenarios": 1,
+          "regime": 1,
+          "scenario_ranking": 1,
+          "status": 2,
+          "strategy_fit": 2,
+          "volatility": 2
+        },
+        "original_status_counts": {
+          "READY": 15,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 0,
+        "outcome_record_versions": 371,
+        "latest_assessment_horizon_pairs": 46,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 23,
+            "complete_horizons": 18,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 13
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 10,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 5
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 15,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 10,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 10,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 15,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 10,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 5
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 10,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 10,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 23,
+            "complete_horizons": 8,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 23
+            },
+            "unique_leader_denominator": 15,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 15
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 15,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 15,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 15
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 23,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:9c6915eebbbba142e177564efc624b544e6c8be4c903520a3d2beed7f43b6cb4",
+        "original_assessment_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+        "original_regime": "TREND_UP",
+        "original_scenario_leaders": [
+          "BULLISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:23:00+00:00",
+        "horizon_complete": false,
+        "review_status": "UNRESOLVED",
+        "reason_codes": [
+          "HORIZON_INCOMPLETE"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "HORIZON_INCOMPLETE"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "HORIZON_INCOMPLETE"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "HORIZON_INCOMPLETE"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:65e217df5056ada1b65ee22aaa62585d3385bc4859397439c3f375f1897dbf6d",
+          "closed_at_utc": "2026-11-12T08:22:00+00:00",
+          "kind": "UPPER"
+        },
+        "later_revision": null
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c",
+          "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "1a36762b142e1e61767c36488e902d5baf2c2fc96e00d388f4a9b6d4b6dae22c",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "ambiguous",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "d37751b4e37433b35d03d9bdb8e0929bc8a87fa46543aaa78da1f1f56f39371d",
+        "M5": "ef9f929a96d9b1d0a2195039e61949d17e37b610b921e64182143a5451bebaf9"
+      },
+      "journal_sha256": "6c88270240bcd9076d8ba3c92b09635561d363209fa78bb558731719adc76073",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 29,
+        "transitions_denominator": 28,
+        "material_assessment_changes": 8,
+        "change_counts": {
+          "leading_scenarios": 1,
+          "regime": 2,
+          "scenario_ranking": 1,
+          "status": 2,
+          "strategy_fit": 3,
+          "volatility": 6
+        },
+        "original_status_counts": {
+          "READY": 21,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 0,
+        "outcome_record_versions": 503,
+        "latest_assessment_horizon_pairs": 58,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 24,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 9,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 20
+            },
+            "unique_leader_denominator": 21,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 9,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 12
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 9,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_DIRECTIONAL_BREACH": 3,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "OHLC_EVENT_ORDER_AMBIGUOUS": 4,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 20
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 12
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 9,
+                  "UNRESOLVED": 20
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 3,
+                  "CONTRADICTED": 9,
+                  "UNRESOLVED": 17
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 29,
+            "complete_horizons": 14,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 23
+            },
+            "unique_leader_denominator": 21,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 6,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 15
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 21,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "FIRST_OBSERVED_UPPER_BREACH": 6,
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "OHLC_EVENT_ORDER_AMBIGUOUS": 4,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 6,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 15
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 29,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 6,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:21:00+00:00",
+        "assessment_id": "ASSESSMENT:9c6915eebbbba142e177564efc624b544e6c8be4c903520a3d2beed7f43b6cb4",
+        "original_assessment_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+        "original_regime": "TREND_UP",
+        "original_scenario_leaders": [
+          "BULLISH"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:973a9d9e14ee15dd332643d2a5578a1d42426b4b91d4ddc05f7698b50c425492",
+          "M1:PIVOT:0249d728ecdb25a8adfba4c6eb768d64affbcfebac777ca2242f92872dd62cc4",
+          "M1:PIVOT:b2266fb6280f98151a88cd5706192a05b330ac0cbf7528502608bfa9909373a9",
+          "M1:PIVOT:b2fa439c6561c890a803d21816554a571bd2f251a37060c0119787b3be52b9d5",
+          "M1:PIVOT:baf53c97493aa9ca335eeb4baecc67e013dce9b433917310e71deca97cda4c15"
+        ],
+        "review_due_at_utc": "2026-11-12T08:26:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:26:00+00:00",
+        "horizon_complete": true,
+        "review_status": "UNRESOLVED",
+        "reason_codes": [
+          "OHLC_EVENT_ORDER_AMBIGUOUS"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": true,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "OHLC_EVENT_ORDER_AMBIGUOUS"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "OHLC_EVENT_ORDER_AMBIGUOUS"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "OHLC_EVENT_ORDER_AMBIGUOUS"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": {
+          "observation_id": "OBSERVATION:777e6507efad4f999e6e5c23b03d0653a82a62a331658fe0510934cc4c2f117d",
+          "closed_at_utc": "2026-11-12T08:22:00+00:00",
+          "kind": "AMBIGUOUS_BOTH"
+        },
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:22:00+00:00",
+          "changes": {
+            "volatility": {
+              "before": {
+                "overall": "NORMAL",
+                "frames": {
+                  "M1": "NORMAL_VOLATILITY",
+                  "M5": "NORMAL_VOLATILITY"
+                }
+              },
+              "after": {
+                "overall": "HIGH",
+                "frames": {
+                  "M1": "HIGH_VOLATILITY",
+                  "M5": "NORMAL_VOLATILITY"
+                }
+              }
+            }
+          },
+          "new_evidence_ids": [
+            "M1:CANDLE:1ab3dca2edc29739bf8f229b0966cb5d0109fe85bc4d2e9c7c2358e1fca76d54",
+            "M1:CANDLE:61c715d3ba231da3ac96fa8fff8b4b3ddd273d9df652268d592287594f3c2990",
+            "M1:LIQUIDITY:0be75033ad8d9385b9eb529a0671c1abad6a92ce05427190464d77b87f5d8b4c",
+            "M1:LIQUIDITY:16b34199a5e1bf2d183a0d67598c859d57775730cc32b4bbfa13df715f5e9f02",
+            "M1:LIQUIDITY:170d0fa4fc6322496c7cb5f12068a02a67cfd411f54e82ee0129cca9688ae651",
+            "M1:LIQUIDITY:238c455d8b2fcd7491db9bf7c0f0b8fed5127c7a9b6050e2c89552ae042c90fa",
+            "M1:LIQUIDITY:30881e23226eba6e19efed2237ae7236003d8299af69db28393f7317b34fc24f",
+            "M1:LIQUIDITY:317ed8e36d5fd8a6896b89da6385ffc844a5f3f1db0007debaf2ddda6c9d75ac",
+            "M1:LIQUIDITY:31f3e278a53d888bb67ca78721b4d5c24fdbc7517ff81755506bbd830a046656",
+            "M1:LIQUIDITY:397eb86494223ff5c4159650a0aeb4d25614c5de6174eec78d2d2476f8114ec5",
+            "M1:LIQUIDITY:5009c2c2ad0ba6c609069f780d7829217555ef85b486660587e710bb19e9f79a",
+            "M1:LIQUIDITY:c0b154bf9372724ac5ce8cd2762cbabb37ada5bc641ad923ec599418fb939ba6",
+            "M1:LIQUIDITY:c6c4c0385a3bf7f4fcd5f1612e6537e2355b3cd5085cb2ec3035f0e22c8ff101",
+            "M1:LIQUIDITY:cc2a801078c24b1344e9ca2f99536c3dba7573d9adde4027bba1cc0a390cc91b",
+            "M1:MOMENTUM:4b1cab6bf6a9dd851f9babc0bc5d893023e250f8b5cdc5ef0a30a1dee5c50b34",
+            "M1:VOLATILITY:bb8f22a927e3204ac527b5ea4af3e9b64d118cc380a26dde39e8ae2a686fef54"
+          ],
+          "reason_codes": [
+            "CONFIRMED_UP_STRUCTURE_BOTH_FRAMES",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "VOLATILITY_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "6c88270240bcd9076d8ba3c92b09635561d363209fa78bb558731719adc76073",
+          "6c88270240bcd9076d8ba3c92b09635561d363209fa78bb558731719adc76073"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:23:00+00:00",
+        "prefix_sha256": "01eff484528239fb968ae910c2b194551259e659df036a6671c8acac1423726c",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    },
+    {
+      "case": "neutral_range",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "input_sha256": {
+        "M1": "c8e6232411f9c5955eebf7b98e5ceeedcc993390dc9ffa87c260a22a665a28df",
+        "M5": "b86e6d9256e6ecfe56b8e710f5c62928a7d47fcecae337a1090734de4b23648b"
+      },
+      "journal_sha256": "f9d7d78a4266ebaab3f5569a60929ae68839808fa5e80fe8e4297552129f5fab",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "summary": {
+        "assessment_count": 32,
+        "transitions_denominator": 31,
+        "material_assessment_changes": 7,
+        "change_counts": {
+          "leading_scenarios": 2,
+          "regime": 2,
+          "scenario_ranking": 2,
+          "status": 2,
+          "strategy_fit": 3,
+          "volatility": 5
+        },
+        "original_status_counts": {
+          "READY": 24,
+          "UNKNOWN": 6,
+          "BLOCKED": 2
+        },
+        "tied_assessments": 0,
+        "outcome_record_versions": 569,
+        "latest_assessment_horizon_pairs": 64,
+        "horizons": [
+          {
+            "horizon_minutes": 5,
+            "assessment_review_denominator": 32,
+            "complete_horizons": 27,
+            "incomplete_horizons": 5,
+            "assessment_outcomes": {
+              "SUPPORTED": 19,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 13
+            },
+            "unique_leader_denominator": 24,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 19,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 5
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 24,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "ENVELOPE_HELD": 19,
+              "HORIZON_INCOMPLETE": 5,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 32
+                },
+                "leader_membership_denominator": 3,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 3
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 32
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 19,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 13
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 19,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 2
+                }
+              }
+            ]
+          },
+          {
+            "horizon_minutes": 15,
+            "assessment_review_denominator": 32,
+            "complete_horizons": 17,
+            "incomplete_horizons": 15,
+            "assessment_outcomes": {
+              "SUPPORTED": 9,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 23
+            },
+            "unique_leader_denominator": 24,
+            "unique_leader_outcomes": {
+              "SUPPORTED": 9,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 15
+            },
+            "tied_leader_denominator": 0,
+            "tied_leader_outcomes": {
+              "SUPPORTED": 0,
+              "CONTRADICTED": 0,
+              "UNRESOLVED": 0
+            },
+            "no_leader_denominator": 8,
+            "original_status_denominators": {
+              "READY": 24,
+              "UNKNOWN": 6,
+              "BLOCKED": 2
+            },
+            "reason_counts": {
+              "ENVELOPE_HELD": 9,
+              "HORIZON_INCOMPLETE": 15,
+              "NO_ORIGINAL_LEADING_SCENARIO": 8,
+              "ORIGINAL_ASSESSMENT_BLOCKED": 2,
+              "ORIGINAL_ASSESSMENT_UNKNOWN": 6,
+              "REFERENCE_ENVELOPE_UNAVAILABLE": 8,
+              "REVIEW_INTERVAL_BLOCKED": 1,
+              "REVIEW_OBSERVATIONS_ARRIVED_LATE": 1
+            },
+            "scenario_reviews": [
+              {
+                "scenario": "BULLISH",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 32
+                },
+                "leader_membership_denominator": 3,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 3
+                }
+              },
+              {
+                "scenario": "BEARISH",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 32
+                },
+                "leader_membership_denominator": 0,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 0,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 0
+                }
+              },
+              {
+                "scenario": "NEUTRAL",
+                "all_assessment_denominator": 32,
+                "all_assessment_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 23
+                },
+                "leader_membership_denominator": 21,
+                "leader_membership_outcomes": {
+                  "SUPPORTED": 9,
+                  "CONTRADICTED": 0,
+                  "UNRESOLVED": 12
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "worked_example": {
+        "original_timestamp_utc": "2026-11-12T08:24:00+00:00",
+        "assessment_id": "ASSESSMENT:01e12002cc64bff21e863caa81f6a892c634f3203b4d3a74aa1e40db193c13b6",
+        "original_assessment_sha256": "a6d78a3c1ee5d45f1bc0c0a3c886c58de52fa64c48b941c07d9bc37d2a4b63b7",
+        "original_regime": "RANGE",
+        "original_scenario_leaders": [
+          "NEUTRAL"
+        ],
+        "reference_evidence_ids": [
+          "M1:CANDLE:929729ebd161fe69b6d170a6f4c53821f528a2c63f110e89fa0453adfb975aba",
+          "M1:PIVOT:26ebe969bc527112704963e70311feaf640b16e7847a109282f19cc3bd3cab92",
+          "M1:PIVOT:2a3015fccdb6c3709429501760000a204046a7e56ea2d1f6fd7bac1427bd3def",
+          "M1:PIVOT:49276ee2c5a0972700539255efaf252e6606f14cf4d693c9f23924730ede29f5",
+          "M1:PIVOT:c25fd852155a3a6a1bf0388f88bc3320e23f4abda085c1f45f49d55ffcf1d532"
+        ],
+        "review_due_at_utc": "2026-11-12T08:29:00+00:00",
+        "reviewed_at_utc": "2026-11-12T08:29:00+00:00",
+        "horizon_complete": true,
+        "review_status": "SUPPORTED",
+        "reason_codes": [
+          "ENVELOPE_HELD"
+        ],
+        "scenario_outcomes": [
+          {
+            "scenario": "BULLISH",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "NO_DIRECTIONAL_BREACH"
+            ]
+          },
+          {
+            "scenario": "BEARISH",
+            "was_original_leader": false,
+            "status": "UNRESOLVED",
+            "reason_codes": [
+              "NO_DIRECTIONAL_BREACH"
+            ]
+          },
+          {
+            "scenario": "NEUTRAL",
+            "was_original_leader": true,
+            "status": "SUPPORTED",
+            "reason_codes": [
+              "ENVELOPE_HELD"
+            ]
+          }
+        ],
+        "first_observed_boundary_event": null,
+        "later_revision": {
+          "timestamp_utc": "2026-11-12T08:25:00+00:00",
+          "changes": {
+            "volatility": {
+              "before": {
+                "overall": "NORMAL",
+                "frames": {
+                  "M1": "NORMAL_VOLATILITY",
+                  "M5": "NORMAL_VOLATILITY"
+                }
+              },
+              "after": {
+                "overall": "HIGH",
+                "frames": {
+                  "M1": "HIGH_VOLATILITY",
+                  "M5": "HIGH_VOLATILITY"
+                }
+              }
+            }
+          },
+          "new_evidence_ids": [
+            "M1:CANDLE:734e5d4c4b1cbc14e5231e732d9df82257a0f451e5abb5942a6110e9d1620a83",
+            "M1:MOMENTUM:9bdf88a68abd5c92aeb82e37b0926c028061607b704ca3d196ecbd162cbd9e9b",
+            "M1:STRUCTURE:d3855fab61d1b00f76e10b8dac0bdd60dfeb8a2adb0e09365cf50a0e0c5c1114",
+            "M1:VOLATILITY:2a13ceea3e9bab5ee24865baf50727a2cc60300f90fcb04db87e05b4cc0098cb",
+            "M5:CANDLE:c593d751f50287a7ff8d19aa9e9f3cc23669c2c526d063445e10be902ff64941",
+            "M5:LIQUIDITY:5f0b88b828ef524386f587a2d9614a222533e3f4bd91ef928a2610043181075d",
+            "M5:LIQUIDITY:a18243be71acd1ff0f1500cb8ca8f9fc76cc3d2d88100923eacc060818647d53",
+            "M5:MOMENTUM:200354d0c5ba251b3bf38d4ed52780196cf7e21f3758df80ce41273f506f26ae",
+            "M5:STRUCTURE:03367277491dcf8257f8831f6394c3054a5876d532344a09f3be590291482653",
+            "M5:VOLATILITY:ffb6ac0496a432f1c3e49c52dca7de67ab9513a4c27e57456d03dd6ce7930918"
+          ],
+          "reason_codes": [
+            "CONFIRMED_RANGE_BOTH_FRAMES",
+            "NO_SUITABLE_STRATEGY_CANDIDATE",
+            "VOLATILITY_CHANGED"
+          ]
+        }
+      },
+      "software_comparisons": {
+        "scope": "SYNTHETIC_ONLY",
+        "repeatability": "PASS",
+        "full_hashes": [
+          "f9d7d78a4266ebaab3f5569a60929ae68839808fa5e80fe8e4297552129f5fab",
+          "f9d7d78a4266ebaab3f5569a60929ae68839808fa5e80fe8e4297552129f5fab"
+        ],
+        "common_cutoff_utc": "2026-11-12T08:26:00+00:00",
+        "prefix_sha256": "22736bbedc5278f7df21ef09dfa9c151fe88a13ca6487c180307307801cc7a17",
+        "prefix_equivalence": "PASS",
+        "bounded_full_input_equivalence": "PASS"
+      }
+    }
+  ],
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "historical_metrics": null,
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
