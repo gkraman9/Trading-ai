@@ -1,0 +1,2 @@
+# Optional local source preparation only; not needed by the replay engine or CI.
+pyarrow==23.0.1

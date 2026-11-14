@@ -338,6 +338,13 @@
         },
         "execution_allowed": {
           "const": false
+        },
+        "phase": {
+          "enum": [
+            "UNSCOPED",
+            "WARMUP",
+            "EVALUATION"
+          ]
         }
       },
       "required": [

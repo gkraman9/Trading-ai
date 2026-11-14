@@ -10,3 +10,7 @@ config/local/
 .iat-profile-*
 iat-session-research-*.json
 .iat-research-*
+# Raw/curated third-party datasets and full replay logs stay private.
+private-data/
+*.parquet
+*.bi5

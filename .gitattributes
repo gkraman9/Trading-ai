@@ -3,3 +3,5 @@ config/profiles/*.json text eol=lf
 # The synthetic replay manifest binds exact fixture bytes across platforms.
 config/examples/replay.synthetic/*.csv text eol=lf
 config/examples/replay.synthetic/*.json text eol=lf
+# Published source-review manifests bind exact private dataset preparation bytes.
+docs/source_reviews/*.json text eol=lf

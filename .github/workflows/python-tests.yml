@@ -14,6 +14,7 @@ on:
       - feat/iat2-market-intelligence-v1
       - feat/iat2-market-context-v1
       - feat/iat2-historical-replay-validation
+      - feat/iat2-source-evaluation-window
   pull_request:
     branches:
       - main
@@ -26,6 +27,7 @@ on:
       - feat/iat2-session-engine-v2
       - feat/iat2-market-intelligence-v1
       - feat/iat2-market-context-v1
+      - feat/iat2-historical-replay-validation
   workflow_dispatch:
 
 permissions:

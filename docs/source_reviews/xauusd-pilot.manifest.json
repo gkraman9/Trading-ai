@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "symbol": "XAUUSD",
+  "dataset_kind": "INDEPENDENT_HISTORICAL",
+  "source": {
+    "name": "Silva C XAUUSD Tick Data CC BY 4.0",
+    "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+    "retrieved_at_utc": "2026-11-14T06:26:58.846523+00:00",
+    "curation_id": "carlos-silva-2021-05-pilot-pending",
+    "independent_review": "PENDING"
+  },
+  "utc_range": {
+    "start": "2021-05-25T08:00:00+00:00",
+    "end": "2021-05-25T12:00:00+00:00"
+  },
+  "frames": {
+    "M1": {
+      "file": "m1.csv",
+      "sha256": "3fcb4eed61ce5a6cb773de8c686ca11a108134031068289ee18ca7e2e7070023"
+    },
+    "M5": {
+      "file": "m5.csv",
+      "sha256": "362c82c850bb22946b2820265b32d561859b7431c1acf2e8c675424754904dc6"
+    }
+  },
+  "calendar": null,
+  "finality_attested": false,
+  "evaluation": {
+    "start": "2021-05-25T11:00:00+00:00",
+    "end": "2021-05-25T12:00:00+00:00"
+  },
+  "warmup": {
+    "M1": {
+      "start": "2021-05-25T08:00:00+00:00",
+      "end": "2021-05-25T11:00:00+00:00"
+    },
+    "M5": {
+      "start": "2021-05-25T08:00:00+00:00",
+      "end": "2021-05-25T11:00:00+00:00"
+    }
+  },
+  "lineage": {
+    "feed_id": "CarlosSilva1/xauusd-ticks",
+    "price_basis": "BID",
+    "timestamp_convention": "INTERVAL_OPEN_UTC",
+    "m5_origin": "AGGREGATED_FROM_M1",
+    "raw_sha256": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec"
+  },
+  "evidence_review": {
+    "usage": {
+      "status": "VERIFIED",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "PUBLISHER_DECLARATION_REVIEWED"
+    },
+    "instrument": {
+      "status": "VERIFIED",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "PUBLISHER_DECLARATION_REVIEWED"
+    },
+    "timestamp": {
+      "status": "VERIFIED",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "PUBLISHER_DECLARATION_REVIEWED"
+    },
+    "price_basis": {
+      "status": "VERIFIED",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "PUBLISHER_DECLARATION_REVIEWED"
+    },
+    "calendar": {
+      "status": "PENDING",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "DATED_SOURCE_CALENDAR_UNAVAILABLE"
+    },
+    "finality": {
+      "status": "PENDING",
+      "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "reason_code": "CAPTURE_COMPLETENESS_CONTRACT_UNAVAILABLE"
+    }
+  }
+}
