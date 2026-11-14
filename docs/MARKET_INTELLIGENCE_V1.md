@@ -409,3 +409,9 @@ schema. No actual terminal, broker data, account or credentials were used.
 GitHub Actions runs all tests on Linux/Windows × Python 3.11.9/3.12, retaining
 Windows blocked-run/installer smoke checks. Check the PR's latest commit checks
 for the final CI result; earlier successful runs do not certify later commits.
+
+## Phase 8 market context
+
+See [Market Context & Confluence v1](MARKET_CONTEXT_V1.md) for the additive
+context endpoint, timestamp/content evidence identity and capped heuristic scenarios.
+The existing analytical endpoints and execution restrictions remain unchanged.
