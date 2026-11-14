@@ -254,3 +254,9 @@ existing fail-closed/Exness/offline smoke checks. CI never downloads this real
 archive, accesses a terminal, or uses real market data as a synthetic fixture.
 The optional Parquet dependency is used only for local preparation. Check the
 latest PR commit's CI result; prior checks do not certify a later revision.
+
+## Follow-up source qualification
+
+See [the 2026-11-14 primary-document recheck](SOURCE_QUALIFICATION_REVIEW.md).
+No replacement qualified; no new sample or DecisionLog was prepared. Historical
+validation remains PENDING and new full/prefix comparisons remain NOT_RUN.
