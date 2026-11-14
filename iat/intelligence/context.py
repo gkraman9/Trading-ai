@@ -6,7 +6,7 @@ from iat.intelligence.engine import analyze_intelligence,_finite_tree,Intelligen
 from iat.intelligence.candles import closed_at,prefix
 from iat.intelligence.models import IntelligenceConfig,iso
 from iat.intelligence.context_models import ContextConfig,ContextReport,Evidence
-from iat.intelligence.context_evidence import identity,candle_id,pivot_id,ReplayLedger
+from iat.intelligence.context_evidence import identity,candle_id,pivot_id,choch_event_id,ReplayLedger
 from iat.intelligence import support_resistance,supply_demand,liquidity,momentum,volatility,confluence,hypotheses
 
 
@@ -53,10 +53,10 @@ def derive(intelligence,candles_by_tf,config):
             sources[pid]={'kind':'CONFIRMED_PIVOT','timeframe':tf,'observed_at':p.occurred_at,
                 'available_at':p.confirmed_at,'price':p.price,'pivot_kind':p.kind,
                 'references':[refs[c] for c in p.evidence]}
-        def add(category,direction,observed,available,references,codes,details):
+        def add(category,direction,observed,available,references,codes,details,event_id=None):
             eid=identity(intelligence.symbol,tf,category,observed,available,sorted(references),direction,sorted(codes),details,config.digest,
                          intelligence.configuration_sha256)
-            evidence.append(Evidence(eid,category,tf,direction,observed,available,tuple(sorted(set(references))),tuple(codes),details))
+            evidence.append(Evidence(eid,category,tf,direction,observed,available,tuple(sorted(set(references))),tuple(codes),details,event_id))
         structure_refs=tuple(refs[p] for p in frame.structure.evidence)
         structure_at=max((sources[r]['available_at'] for r in structure_refs),default=frame.data_as_of)
         structure_origin=min((sources[r]['observed_at'] for r in structure_refs),default=frame.data_as_of)
@@ -67,10 +67,15 @@ def derive(intelligence,candles_by_tf,config):
         for event in frame.events:
             if not event.event_type.endswith('_CHOCH') or event.confirmed_at!=frame.data_as_of:continue
             direction='BULLISH' if event.event_type.startswith('BULLISH') else 'BEARISH'
+            occurrence=choch_event_id(intelligence.symbol,tf,event,refs[event.pivot_id],refs[event.break_candle])
+            sources[occurrence]={'kind':'CHOCH_EVENT','timeframe':tf,
+                'observed_at':sources[refs[event.break_candle]]['observed_at'],'available_at':event.confirmed_at,
+                'references':[refs[event.pivot_id],refs[event.break_candle]],'level':event.level}
             add('TRANSITION',direction,sources[refs[event.break_candle]]['observed_at'],event.confirmed_at,
-                tuple(refs[r] for r in event.evidence),event.reason_codes,
+                (occurrence,)+tuple(refs[r] for r in event.evidence),event.reason_codes,
                 {'event_type':event.event_type,'level':event.level,'fresh':True,'prior_structure':event.prior_structure,
-                 'phase7_alignment':intelligence.alignment.classification})
+                 'phase7_alignment':intelligence.alignment.classification,'confirmation_policy':event.policy,
+                 'threshold':event.threshold},event_id=occurrence)
         sr=support_resistance.detect(candles,frame,intelligence.symbol,config)
         sd=supply_demand.detect(candles,frame,intelligence.symbol,config)
         pools,events=liquidity.detect(candles,frame,intelligence.symbol,config)

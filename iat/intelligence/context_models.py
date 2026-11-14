@@ -125,6 +125,7 @@ class Evidence:
     references: tuple[str,...]
     reason_codes: tuple[str,...]
     details: dict
+    event_id: str | None = None
 
 
 @dataclass(frozen=True)

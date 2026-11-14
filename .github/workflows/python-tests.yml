@@ -13,6 +13,7 @@ on:
       - feat/iat2-session-engine-v2
       - feat/iat2-market-intelligence-v1
       - feat/iat2-market-context-v1
+      - feat/iat2-historical-replay-validation
   pull_request:
     branches:
       - main
@@ -24,6 +25,7 @@ on:
       - feat/iat2-exness-calendar
       - feat/iat2-session-engine-v2
       - feat/iat2-market-intelligence-v1
+      - feat/iat2-market-context-v1
   workflow_dispatch:
 
 permissions:
@@ -129,3 +131,21 @@ jobs:
           if ($report.provenance.terminal_capture_attempted -ne $false) { throw 'Blocked calendar must not touch terminal' }
           if ('HOLIDAY_COVERAGE_UNKNOWN' -notin @($report.requirements)) { throw 'Missing evidence was silently cleared' }
           exit 0
+      - name: Offline replay pending and synthetic smoke test
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat offline replay ') as folder:
+              root = pathlib.Path(folder)
+              for manifest, expected in ((None, 3), ('config/examples/replay.synthetic/manifest.json', 2)):
+                  report = root / ('pending.json' if manifest is None else 'synthetic.json')
+                  args = [sys.executable, 'diagnostics/historical_replay.py', '--report-path', str(report)]
+                  if manifest is not None:
+                      args += ['--manifest', manifest]
+                  result = subprocess.run(args, capture_output=True, text=True)
+                  assert result.returncode == expected, 'REPLAY_SMOKE_EXIT_INVALID'
+                  data = json.loads(report.read_text(encoding='utf-8'))
+                  assert data['historical_validation'] == 'PENDING', 'SYNTHETIC_MUST_NOT_CERTIFY_HISTORY'
+                  assert data['safety']['execution_allowed'] is False and data['safety']['broker_access'] is False
+                  if manifest is not None:
+                      assert data['summary']['snapshots'] == 30 and data['decision_log']['log_version'] == 1
