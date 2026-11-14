@@ -1,0 +1,424 @@
+{
+  "audit_version": 1,
+  "fixture_recipe": "tests/test_strategy_replay.py:replay_fixture",
+  "analytical_settings": "INHERITED_SMALL_WINDOW_SYNTHETIC_CONFIGS_NOT_DEFAULT_REPLACEMENTS",
+  "cases": [
+    {
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "case": "continuation_bullish",
+      "input_sha256": {
+        "M1": "23853794758634bc2b1b501619528fe214d31be5147ced28178dd872229a8c53",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": null
+      },
+      "timestamp_range_utc": {
+        "start": "2026-11-12T08:01:00+00:00",
+        "end": "2026-11-12T08:23:00+00:00"
+      },
+      "timestamps": 23,
+      "directional_snapshots": 92,
+      "blocked_timestamps": 2,
+      "groups": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 2,
+            "ABSTAINS": 18,
+            "INVALIDATED": 1,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 1,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 1,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        }
+      ],
+      "repeatability": {
+        "scope": "SYNTHETIC_STRATEGY_REPLAY_ONLY",
+        "status": "PASS",
+        "hashes": [
+          "19a723cbfd83b4001184ef407d16e4c28ea45280a57e8f7f6787d83d96d06d9c",
+          "19a723cbfd83b4001184ef407d16e4c28ea45280a57e8f7f6787d83d96d06d9c"
+        ]
+      },
+      "prefix_equivalence": {
+        "scope": "OVERLAPPING_SYNTHETIC_ENTRIES",
+        "status": "PASS",
+        "compared_timestamps": 22,
+        "prefix_sha256": "3ef54e92f0b1601936d57e5c2bd1b9c7e7161f0efac6e08445ce61dde8d2635b"
+      },
+      "future_append_invariance": {
+        "status": "PASS",
+        "bounded_full_input_sha256": "3ef54e92f0b1601936d57e5c2bd1b9c7e7161f0efac6e08445ce61dde8d2635b"
+      }
+    },
+    {
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "case": "continuation_bearish",
+      "input_sha256": {
+        "M1": "993bda60e2178c8d180b83777b56d60bcf94f74499ac50992e7ab8bcaa17200e",
+        "M5": "ce2bfdeb0d1e41c2abb61fb15dd3afabe7bd7329323883bf150e752f9500855d"
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": null
+      },
+      "timestamp_range_utc": {
+        "start": "2026-11-12T08:01:00+00:00",
+        "end": "2026-11-12T08:23:00+00:00"
+      },
+      "timestamps": 23,
+      "directional_snapshots": 92,
+      "blocked_timestamps": 2,
+      "groups": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 2,
+            "ABSTAINS": 18,
+            "INVALIDATED": 1,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 1,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 1,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 21,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        }
+      ],
+      "repeatability": {
+        "scope": "SYNTHETIC_STRATEGY_REPLAY_ONLY",
+        "status": "PASS",
+        "hashes": [
+          "cadad05a4756c725ca0a21112d4fb597486c3507463dbdd4bd26bc9fb4381248",
+          "cadad05a4756c725ca0a21112d4fb597486c3507463dbdd4bd26bc9fb4381248"
+        ]
+      },
+      "prefix_equivalence": {
+        "scope": "OVERLAPPING_SYNTHETIC_ENTRIES",
+        "status": "PASS",
+        "compared_timestamps": 22,
+        "prefix_sha256": "22f7681d68ad10533aa26e9e4850481281b4ae89b86da895102abe7c3acbb8ea"
+      },
+      "future_append_invariance": {
+        "status": "PASS",
+        "bounded_full_input_sha256": "22f7681d68ad10533aa26e9e4850481281b4ae89b86da895102abe7c3acbb8ea"
+      }
+    },
+    {
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "case": "sweep_bearish",
+      "input_sha256": {
+        "M1": "36aa14c49d98f526aa45f3d7a1dd2f8b374be27eb6b8d2a592dd4b350ca26fa3",
+        "M5": "ce2bfdeb0d1e41c2abb61fb15dd3afabe7bd7329323883bf150e752f9500855d"
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": null
+      },
+      "timestamp_range_utc": {
+        "start": "2026-11-12T08:01:00+00:00",
+        "end": "2026-11-12T08:30:00+00:00"
+      },
+      "timestamps": 30,
+      "directional_snapshots": 120,
+      "blocked_timestamps": 2,
+      "groups": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 2,
+            "ABSTAINS": 26,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 1,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 1,
+          "unqualified_invalidated_anchors": 0
+        }
+      ],
+      "repeatability": {
+        "scope": "SYNTHETIC_STRATEGY_REPLAY_ONLY",
+        "status": "PASS",
+        "hashes": [
+          "4860e6e472c9b99c0f832c60ad2d274d6ec87d54c844cea3baba932abcde8aeb",
+          "4860e6e472c9b99c0f832c60ad2d274d6ec87d54c844cea3baba932abcde8aeb"
+        ]
+      },
+      "prefix_equivalence": {
+        "scope": "OVERLAPPING_SYNTHETIC_ENTRIES",
+        "status": "PASS",
+        "compared_timestamps": 24,
+        "prefix_sha256": "d1aacae441798427d4e43a4d4cb6088eaac2b500449026595797896593c8b639"
+      },
+      "future_append_invariance": {
+        "status": "PASS",
+        "bounded_full_input_sha256": "d1aacae441798427d4e43a4d4cb6088eaac2b500449026595797896593c8b639"
+      }
+    },
+    {
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "case": "sweep_bullish",
+      "input_sha256": {
+        "M1": "4e1719a10002dfe474090ba3d45bc4b805bb732366f8749c735dd77dddebe360",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": null
+      },
+      "timestamp_range_utc": {
+        "start": "2026-11-12T08:01:00+00:00",
+        "end": "2026-11-12T08:30:00+00:00"
+      },
+      "timestamps": 30,
+      "directional_snapshots": 120,
+      "blocked_timestamps": 2,
+      "groups": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 2,
+            "ABSTAINS": 26,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 1,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 1,
+          "unqualified_invalidated_anchors": 0
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "snapshot_outcomes": {
+            "QUALIFIES": 0,
+            "ABSTAINS": 28,
+            "INVALIDATED": 0,
+            "BLOCKED_DATA": 2
+          },
+          "unique_qualified_setups": 0,
+          "active_qualified_setups": 0,
+          "invalidated_qualified_setups": 0,
+          "expired_qualified_setups": 0,
+          "unqualified_invalidated_anchors": 0
+        }
+      ],
+      "repeatability": {
+        "scope": "SYNTHETIC_STRATEGY_REPLAY_ONLY",
+        "status": "PASS",
+        "hashes": [
+          "ef23c66bb53d3f6a35360f0f1c50c4f065da9cd5f324c752a554dc903ae36b7f",
+          "ef23c66bb53d3f6a35360f0f1c50c4f065da9cd5f324c752a554dc903ae36b7f"
+        ]
+      },
+      "prefix_equivalence": {
+        "scope": "OVERLAPPING_SYNTHETIC_ENTRIES",
+        "status": "PASS",
+        "compared_timestamps": 24,
+        "prefix_sha256": "09ac0dd1b267570f2ce1bb138df09814e0488b542f2034bfa7de81bdfdf03932"
+      },
+      "future_append_invariance": {
+        "status": "PASS",
+        "bounded_full_input_sha256": "09ac0dd1b267570f2ce1bb138df09814e0488b542f2034bfa7de81bdfdf03932"
+      }
+    }
+  ],
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
