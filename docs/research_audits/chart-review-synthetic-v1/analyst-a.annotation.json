@@ -1,0 +1,73 @@
+{
+  "annotation_version": 1,
+  "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+  "packet_sha256": "eeb00e04026dc6fb8bbbc6048c6cd8ab0684e8db5aa03b87bcb532ac62c00d4c",
+  "reviewer_id": "analyst-a",
+  "annotation_kind": "SYNTHETIC_FIXTURE",
+  "blinded_attestation": true,
+  "independence_attestation": false,
+  "regime": "TREND_UP",
+  "key_levels": [
+    {
+      "kind": "SUPPORT",
+      "price": 104.5,
+      "timeframe": "M1",
+      "candle_ids": [
+        "f7de02d3d194c2188acbb7d8bfb115a35fe17291efec64ba572a705e86f0d6f0"
+      ],
+      "rationale": "SYNTHETIC previous lower boundary."
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "category": "STRUCTURE",
+      "timeframe": "M1",
+      "direction": "BEARISH",
+      "candle_ids": [
+        "0c4d114e16b9d4577073c76e73eb2c394a535164746914fc8d1228ba691bf7c5"
+      ],
+      "description": "SYNTHETIC lower close suggests a structure change."
+    }
+  ],
+  "conflicting_evidence": [
+    {
+      "category": "STRUCTURE",
+      "timeframe": "M5",
+      "direction": "BULLISH",
+      "candle_ids": [
+        "ee06fffe7d9f05b4075d6301e7269e31d958a4636b5f50ec3cf3224055412551"
+      ],
+      "description": "SYNTHETIC preceding M5 up-structure conflicts."
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario": "BULLISH",
+      "plausibility": "LEADING",
+      "assumptions": [],
+      "invalidation_conditions": []
+    },
+    {
+      "scenario": "BEARISH",
+      "plausibility": "LEADING",
+      "assumptions": [],
+      "invalidation_conditions": []
+    },
+    {
+      "scenario": "NEUTRAL",
+      "plausibility": "UNKNOWN",
+      "assumptions": [],
+      "invalidation_conditions": []
+    }
+  ],
+  "uncertainty": {
+    "level": "HIGH",
+    "flags": [
+      "STRUCTURE_CONFLICT"
+    ],
+    "explanation": "SYNTHETIC opposing structures require confirmation."
+  },
+  "would_change_view": [
+    "SYNTHETIC new confirmed M5 bearish structure."
+  ]
+}

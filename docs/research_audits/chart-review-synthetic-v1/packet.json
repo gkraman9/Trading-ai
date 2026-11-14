@@ -1,0 +1,373 @@
+{
+  "packet_version": 1,
+  "kind": "BLINDED_CHART_REVIEW",
+  "symbol": "XAUUSD",
+  "timestamp_utc": "2026-11-12T08:23:00+00:00",
+  "dataset_kind": "SYNTHETIC_FIXTURE",
+  "timestamp_convention": "UTC_INTERVAL_OPEN",
+  "window_policy": "ALL_AVAILABLE_CLOSED_PER_TIMEFRAME",
+  "frames": {
+    "M1": [
+      {
+        "timestamp": "2026-11-12T08:00:00+00:00",
+        "open": 100.0,
+        "high": 100.5,
+        "low": 99.5,
+        "close": 100.0,
+        "candle_id": "7a96acf53c392cae949c5eb125e8c1999b3a8a8508721bcca2fdb04f7343e028"
+      },
+      {
+        "timestamp": "2026-11-12T08:01:00+00:00",
+        "open": 104.0,
+        "high": 104.5,
+        "low": 103.5,
+        "close": 104.0,
+        "candle_id": "b5bf2708dba3df0b4c238457fc43fd158c8b3513a30cc0aeff4118ebdf9a7f4d"
+      },
+      {
+        "timestamp": "2026-11-12T08:02:00+00:00",
+        "open": 100.0,
+        "high": 100.5,
+        "low": 99.5,
+        "close": 100.0,
+        "candle_id": "dba3bf18570093410453c5f1eaa7f7e8316cea0abab6b830ba767de6ae4a99bd"
+      },
+      {
+        "timestamp": "2026-11-12T08:03:00+00:00",
+        "open": 96.0,
+        "high": 96.5,
+        "low": 95.5,
+        "close": 96.0,
+        "candle_id": "00d0abae59af4753b1047ebffd6370ccbbb8acbc4d56ee290a62800ba44f0e0a"
+      },
+      {
+        "timestamp": "2026-11-12T08:04:00+00:00",
+        "open": 100.0,
+        "high": 100.5,
+        "low": 99.5,
+        "close": 100.0,
+        "candle_id": "644b5fe2380315267346a7edde32ef50de4b3c265280573b81d3f9f94ec6bcb4"
+      },
+      {
+        "timestamp": "2026-11-12T08:05:00+00:00",
+        "open": 107.0,
+        "high": 107.5,
+        "low": 106.5,
+        "close": 107.0,
+        "candle_id": "8e22df22847314e7db41080dac357fe83963235e820bcc29a8272dde7aa20912"
+      },
+      {
+        "timestamp": "2026-11-12T08:06:00+00:00",
+        "open": 103.0,
+        "high": 103.5,
+        "low": 102.5,
+        "close": 103.0,
+        "candle_id": "fe3ce726d6b44f170ecf81e431cc5b4d0e6a94e3aef908882713ede9d806ab5e"
+      },
+      {
+        "timestamp": "2026-11-12T08:07:00+00:00",
+        "open": 99.0,
+        "high": 99.5,
+        "low": 98.5,
+        "close": 99.0,
+        "candle_id": "29ada6af60428e40170613eddfe8dbea8bef1b654202294cb6eb456e5dd73899"
+      },
+      {
+        "timestamp": "2026-11-12T08:08:00+00:00",
+        "open": 103.0,
+        "high": 103.5,
+        "low": 102.5,
+        "close": 103.0,
+        "candle_id": "dafaaef6eab5b5e5ef1e4f0203ed2b603f5acb0c247ca7365c28d7d0dc6bdc69"
+      },
+      {
+        "timestamp": "2026-11-12T08:09:00+00:00",
+        "open": 110.0,
+        "high": 110.5,
+        "low": 109.5,
+        "close": 110.0,
+        "candle_id": "d6214d221916cbc1f466e7b520209a55f7138f1abd82f960a1dcfc3214a6013e"
+      },
+      {
+        "timestamp": "2026-11-12T08:10:00+00:00",
+        "open": 106.0,
+        "high": 106.5,
+        "low": 105.5,
+        "close": 106.0,
+        "candle_id": "99ff3ef254eea078c02cc2fa7980a27a636dfc8830b0bbc9b7cbdcc50a5482dd"
+      },
+      {
+        "timestamp": "2026-11-12T08:11:00+00:00",
+        "open": 102.0,
+        "high": 102.5,
+        "low": 101.5,
+        "close": 102.0,
+        "candle_id": "0cd7cf32dcbc980cedc00562433c978ca454812e6f0bb97d67798bb929014614"
+      },
+      {
+        "timestamp": "2026-11-12T08:12:00+00:00",
+        "open": 106.0,
+        "high": 106.5,
+        "low": 105.5,
+        "close": 106.0,
+        "candle_id": "e4b053fb300248013f7cc181d920f1da8f1e89de3e81f4e02cd2137b1380e68f"
+      },
+      {
+        "timestamp": "2026-11-12T08:13:00+00:00",
+        "open": 113.0,
+        "high": 113.5,
+        "low": 112.5,
+        "close": 113.0,
+        "candle_id": "f90dc023031febf2244641559a04b0d4cb3cca11e67cbfc8837019e82fa92b7c"
+      },
+      {
+        "timestamp": "2026-11-12T08:14:00+00:00",
+        "open": 109.0,
+        "high": 109.5,
+        "low": 108.5,
+        "close": 109.0,
+        "candle_id": "fd010dab2cf9f1d6d76453e1c084f349d52bc3892b864533c40eacb7c40cc631"
+      },
+      {
+        "timestamp": "2026-11-12T08:15:00+00:00",
+        "open": 105.0,
+        "high": 105.5,
+        "low": 104.5,
+        "close": 105.0,
+        "candle_id": "dd4df8780c16381618897c193e47c8892fbebcaaf17cf4ad3dedef7862132739"
+      },
+      {
+        "timestamp": "2026-11-12T08:16:00+00:00",
+        "open": 109.0,
+        "high": 109.5,
+        "low": 108.5,
+        "close": 109.0,
+        "candle_id": "fc1c659736fd00f732abc91e14e8ffcc4f5ca43b44b3d7acfc5f8ac4dd845247"
+      },
+      {
+        "timestamp": "2026-11-12T08:17:00+00:00",
+        "open": 116.0,
+        "high": 116.5,
+        "low": 115.5,
+        "close": 116.0,
+        "candle_id": "860778057945db6b9244443a5c7ee422dbe05c9c2b3457dd64fc549de695b073"
+      },
+      {
+        "timestamp": "2026-11-12T08:18:00+00:00",
+        "open": 112.0,
+        "high": 112.5,
+        "low": 111.5,
+        "close": 112.0,
+        "candle_id": "f37d2372a75a31bdeb00a7bcf0d9feaf62bb2dc5f3dc0890812b3557b2400504"
+      },
+      {
+        "timestamp": "2026-11-12T08:19:00+00:00",
+        "open": 108.0,
+        "high": 108.5,
+        "low": 107.5,
+        "close": 108.0,
+        "candle_id": "1e690b70d6568b624f42d83f2da23be8b7a6bc1facdc8345a05bdeeced56fd0e"
+      },
+      {
+        "timestamp": "2026-11-12T08:20:00+00:00",
+        "open": 112.0,
+        "high": 112.5,
+        "low": 111.5,
+        "close": 112.0,
+        "candle_id": "30a7c723df479d704ed90d3f03eddb861da1d86843dfac1c68db2d142c0c2807"
+      },
+      {
+        "timestamp": "2026-11-12T08:21:00+00:00",
+        "open": 112.0,
+        "high": 116.4,
+        "low": 111.5,
+        "close": 112.0,
+        "candle_id": "f7de02d3d194c2188acbb7d8bfb115a35fe17291efec64ba572a705e86f0d6f0"
+      },
+      {
+        "timestamp": "2026-11-12T08:22:00+00:00",
+        "open": 112.0,
+        "high": 112.1,
+        "low": 93.9,
+        "close": 94.0,
+        "candle_id": "0c4d114e16b9d4577073c76e73eb2c394a535164746914fc8d1228ba691bf7c5"
+      }
+    ],
+    "M5": [
+      {
+        "timestamp": "2026-11-12T06:35:00+00:00",
+        "open": 80.0,
+        "high": 80.5,
+        "low": 79.5,
+        "close": 80.0,
+        "candle_id": "01bffd17dbf8c5a45f129ad1c632d4774d3ca6aebccfb8b1cfc28fa32baa17b2"
+      },
+      {
+        "timestamp": "2026-11-12T06:40:00+00:00",
+        "open": 84.0,
+        "high": 84.5,
+        "low": 83.5,
+        "close": 84.0,
+        "candle_id": "03a9cee375e2b1d3d1385e17f57806395bb42b9c9e88dabad9b3468aef217aad"
+      },
+      {
+        "timestamp": "2026-11-12T06:45:00+00:00",
+        "open": 80.0,
+        "high": 80.5,
+        "low": 79.5,
+        "close": 80.0,
+        "candle_id": "7dda446011d18eaaea2e7075c2ce1940473c58cced0dff906449803b718120f6"
+      },
+      {
+        "timestamp": "2026-11-12T06:50:00+00:00",
+        "open": 76.0,
+        "high": 76.5,
+        "low": 75.5,
+        "close": 76.0,
+        "candle_id": "8ae86094d1a903454875d21904fe6db696e3d06b59ed5c22612e90abaadd6346"
+      },
+      {
+        "timestamp": "2026-11-12T06:55:00+00:00",
+        "open": 80.0,
+        "high": 80.5,
+        "low": 79.5,
+        "close": 80.0,
+        "candle_id": "7ceedbc23f102c26c040a6a9036e16c9fe6e8db3b52ad9956b6e1b6cfe60de94"
+      },
+      {
+        "timestamp": "2026-11-12T07:00:00+00:00",
+        "open": 87.0,
+        "high": 87.5,
+        "low": 86.5,
+        "close": 87.0,
+        "candle_id": "d2e390cef659a033ba82350d3189277f38cc572652353f0defb6b60fd4ef397e"
+      },
+      {
+        "timestamp": "2026-11-12T07:05:00+00:00",
+        "open": 83.0,
+        "high": 83.5,
+        "low": 82.5,
+        "close": 83.0,
+        "candle_id": "3da8b394e20bd1d7bde8f3ec9088f31ba0c1dade7083eccb96e928384889ea87"
+      },
+      {
+        "timestamp": "2026-11-12T07:10:00+00:00",
+        "open": 79.0,
+        "high": 79.5,
+        "low": 78.5,
+        "close": 79.0,
+        "candle_id": "91ac3b029152035c536400f6bc00e8bff99fc15923812871bd273cf517aca336"
+      },
+      {
+        "timestamp": "2026-11-12T07:15:00+00:00",
+        "open": 83.0,
+        "high": 83.5,
+        "low": 82.5,
+        "close": 83.0,
+        "candle_id": "122efb0f44eb1301e76845ae4b588786aa38c4108a85f459f66a2dbde23559ae"
+      },
+      {
+        "timestamp": "2026-11-12T07:20:00+00:00",
+        "open": 90.0,
+        "high": 90.5,
+        "low": 89.5,
+        "close": 90.0,
+        "candle_id": "ab672698f1f7bc8b298200edbf053e14ff603cc7586261345eaf374d6901560b"
+      },
+      {
+        "timestamp": "2026-11-12T07:25:00+00:00",
+        "open": 86.0,
+        "high": 86.5,
+        "low": 85.5,
+        "close": 86.0,
+        "candle_id": "c48912622f7e6499d84b5339bbe5a0ab4d6f7ef06edbf6d52c4fcbb07cf113dc"
+      },
+      {
+        "timestamp": "2026-11-12T07:30:00+00:00",
+        "open": 82.0,
+        "high": 82.5,
+        "low": 81.5,
+        "close": 82.0,
+        "candle_id": "be0817f32487925504cd3c8d5efc397d40635656a773c3837e7682db95091bd4"
+      },
+      {
+        "timestamp": "2026-11-12T07:35:00+00:00",
+        "open": 86.0,
+        "high": 86.5,
+        "low": 85.5,
+        "close": 86.0,
+        "candle_id": "49268e9fa812921d31f63e8704867551c43618ecaea1011c668a40e7e58b526c"
+      },
+      {
+        "timestamp": "2026-11-12T07:40:00+00:00",
+        "open": 93.0,
+        "high": 93.5,
+        "low": 92.5,
+        "close": 93.0,
+        "candle_id": "4137c14c1add49d09e2be130d4d09d1ec85c1dfc44ebc168cf0c7fcdad7d820e"
+      },
+      {
+        "timestamp": "2026-11-12T07:45:00+00:00",
+        "open": 89.0,
+        "high": 89.5,
+        "low": 88.5,
+        "close": 89.0,
+        "candle_id": "46bea53d45c272d3ba431bb8bb040a58e230d6936305132b1446c1c795419025"
+      },
+      {
+        "timestamp": "2026-11-12T07:50:00+00:00",
+        "open": 85.0,
+        "high": 85.5,
+        "low": 84.5,
+        "close": 85.0,
+        "candle_id": "6d90fa0be00fa28e1efba005aee065d835f83404079b864239fe6fa3ac031c7a"
+      },
+      {
+        "timestamp": "2026-11-12T07:55:00+00:00",
+        "open": 89.0,
+        "high": 89.5,
+        "low": 88.5,
+        "close": 89.0,
+        "candle_id": "d9dc29f53123047ffbf20f9f11e2f50eb29c624a38f99a7b9a010ee8c4804f2a"
+      },
+      {
+        "timestamp": "2026-11-12T08:00:00+00:00",
+        "open": 100.0,
+        "high": 104.5,
+        "low": 95.5,
+        "close": 100.0,
+        "candle_id": "ad51d198c33a3667ea29fa983a16dc5e580c29806fb3a77e2324d88107710434"
+      },
+      {
+        "timestamp": "2026-11-12T08:05:00+00:00",
+        "open": 107.0,
+        "high": 110.5,
+        "low": 98.5,
+        "close": 110.0,
+        "candle_id": "41cc32c29d7b75cf7f3c618eaa8949769423796c52bd03e92d0ac0134c0c30bf"
+      },
+      {
+        "timestamp": "2026-11-12T08:10:00+00:00",
+        "open": 106.0,
+        "high": 113.5,
+        "low": 101.5,
+        "close": 109.0,
+        "candle_id": "f8354a5247abc30a2f581569d3e7aaf4d5ce854b02004f50d897ce8eb5cbd949"
+      },
+      {
+        "timestamp": "2026-11-12T08:15:00+00:00",
+        "open": 105.0,
+        "high": 116.5,
+        "low": 104.5,
+        "close": 108.0,
+        "candle_id": "ee06fffe7d9f05b4075d6301e7269e31d958a4636b5f50ec3cf3224055412551"
+      }
+    ]
+  },
+  "instructions": "Review both frames independently. No IAT interpretation or later candles are included.",
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false,
+  "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+  "sha256": "eeb00e04026dc6fb8bbbc6048c6cd8ab0684e8db5aa03b87bcb532ac62c00d4c"
+}

@@ -22,6 +22,7 @@ on:
       - feat/iat2-adaptive-intelligence-v1
       - feat/iat2-market-reasoning-journal-v1
       - feat/iat2-journal-dataset-evaluation
+      - feat/iat2-blinded-chart-benchmark
   pull_request:
     branches:
       - main
@@ -42,6 +43,7 @@ on:
       - feat/iat2-strategy-dataset-replay
       - feat/iat2-adaptive-intelligence-v1
       - feat/iat2-market-reasoning-journal-v1
+      - feat/iat2-journal-dataset-evaluation
   workflow_dispatch:
 
 permissions:
@@ -191,3 +193,14 @@ jobs:
               assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
               assert data['reasoning_journal'] is None and data['accounting'] is None and data['historical_metrics'] is None
               assert data['exness'] == 'BLOCKED' and data['safety']['execution_allowed'] is False
+
+      - name: Blinded benchmark rejects missing dataset without publishing packets
+        shell: python
+        run: |
+          import pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat blinded benchmark ') as folder:
+              root = pathlib.Path(folder)
+              output = root / 'review batch'
+              result = subprocess.run([sys.executable, 'diagnostics/chart_benchmark.py', 'prepare', '--manifest', str(root / 'missing.json'), '--at', '2026-11-12T08:23:00Z', '--reviewer', 'anonymous-a', '--output-directory', str(output)], capture_output=True, text=True)
+              assert result.returncode == 3, 'EXPECTED_PREFLIGHT_REJECTION'
+              assert not output.exists(), 'NO_PACKET_WITHOUT_ELIGIBLE_DATA'

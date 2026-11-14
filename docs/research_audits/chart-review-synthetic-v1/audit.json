@@ -1,0 +1,773 @@
+{
+  "benchmark_version": 1,
+  "kind": "BLINDED_CHART_READING_COMPARISON",
+  "policy": {
+    "version": 1,
+    "packet_window": 5000,
+    "evidence_comparison": "CATEGORY_TIMEFRAME_DIRECTION_SETS_PER_SUPPORT_OR_CONFLICT_ROLE",
+    "uncertainty_comparison": "EXPLICIT_FLAGS_ONLY_NO_CONFIDENCE_LEVEL_MAPPING",
+    "reviewer_roster": "ALL_MEMBERS_BEFORE_REVEAL",
+    "scope": "OFFLINE_CHART_READING_AGREEMENT_NOT_GROUND_TRUTH",
+    "flags": [
+      "DATA_LIMITATION",
+      "STRUCTURE_CONFLICT",
+      "SCENARIO_TIE",
+      "HIGH_VOLATILITY",
+      "NO_SUITABLE_STRATEGY",
+      "EXPERIMENTAL_METHOD"
+    ]
+  },
+  "bundle_sha256": "6a254d74e7ce4bf481586e14ca504fddc5a5e78f6cb6c841ca5afa48e69c609c",
+  "expected_annotation_denominator": 2,
+  "packet_denominator": 1,
+  "synthetic_workflow_metrics": {
+    "annotation_denominator": 2,
+    "regime_agreement_count": 1,
+    "leader_set_agreement_count": 0,
+    "uncertainty_flag_set_agreement_count": 0,
+    "unknown_regime_count": 0,
+    "known_regime_pair_denominator": 2,
+    "known_regime_agreement_count": 1,
+    "regime_confusion_counts": {
+      "TRANSITION / TRANSITION": 1,
+      "TREND_UP / TRANSITION": 1
+    },
+    "uncertainty_flag_denominators": {
+      "DATA_LIMITATION": {
+        "denominator": 2,
+        "presence_agreement_count": 2
+      },
+      "STRUCTURE_CONFLICT": {
+        "denominator": 2,
+        "presence_agreement_count": 2
+      },
+      "SCENARIO_TIE": {
+        "denominator": 2,
+        "presence_agreement_count": 2
+      },
+      "HIGH_VOLATILITY": {
+        "denominator": 2,
+        "presence_agreement_count": 0
+      },
+      "NO_SUITABLE_STRATEGY": {
+        "denominator": 2,
+        "presence_agreement_count": 0
+      },
+      "EXPERIMENTAL_METHOD": {
+        "denominator": 2,
+        "presence_agreement_count": 0
+      }
+    },
+    "evidence": {
+      "supporting_evidence": {
+        "comparison_denominator": 2,
+        "nonempty_union_denominator": 2,
+        "shared_token_count": 0,
+        "union_token_denominator": 8,
+        "empty_union_count": 0
+      },
+      "conflicting_evidence": {
+        "comparison_denominator": 2,
+        "nonempty_union_denominator": 2,
+        "shared_token_count": 2,
+        "union_token_denominator": 2,
+        "empty_union_count": 0
+      }
+    }
+  },
+  "independent_analyst_agreement": "UNMEASURED",
+  "independent_analyst_metrics": null,
+  "per_reviewer": {
+    "analyst-a": {
+      "annotation_denominator": 1,
+      "regime_agreement_count": 0,
+      "leader_set_agreement_count": 0,
+      "uncertainty_flag_set_agreement_count": 0,
+      "unknown_regime_count": 0,
+      "known_regime_pair_denominator": 1,
+      "known_regime_agreement_count": 0,
+      "regime_confusion_counts": {
+        "TREND_UP / TRANSITION": 1
+      },
+      "uncertainty_flag_denominators": {
+        "DATA_LIMITATION": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "STRUCTURE_CONFLICT": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "SCENARIO_TIE": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "HIGH_VOLATILITY": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        },
+        "NO_SUITABLE_STRATEGY": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        },
+        "EXPERIMENTAL_METHOD": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        }
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "comparison_denominator": 1,
+          "nonempty_union_denominator": 1,
+          "shared_token_count": 0,
+          "union_token_denominator": 4,
+          "empty_union_count": 0
+        },
+        "conflicting_evidence": {
+          "comparison_denominator": 1,
+          "nonempty_union_denominator": 1,
+          "shared_token_count": 1,
+          "union_token_denominator": 1,
+          "empty_union_count": 0
+        }
+      }
+    },
+    "analyst-b": {
+      "annotation_denominator": 1,
+      "regime_agreement_count": 1,
+      "leader_set_agreement_count": 0,
+      "uncertainty_flag_set_agreement_count": 0,
+      "unknown_regime_count": 0,
+      "known_regime_pair_denominator": 1,
+      "known_regime_agreement_count": 1,
+      "regime_confusion_counts": {
+        "TRANSITION / TRANSITION": 1
+      },
+      "uncertainty_flag_denominators": {
+        "DATA_LIMITATION": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "STRUCTURE_CONFLICT": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "SCENARIO_TIE": {
+          "denominator": 1,
+          "presence_agreement_count": 1
+        },
+        "HIGH_VOLATILITY": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        },
+        "NO_SUITABLE_STRATEGY": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        },
+        "EXPERIMENTAL_METHOD": {
+          "denominator": 1,
+          "presence_agreement_count": 0
+        }
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "comparison_denominator": 1,
+          "nonempty_union_denominator": 1,
+          "shared_token_count": 0,
+          "union_token_denominator": 4,
+          "empty_union_count": 0
+        },
+        "conflicting_evidence": {
+          "comparison_denominator": 1,
+          "nonempty_union_denominator": 1,
+          "shared_token_count": 1,
+          "union_token_denominator": 1,
+          "empty_union_count": 0
+        }
+      }
+    }
+  },
+  "comparisons": [
+    {
+      "reviewer_id": "analyst-a",
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "annotation_kind": "SYNTHETIC_FIXTURE",
+      "regime": {
+        "reviewer": "TREND_UP",
+        "iat": "TRANSITION",
+        "agrees": false
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "leaders": {
+        "reviewer": [
+          "BEARISH",
+          "BULLISH"
+        ],
+        "iat": [
+          "BEARISH"
+        ],
+        "exact_set_agreement": false
+      }
+    },
+    {
+      "reviewer_id": "analyst-b",
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "annotation_kind": "SYNTHETIC_FIXTURE",
+      "regime": {
+        "reviewer": "TRANSITION",
+        "iat": "TRANSITION",
+        "agrees": true
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "leaders": {
+        "reviewer": [
+          "BEARISH",
+          "BULLISH"
+        ],
+        "iat": [
+          "BEARISH"
+        ],
+        "exact_set_agreement": false
+      }
+    }
+  ],
+  "representative_disagreements": [
+    {
+      "reviewer_id": "analyst-a",
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "annotation_kind": "SYNTHETIC_FIXTURE",
+      "regime": {
+        "reviewer": "TREND_UP",
+        "iat": "TRANSITION",
+        "agrees": false
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "leaders": {
+        "reviewer": [
+          "BEARISH",
+          "BULLISH"
+        ],
+        "iat": [
+          "BEARISH"
+        ],
+        "exact_set_agreement": false
+      }
+    },
+    {
+      "reviewer_id": "analyst-b",
+      "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+      "annotation_kind": "SYNTHETIC_FIXTURE",
+      "regime": {
+        "reviewer": "TRANSITION",
+        "iat": "TRANSITION",
+        "agrees": true
+      },
+      "evidence": {
+        "supporting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "shared": [],
+          "reviewer_only": [
+            [
+              "STRUCTURE",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "iat_only": [
+            [
+              "CANDLE",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "MOMENTUM",
+              "M1",
+              "BEARISH"
+            ],
+            [
+              "TRANSITION",
+              "M1",
+              "BEARISH"
+            ]
+          ],
+          "intersection_count": 0,
+          "union_denominator": 4,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        },
+        "conflicting_evidence": {
+          "reviewer_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "iat_tokens": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "shared": [
+            [
+              "STRUCTURE",
+              "M5",
+              "BULLISH"
+            ]
+          ],
+          "reviewer_only": [],
+          "iat_only": [],
+          "intersection_count": 1,
+          "union_denominator": 1,
+          "iat_leader_basis": [
+            "BEARISH"
+          ]
+        }
+      },
+      "uncertainty": {
+        "reviewer_flags": [
+          "STRUCTURE_CONFLICT"
+        ],
+        "iat_flags": [
+          "EXPERIMENTAL_METHOD",
+          "HIGH_VOLATILITY",
+          "NO_SUITABLE_STRATEGY",
+          "STRUCTURE_CONFLICT"
+        ],
+        "exact_flag_set_agreement": false,
+        "reviewer_level": "HIGH",
+        "level_comparison": "NOT_COMPARABLE_NO_IAT_CONFIDENCE_SCALE"
+      },
+      "leaders": {
+        "reviewer": [
+          "BEARISH",
+          "BULLISH"
+        ],
+        "iat": [
+          "BEARISH"
+        ],
+        "exact_set_agreement": false
+      }
+    }
+  ],
+  "reviewer_pairwise": {
+    "pair_denominator": 1,
+    "regime_disagreement_count": 1,
+    "pairs": [
+      {
+        "packet_id": "cf1d14359a6ba1f1e66298ca44272cf8fff748282ff18d82f469ca5674be50c2",
+        "reviewers": [
+          "analyst-a",
+          "analyst-b"
+        ],
+        "regimes": [
+          "TREND_UP",
+          "TRANSITION"
+        ],
+        "regime_agrees": false,
+        "annotation_sha256": [
+          "ce873ae760bbbe1574be1af25998248d3566c9c43d0b2af55e87345899653a40",
+          "1873931700b69e690f7766ee7e8a7085c4716644b5d3e6c125aadf5ae9aeedb6"
+        ]
+      }
+    ]
+  },
+  "outcome_observation_cutoff_utc": "2026-11-12T08:45:00+00:00",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED",
+  "classification": "LABELED_SYNTHETIC_WORKFLOW_ONLY_NO_INDEPENDENT_ANALYSTS",
+  "manifest_sha256": "83f38d72d073515121016c341e5a0f9c2aab795424274c82543161034170cfe6",
+  "packet_sha256": "eeb00e04026dc6fb8bbbc6048c6cd8ab0684e8db5aa03b87bcb532ac62c00d4c",
+  "configuration_hashes": {
+    "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+    "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+    "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+    "review": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd"
+  },
+  "full_full_identical": true,
+  "prefix_packet_identical": true,
+  "prefix_chart_identical": true,
+  "worked_reveal": {
+    "regime": {
+      "directional": "TRANSITION",
+      "supporting_evidence": [
+        "M1:STRUCTURE:e797225feb964deac0ddad8aa8cf2ff8b26a7c0b9dca345e423e326e9e0565e1",
+        "M1:TRANSITION:441abd972710c77201ff3f64a79d81dd9877150e9489b0de4afe6ece7d7acdd1",
+        "M1:TRANSITION:5c89233569b9ee72789e06cc5be0a0aebcdc45039e4c4058839b2be8c2f0bd59",
+        "M1:TRANSITION:8045a22f0172cb154654b94f3e8476871d8c01a6a95d052554b801f85888442a",
+        "M1:TRANSITION:af33044e83b073d14ad8230d53d601878d3d16cea35dbd0b33e3a22fa7b98764",
+        "M1:TRANSITION:e4f73a8249cadc2bb89ef2191fd2adea5a6ff963e9c3908b2e374fd22245e03c",
+        "M5:STRUCTURE:436e18bd77ddf0b3117a46c07590148ab136ca8271b7fda4981752fd47a55ea4"
+      ],
+      "reason_codes": [
+        "FRESH_M1_STRUCTURE_CHANGE_AGAINST_M5"
+      ]
+    },
+    "leaders": [
+      "BEARISH"
+    ],
+    "uncertainty": [
+      "EXPERIMENTAL_RULES_NO_VALIDATED_EDGE",
+      "FRESH_OPPOSING_M1_CHOCH",
+      "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+      "HIGH_VOLATILITY_RESEARCH_CAUTION",
+      "HISTORICAL_SOURCE_ELIGIBILITY_UNESTABLISHED",
+      "SESSION_NOT_CHECKED"
+    ],
+    "frozen_assessment_sha256": "17da7c77163537a0046545836ed1e8e43cabe98428d67a8b3eedd7add5c05090",
+    "separate_price_outcomes": [
+      {
+        "horizon_minutes": 5,
+        "status": "SUPPORTED",
+        "reason_codes": [
+          "FIRST_OBSERVED_LOWER_BREACH"
+        ]
+      },
+      {
+        "horizon_minutes": 15,
+        "status": "SUPPORTED",
+        "reason_codes": [
+          "FIRST_OBSERVED_LOWER_BREACH"
+        ]
+      }
+    ]
+  }
+}
