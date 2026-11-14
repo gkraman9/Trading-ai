@@ -30,10 +30,12 @@ class Decision:
     mode: str = 'READ_ONLY_SHADOW'
     signal: str = 'WAIT'
     execution_allowed: bool = False
+    phase: str = 'UNSCOPED'
 
     def __post_init__(self):
         if type(self.decision_version) is not int or self.decision_version!=1 or self.mode!='READ_ONLY_SHADOW' or self.signal!='WAIT' or self.execution_allowed is not False:
             raise ValueError('Unsafe DecisionLog record')
+        if self.phase not in ('UNSCOPED','WARMUP','EVALUATION'):raise ValueError('Invalid DecisionLog phase')
         at=datetime.fromisoformat(self.timestamp_utc)
         iso(at)
         if at.utcoffset()!=timedelta(0):raise ValueError('DecisionLog requires UTC')

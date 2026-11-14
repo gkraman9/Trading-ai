@@ -38,7 +38,10 @@
           "type": "object",
           "properties": {
             "manifest_version": {
-              "const": 1
+              "enum": [
+                1,
+                2
+              ]
             },
             "manifest_sha256": {
               "type": "string",
@@ -231,6 +234,318 @@
             },
             "source_authenticity": {
               "const": "OPERATOR_DECLARATION_NOT_AUTHENTICATED"
+            },
+            "evaluation": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                }
+              },
+              "required": [
+                "start",
+                "end"
+              ],
+              "additionalProperties": false
+            },
+            "warmup": {
+              "type": "object",
+              "properties": {
+                "M1": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    },
+                    "end": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    }
+                  },
+                  "required": [
+                    "start",
+                    "end"
+                  ],
+                  "additionalProperties": false
+                },
+                "M5": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    },
+                    "end": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    }
+                  },
+                  "required": [
+                    "start",
+                    "end"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "M1",
+                "M5"
+              ],
+              "additionalProperties": false
+            },
+            "lineage": {
+              "type": "object",
+              "properties": {
+                "feed_id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9._/-]{1,100}$"
+                },
+                "price_basis": {
+                  "enum": [
+                    "BID",
+                    "ASK",
+                    "MID",
+                    "UNKNOWN"
+                  ]
+                },
+                "timestamp_convention": {
+                  "enum": [
+                    "INTERVAL_OPEN_UTC",
+                    "PENDING"
+                  ]
+                },
+                "m5_origin": {
+                  "enum": [
+                    "NATIVE_SAME_FEED",
+                    "AGGREGATED_FROM_M1",
+                    "UNKNOWN"
+                  ]
+                },
+                "raw_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "feed_id",
+                "price_basis",
+                "timestamp_convention",
+                "m5_origin",
+                "raw_sha256"
+              ],
+              "additionalProperties": false
+            },
+            "evidence_review": {
+              "type": "object",
+              "properties": {
+                "usage": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                },
+                "instrument": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                },
+                "timestamp": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                },
+                "price_basis": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                },
+                "calendar": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                },
+                "finality": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "VERIFIED",
+                        "PENDING"
+                      ]
+                    },
+                    "reference": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9_]{1,100}$"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "reference",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "usage",
+                "instrument",
+                "timestamp",
+                "price_basis",
+                "calendar",
+                "finality"
+              ],
+              "additionalProperties": false
             }
           },
           "required": [
@@ -246,7 +561,26 @@
             "finality_attested",
             "source_authenticity"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "manifest_version": {
+                    "const": 2
+                  }
+                }
+              },
+              "then": {
+                "required": [
+                  "evaluation",
+                  "warmup",
+                  "lineage",
+                  "evidence_review"
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "null"
@@ -716,6 +1050,149 @@
                     "mismatch_count": {
                       "type": "integer",
                       "minimum": 0
+                    },
+                    "evaluation": {
+                      "type": "object",
+                      "properties": {
+                        "expected_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "provided_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "comparable_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "uncovered_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "missing_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "unexpected_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "mismatch_count": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "minimum_comparable_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "warmup_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "warmup_uncovered_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "start_utc": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "(Z|\\+00:00)$"
+                        },
+                        "end_utc": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "(Z|\\+00:00)$"
+                        },
+                        "denominator_basis": {
+                          "enum": [
+                            "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+                            "VERIFIED_CALENDAR_FULL_M5_INTERVALS"
+                          ]
+                        },
+                        "coverage_sufficient": {
+                          "type": "boolean"
+                        },
+                        "m5_origin": {
+                          "enum": [
+                            "NATIVE_SAME_FEED",
+                            "AGGREGATED_FROM_M1",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "consistency_evidence": {
+                          "enum": [
+                            "INTERNAL_AGGREGATION_ONLY",
+                            "SAME_FEED_NATIVE_COMPARISON",
+                            "LINEAGE_UNVERIFIED"
+                          ]
+                        },
+                        "cross_frame_claim": {
+                          "enum": [
+                            "NOT_ESTABLISHED",
+                            "SCOPED_SAME_FEED_CONSISTENCY"
+                          ]
+                        },
+                        "provided_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "comparable_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "matching_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "expected_m5_bars",
+                        "provided_m5_bars",
+                        "comparable_m5_bars",
+                        "uncovered_m5_bars",
+                        "missing_m5_bars",
+                        "unexpected_m5_bars",
+                        "mismatch_count",
+                        "minimum_comparable_m5_bars",
+                        "warmup_m5_bars",
+                        "warmup_uncovered_m5_bars",
+                        "start_utc",
+                        "end_utc",
+                        "denominator_basis",
+                        "coverage_sufficient",
+                        "m5_origin",
+                        "consistency_evidence",
+                        "cross_frame_claim",
+                        "provided_coverage_percent",
+                        "comparable_coverage_percent",
+                        "matching_coverage_percent"
+                      ],
+                      "additionalProperties": false
                     }
                   },
                   "required": [
@@ -855,6 +1332,28 @@
                   "type": "null"
                 }
               ]
+            },
+            "execution_status": {
+              "enum": [
+                "NOT_RUN",
+                "COMPLETED"
+              ]
+            },
+            "warmup_snapshots": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warmup_blocked_snapshots": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warmup_abstentions": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warmup_unique_choch_events": {
+              "type": "integer",
+              "minimum": 0
             }
           },
           "required": [
@@ -1211,6 +1710,13 @@
         },
         "execution_allowed": {
           "const": false
+        },
+        "phase": {
+          "enum": [
+            "UNSCOPED",
+            "WARMUP",
+            "EVALUATION"
+          ]
         }
       },
       "required": [

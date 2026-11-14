@@ -86,8 +86,12 @@ class Dataset:
 def load_dataset(manifest_path):
     raw=read_bytes(manifest_path)
     manifest=strict_json(raw)
-    keys(manifest,'version symbol dataset_kind source utc_range frames calendar finality_attested')
-    require(type(manifest['version']) is int and manifest['version']==1,'DATASET_VERSION_UNSUPPORTED')
+    require(isinstance(manifest,dict))
+    version=manifest.get('version')
+    require(type(version) is int and version in (1,2),'DATASET_VERSION_UNSUPPORTED')
+    extra=' evaluation warmup lineage evidence_review' if version==2 else ''
+    keys(manifest,'version symbol dataset_kind source utc_range frames calendar finality_attested'+extra)
+
     require(manifest['symbol']=='XAUUSD','DATASET_SYMBOL_UNSUPPORTED')
     require(manifest['dataset_kind'] in ('SYNTHETIC_FIXTURE','INDEPENDENT_HISTORICAL'))
     require(type(manifest['finality_attested']) is bool)
@@ -107,6 +111,10 @@ def load_dataset(manifest_path):
     keys(manifest['utc_range'],'start end')
     start,end=(utc(manifest['utc_range'][k]) for k in ('start','end'))
     require(start<end,'DATASET_RANGE_INVALID')
+    declarations={}
+    if version==2:
+        from iat.evaluation_window import parse_declarations
+        declarations=parse_declarations(manifest,start,end)
     keys(manifest['frames'],'M1 M5')
     root=Path(manifest_path).resolve().parent
     rows={};coverage={};checksums={}
@@ -134,6 +142,8 @@ def load_dataset(manifest_path):
         openings=[utc(r['timestamp']) for r in frame]
         coverage[tf]={'candle_count':len(frame),'start_utc':iso(min(openings)),
                       'end_utc':iso(max(openings)+timedelta(seconds=period))}
+        if version==2:
+            require(min(openings)==utc(declarations['warmup'][tf]['start']),'WARMUP_COVERAGE_MISMATCH')
         checksums[tf]={'file_sha256':checksum,'normalized_ohlc_sha256':digest(json.dumps(frame,sort_keys=True,separators=(',',':'),allow_nan=True).encode())}
     calendar=None;calendar_sha=None
     if manifest['calendar'] is not None:
@@ -144,9 +154,10 @@ def load_dataset(manifest_path):
         try:calendar=compile_session_config(strict_json(content))
         except (ValueError,TypeError,KeyError) as exc:raise DatasetError('SESSION_CONFIG_INVALID') from exc
         require(calendar.symbol=='XAUUSD','DATASET_SYMBOL_MISMATCH')
-    metadata={'manifest_version':1,'manifest_sha256':digest(raw),'symbol':'XAUUSD','dataset_kind':manifest['dataset_kind'],
+    metadata={'manifest_version':version,'manifest_sha256':digest(raw),'symbol':'XAUUSD','dataset_kind':manifest['dataset_kind'],
         'source':dict(source,retrieved_at_utc=iso(retrieved)),'utc_range':{'start':iso(start),'end':iso(end)},
         'coverage':coverage,'checksums':checksums,'session_config_sha256':calendar_sha,
         'finality_attested':manifest['finality_attested'],'source_authenticity':'OPERATOR_DECLARATION_NOT_AUTHENTICATED'}
+    metadata.update(declarations)
     return Dataset(metadata,rows,calendar,manifest['finality_attested'],
                    'SYNTHETIC_RESEARCH' if manifest['dataset_kind']=='SYNTHETIC_FIXTURE' else 'HISTORICAL_RESEARCH')

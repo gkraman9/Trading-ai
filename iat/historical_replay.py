@@ -1,6 +1,6 @@
 """Offline dataset pipeline validation only. No broker or profitability operations."""
 from collections import Counter
-from dataclasses import asdict
+from dataclasses import asdict,replace
 from datetime import timedelta
 from hashlib import sha256
 import json
@@ -43,6 +43,10 @@ def validate_replay_report(report):
                 or dataset['session_config_sha256'] is None or report['decision_log'] is None
                 or report['summary'].get('valid_snapshots',0)<1 or report['status'] not in ('PASS','WARN')):
             raise ValueError('Historical check scope is not established')
+        if dataset['manifest_version']==2:
+            if (not all(item['status']=='VERIFIED' for item in dataset['evidence_review'].values())
+                    or not report['preflight']['alignment']['evaluation']['coverage_sufficient']):
+                raise ValueError('Evaluation evidence is incomplete')
     if report['status'] in ('PASS','WARN') and report['decision_log'] is None:
         raise ValueError('Completed replay requires a DecisionLog')
     if report['decision_log'] is not None:
@@ -74,7 +78,9 @@ def alignment_check(dataset,tolerance):
         expected={'open':rows[0]['open'],'high':max(r['high'] for r in rows),
                   'low':min(r['low'] for r in rows),'close':rows[-1]['close']}
         if any(abs(expected[k]-bar[k])>tolerance for k in expected):mismatches+=1
-    return {'policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','tolerance':tolerance,
+    from iat.evaluation_window import coverage
+    evaluation=coverage(dataset,tolerance)
+    return {'evaluation':evaluation,'policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','tolerance':tolerance,
             'comparable_m5_bars':comparable,'uncovered_m5_bars':uncovered,'mismatch_count':mismatches}
 
 
@@ -89,8 +95,8 @@ def summarize(entries):
             'abstentions':sum(e.abstained for e in entries),'abstention_reason_counts':dict(sorted(reasons.items())),
             'blocked_reason_counts':dict(sorted(quality.items())),'selected_hypothesis_counts':dict(sorted(selected.items())),
             'hypothesis_changes':changes,'evidence_appearances':sum(len(e.evidence_ids) for e in entries),
-            'unique_contextual_evidence_versions':entries[-1].unique_evidence_count if entries else 0,
-            'unique_choch_events':entries[-1].unique_event_count if entries else 0,
+            'unique_contextual_evidence_versions':len({key for e in entries for key in e.evidence_ids}),
+            'unique_choch_events':len({item['event_id'] for e in entries for item in e.context_evidence if item.get('event_id')}),
             'choch_context_revisions':event_changes,
             'decision_start_utc':entries[0].timestamp_utc if entries else None,
             'decision_end_utc':entries[-1].timestamp_utc if entries else None}
@@ -104,11 +110,15 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
     if not isinstance(config,ContextConfig) or not isinstance(phase7,IntelligenceConfig):raise ValueError('Typed configurations required')
     replay_policy={'version':1,'window':window,'as_of_policy':'M1_CLOSED_PREFIX',
                    'alignment_policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','alignment_tolerance':phase7.epsilon}
+    if dataset.metadata['manifest_version']==2:
+        replay_policy.update(evaluation=dataset.metadata['evaluation'],minimum_evaluation_m5_bars=12,
+                             m5_origin=dataset.metadata['lineage']['m5_origin'])
     hashes={'context':config.digest,'intelligence':phase7.digest,'session':dataset.metadata['session_config_sha256'],
             'replay_policy':sha256(json.dumps(replay_policy,sort_keys=True,separators=(',',':')).encode()).hexdigest()}
     run_id=sha256(json.dumps([dataset.metadata,hashes,window],sort_keys=True,separators=(',',':')).encode()).hexdigest()
     report=empty_report(run_id)
     report['dataset']=dataset.metadata
+    report['summary']=dict(summarize(()),execution_status='NOT_RUN')
     report['configurations']={'hashes':hashes,'context':asdict(config),'intelligence':asdict(phase7),'window':window}
     historical=dataset.metadata['dataset_kind']=='INDEPENDENT_HISTORICAL'
     requirements=[]
@@ -117,17 +127,23 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
         if dataset.calendar is None:requirements.append('SESSION_CALENDAR_REQUIRED')
         elif getattr(dataset.calendar,'version',1)!=2:requirements.append('SESSION_V2_REQUIRED')
         if not dataset.finality_attested:requirements.append('CANDLE_FINALITY_UNCERTAIN')
+    if historical and dataset.metadata['manifest_version']==2:
+        for name,review in dataset.metadata['evidence_review'].items():
+            if review['status']!='VERIFIED':requirements.append('EVIDENCE_'+name.upper()+'_PENDING')
+        if dataset.metadata['lineage']['m5_origin']=='UNKNOWN':requirements.append('M5_LINEAGE_UNVERIFIED')
+        if dataset.metadata['lineage']['price_basis']=='UNKNOWN':requirements.append('PRICE_BASIS_UNVERIFIED')
+        if dataset.metadata['lineage']['timestamp_convention']!='INTERVAL_OPEN_UTC':requirements.append('TIMESTAMP_CONVENTION_UNVERIFIED')
     end=utc(dataset.metadata['utc_range']['end'])
     checks={}
     for tf in ('M1','M5'):
         checks[tf]=assess_candles(dataset.rows[tf],tf,end,session_calendar=dataset.calendar,
             observed_finality=dataset.finality_attested).to_dict()
-    report['preflight']={'frames':checks,'alignment':{},'requirements':requirements}
+    alignment=alignment_check(dataset,phase7.epsilon) if all(q['valid'] for q in checks.values()) else {}
+    report['preflight']={'frames':checks,'alignment':alignment,'requirements':requirements}
     errors=[d['code'] for q in checks.values() if not q['valid'] for d in q['diagnostics']]
     if requirements or errors:
         report.update(status='BLOCKED',reason_codes=sorted(set(requirements+errors)))
         validate_replay_report(report);return report
-    alignment=alignment_check(dataset,phase7.epsilon)
     report['preflight']['alignment']=alignment
     if alignment['mismatch_count'] or not alignment['comparable_m5_bars']:
         report.update(status='FAIL',reason_codes=['M1_M5_OHLC_MISMATCH' if alignment['mismatch_count'] else 'M1_M5_ALIGNMENT_UNESTABLISHED'],
@@ -136,8 +152,17 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
     decisions=tuple(from_replay(entry) for entry in replay_context('XAUUSD',dataset.rows['M1'],dataset.rows['M5'],
         window=window,config=config,intelligence_config=phase7,provenance=dataset.provenance,
         calendar=dataset.calendar,observed_finality=dataset.finality_attested))
+    evaluation=dataset.metadata.get('evaluation')
+    if evaluation is not None:
+        a,b=(utc(evaluation[k]) for k in ('start','end'))
+        decisions=tuple(replace(d,phase='EVALUATION' if a<utc(d.timestamp_utc)<=b else 'WARMUP') for d in decisions)
     log=DecisionLog(1,hashes,decisions)
-    summary=summarize(decisions)
+    selected=tuple(d for d in decisions if d.phase=='EVALUATION') if evaluation else decisions
+    summary=dict(summarize(selected),execution_status='COMPLETED')
+    if evaluation:
+        warm=tuple(d for d in decisions if d.phase=='WARMUP')
+        summary.update(warmup_snapshots=len(warm),warmup_blocked_snapshots=sum(d.data_quality_status=='BLOCKED' for d in warm),
+                       warmup_abstentions=sum(d.abstained for d in warm),warmup_unique_choch_events=summarize(warm)['unique_choch_events'])
     report.update(decision_log=log.to_dict(),decision_log_sha256=log.sha256,summary=summary)
     report['reason_codes']=[]
     if not historical:report['reason_codes'].append('SYNTHETIC_EVIDENCE_HISTORICAL_VALIDATION_PENDING')
@@ -147,6 +172,10 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
         report['reason_codes'].append('NO_ELIGIBLE_SNAPSHOTS')
     else:
         report['status']='WARN' if report['reason_codes'] else 'PASS'
-        report['historical_validation']='DATASET_PIPELINE_CHECKS_PASSED' if historical else 'PENDING'
+        sufficient=alignment['evaluation']['coverage_sufficient']
+        report['historical_validation']='DATASET_PIPELINE_CHECKS_PASSED' if historical and (evaluation is None or sufficient) else 'PENDING'
+        if evaluation is not None and not sufficient:
+            report['reason_codes'].append('EVALUATION_COVERAGE_INSUFFICIENT')
+            report['status']='WARN'
     validate_replay_report(report)
     return report

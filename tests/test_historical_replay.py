@@ -115,7 +115,7 @@ class DatasetLoaderTests(unittest.TestCase):
         path=write_fixture(self.root);(self.root/'m1.csv').write_text('invalid',encoding='utf-8')
         with self.assertRaisesRegex(DatasetError,'DATASET_CHECKSUM_MISMATCH'):load_dataset(path)
     def test_unknown_version_bool_and_symbol(self):
-        for changes,code in (({'version':True},'DATASET_VERSION_UNSUPPORTED'),({'version':2},'DATASET_VERSION_UNSUPPORTED'),
+        for changes,code in (({'version':True},'DATASET_VERSION_UNSUPPORTED'),({'version':3},'DATASET_VERSION_UNSUPPORTED'),
                              ({'symbol':'OTHER'},'DATASET_SYMBOL_UNSUPPORTED'),({'unknown':1},'DATASET_SCHEMA_INVALID')):
             path=write_fixture(self.root);rewrite(path,lambda m:m.update(changes))
             with self.subTest(changes=changes),self.assertRaisesRegex(DatasetError,code):load_dataset(path)
