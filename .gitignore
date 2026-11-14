@@ -21,3 +21,6 @@ private-data/
 private-evidence/
 chart-review-batches/
 .iat-blind-*
+
+# Private pilot plans, qualification evidence and reviewer identities.
+pilot-batches/
