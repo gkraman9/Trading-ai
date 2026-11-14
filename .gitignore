@@ -14,3 +14,6 @@ iat-session-research-*.json
 private-data/
 *.parquet
 *.bi5
+
+# Private reasoning-journal publication temporaries.
+.iat-journal-*
