@@ -266,3 +266,64 @@ class HistoricalCLITests(unittest.TestCase):
         report=self.root/'reserved.json'
         with patch('iat.evidence.os.replace',side_effect=OSError):code,_=self.run_cli(['--report-path',str(report)])
         self.assertEqual(code,1);self.assertEqual(json.loads(report.read_text())['reason_codes'],['RUN_INCOMPLETE'])
+
+class ReplayContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from jsonschema import Draft202012Validator,FormatChecker
+        cls.schemas={name:json.loads(Path('config/'+name).read_text()) for name in (
+            'historical-dataset-v1.schema.json','decision-log-v1.schema.json','historical-replay-report-v1.schema.json')}
+        cls.validators={name:Draft202012Validator(s,format_checker=FormatChecker()) for name,s in cls.schemas.items()}
+        for s in cls.schemas.values():Draft202012Validator.check_schema(s)
+    def test_bundled_fixture_and_report_contracts(self):
+        path=Path('config/examples/replay.synthetic/manifest.json')
+        self.validators['historical-dataset-v1.schema.json'].validate(json.loads(path.read_text()))
+        result=run_dataset(load_dataset(path),config=CONFIG,intelligence_config=P7,window=25)
+        result=json.loads(json.dumps(result,allow_nan=False))
+        self.validators['historical-replay-report-v1.schema.json'].validate(result)
+        self.validators['decision-log-v1.schema.json'].validate(result['decision_log'])
+    def test_pending_report_schema_and_fixed_safety(self):
+        from iat.historical_replay import empty_report
+        from jsonschema import ValidationError
+        result=empty_report('a'*64);result.update(status='BLOCKED',reason_codes=['INDEPENDENT_DATASET_UNAVAILABLE'])
+        self.validators['historical-replay-report-v1.schema.json'].validate(result)
+        result['safety']['execution_allowed']=True
+        with self.assertRaises(ValidationError):self.validators['historical-replay-report-v1.schema.json'].validate(result)
+    def test_synthetic_report_cannot_claim_historical_certification(self):
+        result=run_dataset(load_dataset('config/examples/replay.synthetic/manifest.json'),config=CONFIG,intelligence_config=P7)
+        result['historical_validation']='DATASET_PIPELINE_CHECKS_PASSED'
+        with self.assertRaises(ValueError):validate_replay_report(result)
+    def test_future_evidence_and_unknown_versions_rejected(self):
+        path=Path('config/examples/replay.synthetic/manifest.json')
+        r=run_dataset(load_dataset(path),config=CONFIG,intelligence_config=P7)
+        decision=next(e for e in r['decision_log']['entries'] if e['context_evidence'])
+        raw=copy.deepcopy(decision)
+        raw['context_evidence'][0]['available_at']='2099-01-01T00:00:00+00:00'
+        with self.assertRaises(ValueError):Decision(**raw)
+        for version in (True,2):
+            with self.assertRaises(ValueError):Decision(**dict(decision,decision_version=version))
+    def test_log_detects_backward_decisions(self):
+        r=run_dataset(load_dataset('config/examples/replay.synthetic/manifest.json'),config=CONFIG,intelligence_config=P7)
+        decision=Decision(**r['decision_log']['entries'][0])
+        with self.assertRaises(ValueError):DecisionLog(1,r['decision_log']['configuration_hashes'],(decision,decision))
+    def test_v1_or_unknown_calendar_cannot_authorize_historical_run(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=write_fixture(Path(folder),historical=True,calendar=True)
+            data=load_dataset(path)
+            class Coarse:
+                version=1
+                def validate_history(self,*args,**kwargs):return None
+                def expected_opens(self,*args,**kwargs):return iter(())
+            result=run_dataset(replace(data,calendar=Coarse()),config=CONFIG,intelligence_config=P7)
+            self.assertEqual(result['status'],'BLOCKED');self.assertIn('SESSION_V2_REQUIRED',result['reason_codes'])
+    def test_exness_stays_blocked_with_dataset_finality_attestation(self):
+        from iat.session_config import load_session_config
+        data=load_dataset('config/examples/replay.synthetic/manifest.json')
+        calendar=load_session_config('config/profiles/exness-xauusd-v2.candidate.json')
+        result=run_dataset(replace(data,calendar=calendar),config=CONFIG,intelligence_config=P7)
+        self.assertEqual(result['status'],'BLOCKED');self.assertIsNone(result['decision_log'])
+    def test_invalid_window_cli_is_fixed_failure(self):
+        with tempfile.TemporaryDirectory() as folder,redirect_stdout(StringIO()):
+            report=Path(folder)/'window.json'
+            code=main(['--report-path',str(report),'--window','2'])
+            self.assertEqual(code,1);self.assertEqual(json.loads(report.read_text())['reason_codes'],['REPLAY_WINDOW_INVALID'])

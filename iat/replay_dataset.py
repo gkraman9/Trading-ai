@@ -49,7 +49,9 @@ def strict_json(raw):
             require(k not in out,'DATASET_DUPLICATE_KEY')
             out[k]=v
         return out
-    try:return json.loads(raw,object_pairs_hook=pairs,parse_constant=lambda _:(_ for _ in ()).throw(DatasetError('DATASET_SCHEMA_INVALID')))
+    def constant(_):
+        raise DatasetError('DATASET_SCHEMA_INVALID')
+    try:return json.loads(raw,object_pairs_hook=pairs,parse_constant=constant)
     except (ValueError,TypeError,UnicodeError) as exc:
         if isinstance(exc,DatasetError):raise
         raise DatasetError('DATASET_SCHEMA_INVALID') from exc

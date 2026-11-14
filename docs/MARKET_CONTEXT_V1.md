@@ -416,3 +416,9 @@ broker validation. GitHub Actions runs the same complete suite on Linux and
 Windows with Python 3.11.9/3.12 plus inherited Windows fail-closed smoke checks.
 Refer to the draft PR's latest commit checks for the final CI result; a prior
 successful run never certifies a later revision.
+
+## Offline dataset and DecisionLog validation
+
+See [Historical analytical replay](HISTORICAL_REPLAY_VALIDATION.md) for the
+additive stable CHoCH event_id, contextual revision counts, strict local XAUUSD
+dataset manifest and causal DecisionLog v1. Existing execution/calendar holds remain.

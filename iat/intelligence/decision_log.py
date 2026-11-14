@@ -37,6 +37,11 @@ class Decision:
         at=datetime.fromisoformat(self.timestamp_utc)
         iso(at)
         if at.utcoffset()!=timedelta(0):raise ValueError('DecisionLog requires UTC')
+        ids={e['id'] for e in self.context_evidence}
+        if ids!=set(self.evidence_ids) or not (set(self.supporting_evidence)|set(self.contradictory_evidence)|set(self.new_evidence))<=ids:
+            raise ValueError('Unresolved evidence in DecisionLog')
+        for revision in self.evidence_revisions:
+            if revision['evidence_id'] not in ids:raise ValueError('Unresolved revision in DecisionLog')
         for item in self.context_evidence:
             if datetime.fromisoformat(item['available_at'])>at:
                 raise ValueError('Future evidence in DecisionLog')

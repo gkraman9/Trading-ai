@@ -32,7 +32,9 @@ def main(argv=None):
     except (OSError,ValueError):
         print('FAIL: REPLAY_REPORT_UNAVAILABLE');return 1
     try:
-        if args.manifest is None:
+        if not 3<=args.window<=5000:
+            report['reason_codes']=['REPLAY_WINDOW_INVALID']
+        elif args.manifest is None:
             report.update(status='BLOCKED',reason_codes=['INDEPENDENT_DATASET_UNAVAILABLE'])
         else:
             context=ContextConfig.from_dict(strict_json(read_bytes(args.context_config))) if args.context_config else ContextConfig()

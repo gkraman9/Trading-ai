@@ -1,0 +1,161 @@
+{
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "symbol": {
+      "const": "XAUUSD"
+    },
+    "dataset_kind": {
+      "enum": [
+        "SYNTHETIC_FIXTURE",
+        "INDEPENDENT_HISTORICAL"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9 ._()/:-]{1,100}$"
+        },
+        "reference": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "retrieved_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "curation_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,64}$"
+        },
+        "independent_review": {
+          "enum": [
+            "PENDING",
+            "ATTESTED"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "reference",
+        "retrieved_at_utc",
+        "curation_id",
+        "independent_review"
+      ],
+      "additionalProperties": false
+    },
+    "utc_range": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "end": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "frames": {
+      "type": "object",
+      "properties": {
+        "M1": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "file",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "M5": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "file",
+            "sha256"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "M1",
+        "M5"
+      ],
+      "additionalProperties": false
+    },
+    "calendar": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "file",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finality_attested": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "version",
+    "symbol",
+    "dataset_kind",
+    "source",
+    "utc_range",
+    "frames",
+    "calendar",
+    "finality_attested"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local curated XAUUSD replay manifest v1",
+  "description": "Runtime additionally enforces safe relative paths, credential/query-free source references, checksums, row limits and temporal relations. Attestations are operator declarations."
+}

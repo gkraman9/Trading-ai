@@ -34,6 +34,17 @@ def validate_replay_report(report):
         raise ValueError('Unsafe replay report')
     if report['historical_validation'] not in ('PENDING','FAILED','DATASET_PIPELINE_CHECKS_PASSED'):
         raise ValueError('Invalid historical validation state')
+    dataset=report['dataset']
+    if dataset is not None and dataset['dataset_kind']=='SYNTHETIC_FIXTURE' and report['historical_validation']!='PENDING':
+        raise ValueError('Synthetic data cannot certify historical validation')
+    if report['historical_validation']=='DATASET_PIPELINE_CHECKS_PASSED':
+        if (dataset is None or dataset['dataset_kind']!='INDEPENDENT_HISTORICAL'
+                or dataset['source']['independent_review']!='ATTESTED' or not dataset['finality_attested']
+                or dataset['session_config_sha256'] is None or report['decision_log'] is None
+                or report['summary'].get('valid_snapshots',0)<1 or report['status'] not in ('PASS','WARN')):
+            raise ValueError('Historical check scope is not established')
+    if report['status'] in ('PASS','WARN') and report['decision_log'] is None:
+        raise ValueError('Completed replay requires a DecisionLog')
     if report['decision_log'] is not None:
         log=report['decision_log']
         if set(log)!={'log_version','configuration_hashes','entries'} or type(log['log_version']) is not int or log['log_version']!=1:
@@ -91,7 +102,10 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
     config=ContextConfig() if config is None else config
     phase7=IntelligenceConfig() if intelligence_config is None else intelligence_config
     if not isinstance(config,ContextConfig) or not isinstance(phase7,IntelligenceConfig):raise ValueError('Typed configurations required')
-    hashes={'context':config.digest,'intelligence':phase7.digest,'session':dataset.metadata['session_config_sha256']}
+    replay_policy={'version':1,'window':window,'as_of_policy':'M1_CLOSED_PREFIX',
+                   'alignment_policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','alignment_tolerance':phase7.epsilon}
+    hashes={'context':config.digest,'intelligence':phase7.digest,'session':dataset.metadata['session_config_sha256'],
+            'replay_policy':sha256(json.dumps(replay_policy,sort_keys=True,separators=(',',':')).encode()).hexdigest()}
     run_id=sha256(json.dumps([dataset.metadata,hashes,window],sort_keys=True,separators=(',',':')).encode()).hexdigest()
     report=empty_report(run_id)
     report['dataset']=dataset.metadata
