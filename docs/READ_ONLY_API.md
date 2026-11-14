@@ -78,3 +78,9 @@ for blocked Exness evidence and Windows instructions.
 See [Phase 7 intelligence](MARKET_INTELLIGENCE_V1.md) for the additive
 read-only research endpoint, causal swing/break definitions and offline replay.
 Existing session/data-quality gates and execution restrictions remain enforced.
+
+## Phase 8 market context
+
+See [Market Context & Confluence v1](MARKET_CONTEXT_V1.md) for the additive
+context endpoint, timestamp/content evidence identity and capped heuristic scenarios.
+The existing analytical endpoints and execution restrictions remain unchanged.

@@ -173,3 +173,20 @@ class MomentumVolatilityTests(unittest.TestCase):
             with self.subTest(changes=changes),self.assertRaises(ValueError):ContextConfig(**changes)
         with self.assertRaises(ValueError):ContextConfig.from_dict({'unknown':1,'version':1})
         with self.assertRaises(ValueError):ContextConfig.from_dict({})
+
+
+class RegimeBoundaryTests(unittest.TestCase):
+    def test_roc_threshold_is_strict_and_not_a_signal(self):
+        cs=candles([(v-.5,v+1,v-1,v+.5) for v in (10,11,12,13)])
+        value=momentum.measure(cs,CONFIG)['roc']
+        self.assertEqual(momentum.measure(cs,replace(CONFIG,momentum_threshold=value))['regime'],'WEAK_OR_MIXED_MOMENTUM')
+    def test_relative_volatility_at_high_boundary_is_normal(self):
+        cs=candles([(10,11,9,10)]*2+[(10,11.5,8.5,10)]*2)
+        value=volatility.measure(cs,replace(CONFIG,volatility_high=1.5))
+        self.assertEqual(value['relative_volatility'],1.5)
+        self.assertEqual(value['regime'],'NORMAL_VOLATILITY')
+    def test_stronger_negative_roc_accelerates_in_magnitude(self):
+        cs=candles([(v+.1,v+.5,v-.5,v-.1) for v in (20,19,18,15)])
+        value=momentum.measure(cs,CONFIG)
+        self.assertEqual(value['regime'],'NEGATIVE_MOMENTUM')
+        self.assertEqual(value['change'],'ACCELERATING')

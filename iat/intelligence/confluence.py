@@ -36,9 +36,10 @@ def evaluate(evidence,config,context):
     if scores[leader]-opposition<config.minimum_margin:abstain.append('HEURISTIC_MARGIN_TOO_SMALL')
     if opposition>=config.contradiction_limit:abstain.append('MATERIAL_OPPOSING_EVIDENCE')
     # Explicitly independent from Phase 7 alignment (which gives matching structure precedence).
+    reference=context['m5_structure'] if context['m5_structure'] in ('BULLISH','BEARISH') else leader
     opposing_choch=[e.id for e in unique.values() if e.category=='TRANSITION' and e.timeframe=='M1'
         and e.details.get('fresh') is True and e.direction in ('BULLISH','BEARISH')
-        and e.direction!=leader and leader in ('BULLISH','BEARISH')]
+        and e.direction!=reference and reference in ('BULLISH','BEARISH')]
     if opposing_choch:abstain.append('FRESH_OPPOSING_M1_CHOCH')
     if any(e.category=='VOLATILITY' and e.details.get('regime')=='HIGH_VOLATILITY' for e in unique.values()):
         abstain.append('HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH')

@@ -84,3 +84,18 @@ class ContextAPITests(unittest.TestCase):
     def test_trusted_app_context_configuration(self):
         r=self.safe(self.client(context_config=ContextConfig(minimum_score=10)).get('/research/v1/context?symbol=XAUUSD'),200)
         self.assertEqual(r['configuration']['minimum_score'],10)
+
+    def test_backward_clock_blocks_context(self):
+        moments=iter([NOW,NOW,NOW-timedelta(minutes=1)])
+        start=NOW.replace(hour=0,minute=0,second=0);end=start+timedelta(days=1)
+        app=create_app(mt5=DualProvider(),clock=lambda:next(moments),
+            session_calendars={'XAUUSD':SessionCalendar('XAUUSD',start,end,((start,end),))})
+        r=self.safe(app.test_client().get('/research/v1/context?symbol=XAUUSD'),503)
+        self.assertEqual(r['reason_codes'],['CLOCK_MOVED_BACKWARD'])
+    def test_second_fetch_becoming_stale_cannot_return_context(self):
+        calls=iter([NOW,NOW,NOW,NOW,NOW+timedelta(minutes=20)])
+        start=NOW.replace(hour=0,minute=0,second=0);end=start+timedelta(days=1)
+        app=create_app(mt5=DualProvider(),clock=lambda:next(calls),
+            session_calendars={'XAUUSD':SessionCalendar('XAUUSD',start,end,((start,end),))})
+        r=self.safe(app.test_client().get('/research/v1/context?symbol=XAUUSD'),503)
+        self.assertFalse(r['hypotheses'])

@@ -56,6 +56,16 @@ class ConfluenceTests(unittest.TestCase):
         r=confluence.evaluate(es,CONFIG,ctx())
         self.assertIn('HEURISTIC_MARGIN_TOO_SMALL',r['abstention_reasons'])
 
+    def test_fresh_choch_against_m5_is_not_hidden_when_scores_change_leader(self):
+        es=[evidence('a','STRUCTURE'),evidence('b','STRUCTURE',tf='M5'),
+            evidence('c','TRANSITION','BEARISH',details={'fresh':True}),
+            evidence('d','MOMENTUM','BEARISH'),evidence('e','MOMENTUM','BEARISH','M5'),
+            evidence('f','LIQUIDITY','BEARISH')]
+        r=confluence.evaluate(es,replace(CONFIG,contradiction_limit=100,minimum_score=1),ctx())
+        self.assertEqual(r['leader'],'BEARISH')
+        self.assertEqual(r['fresh_opposing_m1_choch'],['c'])
+        self.assertIn('FRESH_OPPOSING_M1_CHOCH',r['abstention_reasons'])
+
     def test_low_support_abstains(self):
         r=confluence.evaluate([evidence('a','CANDLE')],CONFIG,ctx())
         self.assertIn('INSUFFICIENT_HEURISTIC_SUPPORT',r['abstention_reasons'])
