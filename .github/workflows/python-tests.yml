@@ -19,6 +19,7 @@ on:
       - feat/iat2-offline-strategies-v1
       - feat/iat2-strategy-replay-v1
       - feat/iat2-strategy-dataset-replay
+      - feat/iat2-adaptive-intelligence-v1
   pull_request:
     branches:
       - main
@@ -36,6 +37,7 @@ on:
       - feat/iat2-source-qualification-review
       - feat/iat2-offline-strategies-v1
       - feat/iat2-strategy-replay-v1
+      - feat/iat2-strategy-dataset-replay
   workflow_dispatch:
 
 permissions:
