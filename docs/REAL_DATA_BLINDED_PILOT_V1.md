@@ -58,6 +58,9 @@ identity mappings remain private. There is no real approved record in this PR.
 calling any analytical replay. It creates a fresh directory and refuses overwrite.
 The plan binds dataset/qualification/configuration hashes, full source interval,
 reviewer roster, sampling, regime goals, blinding and versioned metrics.
+It explicitly pins strategy-registry, compatibility and ranking hashes as well
+as context/intelligence/adaptive/review configurations; changed rule hashes require
+a new registration even when numeric thresholds stay the same.
 `packets` is a separate step: it rechecks the exact source and human qualification
 record before IAT replay. Changed datasets or configurations require a new plan.
 

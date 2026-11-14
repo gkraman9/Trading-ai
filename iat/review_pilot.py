@@ -11,6 +11,8 @@ from iat.intelligence.models import IntelligenceConfig,iso
 from iat.intelligence.context_models import ContextConfig
 from iat.intelligence.strategy_replay import digest
 from iat.historical_replay import dataset_preflight,safety
+from iat.intelligence.strategy_registry import registry
+from iat.intelligence.adaptive_models import COMPATIBILITY,RANKING
 
 EVENTS=('HH_HL','LH_LL','BOS_UP','BOS_DOWN','CHOCH_UP','CHOCH_DOWN','LIQUIDITY_SWEEP_UP','LIQUIDITY_SWEEP_DOWN')
 METRICS={'version':1,'regime':'EXACT_OR_UNCERTAIN_PARTIAL_OTHERWISE_DISAGREEMENT',
@@ -24,7 +26,7 @@ METRICS={'version':1,'regime':'EXACT_OR_UNCERTAIN_PARTIAL_OTHERWISE_DISAGREEMENT
 def _configs(config=None,intelligence_config=None):
     config=ContextConfig() if config is None else config;phase7=IntelligenceConfig() if intelligence_config is None else intelligence_config
     require(isinstance(config,ContextConfig) and isinstance(phase7,IntelligenceConfig))
-    h=empty_journal_dataset_report()['configuration_hashes'];h.update(context=config.digest,intelligence=phase7.digest)
+    h=empty_journal_dataset_report()['configuration_hashes'];h.update(context=config.digest,intelligence=phase7.digest,strategy_registry=registry()['sha256'],compatibility=digest(COMPATIBILITY),ranking=digest(RANKING))
     return config,phase7,h
 
 
@@ -35,6 +37,8 @@ def _validate_plan(plan):
     require(type(plan['revision']) is int and plan['revision']>=1);identifier(plan['pilot_id'])
     require((plan['revision']==1 and plan['parent_plan_sha256'] is None) or (plan['revision']>1 and isinstance(plan['parent_plan_sha256'],str) and len(plan['parent_plan_sha256'])==64))
     require(plan['mode'] in ('REAL','SYNTHETIC_ONLY') and plan['metrics']==METRICS)
+    keys(plan['configuration_hashes'],'context intelligence adaptive review strategy_registry compatibility ranking')
+    require(all(isinstance(h,str) and re.fullmatch('[a-f0-9]{64}',h) is not None for h in plan['configuration_hashes'].values()))
     for field in ('dataset_id','dataset_manifest_sha256'):
         require(isinstance(plan[field],str) and re.fullmatch('[a-f0-9]{64}',plan[field]) is not None)
     if plan['parent_plan_sha256'] is not None:require(re.fullmatch('[a-f0-9]{64}',plan['parent_plan_sha256']) is not None)
@@ -129,7 +133,9 @@ def validate_pilot(bundle):
     plan=bundle['plan'];_validate_plan(plan);benchmark=bundle['benchmark'];validate_bundle(benchmark)
     require(plan['reviewer_codes']==benchmark['reviewer_ids'])
     result=benchmark['journal_dataset_result'];require(digest(result['dataset'])==plan['dataset_id'])
-    require(result['configuration_hashes']==plan['configuration_hashes'])
+    require(all(plan['configuration_hashes'].get(k)==v for k,v in result['configuration_hashes'].items()))
+    actual=result['reasoning_journal']['adaptive_configuration_hashes']
+    require(actual is not None and all(plan['configuration_hashes'].get(k)==actual[k] for k in ('strategy_registry','compatibility','ranking')))
     require([p['timestamp_utc'] for p in benchmark['packets']]==plan['timestamps'])
     require((plan['mode']=='SYNTHETIC_ONLY')==(result['dataset']['dataset_kind']=='SYNTHETIC_FIXTURE'))
     require(set(bundle['structure_observations'])==set(benchmark['bindings']))

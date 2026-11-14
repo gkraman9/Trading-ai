@@ -1,13 +1,16 @@
 {
   "pilot_report_version": 1,
   "classification": "SYNTHETIC_ONLY",
-  "plan_sha256": "2e4c22aaba8cf82c327c78de6685cd2f71073692e2b770384cf78b699f21573f",
+  "plan_sha256": "d64651c8a7d9f5edf2ec0565032940243b787445ab3a7c1f0cf4991ac3467647",
   "dataset_id": "af0dbc5512712de68435f1f0796809971105694d6c83429de05ccb811d3da38b",
   "configuration_hashes": {
     "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
     "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
     "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
-    "review": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd"
+    "review": "3657feefc9bda2adf1cae3593dcb94487eb7d0ae2ccc2fa61e7d7b3ea73b26bd",
+    "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+    "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+    "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18"
   },
   "metrics_policy": {
     "version": 1,
@@ -1384,5 +1387,5 @@
     "profitability_tested": false
   },
   "exness": "BLOCKED",
-  "sha256": "465934fbe4296b95ffd989f5c26d087bb7fc8331b8856fadc114493bbd34facc"
+  "sha256": "759ce90cc6c8153518e338ff0adb7377b02db757d5988e6159cf4188ab45e622"
 }

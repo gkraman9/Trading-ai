@@ -207,3 +207,10 @@ class ReviewPilotTests(unittest.TestCase):
         self.assertFalse(audit['real_independent_human_reviews_performed'])
         for k in ('full_full_bundle_identical','full_full_export_identical','prefix_packets_identical','prefix_confirmed_events_identical'):self.assertTrue(audit[k])
         self.assertEqual(read_json(path/'packet.json'),self.bundle['benchmark']['packets'][-1])
+
+    def test_registered_strategy_registry_cannot_change_silently(self):
+        with patch('iat.review_pilot.registry',return_value={'sha256':'0'*64}):
+            with self.assertRaises(ValueError):generate_pilot(self.plan,self.path,config=CONFIG,intelligence_config=P7)
+        self.assertIn('strategy_registry',self.plan['configuration_hashes'])
+        self.assertIn('compatibility',self.plan['configuration_hashes'])
+        self.assertIn('ranking',self.plan['configuration_hashes'])
