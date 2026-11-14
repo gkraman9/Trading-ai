@@ -1,0 +1,1090 @@
+{
+  "audit_version": 1,
+  "base_commit": "d34a64443db83ec06d5704e3750eb81a2184ff0a",
+  "fixture_recipe": "tests/test_adaptive_intelligence.py:synthetic_cases",
+  "settings": "INHERITED_SMALL_WINDOW_SYNTHETIC_CONFIGS_NOT_DEFAULT_REPLACEMENTS",
+  "snapshot_cases": [
+    {
+      "case": "trend_up",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "cf2a1b34d2d46357578d8f197a6195d1483f209af985abf421df9dd3ed3ec9a2",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "b4f727dc11ead0906f3ed56f8a63b65fd4b3bb19221fbee37f66eb3aaea471f8",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TREND_UP",
+      "volatility": "HIGH",
+      "top_scenarios": [
+        "BULLISH"
+      ],
+      "top_candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH"
+        }
+      ],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "QUALIFIES",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "CANDIDATE",
+          "heuristic_score": 6.5,
+          "rank": 1
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 6.5,
+        "BEARISH": -6.5,
+        "NEUTRAL": -6.5
+      },
+      "reason_codes": [
+        "CONFIRMED_UP_STRUCTURE_BOTH_FRAMES"
+      ]
+    },
+    {
+      "case": "trend_down",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "5fd7a6acbce0df632fd8e10616707ed8b119353bd03406d9b3126b97b92c4270",
+        "M5": "ce2bfdeb0d1e41c2abb61fb15dd3afabe7bd7329323883bf150e752f9500855d"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "19b3f514f868fd8a2301eec500820dc0628e64752581c8511e63dbeb8b554509",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TREND_DOWN",
+      "volatility": "HIGH",
+      "top_scenarios": [
+        "BEARISH"
+      ],
+      "top_candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH"
+        }
+      ],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "QUALIFIES",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "CANDIDATE",
+          "heuristic_score": 6.5,
+          "rank": 1
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": -6.5,
+        "BEARISH": 6.5,
+        "NEUTRAL": -6.5
+      },
+      "reason_codes": [
+        "CONFIRMED_DOWN_STRUCTURE_BOTH_FRAMES"
+      ]
+    },
+    {
+      "case": "range",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "5ed729486419b9de46ae52ffb2e5653ac26585a9655853823806cba8bd02310c",
+        "M5": "463ef4c1ddb21a89e4d87d9f6fe05973cd16dbf86d860251df88083cab6d6bf7"
+      },
+      "timestamp_utc": "2026-11-12T08:24:00+00:00",
+      "report_sha256": "a6d78a3c1ee5d45f1bc0c0a3c886c58de52fa64c48b941c07d9bc37d2a4b63b7",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "RANGE",
+      "volatility": "NORMAL",
+      "top_scenarios": [
+        "NEUTRAL"
+      ],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": -4.0,
+        "BEARISH": -4.0,
+        "NEUTRAL": 4.0
+      },
+      "reason_codes": [
+        "CONFIRMED_RANGE_BOTH_FRAMES",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "normal_trend_missing_confirmation",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "d12da9f0dd77621a3550e869b91ea995a4874889876433a93a5c72e8078a153e",
+        "M5": "6a6a95c35f97fd904f6d2f3982dee5e2749d09bbbb68481424b7e6a0aa157686"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "e20fa445c39b23e697d3c945881150ef26db5c97c68a804d4cc22c1c2a8cd0a5",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TREND_UP",
+      "volatility": "NORMAL",
+      "top_scenarios": [
+        "BULLISH"
+      ],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 4.0,
+        "BEARISH": -4.0,
+        "NEUTRAL": -4.0
+      },
+      "reason_codes": [
+        "CONFIRMED_UP_STRUCTURE_BOTH_FRAMES",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "high_volatility_trend",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "cbd3164aef3a81036efdf8a220715010b9547e09b37abcaa7e5c4274885fe09f",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "a0b4933b8d7c3115352ab0a02bb34a45f0d5a4c6834765d71932773c7f5f213d",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TREND_UP",
+      "volatility": "HIGH",
+      "top_scenarios": [
+        "BULLISH"
+      ],
+      "top_candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH"
+        }
+      ],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "QUALIFIES",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "CANDIDATE",
+          "heuristic_score": 6.5,
+          "rank": 1
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "INCOMPATIBLE",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 6.5,
+        "BEARISH": -6.5,
+        "NEUTRAL": -6.5
+      },
+      "reason_codes": [
+        "CONFIRMED_UP_STRUCTURE_BOTH_FRAMES"
+      ]
+    },
+    {
+      "case": "fresh_opposing_choch",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "c0e8d32cf938b6aa3c7299c0c95588cd2fbaee0b42570010697d6d535351c031",
+        "M5": "6a6a95c35f97fd904f6d2f3982dee5e2749d09bbbb68481424b7e6a0aa157686"
+      },
+      "timestamp_utc": "2026-11-12T08:23:00+00:00",
+      "report_sha256": "3e2e8890aa654816fddbeadea4d81380d2f3e6b706b205bd01a90bfe4341a7ab",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TRANSITION",
+      "volatility": "NORMAL",
+      "top_scenarios": [
+        "BULLISH"
+      ],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "INVALIDATED",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 2.0,
+        "BEARISH": -2.0,
+        "NEUTRAL": -4.0
+      },
+      "reason_codes": [
+        "FRESH_M1_STRUCTURE_CHANGE_AGAINST_M5",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "sweep_bearish",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "00ae899b457451f262c7b2468d121bc3e3f4b700e771c0dd2b2c68135748a506",
+        "M5": "ce2bfdeb0d1e41c2abb61fb15dd3afabe7bd7329323883bf150e752f9500855d"
+      },
+      "timestamp_utc": "2026-11-12T08:23:00+00:00",
+      "report_sha256": "765d950dc58d8702a0d2143269692509b5a4de90f9f29e14b8fbac4d3780d759",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TRANSITION",
+      "volatility": "HIGH",
+      "top_scenarios": [
+        "BEARISH"
+      ],
+      "top_candidates": [
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH"
+        }
+      ],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "QUALIFIES",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "CANDIDATE",
+          "heuristic_score": 3.5,
+          "rank": 1
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": -3.5,
+        "BEARISH": 3.5,
+        "NEUTRAL": -6.5
+      },
+      "reason_codes": [
+        "CONFIRMED_STRUCTURE_DISAGREEMENT_OR_TRANSITION"
+      ]
+    },
+    {
+      "case": "sweep_bullish",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "832fd23cb79cce28a312fafac8de8e039abd840ec5d68a660dc8c40ac664b8f0",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "timestamp_utc": "2026-11-12T08:23:00+00:00",
+      "report_sha256": "7221db8eb410be195ac6c0b6da79e82101fe0348ef490145940c40a1dab48f5e",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TRANSITION",
+      "volatility": "HIGH",
+      "top_scenarios": [
+        "BULLISH"
+      ],
+      "top_candidates": [
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH"
+        }
+      ],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "QUALIFIES",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "CANDIDATE",
+          "heuristic_score": 3.5,
+          "rank": 1
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 3.5,
+        "BEARISH": -3.5,
+        "NEUTRAL": -6.5
+      },
+      "reason_codes": [
+        "CONFIRMED_STRUCTURE_DISAGREEMENT_OR_TRANSITION"
+      ]
+    },
+    {
+      "case": "opposing_frame_scenario_tie",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "d12da9f0dd77621a3550e869b91ea995a4874889876433a93a5c72e8078a153e",
+        "M5": "ff43441c2a3f195d7dbde1f79363226246bd1ce4e9317a5f0b76a89788a63851"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "25871904d54e0569d75727a15f9efe122ec6b233221f6aba1dd57cf560c9525a",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "READY",
+      "regime": "TRANSITION",
+      "volatility": "NORMAL",
+      "top_scenarios": [
+        "BULLISH",
+        "BEARISH"
+      ],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "CONDITIONAL",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "SUPPORTED",
+          "assessment_status": "RULES_FAILED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 0.0,
+        "BEARISH": 0.0,
+        "NEUTRAL": -2.0
+      },
+      "reason_codes": [
+        "CONFIRMED_STRUCTURE_DISAGREEMENT_OR_TRANSITION",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "insufficient_history",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "67bfc6f83fdd9020d3d87982043057c137c0577701d05af365187102a8f204b5",
+        "M5": "8386e77959632616317c09398358b238b3bedb5717a9dd9afc68e9265e1ef579"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "cf233d0c397f3dfae02d803e124407e42c9b5aac5e81573b31494ca6705794a3",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "UNKNOWN",
+      "regime": "UNKNOWN",
+      "volatility": "UNKNOWN",
+      "top_scenarios": [],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "UNKNOWN",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "UNKNOWN",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "UNKNOWN",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "ABSTAINS",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "UNKNOWN",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": null,
+        "BEARISH": null,
+        "NEUTRAL": null
+      },
+      "reason_codes": [
+        "CONFIRMED_M1_M5_STRUCTURE_REQUIRED",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "blocked_gap",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "CAUSAL_QUERY",
+      "input_sha256": {
+        "M1": "c24266240c24ee5e7862c548ce1cf7ba8bcabbfee69bf61b82c65955e955a921",
+        "M5": "4911ddadfaf7156fc6daaf5f545513cea3facfe4403b303181550bad1d7c1289"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "0e57060e4e21214547cb3c57f331fb95d0e187af399a865ff41794f263dcbcbb",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "BLOCKED",
+      "regime": "UNKNOWN",
+      "volatility": "UNKNOWN",
+      "top_scenarios": [],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": null,
+        "BEARISH": null,
+        "NEUTRAL": null
+      },
+      "reason_codes": [
+        "BLOCKED_DATA_QUALITY",
+        "GAP_UNVERIFIED",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    },
+    {
+      "case": "direct_unfinished_m5",
+      "fixture_kind": "SYNTHETIC_OHLC_ONLY",
+      "entry_point": "DIRECT_CONTEXT_REJECTS_UNCLOSED",
+      "input_sha256": {
+        "M1": "cf2a1b34d2d46357578d8f197a6195d1483f209af985abf421df9dd3ed3ec9a2",
+        "M5": "ef04cd30675baaf747725b8638cae45c5ccad38b08cfbe3574079f945dfa2627"
+      },
+      "timestamp_utc": "2026-11-12T08:21:00+00:00",
+      "report_sha256": "985b3092503415ffdb7451e4d41e0fe387867e974c2baac7f21c2db2366ebadd",
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "strategy_registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "adaptive": "4a019757e5e833fd5ef71c17051c5c039096e5c3a9955e285e77da9a190d9c4a",
+        "compatibility": "5fa8609bb4ed15d86024260d1f09cf01d8a6e4525c039079631e8bb5b7d5f27d",
+        "ranking": "9bbe7a9a7d1d45387fe367d61c35133da5a4919927b9689b0ccc5baa6548ff18",
+        "session": null,
+        "observed_finality": null
+      },
+      "status": "BLOCKED",
+      "regime": "UNKNOWN",
+      "volatility": "UNKNOWN",
+      "top_scenarios": [],
+      "top_candidates": [],
+      "candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH",
+          "rule_status": "NOT_EVALUATED",
+          "compatibility": "UNKNOWN",
+          "assessment_status": "BLOCKED",
+          "heuristic_score": null,
+          "rank": null
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": null,
+        "BEARISH": null,
+        "NEUTRAL": null
+      },
+      "reason_codes": [
+        "BAR_UNCLOSED",
+        "BLOCKED_DATA_QUALITY",
+        "NO_SUITABLE_STRATEGY_CANDIDATE"
+      ]
+    }
+  ],
+  "multiple_candidate_contracts": [
+    {
+      "fixture_kind": "SYNTHETIC_OBSERVATION_CONTRACT",
+      "direction": "BULLISH",
+      "report_sha256": "db1731ad29adedd3a3bd9527402a60c0a6c9a512c5bb08a549416f93e459316a",
+      "top_candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BULLISH"
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BULLISH"
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": 7.5,
+        "BEARISH": -7.5,
+        "NEUTRAL": -7.5
+      }
+    },
+    {
+      "fixture_kind": "SYNTHETIC_OBSERVATION_CONTRACT",
+      "direction": "BEARISH",
+      "report_sha256": "38e5af5d101b8369e07b5636fb32d6282fe0ad664f992b0b2fee32f43e391ab2",
+      "top_candidates": [
+        {
+          "strategy_id": "M5_TREND_M1_CONFIRMATION",
+          "direction": "BEARISH"
+        },
+        {
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+          "direction": "BEARISH"
+        }
+      ],
+      "scenario_scores": {
+        "BULLISH": -7.5,
+        "BEARISH": 7.5,
+        "NEUTRAL": -7.5
+      }
+    }
+  ],
+  "software_replays": [
+    {
+      "case": "trend_up",
+      "scope": "SYNTHETIC_SOFTWARE_ONLY",
+      "timestamps": 21,
+      "status_counts": {
+        "BLOCKED": 2,
+        "READY": 13,
+        "UNKNOWN": 6
+      },
+      "regime_counts": {
+        "TREND_UP": 13,
+        "UNKNOWN": 8
+      },
+      "full_report_sequence_hashes": [
+        "f73d288f867944410a698596d90cba1366478c8bbe08df4de57473ecd85e866b",
+        "f73d288f867944410a698596d90cba1366478c8bbe08df4de57473ecd85e866b"
+      ],
+      "repeatability": "PASS",
+      "prefix_timestamps": 20,
+      "prefix_sha256": "886bc84e2bb07a8ce9a376c01795a2091729cf6dcfdfc1d2c1501c857b5223c7",
+      "prefix_equivalence": "PASS",
+      "future_append_invariance": "PASS"
+    },
+    {
+      "case": "trend_down",
+      "scope": "SYNTHETIC_SOFTWARE_ONLY",
+      "timestamps": 21,
+      "status_counts": {
+        "BLOCKED": 2,
+        "READY": 13,
+        "UNKNOWN": 6
+      },
+      "regime_counts": {
+        "TREND_DOWN": 13,
+        "UNKNOWN": 8
+      },
+      "full_report_sequence_hashes": [
+        "77858f4f8cc1a7da5d883d73c727ff3deb0865cfb57083022253bed49b0ebffd",
+        "77858f4f8cc1a7da5d883d73c727ff3deb0865cfb57083022253bed49b0ebffd"
+      ],
+      "repeatability": "PASS",
+      "prefix_timestamps": 20,
+      "prefix_sha256": "5328d3fd56c9fe6e579ff28551ff698ba17cb37ae5614c69195601255d36bbf0",
+      "prefix_equivalence": "PASS",
+      "future_append_invariance": "PASS"
+    },
+    {
+      "case": "range",
+      "scope": "SYNTHETIC_SOFTWARE_ONLY",
+      "timestamps": 24,
+      "status_counts": {
+        "BLOCKED": 2,
+        "READY": 16,
+        "UNKNOWN": 6
+      },
+      "regime_counts": {
+        "RANGE": 16,
+        "UNKNOWN": 8
+      },
+      "full_report_sequence_hashes": [
+        "3728d9a9b73e6d7780b8a8cd77288fec81b96e99ab2ef52a32c9a69d477bbf45",
+        "3728d9a9b73e6d7780b8a8cd77288fec81b96e99ab2ef52a32c9a69d477bbf45"
+      ],
+      "repeatability": "PASS",
+      "prefix_timestamps": 23,
+      "prefix_sha256": "5a53f460cbbeff43223e7362de686f149c77f4b13488699d50c41c0b69502383",
+      "prefix_equivalence": "PASS",
+      "future_append_invariance": "PASS"
+    },
+    {
+      "case": "sweep_bearish",
+      "scope": "SYNTHETIC_SOFTWARE_ONLY",
+      "timestamps": 23,
+      "status_counts": {
+        "BLOCKED": 2,
+        "READY": 15,
+        "UNKNOWN": 6
+      },
+      "regime_counts": {
+        "TRANSITION": 15,
+        "UNKNOWN": 8
+      },
+      "full_report_sequence_hashes": [
+        "bd793f66d26e9038e3268401aadcf6ec6a8ab430a807a091807754bdf1380a3b",
+        "bd793f66d26e9038e3268401aadcf6ec6a8ab430a807a091807754bdf1380a3b"
+      ],
+      "repeatability": "PASS",
+      "prefix_timestamps": 22,
+      "prefix_sha256": "7c17125f18335d32ac35d29f317d2ee4d258e74b2d8d6b02793f2dff150a4f55",
+      "prefix_equivalence": "PASS",
+      "future_append_invariance": "PASS"
+    },
+    {
+      "case": "sweep_bullish",
+      "scope": "SYNTHETIC_SOFTWARE_ONLY",
+      "timestamps": 23,
+      "status_counts": {
+        "BLOCKED": 2,
+        "READY": 15,
+        "UNKNOWN": 6
+      },
+      "regime_counts": {
+        "TRANSITION": 15,
+        "UNKNOWN": 8
+      },
+      "full_report_sequence_hashes": [
+        "fedbc7b86b396d22c99d020880ba7f5aa73374125acee6a4abbdad7310ef6533",
+        "fedbc7b86b396d22c99d020880ba7f5aa73374125acee6a4abbdad7310ef6533"
+      ],
+      "repeatability": "PASS",
+      "prefix_timestamps": 22,
+      "prefix_sha256": "4666b068cb68d2ef26960246ae37b0fd225367f52de9e64ba1af24d782b4447f",
+      "prefix_equivalence": "PASS",
+      "future_append_invariance": "PASS"
+    }
+  ],
+  "historical_validation": "PENDING",
+  "historical_decision_log_comparisons": "NOT_RUN",
+  "historical_metrics": null,
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
