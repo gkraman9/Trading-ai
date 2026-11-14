@@ -12,6 +12,7 @@ on:
       - feat/iat2-exness-calendar
       - feat/iat2-session-engine-v2
       - feat/iat2-market-intelligence-v1
+      - feat/iat2-market-context-v1
   pull_request:
     branches:
       - main
@@ -22,6 +23,7 @@ on:
       - feat/iat2-windows-demo
       - feat/iat2-exness-calendar
       - feat/iat2-session-engine-v2
+      - feat/iat2-market-intelligence-v1
   workflow_dispatch:
 
 permissions:
