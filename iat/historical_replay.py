@@ -102,24 +102,12 @@ def summarize(entries):
             'decision_end_utc':entries[-1].timestamp_utc if entries else None}
 
 
-def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
+
+def dataset_preflight(dataset, *, intelligence_config=None):
+    """Shared source, calendar, closed-bar, quality and cross-frame checks."""
     if not isinstance(dataset,Dataset):raise ValueError('Validated dataset container required')
-    if type(window) is not int or not 3<=window<=5000:raise ValueError('Replay window must be in [3,5000]')
-    config=ContextConfig() if config is None else config
     phase7=IntelligenceConfig() if intelligence_config is None else intelligence_config
-    if not isinstance(config,ContextConfig) or not isinstance(phase7,IntelligenceConfig):raise ValueError('Typed configurations required')
-    replay_policy={'version':1,'window':window,'as_of_policy':'M1_CLOSED_PREFIX',
-                   'alignment_policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','alignment_tolerance':phase7.epsilon}
-    if dataset.metadata['manifest_version']==2:
-        replay_policy.update(evaluation=dataset.metadata['evaluation'],minimum_evaluation_m5_bars=12,
-                             m5_origin=dataset.metadata['lineage']['m5_origin'])
-    hashes={'context':config.digest,'intelligence':phase7.digest,'session':dataset.metadata['session_config_sha256'],
-            'replay_policy':sha256(json.dumps(replay_policy,sort_keys=True,separators=(',',':')).encode()).hexdigest()}
-    run_id=sha256(json.dumps([dataset.metadata,hashes,window],sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    report=empty_report(run_id)
-    report['dataset']=dataset.metadata
-    report['summary']=dict(summarize(()),execution_status='NOT_RUN')
-    report['configurations']={'hashes':hashes,'context':asdict(config),'intelligence':asdict(phase7),'window':window}
+    if not isinstance(phase7,IntelligenceConfig):raise ValueError('Typed intelligence configuration required')
     historical=dataset.metadata['dataset_kind']=='INDEPENDENT_HISTORICAL'
     requirements=[]
     if historical:
@@ -139,16 +127,41 @@ def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
         checks[tf]=assess_candles(dataset.rows[tf],tf,end,session_calendar=dataset.calendar,
             observed_finality=dataset.finality_attested).to_dict()
     alignment=alignment_check(dataset,phase7.epsilon) if all(q['valid'] for q in checks.values()) else {}
-    report['preflight']={'frames':checks,'alignment':alignment,'requirements':requirements}
+    preflight={'frames':checks,'alignment':alignment,'requirements':requirements}
     errors=[d['code'] for q in checks.values() if not q['valid'] for d in q['diagnostics']]
     if requirements or errors:
-        report.update(status='BLOCKED',reason_codes=sorted(set(requirements+errors)))
-        validate_replay_report(report);return report
-    report['preflight']['alignment']=alignment
+        return {'status':'BLOCKED','reason_codes':sorted(set(requirements+errors)),
+                'historical_validation':'PENDING','preflight':preflight}
     if alignment['mismatch_count'] or not alignment['comparable_m5_bars']:
-        report.update(status='FAIL',reason_codes=['M1_M5_OHLC_MISMATCH' if alignment['mismatch_count'] else 'M1_M5_ALIGNMENT_UNESTABLISHED'],
-                      historical_validation='FAILED' if historical else 'PENDING')
+        return {'status':'FAIL','reason_codes':['M1_M5_OHLC_MISMATCH' if alignment['mismatch_count'] else 'M1_M5_ALIGNMENT_UNESTABLISHED'],
+                'historical_validation':'FAILED' if historical else 'PENDING','preflight':preflight}
+    return {'status':'READY','reason_codes':[],'historical_validation':'PENDING','preflight':preflight}
+
+def run_dataset(dataset,*,config=None,intelligence_config=None,window=100):
+    if not isinstance(dataset,Dataset):raise ValueError('Validated dataset container required')
+    if type(window) is not int or not 3<=window<=5000:raise ValueError('Replay window must be in [3,5000]')
+    config=ContextConfig() if config is None else config
+    phase7=IntelligenceConfig() if intelligence_config is None else intelligence_config
+    if not isinstance(config,ContextConfig) or not isinstance(phase7,IntelligenceConfig):raise ValueError('Typed configurations required')
+    replay_policy={'version':1,'window':window,'as_of_policy':'M1_CLOSED_PREFIX',
+                   'alignment_policy':'FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE','alignment_tolerance':phase7.epsilon}
+    if dataset.metadata['manifest_version']==2:
+        replay_policy.update(evaluation=dataset.metadata['evaluation'],minimum_evaluation_m5_bars=12,
+                             m5_origin=dataset.metadata['lineage']['m5_origin'])
+    hashes={'context':config.digest,'intelligence':phase7.digest,'session':dataset.metadata['session_config_sha256'],
+            'replay_policy':sha256(json.dumps(replay_policy,sort_keys=True,separators=(',',':')).encode()).hexdigest()}
+    run_id=sha256(json.dumps([dataset.metadata,hashes,window],sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    report=empty_report(run_id)
+    report['dataset']=dataset.metadata
+    report['summary']=dict(summarize(()),execution_status='NOT_RUN')
+    report['configurations']={'hashes':hashes,'context':asdict(config),'intelligence':asdict(phase7),'window':window}
+    historical=dataset.metadata['dataset_kind']=='INDEPENDENT_HISTORICAL'
+    checked=dataset_preflight(dataset,intelligence_config=phase7)
+    report['preflight']=checked['preflight']
+    if checked['status']!='READY':
+        report.update({k:checked[k] for k in ('status','reason_codes','historical_validation')})
         validate_replay_report(report);return report
+    alignment=checked['preflight']['alignment']
     decisions=tuple(from_replay(entry) for entry in replay_context('XAUUSD',dataset.rows['M1'],dataset.rows['M5'],
         window=window,config=config,intelligence_config=phase7,provenance=dataset.provenance,
         calendar=dataset.calendar,observed_finality=dataset.finality_attested))
