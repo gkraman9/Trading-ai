@@ -17,3 +17,7 @@ private-data/
 
 # Private reasoning-journal publication temporaries.
 .iat-journal-*
+# Blinded chart review keys, real annotations and publication temporaries.
+private-evidence/
+chart-review-batches/
+.iat-blind-*
