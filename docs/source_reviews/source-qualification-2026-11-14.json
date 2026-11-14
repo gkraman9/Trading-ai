@@ -1,0 +1,263 @@
+{
+  "review_version": 1,
+  "reviewed_at_utc": "2026-11-14T07:00:25.324197+00:00",
+  "base_commit": "e14243e2d8db35be34efbc01163d929f5b3c1529",
+  "scope": "PRIMARY_DOCUMENT_SOURCE_QUALIFICATION_NO_NEW_DATA_ACQUISITION",
+  "requested_pilot_interval_utc": {
+    "warmup_start": "2021-05-25T08:00:00Z",
+    "evaluation_start": "2021-05-25T11:00:00Z",
+    "evaluation_end": "2021-05-25T12:00:00Z"
+  },
+  "references": [
+    {
+      "id": "oanda-candles",
+      "url": "https://developer.oanda.com/rest-live-v20/instrument-df/",
+      "http_status": 200,
+      "bytes": 40471,
+      "retrieved_at_utc": "2026-11-14T06:56:14.228414+00:00",
+      "content_sha256": "8aefb5050015f4d2dad8400ead9ea5c065682456fc2b402b327d4fba33b8e3e5",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "oanda-primitives",
+      "url": "https://developer.oanda.com/rest-live-v20/primitives-df/",
+      "http_status": 200,
+      "bytes": 54783,
+      "retrieved_at_utc": "2026-11-14T06:56:14.599719+00:00",
+      "content_sha256": "d7b0b8dee69a9826eb024ca5e7d1aaaae3e590a91277a95a9bdf4724f604f6bd",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "oanda-auth",
+      "url": "https://developer.oanda.com/rest-live-v20/authentication/",
+      "http_status": 200,
+      "bytes": 35282,
+      "retrieved_at_utc": "2026-11-14T06:56:14.889397+00:00",
+      "content_sha256": "26e73f7466e4b97fb56fc266a3e1be4420c428ef33f754e9b7e2bb8bee6d4be9",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "oanda-hours-ca",
+      "url": "https://www.oanda.com/ca-en/trading/hours-of-operation/",
+      "http_status": 403,
+      "bytes": 6200,
+      "retrieved_at_utc": "2026-11-14T06:56:15.098006+00:00",
+      "content_sha256": "0ef99aa158737ff86b5d468225ff9f89b7488c0c816596cb22373dac13358fe4",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "oanda-holidays-ca",
+      "url": "https://www.oanda.com/ca-en/trading/holiday-trading-hours/",
+      "http_status": 403,
+      "bytes": 6209,
+      "retrieved_at_utc": "2026-11-14T06:56:15.223663+00:00",
+      "content_sha256": "6da0cc7a7c7e000fad95e13fef85b8db349022ae54a616d8ceb4ddbe9b0c8a48",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "oanda-terms-linked",
+      "url": "https://www.oanda.com/site/terms-of-use",
+      "http_status": 403,
+      "bytes": 6130,
+      "retrieved_at_utc": "2026-11-14T06:56:15.343237+00:00",
+      "content_sha256": "9e667c8800a0b23a6366b7f2baeb3cac73834053d10dd60afebfba5a787d50f9",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": false
+    },
+    {
+      "id": "fxcm-candle-doc",
+      "url": "https://raw.githubusercontent.com/fxcm/MarketData/master/CandleData/README.md",
+      "http_status": 200,
+      "bytes": 2108,
+      "retrieved_at_utc": "2026-11-14T06:56:15.719714+00:00",
+      "content_sha256": "067f949543ec1150850aa3c140f8229811474bc9543cdb9fb758bb6d46e000ba",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "fxcm-eula",
+      "url": "https://www.fxcm.com/uk/forms/eula/",
+      "http_status": 200,
+      "bytes": 80905,
+      "retrieved_at_utc": "2026-11-14T06:56:15.982438+00:00",
+      "content_sha256": "5819643e8f30b25df7cc8678ce45c5293c2532cfa8596247ccedeccf22723ae7",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "dukascopy-terms",
+      "url": "https://www.dukascopy.com/swiss/english/legal-pages/terms-of-use/",
+      "http_status": 403,
+      "bytes": 4548,
+      "retrieved_at_utc": "2026-11-14T06:56:16.236338+00:00",
+      "content_sha256": "26660f05b9e77086bfcece68c966cd10dacf671b8b2306d03d77be14ce9d1e8b",
+      "observation_scope": "HTTP_RESPONSE_BYTES_NOT_POLICY_AUTHENTICATION",
+      "web_text_reviewed": true
+    },
+    {
+      "id": "pilot-card",
+      "url": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/raw/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "http_status": 200,
+      "content_sha256": "7ac3b98b7bd639f8f33f6a6858b36d7eb05683e6494d6da76235751e3409a132",
+      "access_date_utc": "2026-11-14",
+      "observation_scope": "PINNED_PUBLISHER_CARD"
+    },
+    {
+      "id": "pilot-latest",
+      "url": "https://huggingface.co/api/datasets/CarlosSilva1/xauusd-ticks",
+      "access_date_utc": "2026-11-14",
+      "observation_scope": "LATEST_REVISION_EQUALS_PINNED_D14FC64"
+    },
+    {
+      "id": "oanda-legal-index",
+      "url": "https://www.oanda.com/ca-en/legal/",
+      "access_date_utc": "2026-11-14",
+      "observation_scope": "WEB_TEXT_REVIEW_ONLY_NO_BYTE_HASH"
+    },
+    {
+      "id": "oanda-api-license",
+      "url": "https://legal.oanda.com/ocan/api_license_agreement_ocan/en",
+      "access_date_utc": "2026-11-14",
+      "observation_scope": "WEB_PDF_REVIEW_SECTIONS_3_0_3_1_9_1_EFFECTIVE_2024_06_24"
+    },
+    {
+      "id": "oanda-website-terms",
+      "url": "https://legal.oanda.com/?code=ocan_terms_of_use&language=en",
+      "access_date_utc": "2026-11-14",
+      "observation_scope": "WEB_LINK_RESOLVED_NO_SAMPLE_USE_APPROVAL"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "pilot",
+      "qualification": "NOT_QUALIFIED",
+      "references": [
+        "pilot-card",
+        "pilot-latest"
+      ],
+      "checks_performed": [
+        "Latest revision remains d14fc64dc3b0452732e60662d94b500a6bb3d534; pinned card checksum unchanged.",
+        "Publisher declares broker-derived reconstructed ticks, UTC milliseconds, bid/ask and CC-BY-4.0."
+      ],
+      "missing_evidence": [
+        "NAMED_UPSTREAM_FEED",
+        "UPSTREAM_USAGE_RIGHTS_VERIFIED",
+        "DATED_2021_05_25_SESSION_AND_EXCEPTION_COVERAGE",
+        "CAPTURE_COMPLETENESS_OR_FINALITY_CONTRACT",
+        "INDEPENDENT_REVIEW_ATTESTATION"
+      ],
+      "sample_prepared": false
+    },
+    {
+      "id": "oanda",
+      "qualification": "NOT_QUALIFIED",
+      "references": [
+        "oanda-candles",
+        "oanda-primitives",
+        "oanda-auth",
+        "oanda-hours-ca",
+        "oanda-holidays-ca",
+        "oanda-legal-index",
+        "oanda-api-license",
+        "oanda-website-terms"
+      ],
+      "checks_performed": [
+        "Native M1/M5, interval-start timestamps, UTC representations and explicit bid/ask/mid components documented.",
+        "Complete flag means interval end is not in the future; not an immutable-history or complete-capture promise.",
+        "Canadian API license effective 2024-06-24 limits use to internal purposes and restricts third-party dissemination; entity applicability unestablished.",
+        "Canadian current XAU/USD hours and 2025/2026 holiday pages reviewed via web text; direct HTTP snapshots were 403.",
+        "Authentication documentation requires account-linked bearer token; no account API called."
+      ],
+      "missing_evidence": [
+        "AUTHORIZED_XAU_USD_EXPORT_WITH_MATCHING_ENTITY_AND_ENTITLEMENT",
+        "APPLICABLE_OFFLINE_DATA_USE_PERMISSION",
+        "DATED_EFFECTIVE_CALENDAR_AND_HOLIDAYS_FOR_CHOSEN_INTERVAL",
+        "OBSERVED_COMPLETE_FLAGS_AND_SOURCE_SPECIFIC_FINALITY_REVIEW",
+        "REVIEWED_NON_MT5_FINALITY_ADAPTER"
+      ],
+      "sample_prepared": false
+    },
+    {
+      "id": "fxcm",
+      "qualification": "NOT_QUALIFIED",
+      "references": [
+        "fxcm-candle-doc",
+        "fxcm-eula"
+      ],
+      "checks_performed": [
+        "Official public candle catalog lists m1/H1/D1 and FX pairs, not XAUUSD or native M5.",
+        "UTC and indicative Active Trader pricing documented; personal use subject to EULA."
+      ],
+      "missing_evidence": [
+        "DOCUMENTED_XAUUSD_OHLC_SAMPLE_AVAILABILITY",
+        "APPLICABLE_DATA_ACCESS_AND_USE_PERMISSION",
+        "DATED_XAUUSD_SESSION_AND_EXCEPTION_COVERAGE",
+        "CAPTURE_COMPLETENESS_OR_BAR_FINALITY_EVIDENCE"
+      ],
+      "sample_prepared": false
+    },
+    {
+      "id": "dukascopy",
+      "qualification": "NOT_QUALIFIED",
+      "references": [
+        "dukascopy-terms"
+      ],
+      "checks_performed": [
+        "Website terms restrict automated acquisition without prior written consent; no such consent available.",
+        "Terms reviewed via public web text; direct HTTP snapshot was 403. No market data downloaded."
+      ],
+      "missing_evidence": [
+        "AUTHORIZED_AUTOMATED_DATA_ACCESS",
+        "APPLICABLE_PRIVATE_RESEARCH_USE_PERMISSION",
+        "DATED_XAUUSD_SESSION_AND_EXCEPTION_COVERAGE",
+        "UTC_PRICE_BASIS_AND_FINALITY_REVIEW_FOR_A_SPECIFIC_EXPORT"
+      ],
+      "sample_prepared": false
+    }
+  ],
+  "result": {
+    "qualified_sources": 0,
+    "selected_source": null,
+    "new_manifest_prepared": false,
+    "new_raw_data_acquired": false,
+    "raw_data_published": false,
+    "historical_validation": "PENDING",
+    "replay_execution": "NOT_RUN",
+    "repeatability": {
+      "status": "NOT_RUN",
+      "decision_log_hashes": null,
+      "equal": null
+    },
+    "prefix_equivalence": {
+      "status": "NOT_RUN",
+      "compared_decisions": 0,
+      "differences": null
+    },
+    "coverage": null,
+    "valid_snapshots": null,
+    "blocked_snapshots": null,
+    "abstention_reasons": null,
+    "selected_hypotheses": null,
+    "stable_choch_counts": null
+  },
+  "analytical_defaults": {
+    "context_sha256": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+    "intelligence_sha256": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+  },
+  "prior_evidence": {
+    "review": "xauusd-pilot-review.json",
+    "manifest": "xauusd-pilot.manifest.json",
+    "scope": "PR11_BLOCKED_PREFLIGHT_NOT_A_NEW_REPLAY"
+  },
+  "safety": {
+    "exness": "BLOCKED",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false
+  }
+}
