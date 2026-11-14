@@ -1,0 +1,426 @@
+{
+  "type": "object",
+  "properties": {
+    "log_version": {
+      "const": 1
+    },
+    "configuration_hashes": {
+      "type": "object",
+      "properties": {
+        "context": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "intelligence": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "session": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "replay_policy": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "context",
+        "intelligence",
+        "session",
+        "replay_policy"
+      ],
+      "additionalProperties": false
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Decision"
+      },
+      "maxItems": 5000
+    }
+  },
+  "required": [
+    "log_version",
+    "configuration_hashes",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IAT DecisionLog v1",
+  "$defs": {
+    "Context": {
+      "type": "object",
+      "properties": {
+        "classification": {
+          "type": "string"
+        },
+        "phase7_alignment": {
+          "type": "string"
+        },
+        "m1_structure": {
+          "type": "string"
+        },
+        "m5_structure": {
+          "type": "string"
+        },
+        "m1_as_of": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "m5_as_of": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "classification",
+        "phase7_alignment",
+        "m1_structure",
+        "m5_structure",
+        "m1_as_of",
+        "m5_as_of",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "Evidence": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category": {
+          "enum": [
+            "STRUCTURE",
+            "TRANSITION",
+            "SUPPORT_RESISTANCE",
+            "SUPPLY_DEMAND",
+            "LIQUIDITY",
+            "MOMENTUM",
+            "VOLATILITY",
+            "CANDLE"
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "RANGING",
+            "NEUTRAL"
+          ]
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "type": "object"
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "category",
+        "timeframe",
+        "direction",
+        "observed_at",
+        "available_at",
+        "references",
+        "reason_codes",
+        "details"
+      ],
+      "additionalProperties": false
+    },
+    "Decision": {
+      "type": "object",
+      "properties": {
+        "decision_version": {
+          "const": 1
+        },
+        "timestamp_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "data_quality_status": {
+          "enum": [
+            "VALID",
+            "BLOCKED"
+          ]
+        },
+        "selected_hypothesis": {
+          "enum": [
+            "BULLISH_CONTINUATION_POSSIBILITY",
+            "BEARISH_CONTINUATION_POSSIBILITY",
+            "BULLISH_STRUCTURAL_TRANSITION",
+            "BEARISH_STRUCTURAL_TRANSITION",
+            "RANGE_CONTINUATION",
+            "NO_CLEAR_DIRECTIONAL_HYPOTHESIS"
+          ]
+        },
+        "abstained": {
+          "type": "boolean"
+        },
+        "supporting_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradictory_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "abstention_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "new_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_revisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "event_id": {
+                "type": "string"
+              },
+              "previous_evidence_id": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "evidence_id": {
+                "type": "string"
+              },
+              "revision_index": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "event_id",
+              "previous_evidence_id",
+              "evidence_id",
+              "revision_index"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "new_events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unique_event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unique_evidence_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hypothesis_revisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "withdrawn_hypotheses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timeframe_context": {
+          "$ref": "#/$defs/Context"
+        },
+        "context_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          }
+        },
+        "mode": {
+          "const": "READ_ONLY_SHADOW"
+        },
+        "signal": {
+          "const": "WAIT"
+        },
+        "execution_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "decision_version",
+        "timestamp_utc",
+        "data_quality_status",
+        "selected_hypothesis",
+        "abstained",
+        "supporting_evidence",
+        "contradictory_evidence",
+        "reason_codes",
+        "abstention_reasons",
+        "evidence_ids",
+        "new_evidence",
+        "evidence_revisions",
+        "new_events",
+        "unique_event_count",
+        "unique_evidence_count",
+        "hypothesis_revisions",
+        "withdrawn_hypotheses",
+        "timeframe_context",
+        "context_evidence",
+        "mode",
+        "signal",
+        "execution_allowed"
+      ],
+      "additionalProperties": false
+    },
+    "DecisionLog": {
+      "type": "object",
+      "properties": {
+        "log_version": {
+          "const": 1
+        },
+        "configuration_hashes": {
+          "type": "object",
+          "properties": {
+            "context": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "intelligence": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "replay_policy": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "context",
+            "intelligence",
+            "session",
+            "replay_policy"
+          ],
+          "additionalProperties": false
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Decision"
+          },
+          "maxItems": 5000
+        }
+      },
+      "required": [
+        "log_version",
+        "configuration_hashes",
+        "entries"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

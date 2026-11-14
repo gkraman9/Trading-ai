@@ -1,0 +1,1 @@
+SYNTHETIC OFFLINE FIXTURE ONLY. These invented OHLC prices test software; they are not real XAUUSD observations, broker evidence or independently sourced historical data. Historical validation remains PENDING. No calendar or trading approval is supplied.

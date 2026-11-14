@@ -1,2 +1,5 @@
 # Profile digests must describe identical bytes on Linux, Windows and ZIP downloads.
 config/profiles/*.json text eol=lf
+# The synthetic replay manifest binds exact fixture bytes across platforms.
+config/examples/replay.synthetic/*.csv text eol=lf
+config/examples/replay.synthetic/*.json text eol=lf
