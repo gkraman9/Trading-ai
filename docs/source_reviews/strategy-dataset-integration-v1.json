@@ -1,0 +1,567 @@
+{
+  "audit_version": 1,
+  "base_commit": "08ac76506c44eee2e3bccab7b0ff193ab22c75e2",
+  "scope": "SYNTHETIC_MANIFEST_PIPELINE_AND_PRIVATE_PILOT_PREFLIGHT_ONLY",
+  "synthetic_fixture_recipe": "tests/test_strategy_dataset_replay.py:scoped_fixture",
+  "synthetic_settings": "INHERITED_SMALL_WINDOW_TEST_CONFIGS_NOT_DEFAULT_REPLACEMENTS",
+  "cases": [
+    {
+      "case": "continuation_bullish",
+      "fixture_kind": "SYNTHETIC_ONLY",
+      "manifest_sha256": "bde94501d7d81c3f4d6cfb82ca9fcde21c87a2bce05d0393cf3d60e296815941",
+      "dataset_checksums": {
+        "M1": {
+          "file_sha256": "2669a6d3912ac107026cb047ef78e0f2f836b0320a0af930414caaba67d2cdef",
+          "normalized_ohlc_sha256": "913a7af0c8971845c0097a979b836bd103b796b3c8b57769bd3bd40f3abb63c7"
+        },
+        "M5": {
+          "file_sha256": "2f6b5f470481ac6789e7b6f2804446ba68f92abb02e9c73318809f2b861a58c9",
+          "normalized_ohlc_sha256": "b59b8c85e22bbf5d721572725bdc52f5f19959fcc5c745d516070b48f3bdbdcd"
+        }
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+      },
+      "warmup": {
+        "M1": {
+          "start": "2026-11-12T08:00:00+00:00",
+          "end": "2026-11-12T08:20:00+00:00"
+        },
+        "M5": {
+          "start": "2026-11-12T06:35:00+00:00",
+          "end": "2026-11-12T08:20:00+00:00"
+        }
+      },
+      "evaluation": {
+        "start": "2026-11-12T08:20:00+00:00",
+        "end": "2026-11-12T08:35:00+00:00"
+      },
+      "coverage": {
+        "start_utc": "2026-11-12T08:20:00+00:00",
+        "end_utc": "2026-11-12T08:35:00+00:00",
+        "denominator_basis": "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+        "expected_m5_bars": 3,
+        "provided_m5_bars": 3,
+        "comparable_m5_bars": 3,
+        "uncovered_m5_bars": 0,
+        "missing_m5_bars": 0,
+        "unexpected_m5_bars": 0,
+        "mismatch_count": 0,
+        "provided_coverage_percent": 100.0,
+        "comparable_coverage_percent": 100.0,
+        "matching_coverage_percent": 100.0,
+        "minimum_comparable_m5_bars": 12,
+        "coverage_sufficient": false,
+        "warmup_m5_bars": 21,
+        "warmup_uncovered_m5_bars": 17,
+        "m5_origin": "AGGREGATED_FROM_M1",
+        "consistency_evidence": "INTERNAL_AGGREGATION_ONLY",
+        "cross_frame_claim": "NOT_ESTABLISHED"
+      },
+      "warmup_timestamps": 20,
+      "evaluation_timestamps": 15,
+      "warmup_target": {
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "direction": "BULLISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 0,
+          "ABSTAINS": 18,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 2
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [],
+          "invalidated_qualified": [],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 0,
+          "invalidated_qualified": 0,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "evaluation_target": {
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "direction": "BULLISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 2,
+          "ABSTAINS": 12,
+          "INVALIDATED": 1,
+          "BLOCKED_DATA": 0
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [
+            "SETUP:3a0260b23b40eb496bf163f56a2b66825567b74eb3cf683d691ebc48229cb4e1"
+          ],
+          "invalidated_qualified": [
+            "SETUP:3a0260b23b40eb496bf163f56a2b66825567b74eb3cf683d691ebc48229cb4e1"
+          ],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 1,
+          "invalidated_qualified": 1,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "software_repeatability": {
+        "status": "PASS",
+        "strategy_log_hashes": [
+          "70851b881ae6f88c62e76ee21c7aae33dd78cd24e8639682626d4db55129df30",
+          "70851b881ae6f88c62e76ee21c7aae33dd78cd24e8639682626d4db55129df30"
+        ]
+      },
+      "software_prefix_equivalence": {
+        "status": "PASS",
+        "compared_timestamps": 25,
+        "warmup_accounting_equal": true,
+        "prefix_log_sha256": "91c7fe6e95e2f524972a3dce4562f612ef51605b5e940b3ed567b45f046c79e1"
+      }
+    },
+    {
+      "case": "continuation_bearish",
+      "fixture_kind": "SYNTHETIC_ONLY",
+      "manifest_sha256": "131e0536b835a676b99f1cd7751eed357849c737ca3035a2c922f8a56318eba0",
+      "dataset_checksums": {
+        "M1": {
+          "file_sha256": "31044dcfbde713db716b4d15c326f31e739cb6ef85ef17d6dcefe9f1363a4e1b",
+          "normalized_ohlc_sha256": "e6a010fb55547dede53da7fb814cc3937bd06aa13b2e4f0ac6abf230a57284a4"
+        },
+        "M5": {
+          "file_sha256": "fba3c60d1d15e0d09d59d95d92d88f64464e2789d21204b599f44904f1c37d50",
+          "normalized_ohlc_sha256": "45e1a714f866c05f8da1d64ee0d1477a7d57ed5c6be1850776d45d1ee21fc81b"
+        }
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+      },
+      "warmup": {
+        "M1": {
+          "start": "2026-11-12T08:00:00+00:00",
+          "end": "2026-11-12T08:20:00+00:00"
+        },
+        "M5": {
+          "start": "2026-11-12T06:35:00+00:00",
+          "end": "2026-11-12T08:20:00+00:00"
+        }
+      },
+      "evaluation": {
+        "start": "2026-11-12T08:20:00+00:00",
+        "end": "2026-11-12T08:35:00+00:00"
+      },
+      "coverage": {
+        "start_utc": "2026-11-12T08:20:00+00:00",
+        "end_utc": "2026-11-12T08:35:00+00:00",
+        "denominator_basis": "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+        "expected_m5_bars": 3,
+        "provided_m5_bars": 3,
+        "comparable_m5_bars": 3,
+        "uncovered_m5_bars": 0,
+        "missing_m5_bars": 0,
+        "unexpected_m5_bars": 0,
+        "mismatch_count": 0,
+        "provided_coverage_percent": 100.0,
+        "comparable_coverage_percent": 100.0,
+        "matching_coverage_percent": 100.0,
+        "minimum_comparable_m5_bars": 12,
+        "coverage_sufficient": false,
+        "warmup_m5_bars": 21,
+        "warmup_uncovered_m5_bars": 17,
+        "m5_origin": "AGGREGATED_FROM_M1",
+        "consistency_evidence": "INTERNAL_AGGREGATION_ONLY",
+        "cross_frame_claim": "NOT_ESTABLISHED"
+      },
+      "warmup_timestamps": 20,
+      "evaluation_timestamps": 15,
+      "warmup_target": {
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "direction": "BEARISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 0,
+          "ABSTAINS": 18,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 2
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [],
+          "invalidated_qualified": [],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 0,
+          "invalidated_qualified": 0,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "evaluation_target": {
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "direction": "BEARISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 2,
+          "ABSTAINS": 12,
+          "INVALIDATED": 1,
+          "BLOCKED_DATA": 0
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [
+            "SETUP:ef56b4a20950f1dac3c5068f030b21d8fcd5e57163db55865ad14c7901146877"
+          ],
+          "invalidated_qualified": [
+            "SETUP:ef56b4a20950f1dac3c5068f030b21d8fcd5e57163db55865ad14c7901146877"
+          ],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 1,
+          "invalidated_qualified": 1,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "software_repeatability": {
+        "status": "PASS",
+        "strategy_log_hashes": [
+          "cd800365fe36c27f44d25b5dea992fee8accf276eb0a2ff7eb88a57d116410e9",
+          "cd800365fe36c27f44d25b5dea992fee8accf276eb0a2ff7eb88a57d116410e9"
+        ]
+      },
+      "software_prefix_equivalence": {
+        "status": "PASS",
+        "compared_timestamps": 25,
+        "warmup_accounting_equal": true,
+        "prefix_log_sha256": "1851c727ae68f2ed073685e1f5063aefe296a2145c03dfc1395e1a4f3e27a222"
+      }
+    },
+    {
+      "case": "sweep_bearish",
+      "fixture_kind": "SYNTHETIC_ONLY",
+      "manifest_sha256": "11b68b7fdcce6ad48c65ce38f54b2b8c73532db4aec40f2d18b2b0e5db5071fd",
+      "dataset_checksums": {
+        "M1": {
+          "file_sha256": "80c09548a04ff553d0529cbf16b1340682cea563f2f048dd9b52e6b4f18876ed",
+          "normalized_ohlc_sha256": "f1cc2f7e24b773c1494e734e1097fa8e296c2a0c4c7d2cdf3fafa427229eec35"
+        },
+        "M5": {
+          "file_sha256": "fe16b6459cf054f8b729156baa1426c9043ff44db3b33041c1d9d696a7a805f8",
+          "normalized_ohlc_sha256": "bec392904a9bfb9be9968093d1d8e0c6649da431efe7634c30e1c49edfe7abf9"
+        }
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+      },
+      "warmup": {
+        "M1": {
+          "start": "2026-11-12T08:00:00+00:00",
+          "end": "2026-11-12T08:25:00+00:00"
+        },
+        "M5": {
+          "start": "2026-11-12T06:35:00+00:00",
+          "end": "2026-11-12T08:25:00+00:00"
+        }
+      },
+      "evaluation": {
+        "start": "2026-11-12T08:25:00+00:00",
+        "end": "2026-11-12T08:35:00+00:00"
+      },
+      "coverage": {
+        "start_utc": "2026-11-12T08:25:00+00:00",
+        "end_utc": "2026-11-12T08:35:00+00:00",
+        "denominator_basis": "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+        "expected_m5_bars": 2,
+        "provided_m5_bars": 2,
+        "comparable_m5_bars": 2,
+        "uncovered_m5_bars": 0,
+        "missing_m5_bars": 0,
+        "unexpected_m5_bars": 0,
+        "mismatch_count": 0,
+        "provided_coverage_percent": 100.0,
+        "comparable_coverage_percent": 100.0,
+        "matching_coverage_percent": 100.0,
+        "minimum_comparable_m5_bars": 12,
+        "coverage_sufficient": false,
+        "warmup_m5_bars": 22,
+        "warmup_uncovered_m5_bars": 17,
+        "m5_origin": "AGGREGATED_FROM_M1",
+        "consistency_evidence": "INTERNAL_AGGREGATION_ONLY",
+        "cross_frame_claim": "NOT_ESTABLISHED"
+      },
+      "warmup_timestamps": 25,
+      "evaluation_timestamps": 10,
+      "warmup_target": {
+        "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+        "direction": "BEARISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 2,
+          "ABSTAINS": 21,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 2
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [
+            "SETUP:559891dcacc15d1fc421162ef957805ba8186d1790e6987e31c909ae3011c7ad"
+          ],
+          "invalidated_qualified": [],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": [
+            "SETUP:559891dcacc15d1fc421162ef957805ba8186d1790e6987e31c909ae3011c7ad"
+          ]
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 1,
+          "invalidated_qualified": 0,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 1
+        }
+      },
+      "evaluation_target": {
+        "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+        "direction": "BEARISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 0,
+          "ABSTAINS": 10,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 0
+        },
+        "setup_ids": {
+          "carried_in_active": [
+            "SETUP:559891dcacc15d1fc421162ef957805ba8186d1790e6987e31c909ae3011c7ad"
+          ],
+          "first_qualified": [],
+          "invalidated_qualified": [],
+          "expired_qualified": [
+            "SETUP:559891dcacc15d1fc421162ef957805ba8186d1790e6987e31c909ae3011c7ad"
+          ],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 1,
+          "first_qualified": 0,
+          "invalidated_qualified": 0,
+          "expired_qualified": 1,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "software_repeatability": {
+        "status": "PASS",
+        "strategy_log_hashes": [
+          "9d1e41c1e5bf28fe5579011a7f00211a9b9757743aedfbaf099a3d7769583e38",
+          "9d1e41c1e5bf28fe5579011a7f00211a9b9757743aedfbaf099a3d7769583e38"
+        ]
+      },
+      "software_prefix_equivalence": {
+        "status": "PASS",
+        "compared_timestamps": 30,
+        "warmup_accounting_equal": true,
+        "prefix_log_sha256": "b1d73ae80ed7bfd4ea3427603d52372cf9d50029d12912f000a1ae11d2548ee0"
+      }
+    },
+    {
+      "case": "sweep_bullish",
+      "fixture_kind": "SYNTHETIC_ONLY",
+      "manifest_sha256": "e7eeaef21fe6bb64ed3ea7157c97ed873359a273a37002e4625e6654e8a5313e",
+      "dataset_checksums": {
+        "M1": {
+          "file_sha256": "54090c0e538d3ed0d64a4140ab0484da4fb26c3d0173d68baf8f463c02f2f74e",
+          "normalized_ohlc_sha256": "434e5d22405254a3cb74b6031b3cfef8634744e0069a9ae56cefa2a358b1c923"
+        },
+        "M5": {
+          "file_sha256": "ebc0dfc04264ffe2aeb8735e79d6853ead7b86a8362c832e6d145100623dad05",
+          "normalized_ohlc_sha256": "603c44e7f592d5ed2266d333be881d9d9bd017da315714a6e7fbda3e510dde86"
+        }
+      },
+      "configuration_hashes": {
+        "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+        "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7",
+        "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+        "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9",
+        "session": null,
+        "observed_finality": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+      },
+      "warmup": {
+        "M1": {
+          "start": "2026-11-12T08:00:00+00:00",
+          "end": "2026-11-12T08:25:00+00:00"
+        },
+        "M5": {
+          "start": "2026-11-12T06:35:00+00:00",
+          "end": "2026-11-12T08:25:00+00:00"
+        }
+      },
+      "evaluation": {
+        "start": "2026-11-12T08:25:00+00:00",
+        "end": "2026-11-12T08:35:00+00:00"
+      },
+      "coverage": {
+        "start_utc": "2026-11-12T08:25:00+00:00",
+        "end_utc": "2026-11-12T08:35:00+00:00",
+        "denominator_basis": "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+        "expected_m5_bars": 2,
+        "provided_m5_bars": 2,
+        "comparable_m5_bars": 2,
+        "uncovered_m5_bars": 0,
+        "missing_m5_bars": 0,
+        "unexpected_m5_bars": 0,
+        "mismatch_count": 0,
+        "provided_coverage_percent": 100.0,
+        "comparable_coverage_percent": 100.0,
+        "matching_coverage_percent": 100.0,
+        "minimum_comparable_m5_bars": 12,
+        "coverage_sufficient": false,
+        "warmup_m5_bars": 22,
+        "warmup_uncovered_m5_bars": 17,
+        "m5_origin": "AGGREGATED_FROM_M1",
+        "consistency_evidence": "INTERNAL_AGGREGATION_ONLY",
+        "cross_frame_claim": "NOT_ESTABLISHED"
+      },
+      "warmup_timestamps": 25,
+      "evaluation_timestamps": 10,
+      "warmup_target": {
+        "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+        "direction": "BULLISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 2,
+          "ABSTAINS": 21,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 2
+        },
+        "setup_ids": {
+          "carried_in_active": [],
+          "first_qualified": [
+            "SETUP:cb67ed654997ce835f3cca870b824f4d109f1bd33958ee66a15be1fb95cff22c"
+          ],
+          "invalidated_qualified": [],
+          "expired_qualified": [],
+          "unqualified_invalidated": [],
+          "active_at_end": [
+            "SETUP:cb67ed654997ce835f3cca870b824f4d109f1bd33958ee66a15be1fb95cff22c"
+          ]
+        },
+        "setup_counts": {
+          "carried_in_active": 0,
+          "first_qualified": 1,
+          "invalidated_qualified": 0,
+          "expired_qualified": 0,
+          "unqualified_invalidated": 0,
+          "active_at_end": 1
+        }
+      },
+      "evaluation_target": {
+        "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+        "direction": "BULLISH",
+        "snapshot_outcomes": {
+          "QUALIFIES": 0,
+          "ABSTAINS": 10,
+          "INVALIDATED": 0,
+          "BLOCKED_DATA": 0
+        },
+        "setup_ids": {
+          "carried_in_active": [
+            "SETUP:cb67ed654997ce835f3cca870b824f4d109f1bd33958ee66a15be1fb95cff22c"
+          ],
+          "first_qualified": [],
+          "invalidated_qualified": [],
+          "expired_qualified": [
+            "SETUP:cb67ed654997ce835f3cca870b824f4d109f1bd33958ee66a15be1fb95cff22c"
+          ],
+          "unqualified_invalidated": [],
+          "active_at_end": []
+        },
+        "setup_counts": {
+          "carried_in_active": 1,
+          "first_qualified": 0,
+          "invalidated_qualified": 0,
+          "expired_qualified": 1,
+          "unqualified_invalidated": 0,
+          "active_at_end": 0
+        }
+      },
+      "software_repeatability": {
+        "status": "PASS",
+        "strategy_log_hashes": [
+          "415e8d9a9b1380894519f98df104d77bc16a7e69fcd1d100f4b22b2f40ca68c5",
+          "415e8d9a9b1380894519f98df104d77bc16a7e69fcd1d100f4b22b2f40ca68c5"
+        ]
+      },
+      "software_prefix_equivalence": {
+        "status": "PASS",
+        "compared_timestamps": 30,
+        "warmup_accounting_equal": true,
+        "prefix_log_sha256": "8271982d5aacf9966a9bec073b84771b22a4c5752a100e0755040b3bf984631e"
+      }
+    }
+  ],
+  "existing_private_pilot_preflight": {
+    "status": "BLOCKED",
+    "reason_codes": [
+      "CANDLE_FINALITY_UNCERTAIN",
+      "EVIDENCE_CALENDAR_PENDING",
+      "EVIDENCE_FINALITY_PENDING",
+      "INDEPENDENT_REVIEW_PENDING",
+      "SESSION_CALENDAR_REQUIRED"
+    ],
+    "manifest_sha256": "dda3785de354bf93c66e7f1d47d2ff9bf31a4f4ddcaae4c7b68ec84f6b788992",
+    "configuration_hashes": {
+      "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+      "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff",
+      "registry": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+      "lifecycle_policy": "11ba6966a090ead7e6e4afc0d3779c6736f2ed1171cc57ce010fa8adfcba8cb9"
+    },
+    "historical_validation": "PENDING",
+    "historical_comparisons": "NOT_RUN",
+    "historical_metrics": null,
+    "strategy_log_produced": false,
+    "window_accounting": null
+  },
+  "qualified_real_exports": 0,
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "historical_metrics": null,
+  "raw_data_published": false,
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
