@@ -55,6 +55,13 @@ class IntelligenceEngineTests(unittest.TestCase):
         self.assertEqual(r.frames['M1'].structure.classification,'BEARISH')
         self.assertTrue(all(c['open']==c['close'] for c in rows(WAVE)))
 
+    def test_real_candle_choch_reports_current_contradiction(self):
+        report=analyze_intelligence('SYNTHETIC',rows(WAVE+[94]),None,
+                    START+timedelta(minutes=len(WAVE)+1),config=CONFIG)
+        self.assertTrue(any(e.event_type=='BEARISH_CHOCH' for e in report.frames['M1'].events))
+        self.assertIn('M1:CURRENT_BEARISH_CHOCH',report.contradictory_evidence)
+        self.assertFalse(report.execution_allowed)
+
     def test_report_schema_and_finite_json(self):
         r=self.analyze().to_dict()
         self.assertEqual(r['report_version'],1)

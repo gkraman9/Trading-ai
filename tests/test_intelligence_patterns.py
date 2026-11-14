@@ -116,6 +116,25 @@ class PatternTests(unittest.TestCase):
         self.assertEqual(atr(cs,2),3.5)
         self.assertIsNone(atr(cs,3))
 
+    def test_pin_long_wick_threshold(self):
+        self.assertIn('BULLISH_PIN_BAR',self.names([(10,11.1,8,11)]))
+        self.assertNotIn('BULLISH_PIN_BAR',self.names([(10,11.1,8.00001,11)]))
+
+    def test_star_recovery_threshold(self):
+        base=[(15,15.1,10,10),(10,10.2,9.8,10.1)]
+        self.assertIn('MORNING_STAR',self.names(base+[(10,13,10,12.5)]))
+        self.assertNotIn('MORNING_STAR',self.names(base+[(10,13,10,12.4999)]))
+
+    def test_momentum_body_and_relative_thresholds(self):
+        config=IntelligenceConfig(range_window=2,momentum_relative_range=2.5)
+        base=[(10,11,9,10)]*2
+        self.assertIn('BULLISH_MOMENTUM_CANDLE',self.names(base+[(10,15,10,13.5)],config))
+        self.assertNotIn('BULLISH_MOMENTUM_CANDLE',self.names(base+[(10,15,10,13.4999)],config))
+        self.assertNotIn('BULLISH_MOMENTUM_CANDLE',self.names(base+[(10,15,10,13.5)],replace(config,momentum_relative_range=2.5001)))
+
+    def test_tolerance_does_not_make_a_tiny_zero_range_pin(self):
+        self.assertEqual(self.names([(10,10.000000001,10,10)]),{'DOJI'})
+
     def test_configuration_strictness(self):
         for options in ({'version':2},{'version':True},{'right_strength':0},{'epsilon':float('nan')},
                         {'doji_ratio':1},{'break_policy':'AUTO'},{'atr_multiplier':-1},{'range_window':True},

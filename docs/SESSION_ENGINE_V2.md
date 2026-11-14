@@ -232,3 +232,9 @@ The complete suite contains 251 tests (195 inherited, 56 added), passing locally
 on Python 3.11.9 and 3.12.14. GitHub Actions runs the complete suite on Linux and
 Windows with Python 3.11.9 and 3.12, including Windows runner fail-closed smoke
 checks. These are offline/mocked software checks, not actual-terminal evidence.
+
+## Market Intelligence v1
+
+See [Phase 7 intelligence](MARKET_INTELLIGENCE_V1.md) for the additive
+read-only research endpoint, causal swing/break definitions and offline replay.
+Existing session/data-quality gates and execution restrictions remain enforced.

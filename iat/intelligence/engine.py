@@ -55,6 +55,10 @@ def analyze_intelligence(symbol: str, m1_rows: Sequence[Mapping] | None,
         raise ValueError('Invalid symbol')
     at = iso(as_of)
     frames, diagnostics, valid = {}, [], True
+    if provenance not in ('SYNTHETIC_RESEARCH', 'HISTORICAL_RESEARCH', 'VALIDATED_LIVE'):
+        provenance = 'UNVERIFIED'  # Never echo arbitrary provenance text into reports.
+        diagnostics.append({'code':'PROVENANCE_INVALID','severity':'ERROR','message':'Explicit supported data provenance is required'})
+        valid = False
     if calendar is not None and calendar.symbol != symbol:
         diagnostics.append({'code':'SYMBOL_MISMATCH','severity':'ERROR','message':'Calendar symbol differs from requested symbol'})
         valid = False
@@ -86,6 +90,10 @@ def analyze_intelligence(symbol: str, m1_rows: Sequence[Mapping] | None,
         | {ref for f in frames.values() for event in f.events for ref in event.evidence}))
     contradictions = tuple(f'{tf}:{c}' for tf,f in frames.items() for c in f.structure.contradictory_observations)
     if alignment.classification == 'STRUCTURAL_CONFLICT': contradictions += ('M1_M5_DIRECTION_CONFLICT',)
+    contradictions += tuple(sorted({f'{tf}:CURRENT_'+event.event_type
+        for tf, frame in frames.items() for event in frame.events
+        if event.confirmed_at == frame.data_as_of
+        and (event.event_type.endswith('_CHOCH') or event.event_type == 'FAILED_STRUCTURAL_BREAK')}))
     missing = tuple(sorted({m for f in frames.values() for m in f.missing_evidence}
                            | {tf+'_HISTORY_UNAVAILABLE' for tf in DURATIONS if tf not in frames}))
     hypotheses = []
@@ -95,12 +103,17 @@ def analyze_intelligence(symbol: str, m1_rows: Sequence[Mapping] | None,
                                'generated_at':at, 'evidence':f.structure.evidence,
                                'limitations':['DETERMINISTIC_INTERPRETATION_NOT_FORECAST','NO_VALIDATED_TRADING_EDGE']})
     codes = tuple(sorted({d['code'] for d in diagnostics}|set(alignment.reason_codes)))
+    ambiguities = ['OHLC_PATTERNS_ARE_NOT_PREDICTIONS']
+    if any(f.candidate_pivots for f in frames.values()):
+        ambiguities.append('CANDIDATE_PIVOTS_UNCONFIRMED')
+    if any(len(f.patterns) > 1 for f in frames.values()):
+        ambiguities.append('OVERLAPPING_PATTERN_LABELS')
     return IntelligenceReport(1,'IAT_MARKET_INTELLIGENCE_V1',config.version,config.digest,asdict(config),symbol,at,
         'M1_M5',provenance,quality,frames,alignment,
         {tf:{'measurements':f.measurements,'candles':asdict(f)['evidence']} for tf,f in frames.items()},
         {tf:{'structure':asdict(f.structure),'patterns':asdict(f)['patterns'],
              'events':asdict(f)['events'],'confirmed_pivots':asdict(f)['confirmed_pivots']} for tf,f in frames.items()}, tuple(hypotheses), supporting, contradictions, codes,
-        ('OHLC_PATTERNS_ARE_NOT_PREDICTIONS','CANDIDATE_PIVOTS_UNCONFIRMED'), missing,
+        tuple(ambiguities), missing,
         explain(frames,alignment,quality,provenance))
 
 
