@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "epsilon": {
+      "type": "number",
+      "minimum": 0
+    },
+    "doji_ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "small_body_ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "long_wick_body": {
+      "type": "number",
+      "minimum": 1
+    },
+    "short_wick_range": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "momentum_body_ratio": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "momentum_relative_range": {
+      "type": "number",
+      "minimum": 1
+    },
+    "range_window": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "trend_window": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 100
+    },
+    "star_recovery": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "exclusiveMaximum": 1
+    },
+    "left_strength": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "right_strength": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "equal_tolerance": {
+      "type": "number",
+      "minimum": 0
+    },
+    "break_policy": {
+      "enum": [
+        "CLOSE",
+        "WICK"
+      ]
+    },
+    "min_break_distance": {
+      "type": "number",
+      "minimum": 0
+    },
+    "atr_period": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "atr_multiplier": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "version"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IAT intelligence configuration v1",
+  "description": "Runtime IntelligenceConfig also validates cross-field ratio constraints. Other fields default as documented."
+}

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "epsilon": 1e-08,
+  "doji_ratio": 0.1,
+  "small_body_ratio": 0.35,
+  "long_wick_body": 2.0,
+  "short_wick_range": 0.15,
+  "momentum_body_ratio": 0.7,
+  "momentum_relative_range": 1.2,
+  "range_window": 3,
+  "trend_window": 3,
+  "star_recovery": 0.5,
+  "left_strength": 1,
+  "right_strength": 1,
+  "equal_tolerance": 1e-06,
+  "break_policy": "CLOSE",
+  "min_break_distance": 0.0,
+  "atr_period": 14,
+  "atr_multiplier": 0.0
+}

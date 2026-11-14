@@ -72,3 +72,9 @@ They do not initialize MT5 or contact a broker.
 The v1 contract remains unchanged. See [Session Engine v2](SESSION_ENGINE_V2.md)
 for the opt-in seconds/phase model and [local research procedure](SESSION_V2_LOCAL_VALIDATION.md)
 for blocked Exness evidence and Windows instructions.
+
+## Market Intelligence v1
+
+See [Phase 7 intelligence](MARKET_INTELLIGENCE_V1.md) for the additive
+read-only research endpoint, causal swing/break definitions and offline replay.
+Existing session/data-quality gates and execution restrictions remain enforced.

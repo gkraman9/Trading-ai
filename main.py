@@ -10,7 +10,8 @@ from iat.quality import ClockGuard, ClockValidationError, failed
 from iat.session_config import SessionConfigError, load_session_config
 
 
-def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_path=None):
+def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_path=None,
+               intelligence_config=None):
     """Inject a read-only MT5 adapter and UTC clock for offline testing.
 
     The default adapter uses an already-connected terminal. This application
@@ -103,6 +104,9 @@ def create_app(*, mt5=None, clock=None, session_calendars=None, session_config_p
             result['session_v2'] = session_details
         return jsonify(result)
 
+    from iat.intelligence.api import register_intelligence
+    register_intelligence(app, mt5=mt5, clock=utc_now, calendars=calendars,
+                          config_error=config_error, intelligence_config=intelligence_config)
     return app
 
 
