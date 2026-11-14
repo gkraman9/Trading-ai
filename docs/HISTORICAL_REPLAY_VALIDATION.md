@@ -275,3 +275,9 @@ contracts, pending/synthetic outcomes, interrupted runs and atomic report failur
 CI runs the complete suite on Linux/Windows × Python 3.11.9/3.12, plus an offline
 runner smoke check proving absent/synthetic datasets never certify history.
 Check the draft PR's latest commit checks for the final CI result.
+
+## Source-backed evaluation pilot
+
+See [source and evaluation-window review](SOURCE_EVALUATION_PILOT.md) for the
+actual pinned source, private-file hashes, explicit v2 warm-up/evaluation scope,
+claim limits and blocked preflight attempts. Real analytical replay remains PENDING.
