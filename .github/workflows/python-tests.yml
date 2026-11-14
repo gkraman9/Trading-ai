@@ -16,6 +16,7 @@ on:
       - feat/iat2-historical-replay-validation
       - feat/iat2-source-evaluation-window
       - feat/iat2-source-qualification-review
+      - feat/iat2-offline-strategies-v1
   pull_request:
     branches:
       - main
@@ -30,6 +31,7 @@ on:
       - feat/iat2-market-context-v1
       - feat/iat2-historical-replay-validation
       - feat/iat2-source-evaluation-window
+      - feat/iat2-source-qualification-review
   workflow_dispatch:
 
 permissions:
