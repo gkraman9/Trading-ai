@@ -223,4 +223,5 @@ class EvidenceManifestTests(unittest.TestCase):
         for value in ('\\\\server\\share\\private.json','//server/share/private.json','https://example.invalid/data.json'):
             with self.assertRaises(ValueError):local_path(value)
             with self.assertRaises(ValueError):safe_output(value,[])
+            with self.assertRaises(ValueError):safe_output(self.root/'safe.json',[value])
             with self.assertRaises(ValueError):read_observations(value)

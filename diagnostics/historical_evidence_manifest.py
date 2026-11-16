@@ -9,7 +9,7 @@ from iat.historical_evidence_manifest import (read_observations,create_manifest,
 def safe_output(path,inputs):
     target=local_path(path)
     if '..' in target.parts or target.suffix.lower()!='.json' or target.is_symlink() or target.exists():raise ValueError('UNSAFE_OR_EXISTING_DESTINATION')
-    if any(parent.is_symlink() for parent in target.parents) or not target.parent.is_dir() or target.resolve() in [Path(p).resolve() for p in inputs if p is not None]:raise ValueError('UNSAFE_OR_EXISTING_DESTINATION')
+    if any(parent.is_symlink() for parent in target.parents) or not target.parent.is_dir() or target.resolve() in [local_path(p).resolve() for p in inputs if p is not None]:raise ValueError('UNSAFE_OR_EXISTING_DESTINATION')
     return target
 
 
