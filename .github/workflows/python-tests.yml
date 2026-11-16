@@ -24,6 +24,7 @@ on:
       - feat/iat2-journal-dataset-evaluation
       - feat/iat2-blinded-chart-benchmark
       - feat/iat2-real-data-review-pilot-v1
+      - feat/iat2-data-qualification-assistant-v1
   pull_request:
     branches:
       - main
@@ -46,6 +47,7 @@ on:
       - feat/iat2-market-reasoning-journal-v1
       - feat/iat2-journal-dataset-evaluation
       - feat/iat2-blinded-chart-benchmark
+      - feat/iat2-real-data-review-pilot-v1
   workflow_dispatch:
 
 permissions:
@@ -218,4 +220,18 @@ jobs:
               data = json.loads(report.read_text(encoding='utf-8'))
               assert data['status'] == 'DATA_NOT_QUALIFIED'
               assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
+              assert data['safety']['execution_allowed'] is False and data['exness'] == 'BLOCKED'
+
+      - name: Qualification assistant rejects missing metadata without approval
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat import assistant ') as folder:
+              root = pathlib.Path(folder)
+              report = root / 'report.json'
+              result = subprocess.run([sys.executable, 'diagnostics/qualification_assistant.py', 'validate', '--spec', str(root / 'missing.json'), '--report-path', str(report)], capture_output=True, text=True)
+              assert result.returncode == 3, 'EXPECTED_DATA_NOT_QUALIFIED'
+              data = json.loads(report.read_text(encoding='utf-8'))
+              assert data['status'] == 'DATA_NOT_QUALIFIED' and data['mechanical']['status'] == 'BLOCKED'
+              assert data['independent_signoff']['decision'] == 'PENDING'
               assert data['safety']['execution_allowed'] is False and data['exness'] == 'BLOCKED'

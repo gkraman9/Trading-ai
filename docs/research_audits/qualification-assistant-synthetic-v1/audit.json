@@ -1,0 +1,143 @@
+{
+  "audit_version": 1,
+  "classification": "SYNTHETIC_ONLY",
+  "real_export_validated": false,
+  "independent_human_approval_obtained": false,
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "cases": {
+    "valid_native_shaped": {
+      "mechanical": "PASS",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "25d3a0a85db4ddf6c3bae2856571fc334fce00bbb60cd16617c6f21b88cd6f31",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "missing_m1": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "UNEXPECTED_MISSING_BARS",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "6b550499e8188295b4741efbb997a5f51e0e5de33b789f4c02f5d2e00f3bc048",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "missing_m5": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "UNEXPECTED_MISSING_BARS",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "1f4ad740b638cc1cb66858cba39e487191a8ea5bef71ebedb3494a8539e46fc0",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "duplicate": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "TIMESTAMP_DUPLICATE",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "87481ef34b4e8da6cccca21d1e5b958d04761430ca3cedc6677913d8c3a255d6",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "cross_frame_conflict": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "M1_M5_ALIGNMENT_UNESTABLISHED",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "1d83335f47e8234a0ea8d64389331d75a3ed09273aac8f90a8454f4076eb7286",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "timezone_ambiguous": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "UTC_TIMESTAMP_REQUIRED",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "0e3f6e4550688ab212229fc9cfca1659415b0844615003bf84b0244365ebb511",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "price_basis": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "PRICE_BASIS_MISMATCH",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "30aded9ef7c84a0b1a0c5e0af71d55cb40a9e75ba8bf94c81c8b3d1c16917873",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "derived_m5": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "NATIVE_M1_M5_REQUIRED",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "5c9e453f41202850fda2484199f2d42cd3685b5634c1858e76b6dfa2d8be7bcb",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "warmup_insufficient": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "PILOT_WARMUP_INSUFFICIENT",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "d3c7e2121dc827be9da14ee7e6e837e71f2c7f34f9ef9f820b66b20c59bc4d93",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "finality_unknown": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "FINALITY_UNKNOWN",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "7b06bfb14522650b6bacab1befdbb4724825415fa93bac6680645e0d6e970ada",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "calendar_mismatch": {
+      "mechanical": "BLOCKED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "CALENDAR_INVALID",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "392ac5bf6ad4017d22446a5d13603dd5a5f8555f5c37b5cab3b2116507812473",
+      "repeatable": true,
+      "source_files_unchanged": true
+    },
+    "approval_absent": {
+      "mechanical": "PASS",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "issues": [
+        "EVIDENCE_MISSING",
+        "INDEPENDENT_REVIEW_REQUIRED"
+      ],
+      "report_sha256": "9d8e213e1f205b11ea2b653e77153d6affee21109f5781ed3c4c9f6285ce1f73",
+      "repeatable": true,
+      "source_files_unchanged": true
+    }
+  },
+  "package_locks_identical": true,
+  "baseline_package_lock_sha256": "b1aaf5d93dd81784afb6f8072f5c97f885909b7754dc9af4621bcba8ad9a3766"
+}

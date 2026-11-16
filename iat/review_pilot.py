@@ -60,6 +60,14 @@ def _validate_plan(plan):
     return True
 
 
+def pilot_warmup(dataset,config=None,intelligence_config=None):
+    """Shared, unchanged pilot lookback requirement and actual closed warm-up counts."""
+    config,phase7,_=_configs(config,intelligence_config)
+    minimum=max(2*config.range_period,config.atr_period+1,config.roc_period+2,phase7.range_window,phase7.atr_period+1,phase7.left_strength+phase7.right_strength+1)
+    counts={tf:sum(utc(row['timestamp'])+timedelta(minutes=minutes)<=utc(dataset.metadata['evaluation']['start']) for row in dataset.rows[tf]) for tf,minutes in (('M1',1),('M5',5))}
+    return {'minimum_per_frame':minimum,'closed_counts':counts,'sufficient':all(n>=minimum for n in counts.values())}
+
+
 def register_plan(manifest_path,spec,review_path=None,*,synthetic_only=False,config=None,intelligence_config=None):
     """No assessment/replay performed here. Caller persists this plan before packets."""
     config,phase7,hashes=_configs(config,intelligence_config)
@@ -74,8 +82,8 @@ def register_plan(manifest_path,spec,review_path=None,*,synthetic_only=False,con
     m=qualification['dataset'];require(m['manifest_version']==2,'Declared warm-up required')
     require(all(utc(v['start'])<utc(v['end']) for v in m['warmup'].values()),'Declared warm-up required')
     loaded=load_dataset(manifest_path);require(loaded.metadata==m,'Dataset changed during registration')
-    minimum=max(2*config.range_period,config.atr_period+1,config.roc_period+2,phase7.range_window,phase7.atr_period+1,phase7.left_strength+phase7.right_strength+1)
-    warmup_counts={tf:sum(utc(row['timestamp'])+timedelta(minutes=minutes)<=utc(m['evaluation']['start']) for row in loaded.rows[tf]) for tf,minutes in (('M1',1),('M5',5))}
+    warmup=pilot_warmup(loaded,config,phase7)
+    minimum=warmup['minimum_per_frame'];warmup_counts=warmup['closed_counts']
     if any(n<minimum for n in warmup_counts.values()):
         if synthetic_only:raise ValueError('Pilot warm-up insufficient')
         qualification.update(status='DATA_NOT_QUALIFIED',reason_codes=['PILOT_WARMUP_INSUFFICIENT']);return None,qualification
