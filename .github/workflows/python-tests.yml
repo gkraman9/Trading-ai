@@ -30,6 +30,7 @@ on:
       - feat/iat2-historical-evidence-manifest-v1
       - feat/iat2-independent-source-qualification-v1
       - feat/iat2-market-decision-intelligence-v1
+      - feat/iat2-scenario-transition-v1
   pull_request:
     branches:
       - main
@@ -58,6 +59,7 @@ on:
       - feat/iat2-historical-session-boundary-validation-v1
       - feat/iat2-historical-evidence-manifest-v1
       - feat/iat2-independent-source-qualification-v1
+      - feat/iat2-market-decision-intelligence-v1
   workflow_dispatch:
 
 permissions:
@@ -364,3 +366,25 @@ jobs:
                   assert assessment['status'] == 'ABSTAINED'
                   assert assessment['selected_hypothesis'] == source.confluence['selected_hypothesis']
           assert source.to_dict() == before
+      - name: Scenario transition read-only semantic smoke test
+        shell: python
+        run: |
+          import json, pathlib, sys
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          from iat.intelligence.scenario_transitions import assess_scenario_transition, validate_scenario_transition
+          from iat.intelligence.strategy_replay import digest
+          report = assess_scenario_transition(None, None)
+          assert validate_scenario_transition(json.loads(json.dumps(report)))
+          assert report['classification'] == 'BLOCKED'
+          assert report['signal'] == 'WAIT' and report['mode'] == 'READ_ONLY_SHADOW'
+          assert report['execution_allowed'] is False and report['broker_access'] is False
+          assert report['exness'] == 'BLOCKED' and report['historical_validation'] == 'PENDING'
+          assert report['historical_comparisons'] == 'NOT_RUN'
+          report['classification'] = 'INVALIDATED'
+          report['sha256'] = digest({k:v for k,v in report.items() if k != 'sha256'})
+          try:
+              validate_scenario_transition(report)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError('Rechecksummed semantic forgery was accepted')
