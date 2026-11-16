@@ -266,10 +266,14 @@ def validate_scenario_assessment(report):
     if report['status']=='BLOCKED':
         need(not report['ranked_hypotheses'] and not report['leading_hypotheses'] and not report['evidence_index'],'BLOCKED_SCENARIO_HAS_EVIDENCE')
         return True
+    need(report['selected_hypothesis'] in NAMES and
+        (report['status']!='ASSESSED' or report['selected_hypothesis']!=NO_DIRECTION),'SCENARIO_SELECTION_INVALID')
     at=utc(report['analysis_at']);_chronology(report,at)
     ids=[e['id'] for e in report['evidence_index']];need(ids==sorted(set(ids)),'SCENARIO_EVIDENCE_INCONSISTENT')
     hs=report['ranked_hypotheses'];need(len(hs)==len(NAMES) and {h['hypothesis_type'] for h in hs}==NAMES,'SCENARIO_HYPOTHESES_INCONSISTENT')
     need(hs==sorted(hs,key=lambda h:(-h['heuristic_score'],h['hypothesis_type'])),'SCENARIO_RANK_INVALID')
+    need(all(type(h['selected_by_context']) is bool for h in hs) and
+        sum(h['selected_by_context'] for h in hs)==1,'SCENARIO_SELECTION_INVALID')
     values=sorted({h['heuristic_score'] for h in hs},reverse=True)
     for h in hs:
         need(h['score_kind']==SCORE_KIND and h['rank']==values.index(h['heuristic_score'])+1 and h['selected_by_context']==(h['hypothesis_type']==report['selected_hypothesis']),'SCENARIO_RANK_INVALID')

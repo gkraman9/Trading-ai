@@ -227,6 +227,44 @@ class ScenarioAssessmentTests(unittest.TestCase):
         self.blocked(r,'CONFLICTING_EVENT_REVISIONS')
 
 
+    def test_rehashed_assessed_report_with_null_selection_and_cleared_flags_is_rejected(self):
+        s=assess_scenarios(context());self.assertEqual(s['status'],'ASSESSED')
+        s.pop('sha256');s['selected_hypothesis']=None
+        for h in s['ranked_hypotheses']:h['selected_by_context']=False
+        s['sha256']=digest(s)
+        with self.assertRaisesRegex(ValueError,'SCENARIO_SELECTION_INVALID'):validate_scenario_assessment(s)
+    def test_rehashed_abstained_report_cannot_have_null_selection(self):
+        s=assess_scenarios(context(choch=True));self.assertEqual(s['status'],'ABSTAINED')
+        s.pop('sha256');s['selected_hypothesis']=None
+        for h in s['ranked_hypotheses']:h['selected_by_context']=False
+        s['sha256']=digest(s)
+        with self.assertRaisesRegex(ValueError,'SCENARIO_SELECTION_INVALID'):validate_scenario_assessment(s)
+    def test_assessed_report_requires_a_non_abstention_hypothesis(self):
+        s=assess_scenarios(context());s.pop('sha256');s['selected_hypothesis']=NO_DIRECTION
+        for h in s['ranked_hypotheses']:h['selected_by_context']=h['hypothesis_type']==NO_DIRECTION
+        s['sha256']=digest(s)
+        with self.assertRaisesRegex(ValueError,'SCENARIO_SELECTION_INVALID'):validate_scenario_assessment(s)
+    def test_assessed_selection_requires_exactly_one_matching_boolean_flag(self):
+        original=assess_scenarios(context())
+        for defect in ('none','multiple','wrong','nonboolean'):
+            s=deepcopy(original);s.pop('sha256');selected=next(h for h in s['ranked_hypotheses'] if h['selected_by_context'])
+            other=next(h for h in s['ranked_hypotheses'] if not h['selected_by_context'])
+            if defect=='none':selected['selected_by_context']=False
+            elif defect=='multiple':other['selected_by_context']=True
+            elif defect=='wrong':selected['selected_by_context']=False;other['selected_by_context']=True
+            else:selected['selected_by_context']=1
+            s['sha256']=digest(s)
+            with self.subTest(defect=defect),self.assertRaises(ValueError):validate_scenario_assessment(s)
+    def test_genuine_assessed_abstained_and_unavailable_blocked_still_validate(self):
+        cases={'ASSESSED':assess_scenarios(context()),'ABSTAINED':assess_scenarios(context(choch=True)),'BLOCKED':assess_scenarios(None)}
+        for status,s in cases.items():
+            with self.subTest(status=status):self.assertEqual(s['status'],status);self.assertTrue(validate_scenario_assessment(s))
+        self.assertIsNone(cases['BLOCKED']['selected_hypothesis'])
+    def test_blocked_report_still_accepts_a_recognized_recorded_selection(self):
+        s=assess_scenarios(None);s.pop('sha256');s['selected_hypothesis']='BULLISH_CONTINUATION_POSSIBILITY';s['sha256']=digest(s)
+        self.assertTrue(validate_scenario_assessment(s))
+
+
 class ScenarioReplayTests(unittest.TestCase):
     def history(self):
         a,b,t=two_frames();tail=rows(WAVE)
