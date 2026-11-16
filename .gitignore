@@ -24,3 +24,7 @@ chart-review-batches/
 
 # Private pilot plans, qualification evidence and reviewer identities.
 pilot-batches/
+
+# Private native exports, import packages and atomic import temporaries.
+qualification-packages/
+.iat-import-*

@@ -1,0 +1,145 @@
+{
+  "import_version": 1,
+  "dataset_kind": "SYNTHETIC_FIXTURE",
+  "preparer_code": "operator-a",
+  "authorized_local_use": true,
+  "source": {
+    "provider_entity": "SYNTHETIC MOCK EXPORT",
+    "feed_id": "SYNTHETIC_NATIVE_SHAPED",
+    "instrument": "XAUUSD",
+    "price_basis": "BID",
+    "reference": "synthetic:qualification-assistant-fixture",
+    "retrieved_at_utc": "2026-11-13T00:00:00Z",
+    "curation_id": "synthetic-native-shaped"
+  },
+  "timestamp": {
+    "format": "ISO8601",
+    "timezone": "UTC",
+    "convention": "INTERVAL_OPEN_UTC"
+  },
+  "utc_range": {
+    "start": "2026-11-12T08:00:00+00:00",
+    "end": "2026-11-12T10:30:00+00:00"
+  },
+  "evaluation": {
+    "start": "2026-11-12T09:30:00+00:00",
+    "end": "2026-11-12T10:30:00+00:00"
+  },
+  "warmup": {
+    "M1": {
+      "start": "2026-11-12T08:00:00+00:00",
+      "end": "2026-11-12T09:30:00+00:00"
+    },
+    "M5": {
+      "start": "2026-11-12T08:00:00+00:00",
+      "end": "2026-11-12T09:30:00+00:00"
+    }
+  },
+  "frames": {
+    "M1": {
+      "file": "m1-native-shaped.csv",
+      "columns": {
+        "timestamp": "Time",
+        "open": "Open",
+        "high": "High",
+        "low": "Low",
+        "close": "Close",
+        "volume": "Ticks",
+        "complete": "Done",
+        "symbol": null,
+        "price_basis": null,
+        "feed_id": null
+      },
+      "ignored_columns": [],
+      "price_basis": "BID",
+      "feed_id": "SYNTHETIC_NATIVE_SHAPED",
+      "origin": "NATIVE_SAME_FEED",
+      "volume_kind": "TICK",
+      "finality": {
+        "policy": "PER_ROW_BOOLEAN",
+        "provider_contract": "MT5_POSITION_1_ELAPSED",
+        "true_token": "true",
+        "false_token": "false",
+        "reference": "synthetic:mock-export-contract"
+      },
+      "corrections": {
+        "status": "NO_KNOWN_CORRECTIONS_DECLARED",
+        "reference": null,
+        "previous_source_sha256": null
+      }
+    },
+    "M5": {
+      "file": "m5-native-shaped.csv",
+      "columns": {
+        "timestamp": "Time",
+        "open": "Open",
+        "high": "High",
+        "low": "Low",
+        "close": "Close",
+        "volume": "Ticks",
+        "complete": "Done",
+        "symbol": null,
+        "price_basis": null,
+        "feed_id": null
+      },
+      "ignored_columns": [],
+      "price_basis": "BID",
+      "feed_id": "SYNTHETIC_NATIVE_SHAPED",
+      "origin": "NATIVE_SAME_FEED",
+      "volume_kind": "TICK",
+      "finality": {
+        "policy": "PER_ROW_BOOLEAN",
+        "provider_contract": "MT5_POSITION_1_ELAPSED",
+        "true_token": "true",
+        "false_token": "false",
+        "reference": "synthetic:mock-export-contract"
+      },
+      "corrections": {
+        "status": "NO_KNOWN_CORRECTIONS_DECLARED",
+        "reference": null,
+        "previous_source_sha256": null
+      }
+    }
+  },
+  "calendar": {
+    "file": "calendar.json",
+    "sha256": "35c419bdcf07d120e1f07d2af1ef5fb1ff6e009f0d5e900ba4136da89af955f1"
+  },
+  "evidence": {
+    "usage": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "provenance": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "instrument": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "timestamp": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "price_basis": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "calendar": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    },
+    "finality": {
+      "file": "synthetic-evidence.txt",
+      "sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f",
+      "reference": "synthetic:mock-document-not-evidence"
+    }
+  }
+}
