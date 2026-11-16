@@ -31,6 +31,7 @@ on:
       - feat/iat2-independent-source-qualification-v1
       - feat/iat2-market-decision-intelligence-v1
       - feat/iat2-scenario-transition-v1
+      - feat/iat2-historical-replay-integration-v1
   pull_request:
     branches:
       - main
@@ -60,6 +61,7 @@ on:
       - feat/iat2-historical-evidence-manifest-v1
       - feat/iat2-independent-source-qualification-v1
       - feat/iat2-market-decision-intelligence-v1
+      - feat/iat2-scenario-transition-v1
   workflow_dispatch:
 
 permissions:
@@ -388,3 +390,25 @@ jobs:
               pass
           else:
               raise AssertionError('Rechecksummed semantic forgery was accepted')
+      - name: Scenario replay missing-source and semantic smoke test
+        shell: python
+        run: |
+          import pathlib, sys
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          from iat.scenario_replay import run_scenario_replay, validate_scenario_replay
+          from iat.intelligence.strategy_replay import digest
+          report = run_scenario_replay(mode='EXTERNAL_UNQUALIFIED_RESEARCH')
+          assert validate_scenario_replay(report)
+          assert report['status'] == 'BLOCKED' and not report['records']
+          assert report['mode'] == 'READ_ONLY_SHADOW' and report['signal'] == 'WAIT'
+          assert report['execution_allowed'] is False and report['safety']['broker_access'] is False
+          assert report['exness'] == 'BLOCKED' and report['qualification'] == 'DATA_NOT_QUALIFIED'
+          assert report['historical_validation'] == 'PENDING' and report['historical_comparisons'] == 'NOT_RUN'
+          report['status'] = 'COMPLETED'
+          report['sha256'] = digest({k:v for k,v in report.items() if k != 'sha256'})
+          try:
+              validate_scenario_replay(report)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError('A missing-source replay was promoted by checksum alone')

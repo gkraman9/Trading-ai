@@ -1,0 +1,133 @@
+{
+  "configuration_hashes": {
+    "context": "d648612d0c1bd9d5313b16ac9170e9e22d0bd951b12f554d63fa961a567e3a57",
+    "intelligence": "77594024bdff4fbaafa26d7ef3cdf18e5377b9b253efafb61b77d24fb0e20dd7"
+  },
+  "dataset": {
+    "checksums": {
+      "M1": {
+        "file_sha256": "72ccb0b8bdca88350bf1b6624735a911ed5852f08e64935874cb3e8d5c7636e7",
+        "normalized_ohlc_sha256": "85909d8eb1d167e3f5b27e9b58b7fed7f10a3f84d3fb6a8a9e9cd8d4c185cf23"
+      },
+      "M5": {
+        "file_sha256": "e64c0b0a557b4abd4e8a58ead83047acdd7f41e5589f5f8ccc44a91c3add798b",
+        "normalized_ohlc_sha256": "ae0ff402ec2aa2c7b43816b8c9e047012fbd38575f8c050d3ffda8abf07b6752"
+      }
+    },
+    "coverage": {
+      "M1": {
+        "candle_count": 30,
+        "end_utc": "2026-11-12T08:30:00+00:00",
+        "start_utc": "2026-11-12T08:00:00+00:00"
+      },
+      "M5": {
+        "candle_count": 23,
+        "end_utc": "2026-11-12T08:30:00+00:00",
+        "start_utc": "2026-11-12T06:35:00+00:00"
+      }
+    },
+    "dataset_kind": "SYNTHETIC_FIXTURE",
+    "evaluation": {
+      "end": "2026-11-12T08:30:00+00:00",
+      "start": "2026-11-12T08:20:00+00:00"
+    },
+    "evidence_review": {
+      "calendar": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      },
+      "finality": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      },
+      "instrument": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      },
+      "price_basis": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      },
+      "timestamp": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      },
+      "usage": {
+        "reason_code": "SYNTHETIC_ONLY",
+        "reference": "synthetic:mock-evidence",
+        "status": "PENDING"
+      }
+    },
+    "finality_attested": true,
+    "lineage": {
+      "feed_id": "SYNTHETIC_ONLY",
+      "m5_origin": "AGGREGATED_FROM_M1",
+      "price_basis": "BID",
+      "raw_sha256": "505d701f0d7c85b163e8dc649aa9d790afa1265e665768db204b29891578e7e2",
+      "timestamp_convention": "INTERVAL_OPEN_UTC"
+    },
+    "manifest_sha256": "5600e0f6704c901c8fdb391b190bea24eb79dc2c37ea0b64256ab03d57fc9bbf",
+    "manifest_version": 2,
+    "session_config_sha256": null,
+    "source": {
+      "curation_id": "synthetic-aligned-invalidate",
+      "independent_review": "PENDING",
+      "name": "SYNTHETIC aligned OHLC only",
+      "reference": "synthetic:strategy-dataset-unit",
+      "retrieved_at_utc": "2026-11-14T00:00:00+00:00"
+    },
+    "source_authenticity": "OPERATOR_DECLARATION_NOT_AUTHENTICATED",
+    "symbol": "XAUUSD",
+    "utc_range": {
+      "end": "2026-11-12T08:30:00+00:00",
+      "start": "2026-11-12T06:35:00+00:00"
+    },
+    "warmup": {
+      "M1": {
+        "end": "2026-11-12T08:20:00+00:00",
+        "start": "2026-11-12T08:00:00+00:00"
+      },
+      "M5": {
+        "end": "2026-11-12T08:20:00+00:00",
+        "start": "2026-11-12T06:35:00+00:00"
+      }
+    }
+  },
+  "dataset_id": "1045519d34cafbc232c6d5d61248bb12891eb037869398a900e3899032ba08fd",
+  "engine_provenance": "SYNTHETIC_RESEARCH",
+  "input_bundle_sha256": "c918e8a45b0f48102b912614c03b302b68db95c0ddc96d25a25843903e14826c",
+  "policy": {
+    "evaluation": "START_LT_CLOSE_LE_END",
+    "observations": "CLOSED_M1_FULL_PREFIX",
+    "record_identity": "STABLE_SOURCE_SCOPE_AND_CAUSAL_PREFIX_NOT_FULL_ARCHIVE_HASH",
+    "source_policy": "EXTERNAL_REQUIRES_EXISTING_HUMAN_QUALIFICATION_GATE",
+    "version": 1,
+    "warmup": "CLOSE_LE_EVALUATION_START"
+  },
+  "policy_sha256": "528d56a265a9d72e18078efeade8aa6365330098801423719d604f77e2df848a",
+  "provenance": "SYNTHETIC_RESEARCH",
+  "replay_manifest_version": 1,
+  "source_scope": {
+    "calendar_sha256": null,
+    "finality_attested": true,
+    "lineage": {
+      "feed_id": "SYNTHETIC_ONLY",
+      "m5_origin": "AGGREGATED_FROM_M1",
+      "price_basis": "BID",
+      "timestamp_convention": "INTERVAL_OPEN_UTC"
+    },
+    "mode": "SYNTHETIC_RESEARCH",
+    "source": {
+      "curation_id": "synthetic-aligned-invalidate",
+      "name": "SYNTHETIC aligned OHLC only",
+      "reference": "synthetic:strategy-dataset-unit"
+    },
+    "symbol": "XAUUSD",
+    "version": 1
+  }
+}
