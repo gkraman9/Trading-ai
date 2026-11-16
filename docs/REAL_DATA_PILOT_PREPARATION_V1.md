@@ -238,3 +238,7 @@ for the selected warm-up/evaluation, supported finality and correction history,
 checksummed independent approval, actual blinded annotations and qualified replay.
 The reported April–October range cannot fill those gaps. Exness remains BLOCKED;
 historical validation PENDING and historical comparisons NOT_RUN.
+
+## Session-boundary diagnostics
+
+Preparation also freezes a `session-boundary-research.json` sidecar. See [historical session-boundary research](HISTORICAL_SESSION_BOUNDARY_VALIDATION_V1.md) for conditional geometry, unknown partial finality, a standalone local CSV command and unresolved broker evidence. This does not change ordinary alignment or qualification requirements.

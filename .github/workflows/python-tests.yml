@@ -26,6 +26,7 @@ on:
       - feat/iat2-real-data-review-pilot-v1
       - feat/iat2-data-qualification-assistant-v1
       - feat/iat2-real-data-pilot-preparation-v1
+      - feat/iat2-historical-session-boundary-validation-v1
   pull_request:
     branches:
       - main
@@ -50,6 +51,7 @@ on:
       - feat/iat2-blinded-chart-benchmark
       - feat/iat2-real-data-review-pilot-v1
       - feat/iat2-data-qualification-assistant-v1
+      - feat/iat2-real-data-pilot-preparation-v1
   workflow_dispatch:
 
 permissions:
@@ -257,3 +259,21 @@ jobs:
               assert 'MISSING_NATIVE_M1' in report['reason_codes'] and report['review_packets_created'] is False
               assert report['safety']['execution_allowed'] is False
               assert not (output / 'selection').exists(), 'DRY_RUN_MUST_NOT_NORMALIZE'
+
+      - name: Historical session-boundary research fails closed without local files
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat session boundary ') as folder:
+              report = pathlib.Path(folder) / 'research.json'
+              result = subprocess.run([sys.executable, 'diagnostics/historical_session_boundaries.py',
+                  '--m1', str(pathlib.Path(folder) / 'missing M1.csv'),
+                  '--m5', str(pathlib.Path(folder) / 'missing M5.csv'),
+                  '--calendar', 'config/profiles/exness-xauusd-v2.candidate.json',
+                  '--timestamp-column', 'timestamp_utc', '--start-utc', '2026-11-11T00:00:00Z',
+                  '--end-utc', '2026-11-14T00:00:00Z', '--report-path', str(report)], capture_output=True, text=True)
+              assert result.returncode == 3
+              data = json.loads(report.read_text(encoding='utf-8'))
+              assert data['status'] == 'UNAVAILABLE' and data['qualification'] == 'DATA_NOT_QUALIFIED'
+              assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
+              assert data['safety']['execution_allowed'] is False and data['exness'] == 'BLOCKED'
