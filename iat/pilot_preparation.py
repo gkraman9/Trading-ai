@@ -186,6 +186,8 @@ def prepare_pilot(spec_path,m1_path,m5_path,destination,*,start,end,evaluation_s
         'm1_to_native_m5_comparison':candidate_report['mechanical']['alignment'] if candidate_report else None,
         'aggregation_role':'DIAGNOSTIC_ONLY_NATIVE_M5_NEVER_REPLACED','safety':safety(),'exness':'BLOCKED'}
     write_new(root/'alignment-audit.json',alignment);write_new(root/'evidence-checklist.json',_evidence_checklist(candidate_report))
+    from iat.historical_session_boundaries import package_boundary_research
+    write_new(root/'session-boundary-research.json',package_boundary_research(root/'candidate-package',window['start'],window['end']))
     reasons.append('INDEPENDENT_QUALIFICATION_REQUIRED')
     readiness={'readiness_version':1,'status':'BLOCKED','qualification':'DATA_NOT_QUALIFIED','reason_codes':sorted(set(reasons)),
         'review_packets_created':False,'evaluation_timestamps':None,'historical_validation':'PENDING','historical_comparisons':'NOT_RUN','safety':safety(),'exness':'BLOCKED'}

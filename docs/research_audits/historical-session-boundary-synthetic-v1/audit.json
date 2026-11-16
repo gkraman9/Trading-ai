@@ -1,0 +1,53 @@
+{
+  "cases": {
+    "unverified-candidate": {
+      "absence_counts": {
+        "MISSING_UNESTABLISHED_UNVERIFIED_CALENDAR": 2
+      },
+      "boundary_classification": "PARTIAL_SESSION_CLOSE",
+      "boundary_quote_seconds": 180.0,
+      "comparison_counts": {
+        "FIVE_M1_MATCH": 37,
+        "NOT_COMPARED_PARTIAL_OR_UNKNOWN_SESSION": 1
+      },
+      "observed_counts": {
+        "M1": 188,
+        "M5": 38
+      },
+      "partial_finality": "UNESTABLISHED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "sha256": "bcf2190fa68a6d1ea019b23cfef4e903fa103140f8027e714d526dac0b55d372"
+    },
+    "verified-declarations": {
+      "absence_counts": {
+        "CONFIGURED_OFF_QUOTE_ABSENCE": 2
+      },
+      "boundary_classification": "PARTIAL_SESSION_CLOSE",
+      "boundary_quote_seconds": 180.0,
+      "comparison_counts": {
+        "FIVE_M1_MATCH": 37,
+        "NOT_COMPARED_PARTIAL_OR_UNKNOWN_SESSION": 1
+      },
+      "observed_counts": {
+        "M1": 188,
+        "M5": 38
+      },
+      "partial_finality": "UNESTABLISHED",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "sha256": "14e1c4347eab84ebe50fd390d507d6f227a829e094368df8ac5c56fb707cc61a"
+    }
+  },
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "kind": "SYNTHETIC_ONLY_NOT_REAL_MARKET_VALIDATION",
+  "real_csv_inspected": false,
+  "scope": {
+    "end": "2026-11-12T23:10:00Z",
+    "start": "2026-11-12T19:00:00Z"
+  },
+  "signal": "WAIT",
+  "user_reported_counts": "UNVERIFIED",
+  "version": 1
+}

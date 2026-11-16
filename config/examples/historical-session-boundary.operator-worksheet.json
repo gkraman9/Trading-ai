@@ -1,0 +1,49 @@
+{
+  "worksheet_version": 1,
+  "kind": "UNQUALIFIED_OPERATOR_WORKSHEET_NOT_AN_IMPORT_SPEC",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "observation_origin": "USER_REPORTED_LOCAL_FILES_NOT_INSPECTED_BY_CODEX",
+  "files": {
+    "M1": "XAUUSD_M1_Exness_20261111_20261113.csv",
+    "M5": "XAUUSD_M5_Exness_20261111_20261113.csv"
+  },
+  "columns": {
+    "timestamp": "timestamp_utc",
+    "open": "open",
+    "high": "high",
+    "low": "low",
+    "close": "close",
+    "volume": "tick_volume",
+    "complete": null,
+    "symbol": null,
+    "price_basis": null,
+    "feed_id": null
+  },
+  "volume_kind": "TICK",
+  "ignored_columns": ["spread", "real_volume"],
+  "price_basis": "UNKNOWN",
+  "authorized_local_use_evidence": null,
+  "provider_legal_entity": null,
+  "feed_identity_evidence": null,
+  "native_timeframe_provenance": null,
+  "source_reference": null,
+  "retrieval_timestamp": null,
+  "utc_interval_opening_evidence": null,
+  "dated_calendar_evidence": null,
+  "holiday_maintenance_exception_evidence": null,
+  "finality": {
+    "policy": "UNKNOWN",
+    "provider_contract": "UNKNOWN",
+    "document": null,
+    "sha256": null
+  },
+  "correction_history_evidence": null,
+  "independent_approval": null,
+  "candidate_calendar": "config/profiles/exness-xauusd-v2.candidate.json",
+  "candidate_calendar_state": "BLOCKED_UNVERIFIED_NO_FLAGS_CHANGED",
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false,
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN"
+}
