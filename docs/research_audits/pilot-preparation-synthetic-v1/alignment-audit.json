@@ -1,0 +1,81 @@
+{
+  "alignment_audit_version": 1,
+  "status": "PASS",
+  "scope": {
+    "start": "2026-11-12T08:00:00+00:00",
+    "end": "2026-11-12T10:30:00+00:00",
+    "evaluation_start": "2026-11-12T09:30:00+00:00",
+    "eligibility": "OPEN_GE_START_AND_CLOSE_LE_END",
+    "max_selected_rows_per_frame": 5000
+  },
+  "full_archive_sessions": "NOT_ESTABLISHED_OUTSIDE_SELECTION",
+  "frames": {
+    "M1": {
+      "valid": true,
+      "diagnostics": [
+        {
+          "code": "DATA_VALID",
+          "severity": "INFO",
+          "message": "Candle data passed configured validation checks"
+        }
+      ]
+    },
+    "M5": {
+      "valid": true,
+      "diagnostics": [
+        {
+          "code": "DATA_VALID",
+          "severity": "INFO",
+          "message": "Candle data passed configured validation checks"
+        }
+      ]
+    }
+  },
+  "warmup": {
+    "minimum_per_frame": 15,
+    "closed_counts": {
+      "M1": 90,
+      "M5": 18
+    },
+    "sufficient": true
+  },
+  "m1_to_native_m5_comparison": {
+    "evaluation": {
+      "start_utc": "2026-11-12T09:30:00+00:00",
+      "end_utc": "2026-11-12T10:30:00+00:00",
+      "denominator_basis": "VERIFIED_CALENDAR_FULL_M5_INTERVALS",
+      "expected_m5_bars": 12,
+      "provided_m5_bars": 12,
+      "comparable_m5_bars": 12,
+      "uncovered_m5_bars": 0,
+      "missing_m5_bars": 0,
+      "unexpected_m5_bars": 0,
+      "mismatch_count": 0,
+      "provided_coverage_percent": 100.0,
+      "comparable_coverage_percent": 100.0,
+      "matching_coverage_percent": 100.0,
+      "minimum_comparable_m5_bars": 12,
+      "coverage_sufficient": true,
+      "warmup_m5_bars": 18,
+      "warmup_uncovered_m5_bars": 0,
+      "m5_origin": "NATIVE_SAME_FEED",
+      "consistency_evidence": "SAME_FEED_NATIVE_COMPARISON",
+      "cross_frame_claim": "NOT_ESTABLISHED"
+    },
+    "policy": "FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE",
+    "tolerance": 1e-08,
+    "comparable_m5_bars": 30,
+    "uncovered_m5_bars": 0,
+    "mismatch_count": 0
+  },
+  "aggregation_role": "DIAGNOSTIC_ONLY_NATIVE_M5_NEVER_REPLACED",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED"
+}

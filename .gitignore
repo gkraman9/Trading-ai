@@ -28,3 +28,6 @@ pilot-batches/
 # Private native exports, import packages and atomic import temporaries.
 qualification-packages/
 .iat-import-*
+
+# Private large-archive pilot preparations.
+pilot-preparations/

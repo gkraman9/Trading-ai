@@ -113,6 +113,30 @@ def _spec(path):
     return raw,s
 
 
+def _parse_record(record,f,source):
+    """Shared row contract for bounded imports and streaming archive inspection."""
+    columns=f['columns']
+    for key,expected_value,code in (('symbol',source['instrument'],'SYMBOL_MISMATCH'),('price_basis',f['price_basis'],'PRICE_BASIS_MISMATCH'),('feed_id',f['feed_id'],'FEED_MISMATCH')):
+        if columns[key] is not None:need(record[columns[key]]==expected_value,code)
+    try:at=utc(record[columns['timestamp']])
+    except ValueError as exc:raise ImportFailure('UTC_TIMESTAMP_REQUIRED') from exc
+    try:values={k:float(record[columns[k]]) for k in ('open','high','low','close')}
+    except ValueError as exc:raise ImportFailure('OHLC_INVALID') from exc
+    need(all(isfinite(v) and v>0 for v in values.values()),'OHLC_INVALID')
+    need(values['low']<=min(values['open'],values['close'])<=max(values['open'],values['close'])<=values['high'],'OHLC_INVALID')
+    bar=dict(timestamp=iso(at),**values);volume=None;complete=None
+    if columns['volume'] is not None:
+        try:v=float(record[columns['volume']])
+        except ValueError as exc:raise ImportFailure('VOLUME_INVALID') from exc
+        need(isfinite(v) and v>=0,'VOLUME_INVALID');volume={'timestamp':iso(at),'volume':v}
+    if f['finality']['policy']=='PER_ROW_BOOLEAN':
+        need(columns['complete'] is not None,'FINALITY_UNKNOWN')
+        yes,no=f['finality']['true_token'],f['finality']['false_token']
+        need(isinstance(yes,str) and isinstance(no,str) and yes!=no and yes and no,'FINALITY_UNKNOWN')
+        need(record[columns['complete']] in (yes,no),'FINALITY_UNKNOWN');complete=record[columns['complete']]==yes
+    return bar,volume,complete
+
+
 def _parse_frame(raw,f,source):
     try:
         reader=csv.DictReader(StringIO(raw.decode('utf-8-sig')),strict=True);columns=f['columns']
@@ -121,24 +145,9 @@ def _parse_frame(raw,f,source):
         rows=[];volumes=[];complete=[]
         for record in reader:
             need(set(record)==set(reader.fieldnames) and all(v is not None for v in record.values()),'CSV_INVALID')
-            for key,expected_value,code in (('symbol',source['instrument'],'SYMBOL_MISMATCH'),('price_basis',f['price_basis'],'PRICE_BASIS_MISMATCH'),('feed_id',f['feed_id'],'FEED_MISMATCH')):
-                if columns[key] is not None:need(record[columns[key]]==expected_value,code)
-            try:at=utc(record[columns['timestamp']])
-            except ValueError as exc:raise ImportFailure('UTC_TIMESTAMP_REQUIRED') from exc
-            try:values={k:float(record[columns[k]]) for k in ('open','high','low','close')}
-            except ValueError as exc:raise ImportFailure('OHLC_INVALID') from exc
-            need(all(isfinite(v) and v>0 for v in values.values()),'OHLC_INVALID')
-            need(values['low']<=min(values['open'],values['close'])<=max(values['open'],values['close'])<=values['high'],'OHLC_INVALID')
-            rows.append(dict(timestamp=iso(at),**values));need(len(rows)<=5000,'CSV_INVALID')
-            if columns['volume'] is not None:
-                try:v=float(record[columns['volume']])
-                except ValueError as exc:raise ImportFailure('VOLUME_INVALID') from exc
-                need(isfinite(v) and v>=0,'VOLUME_INVALID');volumes.append({'timestamp':iso(at),'volume':v})
-            if f['finality']['policy']=='PER_ROW_BOOLEAN':
-                need(columns['complete'] is not None,'FINALITY_UNKNOWN')
-                yes,no=f['finality']['true_token'],f['finality']['false_token']
-                need(isinstance(yes,str) and isinstance(no,str) and yes!=no and yes and no,'FINALITY_UNKNOWN')
-                need(record[columns['complete']] in (yes,no),'FINALITY_UNKNOWN');complete.append(record[columns['complete']]==yes)
+            bar,volume,closed=_parse_record(record,f,source);rows.append(bar);need(len(rows)<=5000,'CSV_INVALID')
+            if volume is not None:volumes.append(volume)
+            if closed is not None:complete.append(closed)
         need(len(rows)>=3,'CSV_INVALID')
         return rows,volumes,complete
     except (UnicodeError,csv.Error) as exc:raise ImportFailure('CSV_INVALID') from exc

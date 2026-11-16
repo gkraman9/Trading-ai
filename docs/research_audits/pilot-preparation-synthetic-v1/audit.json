@@ -1,0 +1,35 @@
+{
+  "audit_version": 1,
+  "classification": "SYNTHETIC_ONLY",
+  "actual_user_m5_file_inspected": false,
+  "actual_user_m1_available": false,
+  "user_reported_40610_rows_and_april_october_range": "UNVERIFIED_NO_USER_FILE_SUPPLIED",
+  "repeat_preparation_identical": true,
+  "archive_binding_id": "ae578d9d722674d9bb2578009c8d403d726c1d67849e763a4fa0b9d28ddada92",
+  "selected_dataset_id": "2f2b9d92f73bebf0785136000aaa422570aeed6a940aad049dcc6c6962ab1318",
+  "missing_m1_readiness": {
+    "readiness_version": 1,
+    "status": "BLOCKED",
+    "qualification": "DATA_NOT_QUALIFIED",
+    "reason_codes": [
+      "INDEPENDENT_QUALIFICATION_REQUIRED",
+      "MISSING_NATIVE_M1"
+    ],
+    "review_packets_created": false,
+    "evaluation_timestamps": null,
+    "historical_validation": "PENDING",
+    "historical_comparisons": "NOT_RUN",
+    "safety": {
+      "mode": "READ_ONLY_SHADOW",
+      "signal": "WAIT",
+      "execution_allowed": false,
+      "broker_access": false,
+      "orders_requested": 0,
+      "profitability_tested": false
+    },
+    "exness": "BLOCKED"
+  },
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "real_independent_reviews_performed": false
+}
