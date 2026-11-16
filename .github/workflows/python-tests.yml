@@ -29,6 +29,7 @@ on:
       - feat/iat2-historical-session-boundary-validation-v1
       - feat/iat2-historical-evidence-manifest-v1
       - feat/iat2-independent-source-qualification-v1
+      - feat/iat2-market-decision-intelligence-v1
   pull_request:
     branches:
       - main
@@ -56,6 +57,7 @@ on:
       - feat/iat2-real-data-pilot-preparation-v1
       - feat/iat2-historical-session-boundary-validation-v1
       - feat/iat2-historical-evidence-manifest-v1
+      - feat/iat2-independent-source-qualification-v1
   workflow_dispatch:
 
 permissions:
@@ -333,3 +335,32 @@ jobs:
                   assert data['local_manifest_inspection']['raw_csv_reproduction'] == 'NOT_RUN'
                   assert data['calendar_modifications'] is False and data['exness'] == 'BLOCKED'
                   assert 'INDEPENDENT_QUALIFICATION_REQUIRED' in data['reason_codes']
+
+      - name: Scenario assessment is a read-only synthetic context view
+        shell: python
+        run: |
+          import pathlib, sys
+          from datetime import datetime, timedelta, timezone
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          from iat.intelligence.context import context_at
+          from iat.intelligence.scenario_assessment import assess_scenarios, validate_scenario_assessment
+          # Explicitly SYNTHETIC flat OHLC; never broker data or market validation.
+          start = datetime(2026, 11, 12, 8, tzinfo=timezone.utc)
+          def fixture(count, minutes):
+              return [dict(timestamp=(start+timedelta(minutes=i*minutes)).isoformat(),
+                  open=100.0, high=100.5, low=99.5, close=100.0) for i in range(count)]
+          source = context_at('SYNTHETIC_XAUUSD', fixture(15, 1), fixture(3, 5), start+timedelta(minutes=15))
+          before = source.to_dict()
+          for report in (None, source):
+              assessment = assess_scenarios(report)
+              assert validate_scenario_assessment(assessment)
+              assert assessment['mode'] == 'READ_ONLY_SHADOW' and assessment['signal'] == 'WAIT'
+              assert assessment['execution_allowed'] is False and assessment['broker_access'] is False
+              assert assessment['exness'] == 'BLOCKED' and assessment['historical_validation'] == 'PENDING'
+              assert assessment['historical_comparisons'] == 'NOT_RUN'
+              if report is None:
+                  assert assessment['status'] == 'BLOCKED' and assessment['ranked_hypotheses'] == []
+              else:
+                  assert assessment['status'] == 'ABSTAINED'
+                  assert assessment['selected_hypothesis'] == source.confluence['selected_hypothesis']
+          assert source.to_dict() == before

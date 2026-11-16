@@ -1,0 +1,242 @@
+{
+  "audit_version": 1,
+  "kind": "SYNTHETIC_ONLY_NOT_REAL_MARKET_VALIDATION",
+  "case_count": 12,
+  "status_counts": {
+    "ABSTAINED": 8,
+    "ASSESSED": 2,
+    "BLOCKED": 2
+  },
+  "cases": {
+    "trend_up": {
+      "status": "ABSTAINED",
+      "market_regime": "BULLISH_ALIGNMENT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 10,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "00d36703eb3fd08efbe4ff565d270d7b47cb75086a302687c31db50aea555760"
+    },
+    "trend_down": {
+      "status": "ABSTAINED",
+      "market_regime": "BEARISH_ALIGNMENT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BEARISH_CONTINUATION_POSSIBILITY",
+        "BEARISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 10,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "c94e8e95080db40536c7249c944aeebbe9acb31333f2fa30bdf2be254022a8d7"
+    },
+    "range": {
+      "status": "ASSESSED",
+      "market_regime": "SIDEWAYS_OR_RANGING",
+      "upstream_selected_hypothesis": "RANGE_CONTINUATION",
+      "selected_hypothesis": "RANGE_CONTINUATION",
+      "leading_hypotheses": [
+        "RANGE_CONTINUATION"
+      ],
+      "evidence_count": 8,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "ba89f7cc7b35659aad98565a4000bf85b47d64e650fcabb0f3660c13bd7ab5ab"
+    },
+    "normal_trend_missing_confirmation": {
+      "status": "ASSESSED",
+      "market_regime": "BULLISH_ALIGNMENT",
+      "upstream_selected_hypothesis": "BULLISH_CONTINUATION_POSSIBILITY",
+      "selected_hypothesis": "BULLISH_CONTINUATION_POSSIBILITY",
+      "leading_hypotheses": [
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 8,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "2d32a2451e82a4615dada17427f8d87335495484c3ff239c05474607840ea2b6"
+    },
+    "high_volatility_trend": {
+      "status": "ABSTAINED",
+      "market_regime": "BULLISH_ALIGNMENT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 11,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "4fed344a1b2de512e6a5c8710e3984e7809ac1e1ceba9bb30a1633b431f65d13"
+    },
+    "fresh_opposing_choch": {
+      "status": "ABSTAINED",
+      "market_regime": "BULLISH_ALIGNMENT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 19,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "FRESH_OPPOSING_M1_CHOCH",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "f93389c86c8dbc796f7df0db7def4ecb02df13b08f689eb378545e3dde6df3a8"
+    },
+    "sweep_bearish": {
+      "status": "ABSTAINED",
+      "market_regime": "STRUCTURAL_CONFLICT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BEARISH_CONTINUATION_POSSIBILITY",
+        "BEARISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 18,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "CONFLICTING_TIMEFRAME_STRUCTURE",
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+        "MATERIAL_OPPOSING_EVIDENCE",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "fe4a6c5e6fb700754d251e866c237ffa5e2892e52604eea1e17d8996816f2dc9"
+    },
+    "sweep_bullish": {
+      "status": "ABSTAINED",
+      "market_regime": "STRUCTURAL_CONFLICT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 18,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "CONFLICTING_TIMEFRAME_STRUCTURE",
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH",
+        "MATERIAL_OPPOSING_EVIDENCE",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "ff9b3253077d7981d995a2cdec26b3b0e5db65f38a686815ef0036d7cd72f4de"
+    },
+    "opposing_frame_scenario_tie": {
+      "status": "ABSTAINED",
+      "market_regime": "STRUCTURAL_CONFLICT",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BEARISH_CONTINUATION_POSSIBILITY",
+        "BEARISH_STRUCTURAL_TRANSITION",
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION"
+      ],
+      "evidence_count": 8,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "CONFLICTING_TIMEFRAME_STRUCTURE",
+        "HEURISTIC_MARGIN_TOO_SMALL",
+        "INSUFFICIENT_HEURISTIC_SUPPORT",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "35518351d214431c7f4105ab013a6605abf96eff300973d16f578f42ce197f64"
+    },
+    "insufficient_history": {
+      "status": "ABSTAINED",
+      "market_regime": "INSUFFICIENT_DATA",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [
+        "BEARISH_CONTINUATION_POSSIBILITY",
+        "BEARISH_STRUCTURAL_TRANSITION",
+        "BULLISH_CONTINUATION_POSSIBILITY",
+        "BULLISH_STRUCTURAL_TRANSITION",
+        "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+        "RANGE_CONTINUATION"
+      ],
+      "evidence_count": 7,
+      "ranked_hypothesis_count": 6,
+      "reason_codes": [
+        "HEURISTIC_MARGIN_TOO_SMALL",
+        "INSUFFICIENT_HEURISTIC_SUPPORT",
+        "INSUFFICIENT_STRUCTURAL_CONTEXT",
+        "M1_MOMENTUM_INSUFFICIENT",
+        "M1_VOLATILITY_INSUFFICIENT",
+        "M5_MOMENTUM_INSUFFICIENT",
+        "M5_VOLATILITY_INSUFFICIENT",
+        "NO_UNIQUE_ELIGIBLE_SCENARIO",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "0b3df6e58dfd4c1f4f72666588da31574a0b8ada93cf819777c25545fbde8407"
+    },
+    "blocked_gap": {
+      "status": "BLOCKED",
+      "market_regime": "UNKNOWN",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [],
+      "evidence_count": 0,
+      "ranked_hypothesis_count": 0,
+      "reason_codes": [
+        "BLOCKED_DATA_QUALITY",
+        "GAP_UNVERIFIED",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "33ed426ecdf6c369455b62d4435c8dad8571d1a98aece9496acd3e0aa72a885d"
+    },
+    "direct_unfinished_m5": {
+      "status": "BLOCKED",
+      "market_regime": "UNKNOWN",
+      "upstream_selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "selected_hypothesis": "NO_CLEAR_DIRECTIONAL_HYPOTHESIS",
+      "leading_hypotheses": [],
+      "evidence_count": 0,
+      "ranked_hypothesis_count": 0,
+      "reason_codes": [
+        "BAR_UNCLOSED",
+        "BLOCKED_DATA_QUALITY",
+        "SESSION_NOT_CHECKED"
+      ],
+      "assessment_payload_sha256": "1816d7beefb75cbedc57207ede7e5b550b74ef1c0001e9f4a23ddbbac9eaa241"
+    }
+  },
+  "score_kind": "HEURISTIC_EVIDENCE_NOT_PROBABILITY",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false,
+  "sha256": "5efce55e0e6056a1c1d69f2e78bf7e669679e2dd36058f8540f7760465d772d9"
+}
