@@ -1,0 +1,21 @@
+{
+  "readiness_version": 1,
+  "status": "BLOCKED",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "reason_codes": [
+    "INDEPENDENT_QUALIFICATION_REQUIRED"
+  ],
+  "review_packets_created": false,
+  "evaluation_timestamps": null,
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED"
+}

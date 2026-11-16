@@ -1,0 +1,96 @@
+{
+  "checklist_version": 1,
+  "status": "DATA_NOT_QUALIFIED",
+  "required": {
+    "provenance_and_usage": [
+      "AUTHORIZED_NATIVE_M1_AND_NATIVE_M5",
+      "PROVIDER_ENTITY_FEED_AND_BASIS",
+      "OFFLINE_USE_AND_UPSTREAM_RIGHTS",
+      "ARCHIVE_AND_SELECTION_HASHES"
+    ],
+    "sessions": [
+      "DATED_SOURCE_SPECIFIC_CALENDAR_INCLUDING_WARMUP",
+      "HOLIDAY_EXCEPTION_MAINTENANCE_AND_DST_EVIDENCE"
+    ],
+    "finality_and_corrections": [
+      "SUPPORTED_FINALITY_CONTRACT",
+      "COMPLETE_BARS_AND_PROVIDER_CORRECTION_HISTORY"
+    ],
+    "independent_approval": [
+      "DISTINCT_INDEPENDENT_REVIEWER",
+      "EXPLICIT_APPROVAL_BOUND_TO_REVIEWED_DATASET",
+      "ALL_REQUIRED_DOCUMENTS_VERIFIED"
+    ],
+    "blind_review": [
+      "PREDECLARED_EVALUATION_TIMES_AND_ROSTER",
+      "AT_LEAST_TWO_INDEPENDENT_REVIEWERS",
+      "SUBMIT_BEFORE_REVEAL"
+    ]
+  },
+  "documents": {
+    "usage": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "provenance": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "instrument": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "timestamp": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "price_basis": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "calendar": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    },
+    "finality": {
+      "status": "PENDING",
+      "declared_reference": "synthetic:mock-document-not-evidence",
+      "document_sha256": "92965948de9dea475f5b73ffe67fc4a03b316795c5e286eba60d15d571b5e36f"
+    }
+  },
+  "missing_document_names": [],
+  "unverified_document_names": [
+    "usage",
+    "provenance",
+    "instrument",
+    "timestamp",
+    "price_basis",
+    "calendar",
+    "finality"
+  ],
+  "independent_approval": "PENDING",
+  "assistant_issues": [
+    {
+      "code": "INDEPENDENT_REVIEW_REQUIRED",
+      "stage": "QUALIFICATION",
+      "severity": "UNRESOLVED",
+      "action": "An independent person must review evidence and supply their own sign-off; preparation never approves a source."
+    }
+  ],
+  "automatically_approved": false,
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED"
+}

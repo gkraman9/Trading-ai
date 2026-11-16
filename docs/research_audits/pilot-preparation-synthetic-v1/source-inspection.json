@@ -1,0 +1,116 @@
+{
+  "inspection_version": 1,
+  "sources": {
+    "M1": {
+      "inspection_version": 1,
+      "status": "PASS",
+      "source_fingerprint": {
+        "sha256": "7fa9239ba7d527125d8c401258762f74347d0042dade6c550e1617fe3c697f47",
+        "byte_count": 7386
+      },
+      "headers": [
+        "Time",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Ticks",
+        "Done"
+      ],
+      "row_count": 150,
+      "timestamp_range": {
+        "first_open_utc": "2026-11-12T08:00:00+00:00",
+        "last_open_utc": "2026-11-12T10:29:00+00:00",
+        "last_close_utc": "2026-11-12T10:30:00+00:00"
+      },
+      "selected_row_count": 150,
+      "declarations": {
+        "timeframe": "M1",
+        "provider_entity": "SYNTHETIC MOCK EXPORT",
+        "instrument": "XAUUSD",
+        "feed_id": "SYNTHETIC_NATIVE_SHAPED",
+        "price_basis": "BID",
+        "origin": "NATIVE_SAME_FEED",
+        "provider_contract": "MT5_POSITION_1_ELAPSED",
+        "corrections": {
+          "status": "NO_KNOWN_CORRECTIONS_DECLARED",
+          "reference": null,
+          "previous_source_sha256": null
+        }
+      },
+      "errors": {},
+      "examples": [],
+      "raw_gap_count": 0,
+      "gap_examples": [],
+      "session_claim": "SELECTED_WINDOW_ONLY_FULL_ARCHIVE_SESSIONS_NOT_ESTABLISHED",
+      "scan_complete": true,
+      "status_scope": "STRUCTURAL_SCAN_NOT_FULL_SESSION_COMPLETENESS_OR_QUALIFICATION",
+      "metadata_status": "EXPLICIT_OPERATOR_DECLARATIONS_NOT_VERIFIED",
+      "sha256": "644b34391b762effbc7b9a1391a32fea21b0684cf7028183eca0eba89bfba90c"
+    },
+    "M5": {
+      "inspection_version": 1,
+      "status": "PASS",
+      "source_fingerprint": {
+        "sha256": "93ae4cc98aa0e644368759e731384114602dc4ad00870ec402af31cbae0ef8ab",
+        "byte_count": 1506
+      },
+      "headers": [
+        "Time",
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Ticks",
+        "Done"
+      ],
+      "row_count": 30,
+      "timestamp_range": {
+        "first_open_utc": "2026-11-12T08:00:00+00:00",
+        "last_open_utc": "2026-11-12T10:25:00+00:00",
+        "last_close_utc": "2026-11-12T10:30:00+00:00"
+      },
+      "selected_row_count": 30,
+      "declarations": {
+        "timeframe": "M5",
+        "provider_entity": "SYNTHETIC MOCK EXPORT",
+        "instrument": "XAUUSD",
+        "feed_id": "SYNTHETIC_NATIVE_SHAPED",
+        "price_basis": "BID",
+        "origin": "NATIVE_SAME_FEED",
+        "provider_contract": "MT5_POSITION_1_ELAPSED",
+        "corrections": {
+          "status": "NO_KNOWN_CORRECTIONS_DECLARED",
+          "reference": null,
+          "previous_source_sha256": null
+        }
+      },
+      "errors": {},
+      "examples": [],
+      "raw_gap_count": 0,
+      "gap_examples": [],
+      "session_claim": "SELECTED_WINDOW_ONLY_FULL_ARCHIVE_SESSIONS_NOT_ESTABLISHED",
+      "scan_complete": true,
+      "status_scope": "STRUCTURAL_SCAN_NOT_FULL_SESSION_COMPLETENESS_OR_QUALIFICATION",
+      "metadata_status": "EXPLICIT_OPERATOR_DECLARATIONS_NOT_VERIFIED",
+      "sha256": "41365589e4b723cb974bba83601861d1510980a2747c8015bb5f22d382d17ab5"
+    }
+  },
+  "scope": {
+    "start": "2026-11-12T08:00:00+00:00",
+    "end": "2026-11-12T10:30:00+00:00",
+    "evaluation_start": "2026-11-12T09:30:00+00:00",
+    "eligibility": "OPEN_GE_START_AND_CLOSE_LE_END",
+    "max_selected_rows_per_frame": 5000
+  },
+  "external_metadata_claims": "NOT_ASSUMED_USE_ACTUAL_INSPECTED_VALUES",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "exness": "BLOCKED"
+}
