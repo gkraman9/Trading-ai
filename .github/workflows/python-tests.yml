@@ -28,6 +28,7 @@ on:
       - feat/iat2-real-data-pilot-preparation-v1
       - feat/iat2-historical-session-boundary-validation-v1
       - feat/iat2-historical-evidence-manifest-v1
+      - feat/iat2-independent-source-qualification-v1
   pull_request:
     branches:
       - main
@@ -54,6 +55,7 @@ on:
       - feat/iat2-data-qualification-assistant-v1
       - feat/iat2-real-data-pilot-preparation-v1
       - feat/iat2-historical-session-boundary-validation-v1
+      - feat/iat2-historical-evidence-manifest-v1
   workflow_dispatch:
 
 permissions:
@@ -306,3 +308,28 @@ jobs:
                       assert data['local_facts'] is None and data['evidence_state'] == 'OPERATOR_REPORTED'
                   else:
                       assert data['evidence_state'] == 'INVALID_OR_CONFLICTING_EVIDENCE'
+
+      - name: Independent source review stays offline and unqualified
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat independent source ') as folder:
+              root = pathlib.Path(folder)
+              for missing_manifest in (False, True):
+                  report = root / ('invalid.json' if missing_manifest else 'review.json')
+                  args = [sys.executable, 'diagnostics/independent_source_review.py',
+                      '--registry', 'config/examples/independent-source-review/exness-review-v1.json',
+                      '--report-path', str(report)]
+                  if missing_manifest:
+                      args += ['--manifest', str(root / 'missing manifest.json')]
+                  result = subprocess.run(args, capture_output=True, text=True)
+                  assert result.returncode == (2 if missing_manifest else 3), result.stdout
+                  data = json.loads(report.read_text(encoding='utf-8'))
+                  assert data['qualification'] == 'DATA_NOT_QUALIFIED' and data['status'] == 'BLOCKED'
+                  assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
+                  assert data['ordinary_strategy_inputs_allowed'] is False and data['review_packets_allowed'] is False
+                  assert data['safety']['execution_allowed'] is False and data['safety']['broker_access'] is False
+                  assert data['safety']['orders_requested'] == 0 and data['safety']['profitability_tested'] is False
+                  assert data['local_manifest_inspection']['raw_csv_reproduction'] == 'NOT_RUN'
+                  assert data['calendar_modifications'] is False and data['exness'] == 'BLOCKED'
+                  assert 'INDEPENDENT_QUALIFICATION_REQUIRED' in data['reason_codes']

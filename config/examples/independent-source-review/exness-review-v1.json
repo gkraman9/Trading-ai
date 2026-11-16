@@ -1,0 +1,462 @@
+{
+  "registry_version": 1,
+  "kind": "INDEPENDENT_SOURCE_EVIDENCE_V1",
+  "data_kind": "PUBLIC_REFERENCE_REVIEW",
+  "collector_id": "iat-public-research",
+  "as_of_utc": "2026-11-16T08:16:14Z",
+  "context": {
+    "broker": "Exness",
+    "account_scope": "operator-demo-scope-unverified",
+    "account_category": "DEMO",
+    "instrument": "XAUUSD",
+    "interval": {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T00:00:00Z"
+    }
+  },
+  "manifest_reference": {
+    "origin": "OPERATOR_REPORTED_LOCAL_VERIFICATION",
+    "reported_evidence_state": "INDEPENDENT_QUALIFICATION_REQUIRED",
+    "manifest_payload_sha256": "3c794f78db44c2de4a3844e32cfeb30fdfe962fd8890c7a389eb9fe588207895",
+    "manifest_file_sha256": null,
+    "diagnostic_payload_sha256": "d78cb26862e5fdc880313f97b8fa6a81b60b5cab6fee0b80f02b01e3067a4069",
+    "dataset_fingerprints": {
+      "M1": "c98944d8de6251efecc4e75071517030e3ae1fea9cabb71f22f498a29097e54f",
+      "M5": "d6b54a12956b7acade014d907957923640a995de905fb40f72805111cc67dc9f",
+      "diagnostic": "74bc31d4e59c16d5eb0f7033fda9116ca7e8e93c68c7e4cd096dfe30aa82863a",
+      "calendar": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4"
+    }
+  },
+  "claims": [
+    {
+      "id": "historical_price_basis",
+      "category": "historical_price_basis",
+      "predicate": "historical_price_basis",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for historical price basis."
+    },
+    {
+      "id": "provider_feed_provenance",
+      "category": "provider_feed_provenance",
+      "predicate": "provider_feed_provenance",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for provider feed provenance."
+    },
+    {
+      "id": "historical_usage_rights",
+      "category": "historical_usage_rights",
+      "predicate": "historical_usage_rights",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for historical usage rights."
+    },
+    {
+      "id": "account_instrument_specification",
+      "category": "account_instrument_specification",
+      "predicate": "account_instrument_specification",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for account instrument specification."
+    },
+    {
+      "id": "dated_sessions_timezone_dst",
+      "category": "dated_sessions_timezone_dst",
+      "predicate": "weekday_close_reference_utc",
+      "candidate_value": "21:58:00",
+      "description": "Candidate weekday close reference, not verified quote-trade equivalence."
+    },
+    {
+      "id": "holidays_special_closures",
+      "category": "holidays_special_closures",
+      "predicate": "holidays_special_closures",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for holidays special closures."
+    },
+    {
+      "id": "maintenance_interruptions",
+      "category": "maintenance_interruptions",
+      "predicate": "maintenance_interruptions",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for maintenance interruptions."
+    },
+    {
+      "id": "candle_finality_corrections",
+      "category": "candle_finality_corrections",
+      "predicate": "candle_finality_corrections",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for candle finality corrections."
+    },
+    {
+      "id": "independent_approval",
+      "category": "independent_approval",
+      "predicate": "independent_approval",
+      "candidate_value": "UNKNOWN",
+      "description": "Independent evidence required for independent approval."
+    },
+    {
+      "id": "weekday_reopening",
+      "category": "dated_sessions_timezone_dst",
+      "predicate": "quote_reopening_utc",
+      "candidate_value": "23:00:00",
+      "description": "Candidate quote opening; published trading-phase times are not interchangeable."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "exness-winter-notice",
+      "category": "dated_sessions_timezone_dst",
+      "claim_id": "dated_sessions_timezone_dst",
+      "value": "21:58:00",
+      "publisher": "Exness Help Center",
+      "title": "Trading Hours Update: End of US Daylight Saving Time (01 Nov 2026)",
+      "reference": "https://get.exness.help/hc/en-us/articles/31342732737180-Trading-Hours-Update-End-of-US-Daylight-Saving-Time-01-Nov-2026",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": "Exness",
+      "account_scope": null,
+      "account_category": null,
+      "instrument": "XAUUSD",
+      "summary": "Post-change ordinary XAUUSD trading reference closes weekdays at 21:58 UTC. Exact demo-feed quote applicability remains unestablished.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [
+        "candidate-profile"
+      ],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": null,
+      "trading_timezone": "UTC",
+      "dst_rule": "US seasonal session change; server offset is a separate claim.",
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": "Published phase reference resumes close-only at 23:00:30 and full trading at 23:02 Monday-Thursday.",
+        "weekend_boundaries": "Sunday restricted/full starts 23:01:30/23:05; Saturday closed.",
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": "Title names November 1 change; page reports updated November 3, not original publication date.",
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": null,
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "candidate-profile",
+      "category": "dated_sessions_timezone_dst",
+      "claim_id": "weekday_reopening",
+      "value": "23:00:00",
+      "publisher": "IAT operator candidate",
+      "title": "Unverified candidate quote reopening",
+      "reference": "document:exness-xauusd-v2.candidate.json",
+      "published_at_utc": null,
+      "retrieved_at_utc": null,
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": "Exness",
+      "account_scope": null,
+      "account_category": null,
+      "instrument": "XAUUSD",
+      "summary": "Candidate quote opening is 23:00; quote-versus-trading-phase correspondence remains unresolved.",
+      "artifact": {
+        "file": "exness-xauusd-v2.candidate.json",
+        "sha256": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4"
+      },
+      "collection_method": "MANUAL_REFERENCE",
+      "verification_status": "REFERENCE_ONLY",
+      "reviewer_notes": null,
+      "conflicting_references": [
+        "exness-winter-notice"
+      ],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": "UTC",
+      "trading_timezone": "UTC",
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": null,
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "exness-timezone",
+      "category": "dated_sessions_timezone_dst",
+      "claim_id": "dated_sessions_timezone_dst",
+      "value": "UNKNOWN",
+      "publisher": "Exness Help Center",
+      "title": "What is the default timezone set for MetaTrader?",
+      "reference": "https://get.exness.help/hc/en-us/articles/360014390760-What-is-the-default-timezone-set-for-MetaTrader",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": "Exness",
+      "account_scope": null,
+      "account_category": null,
+      "instrument": null,
+      "summary": "Exness describes server-synchronized GMT+0 platform time; this does not authenticate the export or resolve session phases.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": "UTC",
+      "trading_timezone": null,
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": null,
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "exness-holidays",
+      "category": "holidays_special_closures",
+      "claim_id": "holidays_special_closures",
+      "value": "UNKNOWN",
+      "publisher": "Exness Help Center",
+      "title": "Holiday trading hours",
+      "reference": "https://get.exness.help/hc/en-us/articles/17923046759836-Holiday-trading-hours",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": "Exness",
+      "account_scope": null,
+      "account_category": null,
+      "instrument": null,
+      "summary": "The reviewed page lists changing holiday schedules; no complete November 11-13 XAUUSD exception coverage was established.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": null,
+      "trading_timezone": null,
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": null,
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "metaquotes-chart-mode",
+      "category": "historical_price_basis",
+      "claim_id": "historical_price_basis",
+      "value": "UNKNOWN",
+      "publisher": "MetaQuotes",
+      "title": "Symbol Properties",
+      "reference": "https://www.mql5.com/en/docs/constants/environment_state/marketinfoconstants",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": null,
+      "account_scope": null,
+      "account_category": null,
+      "instrument": null,
+      "summary": "Platform bars may use Bid or Last according to symbol chart mode. This does not establish the historical export basis.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": null,
+      "trading_timezone": null,
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": "UNKNOWN",
+        "bar_construction": "Per-symbol chart mode chooses Bid or Last.",
+        "symbol_settings": "Historical account-specific symbol setting not independently supplied.",
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": "A spread column does not establish OHLC construction.",
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "metaquotes-rates-time",
+      "category": "candle_finality_corrections",
+      "claim_id": "candle_finality_corrections",
+      "value": "UNKNOWN",
+      "publisher": "MetaQuotes",
+      "title": "copy_rates_range",
+      "reference": "https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesrange_py",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": null,
+      "account_scope": null,
+      "account_category": null,
+      "instrument": null,
+      "summary": "Rate history uses UTC bar openings and available terminal history. No complete capture or partial-bar correction contract established.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": null,
+      "trading_timezone": null,
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": "Platform documentation describes UTC bar opening times.",
+        "spread_representation": null,
+        "completed_bars": "Exact export completion evidence missing.",
+        "correction_policy": "Missing applicable finality and historical revision policy.",
+        "demo_live_distinction": null
+      }
+    },
+    {
+      "id": "exness-instrument-hours",
+      "category": "maintenance_interruptions",
+      "claim_id": "maintenance_interruptions",
+      "value": "UNKNOWN",
+      "publisher": "Exness Help Center",
+      "title": "Instrument trading hours",
+      "reference": "https://get.exness.help/hc/en-us/articles/4405235684498-Instrument-trading-hours",
+      "published_at_utc": null,
+      "retrieved_at_utc": "2026-11-16T08:16:14Z",
+      "effective_start_utc": null,
+      "effective_end_utc": null,
+      "broker": "Exness",
+      "account_scope": null,
+      "account_category": null,
+      "instrument": null,
+      "summary": "Trial maintenance is mentioned generically, but exact November 11-13 affected sessions, duration and completion remain unverified.",
+      "artifact": null,
+      "collection_method": "MANUAL_PUBLIC_TEXT_REVIEW",
+      "verification_status": "PUBLIC_TEXT_REVIEWED",
+      "reviewer_notes": null,
+      "conflicting_references": [],
+      "limitations": [
+        "No preserved original artifact; no exact dated account applicability or independent reviewer approval."
+      ],
+      "quotation_timezone": null,
+      "trading_timezone": null,
+      "dst_rule": null,
+      "wall_time_anchors": [],
+      "session_details": {
+        "weekday_quote_hours": null,
+        "daily_interruptions": null,
+        "weekend_boundaries": null,
+        "holiday_exceptions": null,
+        "maintenance_windows": null,
+        "exceptional_announcements": null,
+        "dated_schedule": null
+      },
+      "price_details": {
+        "price_basis": null,
+        "bar_construction": null,
+        "symbol_settings": null,
+        "tick_aggregation": null,
+        "timestamp_convention": null,
+        "spread_representation": null,
+        "completed_bars": null,
+        "correction_policy": null,
+        "demo_live_distinction": null
+      }
+    }
+  ],
+  "reviews": []
+}
