@@ -69,3 +69,7 @@ Raw source files and real-data journals remain private. Exness stays BLOCKED, si
 [Audit summary](research_audits/historical-session-boundary-synthetic-v1/audit.json) is explicitly synthetic; the two underlying report hashes are regenerated and checked by tests. Each case has 188 M1 and 38 M5 observations: 37 five-M1 matches and one partial close with unknown finality. The verified-declaration fixture identifies two configured off-quote slots; the unverified fixture leaves both unresolved. Neither qualifies data. These are generic test schedules, not manufactured Exness evidence.
 
 Tests cover all six geometry classes, 21:58 closure, partial opening, restricted/unknown phase transitions, missing full-session candles, unverified schedules/finality, expiry, holiday/maintenance evidence, duplicates/order, OHLC disagreement, explicit-window selection, unchanged source bytes, actual-header mapping, malformed CSV, repeated report hashes and no execution authorization. Full-suite and CI results are recorded in the PR after execution.
+
+## Evidence freezing and reproduction
+
+[Historical Evidence Manifest v1](HISTORICAL_EVIDENCE_MANIFEST_V1.md) records operator assertions separately from local byte checks and exact diagnostic reproduction. Its [independent review worksheet](HISTORICAL_EVIDENCE_REVIEW_V1.md) preserves unresolved requirements. An evidence manifest is explicitly rejected as an ordinary replay input and never qualifies data.

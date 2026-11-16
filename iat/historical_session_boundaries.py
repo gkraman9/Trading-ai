@@ -1,4 +1,9 @@
 """Research explanations for native session boundaries; ordinary gates stay intact."""
+import csv
+from pathlib import Path
+from iat.pilot_preparation import file_fingerprint,_bounded_lines
+from iat.replay_dataset import read_bytes,strict_json
+from iat.session_config import compile_session_config
 from collections import Counter
 from datetime import timedelta
 from iat.replay_dataset import utc
@@ -128,3 +133,38 @@ def package_boundary_research(package_directory,start,end):
         dataset=load_dataset(Path(package_directory)/'candidate-manifest.json')
         return boundary_research(dataset.rows,dataset.calendar,start,end,observation_origin='SYNTHETIC_ONLY' if dataset.metadata['dataset_kind']=='SYNTHETIC_FIXTURE' else 'UNVERIFIED_INPUT')
     except (OSError,ValueError,KeyError,TypeError):return unavailable('CANDIDATE_NORMALIZATION_OR_CALENDAR_UNAVAILABLE')
+
+
+def read_window(path,mapping,start,end):
+    before=file_fingerprint(path);rows=[];errors=Counter();scanned=0
+    with Path(path).open('r',encoding='utf-8-sig',newline='') as handle:
+        reader=csv.DictReader(_bounded_lines(handle),strict=True)
+        require(reader.fieldnames and len(reader.fieldnames)==len(set(reader.fieldnames)) and set(mapping.values())<=set(reader.fieldnames),'Explicit CSV column mapping required')
+        for record in reader:
+            scanned+=1;require(scanned<=10_000_000,'Research scan limit')
+            try:
+                require(all(v is not None for v in record.values()) and set(record)==set(reader.fieldnames))
+                at=utc(record[mapping['timestamp']])
+                if not utc(start)<=at<utc(end):continue
+                rows.append({'timestamp':at.isoformat(),**{k:float(record[mapping[k]]) for k in ('open','high','low','close')}})
+                require(len(rows)<=5000,'Research selected row limit')
+            except (ValueError,TypeError,KeyError,OverflowError):
+                # A limit must not silently produce a truncated diagnostic.
+                if len(rows)>5000:raise
+                errors['CSV_OBSERVATION_INVALID']+=1
+    require(file_fingerprint(path)==before,'Source changed during inspection')
+    return rows,{'fingerprint':before,'scanned_row_count':scanned,'selected_row_count':len(rows),'parse_errors':dict(errors)}
+
+
+
+def inspect_csv_files(m1_path,m5_path,calendar_path,start_utc,end_utc,mapping):
+    start,end=utc(start_utc),utc(end_utc);require(start<end and (end-start).total_seconds()/60<=20000)
+    config=read_bytes(calendar_path);calendar=compile_session_config(strict_json(config))
+    rows={};sources={}
+    for tf,path in (('M1',m1_path),('M5',m5_path)):rows[tf],sources[tf]=read_window(path,mapping,start_utc,end_utc)
+    report=boundary_research(rows,calendar,start_utc,end_utc,observation_errors={tf:list(info['parse_errors']) for tf,info in sources.items()})
+    report.pop('sha256');report['file_observations']={'origin':'USER_SELECTED_LOCAL_CSV_NOT_AUTHENTICATED',
+        'price_basis':'UNVERIFIED','source_permissions':'UNVERIFIED','columns':mapping,'sources':sources,
+        'calendar_file_fingerprint':file_fingerprint(calendar_path)}
+    if any(s['parse_errors'] for s in sources.values()):report['reason_codes']=sorted(set(report.get('reason_codes',[]))|{'CSV_OBSERVATION_INVALID'})
+    return hashed(report)

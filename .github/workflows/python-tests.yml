@@ -27,6 +27,7 @@ on:
       - feat/iat2-data-qualification-assistant-v1
       - feat/iat2-real-data-pilot-preparation-v1
       - feat/iat2-historical-session-boundary-validation-v1
+      - feat/iat2-historical-evidence-manifest-v1
   pull_request:
     branches:
       - main
@@ -52,6 +53,7 @@ on:
       - feat/iat2-real-data-review-pilot-v1
       - feat/iat2-data-qualification-assistant-v1
       - feat/iat2-real-data-pilot-preparation-v1
+      - feat/iat2-historical-session-boundary-validation-v1
   workflow_dispatch:
 
 permissions:
@@ -277,3 +279,30 @@ jobs:
               assert data['status'] == 'UNAVAILABLE' and data['qualification'] == 'DATA_NOT_QUALIFIED'
               assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
               assert data['safety']['execution_allowed'] is False and data['exness'] == 'BLOCKED'
+
+      - name: Evidence manifest stays unqualified in reported and missing-source modes
+        shell: python
+        run: |
+          import json, pathlib, subprocess, sys, tempfile
+          with tempfile.TemporaryDirectory(prefix='iat evidence with spaces ') as folder:
+              root = pathlib.Path(folder)
+              for mode, expected in (('reported', 3), ('verify', 2)):
+                  report = root / (mode + '.json')
+                  args = [sys.executable, 'diagnostics/historical_evidence_manifest.py', mode,
+                      '--observations', 'config/examples/historical-evidence/operator-reported-v1.json',
+                      '--report-path', str(report)]
+                  if mode == 'verify':
+                      args += ['--m1', str(root / 'missing M1.csv'), '--m5', str(root / 'missing M5.csv'),
+                          '--diagnostic', str(root / 'missing report.json'),
+                          '--calendar', 'config/profiles/exness-xauusd-v2.candidate.json']
+                  result = subprocess.run(args, capture_output=True, text=True)
+                  assert result.returncode == expected, result.stdout
+                  data = json.loads(report.read_text(encoding='utf-8'))
+                  assert data['qualification'] == 'DATA_NOT_QUALIFIED' and data['exness'] == 'BLOCKED'
+                  assert data['historical_validation'] == 'PENDING' and data['historical_comparisons'] == 'NOT_RUN'
+                  assert data['safety']['execution_allowed'] is False and data['safety']['orders_requested'] == 0
+                  assert data['reproduction']['status'] == 'NOT_REPRODUCED'
+                  if mode == 'reported':
+                      assert data['local_facts'] is None and data['evidence_state'] == 'OPERATOR_REPORTED'
+                  else:
+                      assert data['evidence_state'] == 'INVALID_OR_CONFLICTING_EVIDENCE'

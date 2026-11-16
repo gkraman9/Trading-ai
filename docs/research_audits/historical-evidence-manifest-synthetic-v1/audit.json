@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "kind": "SYNTHETIC_ONLY_INVENTED_FLAT_OHLC_NOT_OPERATOR_EXPORT",
+  "real_csv_available": false,
+  "operator_report_independently_reproduced": false,
+  "synthetic_evidence_state": "INDEPENDENT_QUALIFICATION_REQUIRED",
+  "synthetic_reproduction": {
+    "status": "REPRODUCED",
+    "diagnostic_payload_sha256": "befecbb1c1c1afaedee07969bfa4b84be2a775208b28083de28b5fbd786aac94",
+    "scope": "PR23_RESEARCH_DIAGNOSTIC_ONLY_NOT_STRATEGY_REPLAY",
+    "source_authenticity": "NOT_ESTABLISHED",
+    "historical_price_basis": "NOT_ESTABLISHED",
+    "full_or_partial_finality": "NOT_ESTABLISHED",
+    "candidate_schedule_independently_verified": false
+  },
+  "synthetic_counts": {
+    "M1": 4074,
+    "M5": 816
+  },
+  "synthetic_research_findings": {
+    "comparison_counts": {
+      "FIVE_M1_MATCH": 813,
+      "NOT_COMPARED_PARTIAL_OR_UNKNOWN_SESSION": 3
+    },
+    "absent_m1_slot_counts": {
+      "MISSING_UNESTABLISHED_UNVERIFIED_CALENDAR": 6
+    },
+    "partials": [
+      {
+        "open_utc": "2026-11-11T21:55:00+00:00",
+        "classification": "PARTIAL_SESSION_CLOSE",
+        "market_open_seconds": 180.0,
+        "schedule_verified": false
+      },
+      {
+        "open_utc": "2026-11-12T21:55:00+00:00",
+        "classification": "PARTIAL_SESSION_CLOSE",
+        "market_open_seconds": 180.0,
+        "schedule_verified": false
+      },
+      {
+        "open_utc": "2026-11-13T21:55:00+00:00",
+        "classification": "PARTIAL_SESSION_CLOSE",
+        "market_open_seconds": 180.0,
+        "schedule_verified": false
+      }
+    ],
+    "reason_codes": [
+      "BROKER_PHASE_RESTRICTED",
+      "CALENDAR_COVERAGE_UNVERIFIED",
+      "CALENDAR_SCHEDULE_CONFLICT",
+      "CANDLE_FINALITY_UNCERTAIN",
+      "HOLIDAY_COVERAGE_UNKNOWN",
+      "MAINTENANCE_COVERAGE_UNKNOWN",
+      "PARTIAL_SESSION_CANDLE",
+      "SESSION_PHASE_UNKNOWN"
+    ],
+    "calendar_independently_verified": false
+  },
+  "identical_synthetic_manifest_hashes": true,
+  "qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  }
+}
