@@ -243,7 +243,8 @@ jobs:
         shell: python
         run: |
           import json, pathlib, subprocess, sys, tempfile
-          sys.path.insert(0, 'tests')
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          sys.path.insert(0, str(pathlib.Path.cwd() / 'tests'))
           from test_qualification_assistant import export_fixture
           with tempfile.TemporaryDirectory(prefix='iat prep Windows ') as folder:
               root = pathlib.Path(folder)
