@@ -422,3 +422,7 @@ successful run never certifies a later revision.
 See [Historical analytical replay](HISTORICAL_REPLAY_VALIDATION.md) for the
 additive stable CHoCH event_id, contextual revision counts, strict local XAUUSD
 dataset manifest and causal DecisionLog v1. Existing execution/calendar holds remain.
+
+## Additive scenario presentation
+
+[Market Scenario Assessment v1](MARKET_SCENARIO_ASSESSMENT_V1.md) presents an existing ContextReport with deterministic ranks, original selection, evidence IDs and abstention. Its Python interface preserves this report schema, DecisionLog v1, confluence rules and all existing data/session/execution gates.
