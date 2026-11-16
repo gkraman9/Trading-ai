@@ -1,0 +1,255 @@
+{
+  "manifest_schema_version": 1,
+  "kind": "HISTORICAL_EVIDENCE_MANIFEST",
+  "tool_version": "historical-evidence-manifest-v1",
+  "evidence_mode": "OPERATOR_REPORTED_NOT_INDEPENDENTLY_REPRODUCED",
+  "evidence_state": "OPERATOR_REPORTED",
+  "state_history": [
+    "OPERATOR_REPORTED"
+  ],
+  "operator_assertions": {
+    "observation_version": 1,
+    "kind": "OPERATOR_REPORTED_HISTORICAL_OBSERVATIONS",
+    "data_kind": "OPERATOR_REPORTED_REAL_EXPORT",
+    "symbol": "XAUUSD",
+    "timeframes": [
+      "M1",
+      "M5"
+    ],
+    "source_description": "Native MT5 demo / Exness",
+    "collection_date_utc": null,
+    "code_revision": "5083984745527402b8f75b1ab568e558d3cad92e",
+    "tool_version": "historical-session-boundary-v1",
+    "window": {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T00:00:00Z"
+    },
+    "files": {
+      "M1": {
+        "name": "XAUUSD_M1_Exness_20261111_20261113.csv",
+        "sha256": "c98944d8de6251efecc4e75071517030e3ae1fea9cabb71f22f498a29097e54f",
+        "byte_count": null,
+        "row_count": 4074,
+        "headers": [
+          "timestamp_utc",
+          "open",
+          "high",
+          "low",
+          "close",
+          "tick_volume",
+          "spread",
+          "real_volume"
+        ],
+        "origin": "NATIVE_OPERATOR_REPORTED",
+        "price_basis": "UNKNOWN",
+        "feed_identity": null,
+        "first_open_utc": null,
+        "last_open_utc": null
+      },
+      "M5": {
+        "name": "XAUUSD_M5_Exness_20261111_20261113.csv",
+        "sha256": "d6b54a12956b7acade014d907957923640a995de905fb40f72805111cc67dc9f",
+        "byte_count": null,
+        "row_count": 816,
+        "headers": [
+          "timestamp_utc",
+          "open",
+          "high",
+          "low",
+          "close",
+          "tick_volume",
+          "spread",
+          "real_volume"
+        ],
+        "origin": "NATIVE_OPERATOR_REPORTED",
+        "price_basis": "UNKNOWN",
+        "feed_identity": null,
+        "first_open_utc": null,
+        "last_open_utc": null
+      }
+    },
+    "diagnostic": {
+      "name": "historical-session-boundaries-003.json",
+      "file_sha256": "74bc31d4e59c16d5eb0f7033fda9116ca7e8e93c68c7e4cd096dfe30aa82863a",
+      "byte_count": null
+    },
+    "calendar": {
+      "name": "exness-xauusd-v2.candidate.json",
+      "file_sha256": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4",
+      "quote_close_utc": "21:58:00",
+      "independently_verified": false
+    },
+    "findings": {
+      "comparison_counts": {
+        "FIVE_M1_MATCH": 813,
+        "NOT_COMPARED_PARTIAL_OR_UNKNOWN_SESSION": 3
+      },
+      "absent_m1_slot_counts": {
+        "MISSING_UNESTABLISHED_UNVERIFIED_CALENDAR": 6
+      },
+      "partials": [
+        {
+          "open_utc": "2026-11-11T21:55:00Z",
+          "classification": "PARTIAL_SESSION_CLOSE",
+          "market_open_seconds": 180,
+          "schedule_verified": false
+        },
+        {
+          "open_utc": "2026-11-12T21:55:00Z",
+          "classification": "PARTIAL_SESSION_CLOSE",
+          "market_open_seconds": 180,
+          "schedule_verified": false
+        },
+        {
+          "open_utc": "2026-11-13T21:55:00Z",
+          "classification": "PARTIAL_SESSION_CLOSE",
+          "market_open_seconds": 180,
+          "schedule_verified": false
+        }
+      ],
+      "reason_codes": [
+        "BROKER_PHASE_RESTRICTED",
+        "CALENDAR_COVERAGE_UNVERIFIED",
+        "CALENDAR_SCHEDULE_CONFLICT",
+        "CANDLE_FINALITY_UNCERTAIN",
+        "HOLIDAY_COVERAGE_UNKNOWN",
+        "MAINTENANCE_COVERAGE_UNKNOWN",
+        "PARTIAL_SESSION_CANDLE",
+        "SESSION_PHASE_UNKNOWN"
+      ]
+    },
+    "evidence_references": {
+      "historical_price_basis": null,
+      "provider_feed_provenance": null,
+      "historical_usage_rights": null,
+      "account_instrument_specification": null,
+      "dated_sessions_timezone_dst": null,
+      "holidays_special_closures": null,
+      "maintenance_interruptions": null,
+      "candle_finality_corrections": null,
+      "independent_approval": null
+    }
+  },
+  "column_mapping": {
+    "timestamp": "timestamp_utc",
+    "open": "open",
+    "high": "high",
+    "low": "low",
+    "close": "close",
+    "volume": "tick_volume",
+    "volume_kind": "TICK",
+    "complete": null,
+    "symbol": null,
+    "price_basis": null,
+    "feed_id": null,
+    "ignored_columns": [
+      "spread",
+      "real_volume"
+    ]
+  },
+  "local_facts": null,
+  "reproduction": {
+    "status": "NOT_REPRODUCED"
+  },
+  "externally_verified_evidence": [],
+  "evidence_gaps": {
+    "historical_price_basis": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "provider_feed_provenance": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "historical_usage_rights": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "account_instrument_specification": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "dated_sessions_timezone_dst": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "holidays_special_closures": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "maintenance_interruptions": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "candle_finality_corrections": {
+      "status": "MISSING",
+      "reference": null
+    },
+    "independent_approval": {
+      "status": "MISSING",
+      "reference": null
+    }
+  },
+  "reason_codes": [
+    "BROKER_PHASE_RESTRICTED",
+    "CALENDAR_COVERAGE_UNVERIFIED",
+    "CALENDAR_SCHEDULE_CONFLICT",
+    "CANDLE_FINALITY_UNCERTAIN",
+    "HOLIDAY_COVERAGE_UNKNOWN",
+    "INDEPENDENT_QUALIFICATION_REQUIRED",
+    "MAINTENANCE_COVERAGE_UNKNOWN",
+    "PARTIAL_SESSION_CANDLE",
+    "SESSION_PHASE_UNKNOWN"
+  ],
+  "hash_contract": {
+    "algorithm": "SHA-256",
+    "file_digest": "EXACT_ORIGINAL_BYTES",
+    "payload_digest": "UTF8_JSON_SORTED_KEYS_COMPACT_ENSURE_ASCII_TRUE_NO_NAN_EXCLUDING_ROOT_SHA256",
+    "excluded_metadata": [
+      "absolute_input_paths",
+      "output_path",
+      "runtime_clock",
+      "filesystem_mtime",
+      "runtime_python_platform_tzdata_versions"
+    ],
+    "dependencies": [
+      "operator_assertions -> manifest",
+      "M1/M5/calendar bytes -> diagnostic",
+      "diagnostic bytes and payload -> local_facts -> manifest"
+    ]
+  },
+  "qualification_gate": {
+    "status": "BLOCKED",
+    "reason_codes": [
+      "EVIDENCE_MANIFEST_NOT_REPLAY_ELIGIBLE",
+      "INDEPENDENT_QUALIFICATION_REQUIRED"
+    ],
+    "qualification": "DATA_NOT_QUALIFIED",
+    "ordinary_strategy_inputs_allowed": false,
+    "review_packets_allowed": false,
+    "historical_validation": "PENDING",
+    "historical_comparisons": "NOT_RUN",
+    "exness": "BLOCKED",
+    "safety": {
+      "mode": "READ_ONLY_SHADOW",
+      "signal": "WAIT",
+      "execution_allowed": false,
+      "broker_access": false,
+      "orders_requested": 0,
+      "profitability_tested": false
+    }
+  },
+  "qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  },
+  "sha256": "8a72d27d3774d4a2eedb9f8624c868418630e4019d9352b0e34b6a3784291048"
+}
