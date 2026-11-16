@@ -252,3 +252,7 @@ session/holiday/exception/maintenance coverage including warm-up; all document
 checksums; and a genuinely independent approval. Then real blinded review can begin.
 Historical validation is PENDING, historical comparisons NOT_RUN and real review
 metrics unmeasured. No local Exness/MT5 terminal validation is claimed.
+
+CI uses Ubuntu 24.04 and Windows with Python 3.11.9/3.12. Ubuntu is pinned because
+Ubuntu 26.04 (now ubuntu-latest) has no setup-python build for Python 3.11.9;
+this preserves the existing interpreter requirement rather than skipping it.
