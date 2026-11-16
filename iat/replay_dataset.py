@@ -87,7 +87,7 @@ def load_dataset(manifest_path):
     raw=read_bytes(manifest_path)
     manifest=strict_json(raw)
     require(isinstance(manifest,dict))
-    require(manifest.get('kind')!='HISTORICAL_EVIDENCE_MANIFEST','EVIDENCE_MANIFEST_NOT_REPLAY_ELIGIBLE')
+    require(manifest.get('kind') not in ('HISTORICAL_EVIDENCE_MANIFEST','INDEPENDENT_SOURCE_EVIDENCE_V1','HISTORICAL_SOURCE_REVIEW'),'EVIDENCE_MANIFEST_NOT_REPLAY_ELIGIBLE')
     version=manifest.get('version')
     require(type(version) is int and version in (1,2),'DATASET_VERSION_UNSUPPORTED')
     extra=' evaluation warmup lineage evidence_review' if version==2 else ''

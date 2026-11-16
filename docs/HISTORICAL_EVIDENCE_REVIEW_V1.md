@@ -51,3 +51,27 @@ Independent reviewer identity/signature: **not supplied**. Decision: **PENDING, 
 Preserve these blocker codes: BROKER_PHASE_RESTRICTED, CALENDAR_COVERAGE_UNVERIFIED, CALENDAR_SCHEDULE_CONFLICT, CANDLE_FINALITY_UNCERTAIN, HOLIDAY_COVERAGE_UNKNOWN, MAINTENANCE_COVERAGE_UNKNOWN, PARTIAL_SESSION_CANDLE, SESSION_PHASE_UNKNOWN.
 
 Exness BLOCKED; signal WAIT; execution_allowed=false; historical validation PENDING; historical comparisons NOT_RUN. No profitability or predictive-edge claim follows from this review.
+
+## PR #25 operator update and independent-source worksheet
+
+The operator now reports completing LOCAL_INTEGRITY_VERIFIED → LOCAL_MECHANICAL_REPRODUCED → INDEPENDENT_QUALIFICATION_REQUIRED in the private PR #24 report. Reported payload digest: `3c794f78db44c2de4a3844e32cfeb30fdfe962fd8890c7a389eb9fe588207895`; reported diagnostic payload digest: `d78cb26862e5fdc880313f97b8fa6a81b60b5cab6fee0b80f02b01e3067a4069`. These are payload hashes, not original-file hashes. The original bytes were not provided to Codex, so this update does not claim a cloud reproduction. Do not infer a UTC collection timestamp from the Windows report filename.
+
+Use the [independent source registry and workflow](INDEPENDENT_SOURCE_QUALIFICATION_V1.md) and [dated public-source review](EXNESS_HISTORICAL_SESSION_EVIDENCE_V1.md). Public references supply limited research leads, not exact account/date approval. The original unresolved checklist above remains open.
+
+For each genuine independent review, complete these fields privately; no entry below is a signature or completed review:
+
+| Field | Current entry |
+| --- | --- |
+| Reviewer pseudonym, distinct from collector | NOT SUPPLIED |
+| Actual review UTC timestamp | NOT SUPPLIED |
+| Evidence IDs and exact claim ID | NOT SUPPLIED |
+| Broker, anonymous account scope/category, instrument and UTC interval | NOT SUPPLIED |
+| Authority / temporal / instrument / account / claim-support findings | UNRESOLVED |
+| Scope of support or rejection | NOT SUPPLIED |
+| Contradictory references and unresolved conflicts | UNRESOLVED |
+| Reasoned conclusion (SUPPORTS / REJECTS / UNRESOLVED / ACKNOWLEDGED) | UNRESOLVED |
+| Review provenance document and original-byte SHA-256 | NOT SUPPLIED |
+| Independent identity/signature authentication | NOT ESTABLISHED |
+| Dataset qualification | DATA_NOT_QUALIFIED |
+
+The source-review schema records claim-level declarations, not a dataset APPROVED boolean. Acknowledgement is not support; support is not qualification. Self-review, missing scope, unsupported timestamps, unreviewed criteria and contradictory reviewer conclusions cannot become supported applicability. The existing replay/strategy/blinded-review/execution gates remain blocked even if the worksheet is later completed.
