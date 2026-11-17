@@ -242,7 +242,7 @@ class ReplayDiagnosticsTests(unittest.TestCase):
         args=['--replay-report',str(source),'--json-output',str(dest),'--text-output',str(txt)]
         with redirect_stdout(stdout):self.assertEqual(main(args),0)
         self.assertEqual(source.read_bytes(),before);self.assertEqual(json.loads(dest.read_text()),self.diagnostic)
-        self.assertEqual(txt.read_text(),diagnostics_text(self.diagnostic))
+        self.assertEqual(txt.read_text(encoding='utf-8'),diagnostics_text(self.diagnostic))
         self.assertNotIn(self.small['inputs']['dataset_bundle']['files']['m1.csv'],stdout.getvalue())
         original=dest.read_bytes()
         with redirect_stdout(StringIO()):self.assertEqual(main(args),1)
