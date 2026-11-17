@@ -82,7 +82,7 @@ def inspect_dataset_integrity(dataset):
             'restricted_phase_bars':restricted if calendar is not None else None,
             'unverified_calendar_bars':unknown if calendar is not None else None,
             'partial_session_bars':sum(v for k,v in labels.items() if k.startswith('PARTIAL_') or k=='CROSSES_SESSION_BREAK') if calendar is not None else None}
-    suitable = all(not any(f[k] for k in ('duplicate_timestamps','out_of_order_pairs','misaligned_openings','invalid_ohlc_rows')) for f in frames.values())
+    suitable = all(not any(f[k] for k in ('duplicate_timestamps','out_of_order_pairs','misaligned_openings','invalid_ohlc_rows','closed_after_declared_retrieval_count')) for f in frames.values())
     alignment = alignment_check(dataset,IntelligenceConfig().epsilon) if suitable else None
     return {'frames':frames,'alignment':alignment,
             'alignment_status':'UNVERIFIED' if alignment is None or not alignment['comparable_m5_bars'] else
@@ -176,8 +176,10 @@ def assess_historical_provenance(manifest_path=None, *, broker_binding_path=None
             transform=_state('VERIFIED',['EXISTING_IMPORT_NORMALIZATION_REPRODUCED_NOT_SOURCE_AUTHENTICATION'])
             refs['import_spec'].update(payload_sha256=imported['sha256'],binding='VERIFIED')
         except (ValueError,TypeError,KeyError,OSError):
-            transform=_state('CONTRADICTED',['IMPORT_SPEC_CANNOT_BE_BOUND_TO_DATASET'])
-            errors.append({'scope':'import_spec','code':'TRANSFORMATION_REFERENCE_INVALID_OR_MISMATCHED'})
+            unavailable=(m is None or imported is None or set(imported['normalized_files'])!={'M1','M5'})
+            transform=_state('UNVERIFIED' if unavailable else 'CONTRADICTED',
+                ['ORIGINAL_TO_NORMALIZED_CHAIN_UNAVAILABLE' if unavailable else 'IMPORT_SPEC_CANNOT_BE_BOUND_TO_DATASET'])
+            errors.append({'scope':'import_spec','code':'TRANSFORMATION_REFERENCE_UNAVAILABLE' if unavailable else 'TRANSFORMATION_REFERENCE_INVALID_OR_MISMATCHED'})
     if dataset is not None:
         qualification=qualify_historical(local_path(manifest_path),local_path(independent_review_path) if independent_review_path else None)
     if independent_review_path is not None:
@@ -316,8 +318,8 @@ def assess_historical_provenance(manifest_path=None, *, broker_binding_path=None
     gap('INDEPENDENT_QUALIFICATION','INDEPENDENT','PARTIALLY_VERIFIED' if gate=='HUMAN_APPROVAL_RECORDED_PRECHECKS_PASSED' else 'UNVERIFIED',
         'Existing independent review and all source/data checks, without self-approval.', [gate],
         'EXISTING_GATE_REMAINS_SEPARATE','Complete the existing qualification process; this report never approves historical data.',['independent_review','source_registry','manifest'])
-    ref_bad=any(e['scope'] in refs for e in errors)
-    ref_missing=any(path is not None and role not in refs for role,path in paths.items())
+    ref_bad=any(e['scope'] in refs and e['code']!='TRANSFORMATION_REFERENCE_UNAVAILABLE' for e in errors)
+    ref_missing=any(path is not None and (role not in refs or refs[role]['binding']=='UNVERIFIED') for role,path in paths.items())
     gap('EVIDENCE_REFERENCES','MECHANICAL','CONTRADICTED' if ref_bad else 'UNVERIFIED' if ref_missing else 'PARTIALLY_VERIFIED' if source_summary and source_summary['unverified_references'] else 'VERIFIED' if m and refs else 'UNVERIFIED',
         'Unaltered input hashes and evidence references bound to this exact dataset.',
         [r['reference_id'] for r in references if r['binding']=='VERIFIED'],

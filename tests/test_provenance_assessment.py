@@ -365,6 +365,15 @@ class ProvenanceAssessmentTests(unittest.TestCase):
         self.assertEqual(r['qualification'],'DATA_NOT_QUALIFIED');self.assertFalse(r['execution_allowed'])
 
 
+    def test_missing_originals_are_unverified_not_a_fabricated_data_contradiction(self):
+        spec=export_fixture(self.root);details=json.loads(spec.read_text())
+        (self.root/details['frames']['M1']['file']).unlink()
+        r=self.report(import_spec_path=spec);self.safe(r,import_spec_path=spec)
+        self.assertEqual(gap(r,'NORMALIZATION_TRACE')['verification_status'],'UNVERIFIED')
+        self.assertEqual(gap(r,'EVIDENCE_REFERENCES')['verification_status'],'UNVERIFIED')
+        self.assertIsNone(r['inventory']['frames']['M1']['original_import_sha256'])
+
+
 def tamper(name,change):
     def test(self):
         r=self.report();change(r);rehash(r)
