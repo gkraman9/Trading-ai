@@ -28,7 +28,14 @@ UTC boundaries. The response does not establish a year-round timezone/DST rule,
 Sunday opening, Friday final close, or a full-week dated schedule. The close-only
 endpoint implies a transition at 23:02, but does not expressly state when opening
 new positions resumes. Preserve that ambiguity rather than silently granting
-FULL_TRADING permission. The Bid statement concerns chart construction; it does
+FULL_TRADING permission. November 13 is a Friday. The earlier operator-reported weekly screenshot ended
+Friday at 21:58, whereas this reply uses generic daily-reopening wording. Neither
+the screenshot nor the pasted reply independently resolves a dated Friday 23:00
+reopening. No special holiday/maintenance does not mean no routine weekend close.
+A regression also checks a closed-Friday alternative without choosing it as broker
+fact. Friday reopening needs explicit clarification.
+
+The Bid statement concerns chart construction; it does
 not independently prove that a particular CSV archive uses the same feed/basis.
 The demo/real statement does not prove identical historical candles or capture.
 

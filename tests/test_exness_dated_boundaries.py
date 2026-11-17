@@ -21,7 +21,7 @@ def at(day, clock):
     return datetime.fromisoformat(day+'T'+clock+'+00:00')
 
 
-def boundary_fixture(post_reopen='FULL_TRADING', trade_verified=None):
+def boundary_fixture(post_reopen='FULL_TRADING', trade_verified=None, friday_reopens=True):
     c=synthetic_v2()
     schedule={'quotes':[window('00:00:00','21:58:00',0),window('23:00:00','00:00:00',1)],
         'phases':[window('00:00:00','21:58:00',0,'FULL_TRADING'),
@@ -29,6 +29,9 @@ def boundary_fixture(post_reopen='FULL_TRADING', trade_verified=None):
                   window('23:00:00','23:02:00',0,'CLOSE_ONLY'),
                   window('23:02:00','00:00:00',1,post_reopen)]}
     c['exceptions']={day:deepcopy(schedule) for day in DAYS}
+    if not friday_reopens:
+        c['exceptions']['2026-11-13']={'quotes':[window('00:00:00','21:58:00',0)],
+            'phases':[window('00:00:00','21:58:00',0,'FULL_TRADING'),window('21:58:00','00:00:00',1,'CLOSED')]}
     c['verification']['trade_schedule_verified']=(post_reopen!='UNKNOWN') if trade_verified is None else trade_verified
     return compile_session_config(c)
 
@@ -115,6 +118,13 @@ class ExnessDatedBoundaryTests(unittest.TestCase):
             for clock,code in [('21:58:00','SESSION_CLOSED'),('23:00:00','BROKER_PHASE_RESTRICTED')]:
                 with self.assertRaises(SessionValidationError) as err:cal.validate_request('XAUUSD',at(day,clock),timedelta(minutes=1))
                 self.assertEqual(err.exception.code,code)
+    def test_friday_weekend_alternative_remains_closed_without_quotations(self):
+        self.assertEqual(at('2026-11-13','23:00:00').weekday(),4)
+        cal=boundary_fixture(friday_reopens=False)
+        for clock in ('21:58:00','23:00:00','23:02:00'):
+            p=cal.permissions_at(at('2026-11-13',clock))
+            self.assertEqual(p['phase'],'CLOSED');self.assertFalse(p['market_data_expected'])
+            self.assertFalse(p['broker_open_positions']);self.assertFalse(p['iat_execution_allowed'])
     def test_evidence_hash_and_unapproved_dated_claims_remain_intact(self):
         root=Path('docs/source_reviews/exness-2026-11-11-13');e=json.loads((root/'evidence.json').read_text(encoding='utf-8'))
         self.assertEqual(e['artifact']['sha256'],sha256((root/e['artifact']['file']).read_bytes()).hexdigest())
