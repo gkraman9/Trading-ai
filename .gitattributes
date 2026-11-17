@@ -5,3 +5,6 @@ config/examples/replay.synthetic/*.csv text eol=lf
 config/examples/replay.synthetic/*.json text eol=lf
 # Published source-review manifests bind exact private dataset preparation bytes.
 docs/source_reviews/*.json text eol=lf
+
+# The dated operator-relayed broker transcript is hashed as exact UTF-8 bytes.
+docs/source_reviews/exness-2026-11-11-13/operator-relayed-reply.txt text eol=lf
