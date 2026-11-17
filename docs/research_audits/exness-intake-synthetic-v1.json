@@ -1,0 +1,40 @@
+{
+  "kind": "SYNTHETIC_INTAKE_AUDIT_NOT_REAL_MARKET_VALIDATION",
+  "assumptions": [
+    "CONSTANT_SYNTHETIC_PRICES",
+    "HYPOTHETICAL_FRIDAY_NO_REOPEN_NOT_VERIFIED_REAL_SCHEDULE"
+  ],
+  "sources": {
+    "M1": {
+      "sha256": "2084f8dee827d2ed1438269fa5a3129fd4ebdf99f7f73f43c242ab6befd3e949",
+      "byte_count": 191543,
+      "row_count": 4074
+    },
+    "M5": {
+      "sha256": "adc88f8442303269b34b666363daa266ac46002222810b459cbd5b843109ad5a",
+      "byte_count": 38417,
+      "row_count": 816
+    }
+  },
+  "dataset_id": "01179a08c90bf2011f87720cdd72dbf30487ccc40aaddf6b3f5dbe563ae3d42f",
+  "provenance_sha256": "5ee13c6f5b3349d6892f381e3818b51cbfcc216716ecc5609cbead637ad89cc8",
+  "comparable_m5_bars": 813,
+  "ohlc_mismatches": 0,
+  "tick_volume_mismatches": 0,
+  "complete_ohlc_and_tick_matches": 813,
+  "partial_or_session_uncertain_m5": 3,
+  "uncovered_m5_bars": 3,
+  "missing_session_candles": null,
+  "qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "safety": {
+    "mode": "READ_ONLY_SHADOW",
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "broker_access": false,
+    "orders_requested": 0,
+    "profitability_tested": false
+  }
+}
