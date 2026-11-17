@@ -222,3 +222,44 @@ Exness BLOCKED; DATA_NOT_QUALIFIED; historical validation PENDING; comparisons
 NOT_RUN; operational WAIT; execution_allowed=false; broker_access=false for
 execution; read-only market-data access explicitly authorized; orders_requested=0;
 profitability_tested=false. No live/demo orders are submitted by this workflow.
+
+## Recovery: LiquidityEvent JSON serialization failure
+
+The initial live observer could pass nested `Zone`, `LiquidityPool` and
+`LiquidityEvent` dataclasses directly from the pure context detectors into its
+snapshot hash. Flat fixtures did not populate those collections; non-flat market
+observations exposed `TypeError: Object of type LiquidityEvent is not JSON
+serializable`. The hash was outside the processing exception boundary, so the
+background worker could stop while Flask remained running.
+
+The correction recursively converts dataclasses and tuples to structured JSON
+objects/arrays before finite-value checks. It preserves fields, canonical IDs,
+prices and chronology. Unsupported objects and nonfinite values are rejected;
+there is no `default=str`, dropped evidence or permissive NaN hashing. The final
+snapshot normalization/hash boundary now returns DATA_UNAVAILABLE with
+`SNAPSHOT_SERIALIZATION_FAILED` and clears the previous assessment on failure,
+allowing the worker to continue. Detector rules, scores and all gates are unchanged.
+
+Stop the old server with Ctrl+C. On the operator's untracked local branch, fetch
+and create a new local branch without requiring automatic remote tracking:
+
+```powershell
+Set-Location 'E:\IAT2\IAT2-Latest'
+git fetch origin refs/heads/feat/iat2-live-intelligence-dashboard-v1
+git switch --no-track -c local/iat2-live-json-fix FETCH_HEAD
+$logs = Join-Path 'E:\IAT2\IAT2-LiveLogs' ([Guid]::NewGuid().ToString('N'))
+py -3.11 .\diagnostics\run_live_intelligence.py --log-directory $logs --interval 10 --port 8765
+```
+
+If that local branch name already exists, choose a new local name; do not force
+reset or discard edits. No dependency reinstall is required. Use the new log
+directory and reopen/refresh http://127.0.0.1:8765/. The standard Flask development
+server notice is expected for this local prototype. Review feed/quality status;
+fixing serialization does not establish broker session eligibility or guarantee a
+directional research assessment. Execution remains disabled; orders_requested stays 0.
+
+Five added regressions use a labeled non-flat synthetic feed, preserving native-
+shaped M1/M5 consistency while producing actual detector dataclasses. They cover
+JSON/hash/HTTP/log serialization, exact field and ID preservation, nested nonfinite
+rejection, guarded failure/recovery and background-worker continuation. Real
+Windows terminal validation must still be performed locally by the operator.

@@ -1,5 +1,5 @@
 """Live read-only observation, with descriptive facts separate from eligibility gates."""
-from dataclasses import asdict
+from dataclasses import asdict,is_dataclass
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from threading import Lock,Event,Thread
@@ -19,6 +19,20 @@ from iat.intelligence.scenario_assessment import assess_scenarios,validate_scena
 from iat.intelligence.scenario_transitions import assess_scenario_transition
 from iat.intelligence.strategy_replay import digest
 from iat.historical_replay import safety
+
+
+def _report_tree(value):
+    """Preserve typed research fields as JSON primitives; never stringify unknown objects."""
+    if is_dataclass(value) and not isinstance(value,type):
+        return _report_tree(asdict(value))
+    if isinstance(value,dict):
+        if not all(isinstance(k,str) for k in value):raise TypeError('Non-string report key')
+        return {k:_report_tree(v) for k,v in value.items()}
+    if isinstance(value,(list,tuple)):
+        return [_report_tree(v) for v in value]
+    if value is None or type(value) in (str,bool,int,float):
+        return value
+    raise TypeError('Unsupported report value')
 
 
 class ShadowLog:
@@ -124,6 +138,7 @@ class LiveObserver:
                 alignment=align(frames,iso(at))
                 descriptive=SimpleNamespace(symbol='XAUUSD',frames=frames,alignment=alignment,configuration_sha256=config.digest)
                 evidence,registry,interpretations,facts,zones=derive(descriptive,{tf:tuple(validate_candles(rs)) for tf,rs in rows.items()},ctx_config)
+                interpretations=_report_tree(interpretations)
                 _finite_tree(dict(frames={tf:asdict(f) for tf,f in frames.items()},context=interpretations,facts=facts))
                 # Matching overlapping complete groups is a diagnostic; never replace native M5.
                 one={bar['timestamp']:bar for bar in rows['M1']};compared=0
@@ -168,7 +183,12 @@ class LiveObserver:
                 if code!='CLOSED_CANDLE_REVISION_DETECTED':self.previous=None
                 presentation_adapter(self.model_adapter,r)
             raw=dict(getattr(self.provider,'raw',{}))
-            r['snapshot_id']=digest({k:v for k,v in r.items() if k!='snapshot_id'})
+            try:
+                r=_report_tree(r)
+                _finite_tree(r)
+                r['snapshot_id']=digest({k:v for k,v in r.items() if k!='snapshot_id'})
+            except (ValueError,TypeError,OverflowError,RecursionError):
+                r=base(r['acquired_at_utc'],'SNAPSHOT_SERIALIZATION_FAILED');self.previous=None
             try:self.log.append(r,raw)
             except Exception:
                 r=base(r['acquired_at_utc'],'SHADOW_LOG_FAILED');r['snapshot_id']=digest({k:v for k,v in r.items() if k!='snapshot_id'});self.previous=None

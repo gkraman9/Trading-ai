@@ -45,6 +45,28 @@ class MockMT5:
     def order_check(self,*a,**k):self.orders+=1;raise AssertionError('Order functions forbidden')
 
 
+class WaveMT5(MockMT5):
+    """SYNTHETIC non-flat OHLC produces real detector dataclasses, not real broker bars."""
+    def __init__(self):
+        super().__init__()
+        wave=[100,101,102,103,104,103,102,101,100,99,98,99,100,101,102,103,104,105,106,105,104,103,102,101,100,101,102,103,104,105]
+        end=int(NOW.timestamp())//300*300
+        one=[]
+        for i in range(500):
+            close=wave[i%len(wave)]+(i//len(wave))*0.2
+            one.append(dict(time=end-(500-i)*60,open=close,high=close+0.2,low=close-0.2,close=close,
+                            tick_volume=10,spread=2,real_volume=0))
+        five=[]
+        for i in range(0,500,5):
+            group=one[i:i+5]
+            five.append(dict(time=group[0]['time'],open=group[0]['open'],high=max(r['high'] for r in group),
+                low=min(r['low'] for r in group),close=group[-1]['close'],tick_volume=50,spread=2,real_volume=0))
+        self.bars={1:one,5:five};self.bid=one[-1]['close']
+    def copy_rates_from_pos(self,symbol,tf,position,count):
+        self.calls.append((symbol,tf,position,count))
+        return deepcopy(self.bars[tf][-count:])
+
+
 class LiveObserverTests(unittest.TestCase):
     def setUp(self):
         self.folder=tempfile.TemporaryDirectory(prefix='iat live synthetic ');self.addCleanup(self.folder.cleanup)
@@ -256,3 +278,81 @@ class LiveObserverTests(unittest.TestCase):
         self.mt5.mutate=mutate;self.unavailable('OHLC_MALFORMED')
         for filename in ('research.jsonl','raw-candles.jsonl'):
             self.assertNotIn(b'private-account-server-token',(self.log.root/filename).read_bytes())
+
+    def test_nonflat_zone_pool_and_liquidity_events_serialize_through_hash_http_and_logs(self):
+        self.mt5=WaveMT5();self.bridge=ReadOnlyMarketData(self.mt5)
+        self.observer=LiveObserver(self.bridge,self.log,clock=lambda:NOW)
+        r=self.observer.step();self.safe(r)
+        self.assertEqual(r['feed_status'],'CONNECTED');self.assertEqual(r['research_assessment'],'WAIT')
+        events=[];pools=[];zones=[]
+        for frame in r['observations']['context'].values():
+            events+=frame['liquidity_events'];pools+=frame['liquidity_pools']
+            zones+=list(frame['support_resistance'])+list(frame['supply_demand'])
+        self.assertTrue(events);self.assertTrue(pools);self.assertTrue(zones)
+        self.assertTrue(all(isinstance(v,dict) for v in events+pools+zones))
+        for event in events:
+            self.assertEqual(r['observations']['source_registry'][event['id']]['kind'],'LIQUIDITY_EVENT')
+        self.assertEqual(r['snapshot_id'],digest({k:v for k,v in r.items() if k!='snapshot_id'}))
+        client=create_dashboard(self.observer).test_client();response=client.get('/live/v1/snapshot')
+        self.assertEqual(response.status_code,200);self.assertEqual(response.get_json(),r)
+        entry=json.loads((self.log.root/'research.jsonl').read_text().splitlines()[-1])
+        self.assertEqual(entry['report'],r)
+
+    def test_dataclass_conversion_preserves_all_event_fields_and_canonical_ids(self):
+        from dataclasses import asdict
+        import iat.live_observer as live
+        original=live.derive;captured={}
+        def capture(*args,**kwargs):
+            result=original(*args,**kwargs);captured['context']=result[2];return result
+        self.mt5=WaveMT5();self.bridge=ReadOnlyMarketData(self.mt5)
+        self.observer=LiveObserver(self.bridge,self.log,clock=lambda:NOW)
+        with patch.object(live,'derive',side_effect=capture):r=self.observer.step()
+        self.safe(r);self.assertEqual(r['feed_status'],'CONNECTED')
+        for tf,frame in captured['context'].items():
+            for name in ('support_resistance','supply_demand','liquidity_pools','liquidity_events'):
+                before=frame[name];after=r['observations']['context'][tf][name]
+                self.assertEqual(len(before),len(after))
+                for typed,serialized in zip(before,after):
+                    self.assertEqual(json.loads(json.dumps(asdict(typed))),serialized)
+                    self.assertEqual(typed.id,serialized['id'])
+
+    def test_nonfinite_nested_liquidity_values_fail_closed_instead_of_stringifying(self):
+        from dataclasses import replace
+        import iat.live_observer as live
+        original=live.derive
+        def invalid(*args,**kwargs):
+            result=original(*args,**kwargs);frame=result[2]['M1']
+            self.assertTrue(frame['liquidity_events'])
+            frame['liquidity_events']=(replace(frame['liquidity_events'][0],level=float('nan')),)
+            return result
+        self.mt5=WaveMT5();self.bridge=ReadOnlyMarketData(self.mt5)
+        self.observer=LiveObserver(self.bridge,self.log,clock=lambda:NOW)
+        with patch.object(live,'derive',side_effect=invalid):self.unavailable('LIVE_OBSERVATION_UNAVAILABLE')
+        self.assertNotIn('NaN',(self.log.root/'research.jsonl').read_text())
+
+    def test_snapshot_hash_serialization_failure_is_guarded_and_next_poll_recovers(self):
+        with patch('iat.live_observer.research_label',return_value=object()):self.unavailable('SNAPSHOT_SERIALIZATION_FAILED')
+        self.assertIsNone(self.observer.previous)
+        r=self.observer.step();self.safe(r);self.assertEqual(r['feed_status'],'CONNECTED')
+        entries=[json.loads(line) for line in (self.log.root/'research.jsonl').read_text().splitlines()]
+        self.assertEqual(entries[0]['report']['reason_codes'],['SNAPSHOT_SERIALIZATION_FAILED'])
+        self.assertEqual(entries[1]['report']['feed_status'],'CONNECTED')
+
+    def test_worker_survives_unserializable_snapshot_and_continues_to_next_observation(self):
+        import time
+        import iat.live_observer as live
+        original=live.research_label;first=Event()
+        def once(scenario):
+            if not first.is_set():first.set();return object()
+            return original(scenario)
+        self.observer.interval=2
+        with patch.object(live,'research_label',side_effect=once):
+            self.observer.start();self.addCleanup(self.observer.close)
+            deadline=time.monotonic()+5
+            while self.observer.latest()['feed_status']!='CONNECTED' and time.monotonic()<deadline:time.sleep(0.01)
+            self.assertTrue(first.is_set());self.assertTrue(self.observer.thread.is_alive())
+            self.assertEqual(self.observer.latest()['feed_status'],'CONNECTED')
+            self.observer.close()
+        entries=[json.loads(line) for line in (self.log.root/'research.jsonl').read_text().splitlines()]
+        self.assertIn('SNAPSHOT_SERIALIZATION_FAILED',entries[0]['report']['reason_codes'])
+        self.assertEqual(entries[-1]['report']['feed_status'],'CONNECTED');self.assertEqual(self.mt5.orders,0)
