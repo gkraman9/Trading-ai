@@ -1,0 +1,1560 @@
+{
+  "attribution_counts": {
+    "snapshot": {
+      "categories": {
+        "CONFIRMED_STRUCTURE": 48,
+        "CONFLICTING_EVIDENCE": 90,
+        "HISTORY_UNSCOPED": 16,
+        "MEASUREMENT_WARMUP": 8,
+        "SCENARIO_EVIDENCE": 192,
+        "UPSTREAM_BLOCK": 16,
+        "VOLATILITY_RESTRICTION": 117
+      },
+      "denominator": 208
+    },
+    "transition": {
+      "categories": {
+        "CAUSAL_CONTEXT": 50,
+        "UNATTRIBUTABLE": 138,
+        "UPSTREAM_BLOCK": 24
+      },
+      "denominator": 212
+    }
+  },
+  "audit_version": 1,
+  "cases": {
+    "aligned_invalidate": {
+      "admission_attribution": [],
+      "diagnostic_id": "2af9dbc0359999480c4e879435d3300beef203c7240019adf8650f5990c3716e",
+      "input_replay_sha256": "7649c7082c30ca9384218b2c830354fb4bbe08da369b79324d04452a839c9465",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 8,
+          "percent": 26.666666666666668,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "4fba43ee668ca38f9c34a1442ef15ff986800582d053620e8ef81d4c19faacd5",
+      "snapshot_status_counts": {
+        "ABSTAINED": 20,
+        "ASSESSED": 8,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 3,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:08:00+00:00",
+            "observations": 6,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 5,
+            "start_utc": "2026-11-12T08:10:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 6,
+          "percent": 20.689655172413794,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 7,
+          "percent": 24.137931034482758,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 11,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 2,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 20,
+        "BLOCKED": 3,
+        "INVALIDATED": 1,
+        "NEW": 2,
+        "PERSISTING": 4,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "aligned_invalidate_mirror": {
+      "admission_attribution": [],
+      "diagnostic_id": "eff08af7dded7c49a9a6298f5e8e95aa61f10ec736ae466288b3b776e8d1cada",
+      "input_replay_sha256": "5618096d7f225d3534599614b83ea62caf007ba96caad046a1ad23ab24230c92",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 8,
+          "percent": 26.666666666666668,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "fd5cdc78d821b5db2f9c98037b50eb0cddd47658ebdaff605259b280042c990c",
+      "snapshot_status_counts": {
+        "ABSTAINED": 20,
+        "ASSESSED": 8,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 3,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:08:00+00:00",
+            "observations": 6,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 5,
+            "start_utc": "2026-11-12T08:10:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 6,
+          "percent": 20.689655172413794,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 7,
+          "percent": 24.137931034482758,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 11,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 2,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 20,
+        "BLOCKED": 3,
+        "INVALIDATED": 1,
+        "NEW": 2,
+        "PERSISTING": 4,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "aligned_replace": {
+      "admission_attribution": [],
+      "diagnostic_id": "f436825ae263db13a1844526835bd14375668f983f84a23c42cb1184c16f90e8",
+      "input_replay_sha256": "e5b5bbd24c248f8d92121d835d4ad7123f13ce241494128fbe10d14d10f2b2a9",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 8,
+          "percent": 26.666666666666668,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "9f9ff4bd091058f8b13e6433726873107670de86de986a437e4c31a9ed23256c",
+      "snapshot_status_counts": {
+        "ABSTAINED": 20,
+        "ASSESSED": 8,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 3,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:08:00+00:00",
+            "observations": 6,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 5,
+            "start_utc": "2026-11-12T08:10:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 6,
+          "percent": 20.689655172413794,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 7,
+          "percent": 24.137931034482758,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 11,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 2,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 20,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 2,
+        "PERSISTING": 4,
+        "REPLACED": 1,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "aligned_support": {
+      "admission_attribution": [],
+      "diagnostic_id": "6da17081c6db02ea3580b4c086f5a0846e725445dce8f66fa537e357bc98475b",
+      "input_replay_sha256": "c02339ffd4c92af6dcb2a8ab4680e951c181fb6217a0b33d343c0fc8886edb3a",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 6,
+          "percent": 20.0,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "0e809cb79b4a39a946767b199cf51ebc45c84ba2b5890c14f6c1f2a2e46b72ae",
+      "snapshot_status_counts": {
+        "ABSTAINED": 22,
+        "ASSESSED": 6,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 3,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:08:00+00:00",
+            "observations": 6,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 5,
+            "start_utc": "2026-11-12T08:10:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:29:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 7,
+          "percent": 24.137931034482758,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 8,
+          "percent": 27.586206896551722,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:14:00+00:00",
+            "observations": 11,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:17:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:29:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 2,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 22,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 2,
+        "PERSISTING": 1,
+        "REPLACED": 0,
+        "STRENGTHENING": 1,
+        "WEAKENING": 1
+      }
+    },
+    "continuation": {
+      "admission_attribution": [],
+      "diagnostic_id": "7b577182d292ad2b00ad6200fa9780b867fe63761990e3ef9a26f92f0d6d0a9b",
+      "input_replay_sha256": "d8fde3293e1653dc35741dbf84ac1c217504cf0f644fa60e289f15d0600c9547",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 1,
+          "percent": 3.3333333333333335,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "1ce8d8830099de01d8176dd10ac8558bcf0ae631cb8ef4e403c5ef187a31ef2e",
+      "snapshot_status_counts": {
+        "ABSTAINED": 27,
+        "ASSESSED": 1,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 1,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 17,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 10,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 16,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 10,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 1,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 26,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 1,
+        "PERSISTING": 0,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "continuation_mirror": {
+      "admission_attribution": [],
+      "diagnostic_id": "0f3230809e822a896d4e67d801a99ca09341984c6a945faab8860edd2ff2219c",
+      "input_replay_sha256": "27b01799a8c40338b78074c044485e97b31fc30aacf8cdb1e0d87ed569cfd88f",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 1,
+          "percent": 3.3333333333333335,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 10,
+        "WARMUP": 20
+      },
+      "sha256": "b06dd0bbcd932b45de2a86e51c7ca101e94d2d46969e6ddfdf74e27bcc048147",
+      "snapshot_status_counts": {
+        "ABSTAINED": 27,
+        "ASSESSED": 1,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 1,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 17,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 10,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 16,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 10,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 1,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 26,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 1,
+        "PERSISTING": 0,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "duplicate_observation": {
+      "admission_attribution": [
+        {
+          "category": "INVALID_INPUT",
+          "explanation": "An upstream reason explicitly identifies invalid data or input.",
+          "research_action": "Correct the source through its existing validation workflow; do not patch prices here.",
+          "upstream_codes": [
+            "OBSERVATIONS_DUPLICATE_OR_REVERSED"
+          ]
+        }
+      ],
+      "diagnostic_id": "7ee9cec677b9bc1c060c148bacc58bcb5e46e3889fbc5a046a563dc123b74a01",
+      "input_replay_sha256": "6894344c76368a8cb59400258418c20d698dc4797384082c0d8f30f454ba0771",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "complete_required_chain": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "independently_qualified": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        }
+      },
+      "observation_count": 0,
+      "phase_counts": {},
+      "sha256": "625a17588bd039015120803a9f23e6fb09cd393d119fd80bca26eb99ff751284",
+      "snapshot_status_counts": {
+        "ABSTAINED": 0,
+        "ASSESSED": 0,
+        "BLOCKED": 0
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "entered_upstream_eligibility_count": 0,
+        "snapshot_runs": [],
+        "snapshot_status_changes": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "transition_classification_changes": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "transition_runs": [],
+        "warmup_to_eligible_count": 0,
+        "warmup_to_evaluation_count": 0
+      },
+      "transition_counts": {
+        "ABSTAINED": 0,
+        "BLOCKED": 0,
+        "INVALIDATED": 0,
+        "NEW": 0,
+        "PERSISTING": 0,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "missing_observation": {
+      "admission_attribution": [],
+      "diagnostic_id": "0c5f8711e4e7e10d466d4f804a3d29f57c9807667b0027a3a84b92ad71fba67f",
+      "input_replay_sha256": "a913b10b6d71ac8cc632724f47b36383ad5baff994b92d4eab98f28419aec482",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 4,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 4,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 4,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 4,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 4,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 4,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": 0.0,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 4,
+      "phase_counts": {
+        "EVALUATION": 4
+      },
+      "sha256": "f3f7e2462d975b12027761ef11c04aaf8c5df6271480e751099836e6e3053a65",
+      "snapshot_status_counts": {
+        "ABSTAINED": 4,
+        "ASSESSED": 0,
+        "BLOCKED": 0
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 3,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 2,
+          "percent": 66.66666666666667,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 0,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:22:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:24:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 3,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": 0.0,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 3,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": 0.0,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:22:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:21:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:25:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:24:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 0,
+        "warmup_to_evaluation_count": 0
+      },
+      "transition_counts": {
+        "ABSTAINED": 4,
+        "BLOCKED": 0,
+        "INVALIDATED": 0,
+        "NEW": 0,
+        "PERSISTING": 0,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "reversal": {
+      "admission_attribution": [],
+      "diagnostic_id": "feaa4e61875540517dbdd53c15cf9d48793b3014832a3e6bb45a9f47234a6de9",
+      "input_replay_sha256": "324178f1fa6d594c18c43c06cb51b59e1b99050da1f3925f4e7d43350bf44d07",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 2,
+          "percent": 6.666666666666667,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 5,
+        "WARMUP": 25
+      },
+      "sha256": "7a6ef9452e455c03f3137c890da3046b3ccb07bd76b42313f0467cc08b659274",
+      "snapshot_status_counts": {
+        "ABSTAINED": 26,
+        "ASSESSED": 2,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 1,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 17,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:22:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 4,
+          "percent": 13.793103448275861,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 16,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:22:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 1,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 25,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 1,
+        "PERSISTING": 1,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "reversal_mirror": {
+      "admission_attribution": [],
+      "diagnostic_id": "6317eb1841bc21b62dd6f9cab8702f24327514f5f5257d888d64c64baf89421c",
+      "input_replay_sha256": "4bf801bd060897960dff06b0e1407bfec702c17e2cd2b72a9364dbd937beafb4",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "complete_required_chain": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 28,
+          "percent": 93.33333333333333,
+          "status": "MEASURED"
+        },
+        "independently_qualified": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 30,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 2,
+          "percent": 6.666666666666667,
+          "status": "MEASURED"
+        }
+      },
+      "observation_count": 30,
+      "phase_counts": {
+        "EVALUATION": 5,
+        "WARMUP": 25
+      },
+      "sha256": "10186196f6f952bc6057407f5d0064e136b8aaf79da8e10f16b1ad83a5d1534a",
+      "snapshot_status_counts": {
+        "ABSTAINED": 26,
+        "ASSESSED": 2,
+        "BLOCKED": 2
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 29,
+          "percent": 100.0,
+          "status": "MEASURED"
+        },
+        "entered_upstream_eligibility_count": 1,
+        "snapshot_runs": [
+          {
+            "end_utc": "2026-11-12T08:02:00+00:00",
+            "observations": 2,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 17,
+            "start_utc": "2026-11-12T08:03:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:22:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "snapshot_status_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 3,
+          "percent": 10.344827586206897,
+          "status": "MEASURED"
+        },
+        "transition_classification_changes": {
+          "denominator": 29,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 4,
+          "percent": 13.793103448275861,
+          "status": "MEASURED"
+        },
+        "transition_runs": [
+          {
+            "end_utc": "2026-11-12T08:03:00+00:00",
+            "observations": 3,
+            "start_utc": "2026-11-12T08:01:00+00:00",
+            "status": "BLOCKED"
+          },
+          {
+            "end_utc": "2026-11-12T08:19:00+00:00",
+            "observations": 16,
+            "start_utc": "2026-11-12T08:04:00+00:00",
+            "status": "ABSTAINED"
+          },
+          {
+            "end_utc": "2026-11-12T08:30:00+00:00",
+            "observations": 9,
+            "start_utc": "2026-11-12T08:22:00+00:00",
+            "status": "ABSTAINED"
+          }
+        ],
+        "warmup_to_eligible_count": 1,
+        "warmup_to_evaluation_count": 1
+      },
+      "transition_counts": {
+        "ABSTAINED": 25,
+        "BLOCKED": 3,
+        "INVALIDATED": 0,
+        "NEW": 1,
+        "PERSISTING": 1,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    },
+    "reversed_observations": {
+      "admission_attribution": [
+        {
+          "category": "INVALID_INPUT",
+          "explanation": "An upstream reason explicitly identifies invalid data or input.",
+          "research_action": "Correct the source through its existing validation workflow; do not patch prices here.",
+          "upstream_codes": [
+            "OBSERVATIONS_DUPLICATE_OR_REVERSED"
+          ]
+        }
+      ],
+      "diagnostic_id": "d76f6c9202a2abf58ed3f9cf44b7f77cf7c16b1842db7483687b0c140bddf01b",
+      "input_replay_sha256": "b71682a143f956c1d10e497e4e7dd5c2cadcbfb621e152b2d2f7db0ebd574b00",
+      "key_coverage": {
+        "causal_frame_alignment": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "complete_required_chain": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "independently_qualified": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": null,
+          "percent": null,
+          "status": "NOT_ESTABLISHED"
+        },
+        "upstream_research_eligible": {
+          "denominator": 0,
+          "denominator_basis": "ALL_REPLAY_OBSERVATIONS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        }
+      },
+      "observation_count": 0,
+      "phase_counts": {},
+      "sha256": "51d802e187bf50e4f7b733c5dada3ee2496fefa7cdc1110aad79e30d21af672b",
+      "snapshot_status_counts": {
+        "ABSTAINED": 0,
+        "ASSESSED": 0,
+        "BLOCKED": 0
+      },
+      "temporal": {
+        "contiguous_pairs": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "entered_upstream_eligibility_count": 0,
+        "snapshot_runs": [],
+        "snapshot_status_changes": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "transition_classification_changes": {
+          "denominator": 0,
+          "denominator_basis": "CONSECUTIVE_OBSERVED_PAIRS_NOT_NECESSARILY_CONTIGUOUS",
+          "numerator": 0,
+          "percent": null,
+          "status": "NO_OBSERVATIONS"
+        },
+        "transition_runs": [],
+        "warmup_to_eligible_count": 0,
+        "warmup_to_evaluation_count": 0
+      },
+      "transition_counts": {
+        "ABSTAINED": 0,
+        "BLOCKED": 0,
+        "INVALIDATED": 0,
+        "NEW": 0,
+        "PERSISTING": 0,
+        "REPLACED": 0,
+        "STRENGTHENING": 0,
+        "WEAKENING": 0
+      }
+    }
+  },
+  "coverage": {
+    "M1_candles_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "M1_confirmed_structure": {
+      "denominator": 244,
+      "numerator": 180,
+      "percent": 73.77049180327869,
+      "status": "MEASURED"
+    },
+    "M5_candles_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "M5_confirmed_structure": {
+      "denominator": 244,
+      "numerator": 228,
+      "percent": 93.44262295081967,
+      "status": "MEASURED"
+    },
+    "available_context_evidence": {
+      "denominator": 244,
+      "numerator": 228,
+      "percent": 93.44262295081967,
+      "status": "MEASURED"
+    },
+    "blocked_without_context_evidence": {
+      "denominator": 244,
+      "numerator": 16,
+      "percent": 6.557377049180328,
+      "status": "MEASURED"
+    },
+    "causal_frame_alignment": {
+      "denominator": 244,
+      "numerator": 228,
+      "percent": 93.44262295081967,
+      "status": "MEASURED"
+    },
+    "complete_required_chain": {
+      "denominator": 244,
+      "numerator": 228,
+      "percent": 93.44262295081967,
+      "status": "MEASURED"
+    },
+    "independently_qualified": {
+      "denominator": 244,
+      "numerator": null,
+      "percent": null,
+      "status": "NOT_ESTABLISHED"
+    },
+    "invalid_chain_observations": {
+      "denominator": 244,
+      "numerator": 0,
+      "percent": 0.0,
+      "status": "MEASURED"
+    },
+    "invalid_evidence_in_rejected_inputs": {
+      "denominator": null,
+      "numerator": null,
+      "percent": null,
+      "status": "NOT_ESTABLISHED"
+    },
+    "market_context": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "market_context_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "market_intelligence": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "market_intelligence_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "missing_required_chain_observations": {
+      "denominator": 244,
+      "numerator": 16,
+      "percent": 6.557377049180328,
+      "status": "MEASURED"
+    },
+    "scenario_assessment": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "scenario_assessment_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "scenario_transition": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "scenario_transition_available": {
+      "denominator": 244,
+      "numerator": 244,
+      "percent": 100.0,
+      "status": "MEASURED"
+    },
+    "upstream_research_eligible": {
+      "denominator": 244,
+      "numerator": 36,
+      "percent": 14.754098360655737,
+      "status": "MEASURED"
+    }
+  },
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "observation_count": 244,
+  "provenance": "LABELED_SYNTHETIC_ONLY",
+  "reason_distributions": {
+    "admission": {
+      "codes": {
+        "OBSERVATIONS_DUPLICATE_OR_REVERSED": 2,
+        "RESEARCH_ONLY_HISTORICAL_VALIDATION_PENDING": 9
+      },
+      "denominator": 11
+    },
+    "observation_all": {
+      "codes": {
+        "BLOCKED_DATA_QUALITY": 16,
+        "CONFLICTING_TIMEFRAME_STRUCTURE": 84,
+        "CURRENT_ASSESSMENT_BLOCKED": 16,
+        "CURRENT_UPSTREAM_ABSTENTION": 138,
+        "EXPLICIT_CONFIRMED_STRUCTURE_INVALIDATION": 2,
+        "FRESH_OPPOSING_M1_CHOCH": 6,
+        "HEURISTIC_MARGIN_TOO_SMALL": 19,
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH": 117,
+        "HISTORY_INCOMPLETE": 16,
+        "INSUFFICIENT_HEURISTIC_SUPPORT": 39,
+        "INSUFFICIENT_STRUCTURAL_CONTEXT": 48,
+        "M1_MOMENTUM_INSUFFICIENT": 8,
+        "M1_VOLATILITY_INSUFFICIENT": 8,
+        "MATERIAL_OPPOSING_EVIDENCE": 25,
+        "MONOTONE_CAPPED_SUPPORT_DECREASE": 1,
+        "MONOTONE_CAPPED_SUPPORT_INCREASE": 1,
+        "NO_UNIQUE_ELIGIBLE_SCENARIO": 192,
+        "OBSERVATION_GAP": 1,
+        "PREVIOUS_ASSESSMENT_BLOCKED": 8,
+        "PREVIOUS_OBSERVATION_MISSING": 1,
+        "SAME_SCENARIO_EQUAL_HEURISTIC_SUPPORT": 15,
+        "SCENARIO_SELECTED_AFTER_ABSTENTION": 12,
+        "SESSION_NOT_CHECKED": 244,
+        "UPSTREAM_HISTORY_OR_STRUCTURE_INSUFFICIENT": 48,
+        "UPSTREAM_SCENARIO_REPLACED_WITHOUT_INVALIDATION_PROOF": 1
+      },
+      "denominator": 244
+    },
+    "snapshot_abstained": {
+      "codes": {
+        "CONFLICTING_TIMEFRAME_STRUCTURE": 84,
+        "FRESH_OPPOSING_M1_CHOCH": 6,
+        "HEURISTIC_MARGIN_TOO_SMALL": 19,
+        "HIGH_VOLATILITY_REQUIRES_FURTHER_RESEARCH": 117,
+        "INSUFFICIENT_HEURISTIC_SUPPORT": 39,
+        "INSUFFICIENT_STRUCTURAL_CONTEXT": 48,
+        "M1_MOMENTUM_INSUFFICIENT": 8,
+        "M1_VOLATILITY_INSUFFICIENT": 8,
+        "MATERIAL_OPPOSING_EVIDENCE": 25,
+        "NO_UNIQUE_ELIGIBLE_SCENARIO": 192
+      },
+      "denominator": 192
+    },
+    "snapshot_blocked": {
+      "codes": {
+        "BLOCKED_DATA_QUALITY": 16,
+        "HISTORY_INCOMPLETE": 16
+      },
+      "denominator": 16
+    },
+    "transition_abstained": {
+      "codes": {
+        "CURRENT_UPSTREAM_ABSTENTION": 138,
+        "OBSERVATION_GAP": 1,
+        "PREVIOUS_OBSERVATION_MISSING": 1,
+        "UPSTREAM_HISTORY_OR_STRUCTURE_INSUFFICIENT": 48
+      },
+      "denominator": 188
+    },
+    "transition_blocked": {
+      "codes": {
+        "CURRENT_ASSESSMENT_BLOCKED": 16,
+        "PREVIOUS_ASSESSMENT_BLOCKED": 8
+      },
+      "denominator": 24
+    }
+  },
+  "signal": "WAIT",
+  "snapshot_status_counts": {
+    "ABSTAINED": 192,
+    "ASSESSED": 36,
+    "BLOCKED": 16
+  },
+  "transition_counts": {
+    "ABSTAINED": 188,
+    "BLOCKED": 24,
+    "INVALIDATED": 2,
+    "NEW": 12,
+    "PERSISTING": 15,
+    "REPLACED": 1,
+    "STRENGTHENING": 1,
+    "WEAKENING": 1
+  },
+  "unsupported_evidence_categories": [
+    "INDEPENDENT_SOURCE_AUTHENTICITY",
+    "SESSION_EXPIRY_INVALIDATION_PROOF",
+    "ZONE_INVALIDATION_PROOF"
+  ]
+}

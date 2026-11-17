@@ -32,6 +32,7 @@ on:
       - feat/iat2-market-decision-intelligence-v1
       - feat/iat2-scenario-transition-v1
       - feat/iat2-historical-replay-integration-v1
+      - feat/iat2-replay-diagnostics-v1
   pull_request:
     branches:
       - main
@@ -62,6 +63,7 @@ on:
       - feat/iat2-independent-source-qualification-v1
       - feat/iat2-market-decision-intelligence-v1
       - feat/iat2-scenario-transition-v1
+      - feat/iat2-historical-replay-integration-v1
   workflow_dispatch:
 
 permissions:
@@ -412,3 +414,29 @@ jobs:
               pass
           else:
               raise AssertionError('A missing-source replay was promoted by checksum alone')
+      - name: Private replay diagnostics and semantic smoke test
+        shell: python
+        run: |
+          import pathlib, sys
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          from iat.scenario_replay import run_scenario_replay
+          from iat.replay_diagnostics import generate_replay_diagnostics, validate_replay_diagnostics, diagnostics_text
+          from iat.intelligence.strategy_replay import digest
+          source = run_scenario_replay(mode='EXTERNAL_UNQUALIFIED_RESEARCH')
+          report = generate_replay_diagnostics(source)
+          assert validate_replay_diagnostics(report, source)
+          assert report['observation_count'] == 0 and report['upstream_run_status'] == 'BLOCKED'
+          assert report['coverage']['market_context']['percent'] is None
+          assert report['coverage']['independently_qualified']['numerator'] is None
+          assert report['signal'] == 'WAIT' and report['execution_allowed'] is False
+          assert report['exness'] == 'BLOCKED' and report['historical_validation'] == 'PENDING'
+          assert report['historical_comparisons'] == 'NOT_RUN'
+          assert 'dataset_bundle' not in report and 'unknown' in diagnostics_text(report)
+          report['coverage']['independently_qualified'].update(numerator=0, percent=100, status='MEASURED')
+          report['sha256'] = digest({k:v for k,v in report.items() if k != 'sha256'})
+          try:
+              validate_replay_diagnostics(report, source)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError('Diagnostics promoted missing qualification from a checksum')
