@@ -34,6 +34,7 @@ on:
       - feat/iat2-historical-replay-integration-v1
       - feat/iat2-replay-diagnostics-v1
       - feat/iat2-historical-provenance-gap-analysis-v1
+      - feat/iat2-exness-historical-intake-v1
   pull_request:
     branches:
       - main
@@ -66,6 +67,7 @@ on:
       - feat/iat2-scenario-transition-v1
       - feat/iat2-historical-replay-integration-v1
       - feat/iat2-replay-diagnostics-v1
+      - feat/iat2-historical-provenance-gap-analysis-v1
   workflow_dispatch:
 
 permissions:
@@ -93,6 +95,8 @@ jobs:
         run: python diagnostics/check_provenance_metadata.py
       - name: Provenance focused tests including stale CRLF checkout regression
         run: python -m unittest discover -s tests -p test_provenance_assessment.py -v
+      - name: Exness historical intake focused synthetic tests
+        run: python -m unittest discover -s tests -p test_exness_intake.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test
