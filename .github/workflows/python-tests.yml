@@ -35,6 +35,7 @@ on:
       - feat/iat2-replay-diagnostics-v1
       - feat/iat2-historical-provenance-gap-analysis-v1
       - feat/iat2-exness-historical-intake-v1
+      - feat/iat2-live-intelligence-dashboard-v1
   pull_request:
     branches:
       - main
@@ -68,6 +69,7 @@ on:
       - feat/iat2-historical-replay-integration-v1
       - feat/iat2-replay-diagnostics-v1
       - feat/iat2-historical-provenance-gap-analysis-v1
+      - feat/iat2-exness-historical-intake-v1
   workflow_dispatch:
 
 permissions:
@@ -97,6 +99,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_provenance_assessment.py -v
       - name: Exness historical intake focused synthetic tests
         run: python -m unittest discover -s tests -p test_exness_intake.py -v
+      - name: Live observer focused read-only tests (synthetic transport only)
+        run: python -m unittest discover -s tests -p test_live_observer.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test
