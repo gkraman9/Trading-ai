@@ -68,7 +68,8 @@ def synthetic_audit():
             for key,m in diagnostic['coverage'].items():
                 agg=coverage.setdefault(key,{'numerator':0 if m['numerator'] is not None else None,'denominator':0,'percent':None,'status':m['status']})
                 if m['numerator'] is not None:agg['numerator']+=m['numerator']
-                agg['denominator']+=m['denominator']
+                if m['denominator'] is None:agg['denominator']=None
+                elif agg['denominator'] is not None:agg['denominator']+=m['denominator']
             for scope,dist in diagnostic['reason_distributions'].items():
                 group=reasons.setdefault(scope,{'denominator':0,'codes':{}});group['denominator']+=dist['denominator']
                 for code,count in dist['codes'].items():group['codes'][code]=group['codes'].get(code,0)+count
@@ -114,6 +115,7 @@ class ReplayDiagnosticsTests(unittest.TestCase):
         self.assertEqual(c['blocked_without_context_evidence']['numerator'],2)
         self.assertIsNone(c['independently_qualified']['numerator']);self.assertIsNone(c['independently_qualified']['percent'])
         self.assertEqual(c['independently_qualified']['status'],'NOT_ESTABLISHED')
+        self.assertIsNone(c['invalid_evidence_in_rejected_inputs']['denominator'])
     def test_empty_blocked_replay_is_not_successful_zero_coverage(self):
         r=run_scenario_replay();d=generate_replay_diagnostics(r);self.safe(d,r)
         self.assertEqual(d['observation_count'],0);self.assertEqual(d['upstream_run_status'],'BLOCKED')

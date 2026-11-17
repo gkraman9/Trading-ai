@@ -90,7 +90,9 @@ duplicates as additional evidence.
 A measured zero with a positive denominator is 0%. A zero observation denominator
 has percent=null and status=NO_OBSERVATIONS. Unsupported/unestablished metrics
 have numerator=null, percent=null and status=NOT_ESTABLISHED, including on an
-empty replay. A blocked admission with no records is not successful coverage.
+empty replay. For rejected inputs outside the accepted replay, even the denominator
+is unknown (null), not borrowed from the accepted observation count. A blocked
+admission with no records is not successful coverage.
 
 Snapshot abstention and block reason distributions use DecisionLog abstention
 codes filtered by the actual snapshot status. Transition abstention/block

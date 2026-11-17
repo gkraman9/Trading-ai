@@ -70,7 +70,8 @@ for _item in ('usage', 'provenance', 'instrument', 'timestamp', 'price_basis', '
 POLICY = {'version': VERSION, 'attribution': dict(sorted(CODE_GROUP.items())), 'explanations': GROUPS,
           'integrity': 'UPSTREAM_REPLAY_REGENERATION_NOT_AUTHENTICITY', 'required_references': REQUIRED_REFS,
           'sufficiency': 'UPSTREAM_ASSESSED_ONLY_NOT_GENERAL_MARKET_SUFFICIENCY',
-          'runs': 'SAME_STATUS_AND_ADJACENT_60_SECOND_OBSERVATIONS', 'unsupported': UNSUPPORTED}
+          'runs': 'SAME_STATUS_AND_ADJACENT_60_SECOND_OBSERVATIONS',
+          'denominators': 'OBSERVED_SAMPLE_COUNTS_OR_NULL_WHEN_UNAVAILABLE', 'unsupported': UNSUPPORTED}
 
 
 def attribute_reason_codes(codes):
@@ -197,7 +198,7 @@ def _project(replay):
         invalid_chain_observations=metric(0, n, 'OBSERVATIONS_IN_ACCEPTED_VALIDATED_REPLAYS_INVALID_INPUTS_ARE_REJECTED'),
         independently_qualified=metric(None, n, basis, unsupported=True),
         blocked_without_context_evidence=metric(sum(o['snapshot_status']=='BLOCKED' and not o['evidence']['available_count'] for o in observations), n, 'ALL_OBSERVATIONS_ASSOCIATION_NOT_CAUSAL_ATTRIBUTION'),
-        invalid_evidence_in_rejected_inputs=metric(None, n, 'REJECTED_INPUTS_NOT_PART_OF_ACCEPTED_REPLAY', unsupported=True))
+        invalid_evidence_in_rejected_inputs=metric(None, None, 'REJECTED_INPUT_OBSERVATIONS_NOT_AVAILABLE', unsupported=True))
     for stage in STAGES:
         coverage[stage + '_available'] = metric(sum(o['stage_references_available'][stage] for o in observations), n, basis)
     for tf in ('M1', 'M5'):

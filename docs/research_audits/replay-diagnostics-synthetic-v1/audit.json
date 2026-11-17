@@ -25,7 +25,7 @@
   "cases": {
     "aligned_invalidate": {
       "admission_attribution": [],
-      "diagnostic_id": "5720f2b0f79cfbdca56a99fc3c3814f2defb3d84704ed9b2fcabf3cf25d39d2b",
+      "diagnostic_id": "2af9dbc0359999480c4e879435d3300beef203c7240019adf8650f5990c3716e",
       "input_replay_sha256": "7649c7082c30ca9384218b2c830354fb4bbe08da369b79324d04452a839c9465",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -62,7 +62,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "6b8ec7d0be50c379f8f548634812a2fa2c0594eeb89349287bc347778ee338f5",
+      "sha256": "4fba43ee668ca38f9c34a1442ef15ff986800582d053620e8ef81d4c19faacd5",
       "snapshot_status_counts": {
         "ABSTAINED": 20,
         "ASSESSED": 8,
@@ -153,7 +153,7 @@
     },
     "aligned_invalidate_mirror": {
       "admission_attribution": [],
-      "diagnostic_id": "6a7cf1760bf39b9cbb3db110349c2955f2cd2213456b9cbe5ff3fd2ef9263457",
+      "diagnostic_id": "eff08af7dded7c49a9a6298f5e8e95aa61f10ec736ae466288b3b776e8d1cada",
       "input_replay_sha256": "5618096d7f225d3534599614b83ea62caf007ba96caad046a1ad23ab24230c92",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -190,7 +190,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "8485d0cbf2bc564dffd9f1a894ad2cb3800b233b883c43316e09be7f00339486",
+      "sha256": "fd5cdc78d821b5db2f9c98037b50eb0cddd47658ebdaff605259b280042c990c",
       "snapshot_status_counts": {
         "ABSTAINED": 20,
         "ASSESSED": 8,
@@ -281,7 +281,7 @@
     },
     "aligned_replace": {
       "admission_attribution": [],
-      "diagnostic_id": "ffcebae2c684a5ad16fc5408169933d2ed5fa14a3d9c5e8d704337576dd9f3ee",
+      "diagnostic_id": "f436825ae263db13a1844526835bd14375668f983f84a23c42cb1184c16f90e8",
       "input_replay_sha256": "e5b5bbd24c248f8d92121d835d4ad7123f13ce241494128fbe10d14d10f2b2a9",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -318,7 +318,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "d10928d235f2fe68cc9af25991ca12d42cdfe200d5329a1323c30361a2364273",
+      "sha256": "9f9ff4bd091058f8b13e6433726873107670de86de986a437e4c31a9ed23256c",
       "snapshot_status_counts": {
         "ABSTAINED": 20,
         "ASSESSED": 8,
@@ -409,7 +409,7 @@
     },
     "aligned_support": {
       "admission_attribution": [],
-      "diagnostic_id": "e03afc8135fc71c9b2f48cb71e079b9d050a20d54f1a9481350134fef999a8cc",
+      "diagnostic_id": "6da17081c6db02ea3580b4c086f5a0846e725445dce8f66fa537e357bc98475b",
       "input_replay_sha256": "c02339ffd4c92af6dcb2a8ab4680e951c181fb6217a0b33d343c0fc8886edb3a",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -446,7 +446,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "2682786a822e6c81827cbb520e1b0e0135e2d8d9b9764d0dd6fd3a96b65039b6",
+      "sha256": "0e809cb79b4a39a946767b199cf51ebc45c84ba2b5890c14f6c1f2a2e46b72ae",
       "snapshot_status_counts": {
         "ABSTAINED": 22,
         "ASSESSED": 6,
@@ -549,7 +549,7 @@
     },
     "continuation": {
       "admission_attribution": [],
-      "diagnostic_id": "d33037805818bf104b5c5276001a4aa3ca15443bdf0e96085a5186ec4ba99378",
+      "diagnostic_id": "7b577182d292ad2b00ad6200fa9780b867fe63761990e3ef9a26f92f0d6d0a9b",
       "input_replay_sha256": "d8fde3293e1653dc35741dbf84ac1c217504cf0f644fa60e289f15d0600c9547",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -586,7 +586,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "d5d2acf5891eb6e07d175e45566d98aa4bf25914b20a439fdbee3804bc03f202",
+      "sha256": "1ce8d8830099de01d8176dd10ac8558bcf0ae631cb8ef4e403c5ef187a31ef2e",
       "snapshot_status_counts": {
         "ABSTAINED": 27,
         "ASSESSED": 1,
@@ -671,7 +671,7 @@
     },
     "continuation_mirror": {
       "admission_attribution": [],
-      "diagnostic_id": "47cb516f673ed4e7e19bd331f44bba0844a1f4799bcc2ecbf174bcfb1d09e61b",
+      "diagnostic_id": "0f3230809e822a896d4e67d801a99ca09341984c6a945faab8860edd2ff2219c",
       "input_replay_sha256": "27b01799a8c40338b78074c044485e97b31fc30aacf8cdb1e0d87ed569cfd88f",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -708,7 +708,7 @@
         "EVALUATION": 10,
         "WARMUP": 20
       },
-      "sha256": "bdfbab40900354a68fdf7bf988816d02f924ef32f54f0f21be15f3565090708f",
+      "sha256": "b06dd0bbcd932b45de2a86e51c7ca101e94d2d46969e6ddfdf74e27bcc048147",
       "snapshot_status_counts": {
         "ABSTAINED": 27,
         "ASSESSED": 1,
@@ -802,7 +802,7 @@
           ]
         }
       ],
-      "diagnostic_id": "6d6ef65b02c6ec215e9bc7e08a741f1936dae96dbdeee8d97bf1c4df7a60a0f2",
+      "diagnostic_id": "7ee9cec677b9bc1c060c148bacc58bcb5e46e3889fbc5a046a563dc123b74a01",
       "input_replay_sha256": "6894344c76368a8cb59400258418c20d698dc4797384082c0d8f30f454ba0771",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -836,7 +836,7 @@
       },
       "observation_count": 0,
       "phase_counts": {},
-      "sha256": "55a13d2fd5c65803ad050ae22f23aa75af67e7ab7a293683f77e4338430ea792",
+      "sha256": "625a17588bd039015120803a9f23e6fb09cd393d119fd80bca26eb99ff751284",
       "snapshot_status_counts": {
         "ABSTAINED": 0,
         "ASSESSED": 0,
@@ -883,7 +883,7 @@
     },
     "missing_observation": {
       "admission_attribution": [],
-      "diagnostic_id": "6466e4c9d755d07b45b8c473537d1bdc563472e5ed60b3782064ce003b1916d6",
+      "diagnostic_id": "0c5f8711e4e7e10d466d4f804a3d29f57c9807667b0027a3a84b92ad71fba67f",
       "input_replay_sha256": "a913b10b6d71ac8cc632724f47b36383ad5baff994b92d4eab98f28419aec482",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -919,7 +919,7 @@
       "phase_counts": {
         "EVALUATION": 4
       },
-      "sha256": "024ce020b928ad8afa4ed8206d7d611fe438bd618bb8c97dd36d015e21ea1c6f",
+      "sha256": "f3f7e2462d975b12027761ef11c04aaf8c5df6271480e751099836e6e3053a65",
       "snapshot_status_counts": {
         "ABSTAINED": 4,
         "ASSESSED": 0,
@@ -992,7 +992,7 @@
     },
     "reversal": {
       "admission_attribution": [],
-      "diagnostic_id": "a9ac6775bb8ba8f7435c2862c4faad4e94c6ce7a3d8e6b6aea2bcb38f9ac018b",
+      "diagnostic_id": "feaa4e61875540517dbdd53c15cf9d48793b3014832a3e6bb45a9f47234a6de9",
       "input_replay_sha256": "324178f1fa6d594c18c43c06cb51b59e1b99050da1f3925f4e7d43350bf44d07",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -1029,7 +1029,7 @@
         "EVALUATION": 5,
         "WARMUP": 25
       },
-      "sha256": "f22cb85debcdce12de72baba12159f3814992828bdf953626567ef79af8aaa54",
+      "sha256": "7a6ef9452e455c03f3137c890da3046b3ccb07bd76b42313f0467cc08b659274",
       "snapshot_status_counts": {
         "ABSTAINED": 26,
         "ASSESSED": 2,
@@ -1114,7 +1114,7 @@
     },
     "reversal_mirror": {
       "admission_attribution": [],
-      "diagnostic_id": "350891810a0b26ada48643525b01fb7178a00ca5a8266a8063de3c17f5466afa",
+      "diagnostic_id": "6317eb1841bc21b62dd6f9cab8702f24327514f5f5257d888d64c64baf89421c",
       "input_replay_sha256": "4bf801bd060897960dff06b0e1407bfec702c17e2cd2b72a9364dbd937beafb4",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -1151,7 +1151,7 @@
         "EVALUATION": 5,
         "WARMUP": 25
       },
-      "sha256": "817d643852aeddf8797128e62a797a992da8a8179b10f7c54f22c9ac9f85ec9e",
+      "sha256": "10186196f6f952bc6057407f5d0064e136b8aaf79da8e10f16b1ad83a5d1534a",
       "snapshot_status_counts": {
         "ABSTAINED": 26,
         "ASSESSED": 2,
@@ -1245,7 +1245,7 @@
           ]
         }
       ],
-      "diagnostic_id": "9e22f8f5da401fc4047ebe5fade670384b12b06a96a4b2b4c3d29cfaae948b1a",
+      "diagnostic_id": "d76f6c9202a2abf58ed3f9cf44b7f77cf7c16b1842db7483687b0c140bddf01b",
       "input_replay_sha256": "b71682a143f956c1d10e497e4e7dd5c2cadcbfb621e152b2d2f7db0ebd574b00",
       "key_coverage": {
         "causal_frame_alignment": {
@@ -1279,7 +1279,7 @@
       },
       "observation_count": 0,
       "phase_counts": {},
-      "sha256": "e79be6c579ccab78bd145ef5cde1f6c964de2edc461967bdfab078f3159d2f22",
+      "sha256": "51d802e187bf50e4f7b733c5dada3ee2496fefa7cdc1110aad79e30d21af672b",
       "snapshot_status_counts": {
         "ABSTAINED": 0,
         "ASSESSED": 0,
@@ -1387,7 +1387,7 @@
       "status": "MEASURED"
     },
     "invalid_evidence_in_rejected_inputs": {
-      "denominator": 244,
+      "denominator": null,
       "numerator": null,
       "percent": null,
       "status": "NOT_ESTABLISHED"

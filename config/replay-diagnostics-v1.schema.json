@@ -1015,8 +1015,15 @@
           ]
         },
         "denominator": {
-          "type": "integer",
-          "minimum": 0
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "denominator_basis": {
           "type": "string",
