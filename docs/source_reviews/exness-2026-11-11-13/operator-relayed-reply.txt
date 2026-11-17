@@ -1,0 +1,9 @@
+Thank you for contacting Exness!
+
+Regarding your inquiry about the XAUUSD historical data for your MT5 demo account for November 11–13, 2026, please find the details below:
+
+1. Daily Market Break: The XAUUSD market was closed daily from 21:58 to 23:00 GMT+0 (UTC). At 21:58 UTC, both quotations and trading closed for the daily break.
+2. Quotations resumed at 23:00 UTC for the close-only mode till 23:02 UTC.
+3. In MetaTrader 5 and Exness terminal, charts (OHLC) are built on Bid prices.
+4. There were no special maintenance interruptions or holiday schedules for XAUUSD during November 11–13, 2026.
+5. Trading conditions are the same for demo and real accounts.

@@ -1,0 +1,63 @@
+{
+  "evidence_version": 1,
+  "kind": "OPERATOR_RELAYED_BROKER_REPLY",
+  "broker": "Exness",
+  "instrument": "XAUUSD",
+  "account_category": "DEMO",
+  "recorded_on": "2026-11-17",
+  "recorded_on_timezone": "Asia/Calcutta",
+  "provider_sent_at": null,
+  "interval_utc": {
+    "start": "2026-11-11T00:00:00Z",
+    "end_exclusive": "2026-11-14T00:00:00Z"
+  },
+  "artifact": {
+    "file": "operator-relayed-reply.txt",
+    "sha256": "e004b4af85731c05b077fa11abe75f27c55277b40044d8aa7cbccd7c9d1c9946",
+    "format": "OPERATOR_PASTED_TEXT_MARKDOWN_FORMATTING_REMOVED_NOT_ORIGINAL_EMAIL"
+  },
+  "original_email_headers": "NOT_SUPPLIED",
+  "attachment_inventory": "NOT_SUPPLIED",
+  "independent_authentication": "PENDING",
+  "broker_reported_claims": {
+    "timezone": "UTC",
+    "daily_break": {
+      "start": "21:58:00",
+      "end_exclusive": "23:00:00",
+      "quotations_available": false,
+      "trading_available": false
+    },
+    "close_only": {
+      "start": "23:00:00",
+      "end_exclusive": "23:02:00",
+      "quotations_available": true,
+      "new_positions_allowed": false
+    },
+    "chart_ohlc_basis": "BID",
+    "chart_platforms": [
+      "METATRADER_5",
+      "EXNESS_TERMINAL"
+    ],
+    "special_maintenance_or_holiday_exceptions_reported": false,
+    "demo_real_trading_conditions_reported_same": true
+  },
+  "unresolved": [
+    "EXPLICIT_NEW_POSITION_PERMISSION_AT_OR_AFTER_23_02",
+    "FULL_DATED_SESSION_SPECIFICATION_AND_FRIDAY_WEEKEND_BOUNDARY",
+    "EXACT_EXPORT_FEED_AND_BID_BASIS_MAPPING",
+    "UTC_INTERVAL_OPEN_TIMESTAMP_CONVENTION_FOR_EXPORT",
+    "CLOSED_BAR_FINALITY_AND_CAPTURE_COMPLETENESS",
+    "CORRECTION_POLICY",
+    "OFFLINE_USAGE_PERMISSION",
+    "INDEPENDENT_SOURCE_REVIEW",
+    "ATTACHMENTS_NOT_YET_ACCOUNTED_FOR"
+  ],
+  "operational_calendar_changed": false,
+  "source_qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "mode": "READ_ONLY_SHADOW",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
