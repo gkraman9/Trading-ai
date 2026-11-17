@@ -2,7 +2,6 @@
 import ast
 import csv
 from datetime import datetime,timedelta,timezone
-from decimal import Decimal
 from hashlib import sha256
 from contextlib import redirect_stdout
 from io import StringIO
@@ -304,3 +303,11 @@ class ExnessIntakeTests(unittest.TestCase):
 
         summary=synthetic_summary(r,a)
         self.assertEqual(summary,read_json('docs/research_audits/exness-intake-synthetic-v1.json'))
+
+    def test_tick_volume_sum_does_not_round_at_default_decimal_precision(self):
+        # Synthetic numeric stress case, not a plausible broker volume claim.
+        self.mutate('M1',lambda rows:rows[0].update(tick_volume='10000000000000000000000000000'))
+        self.mutate('M5',lambda rows:rows[0].update(tick_volume='10000000000000000000000000004'))
+        r=self.run_intake();self.safe(r)
+        a=read_json(self.output/'alignment-audit.json')
+        self.assertEqual(a['tick_volume_mismatch_count'],0)

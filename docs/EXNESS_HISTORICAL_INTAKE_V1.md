@@ -61,7 +61,8 @@ timestamp_utc,open,high,low,close,tick_volume,spread,real_volume
 ```
 
 All three auxiliary numeric fields must be finite and nonnegative. Tick volumes
-are compared with exact decimal sums; no tolerance is silently added. Spread
+are parsed as decimals and summed as exact rational numbers, avoiding decimal
+context rounding; no tolerance is silently added. Spread
 units, feed identity and Bid/Ask interpretation are not established by validating
 these numeric fields. Empty rows/fields, extra fields and duplicated headers are
 not repaired. No sorting, deduplication, interpolation or price changes occur.

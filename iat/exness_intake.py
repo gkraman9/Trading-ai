@@ -3,6 +3,7 @@ import csv
 from datetime import timedelta
 from decimal import Decimal, InvalidOperation
 from hashlib import sha256
+from fractions import Fraction
 from pathlib import Path
 import re
 
@@ -92,7 +93,7 @@ def comparison(dataset, volumes, broker):
         derived = dict(open=group[0]['open'], high=max(r['high'] for r in group),
                        low=min(r['low'] for r in group), close=group[-1]['close'])
         matches = all(abs(derived[k]-bar[k]) <= result['tolerance'] for k in derived)
-        same_volume = sum((volumes['M1'][iso(t)] for t in times), Decimal(0)) == volumes['M5'][stamp]
+        same_volume = sum((Fraction(volumes['M1'][iso(t)]) for t in times), Fraction(0)) == Fraction(volumes['M5'][stamp])
         volume_mismatch += not same_volume
         rows.append(dict(open_utc=stamp, m1_count=5, ohlc_match=matches, tick_volume_match=same_volume,
             classification='COMPLETE_FIVE_M1_GROUP', broker_boundary=label))
