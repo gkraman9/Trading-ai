@@ -1,0 +1,1606 @@
+{
+  "type": "object",
+  "properties": {
+    "assessment_version": {
+      "const": 1,
+      "type": "integer"
+    },
+    "kind": {
+      "const": "HISTORICAL_PROVENANCE_GAP_ANALYSIS_V1"
+    },
+    "dataset_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inventory": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/inventory"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    },
+    "input_errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scope": {
+            "enum": [
+              "manifest",
+              "broker_binding",
+              "import_spec",
+              "independent_review",
+              "source_registry",
+              "replay_report"
+            ]
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{1,120}$"
+          }
+        },
+        "required": [
+          "scope",
+          "code"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "mechanical": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/mechanical"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "existing_preflight": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "READY",
+                "BLOCKED",
+                "FAIL"
+              ]
+            },
+            "reason_codes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]{1,120}$"
+              }
+            }
+          },
+          "required": [
+            "status",
+            "reason_codes"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "existing_qualification": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "DATA_NOT_QUALIFIED",
+            "HUMAN_APPROVAL_RECORDED_PRECHECKS_PASSED"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{1,120}$"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "source_review": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "PARTIALLY_VERIFIED",
+                "CONTRADICTED"
+              ]
+            },
+            "claim_classifications": {
+              "type": "object",
+              "patternProperties": {
+                "^[A-Z0-9_]{1,120}$": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "additionalProperties": false
+            },
+            "reason_codes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Z0-9_]{1,120}$"
+              }
+            },
+            "assurance": {
+              "const": "REVIEW_DECLARATIONS_NOT_EXTERNAL_AUTHENTICATION"
+            },
+            "dataset_binding_fields": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "M1",
+                  "M5",
+                  "interval",
+                  "calendar"
+                ]
+              }
+            },
+            "unverified_references": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "historical_evidence_manifest",
+                  "diagnostic",
+                  "calendar"
+                ]
+              }
+            }
+          },
+          "required": [
+            "status",
+            "claim_classifications",
+            "reason_codes",
+            "assurance",
+            "dataset_binding_fields",
+            "unverified_references"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "replay_evidence": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "replay_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "diagnostics_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "observation_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "snapshot_status_counts": {
+              "type": "object",
+              "properties": {
+                "ABSTAINED": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "ASSESSED": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "BLOCKED": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "ABSTAINED",
+                "ASSESSED",
+                "BLOCKED"
+              ],
+              "additionalProperties": false
+            },
+            "evidence_chain_coverage": {
+              "type": "object",
+              "properties": {
+                "numerator": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "denominator": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "denominator_basis": {
+                  "type": "string",
+                  "pattern": "^[A-Z0-9_]{1,120}$"
+                },
+                "percent": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "MEASURED",
+                    "NOT_ESTABLISHED",
+                    "NO_OBSERVATIONS"
+                  ]
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator",
+                "denominator_basis",
+                "percent",
+                "status"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "replay_sha256",
+            "diagnostics_sha256",
+            "observation_count",
+            "snapshot_status_counts",
+            "evidence_chain_coverage"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "broker_reference": {
+      "const": {
+        "reference_version": 1,
+        "kind": "REDACTED_OPERATOR_RELAYED_BROKER_FACTS",
+        "source_commit": "09cf0f13c649b522447e1f5a1796bf52e2ff2519",
+        "source_metadata_path": "docs/source_reviews/exness-2026-11-11-13/evidence.json",
+        "source_metadata_file_sha256": "af356ff7d9e7d8b7f9b3ec5069a4580aba5ddf03b8d9e8d0ac4a74f349adac8c",
+        "source_metadata_payload_sha256": "4fbc3e7e45f864d791c507fde8d9add76db4bb29ee8017fe027c13c229148c85",
+        "source_transcription_sha256": "e004b4af85731c05b077fa11abe75f27c55277b40044d8aa7cbccd7c9d1c9946",
+        "broker": "Exness",
+        "instrument": "XAUUSD",
+        "interval_utc": {
+          "start": "2026-11-11T00:00:00Z",
+          "end_exclusive": "2026-11-14T00:00:00Z"
+        },
+        "claims": {
+          "timezone": "UTC",
+          "daily_break": {
+            "start": "21:58:00",
+            "end_exclusive": "23:00:00",
+            "quotations_available": false,
+            "trading_available": false
+          },
+          "close_only": {
+            "start": "23:00:00",
+            "end_exclusive": "23:02:00",
+            "quotations_available": true,
+            "new_positions_allowed": false
+          },
+          "chart_ohlc_basis": "BID",
+          "chart_platforms": [
+            "METATRADER_5",
+            "EXNESS_TERMINAL"
+          ],
+          "special_maintenance_or_holiday_exceptions_reported": false,
+          "demo_real_trading_conditions_reported_same": true
+        },
+        "unresolved": [
+          "EXPLICIT_NEW_POSITION_PERMISSION_AT_OR_AFTER_23_02",
+          "FRIDAY_2026_11_13_2300_REOPEN_VS_REGULAR_WEEKEND_CLOSE",
+          "FULL_DATED_SESSION_SPECIFICATION_AND_FRIDAY_WEEKEND_BOUNDARY",
+          "EXACT_EXPORT_FEED_AND_BID_BASIS_MAPPING",
+          "UTC_INTERVAL_OPEN_TIMESTAMP_CONVENTION_FOR_EXPORT",
+          "CLOSED_BAR_FINALITY_AND_CAPTURE_COMPLETENESS",
+          "CORRECTION_POLICY",
+          "OFFLINE_USAGE_PERMISSION",
+          "INDEPENDENT_SOURCE_REVIEW",
+          "ATTACHMENTS_NOT_YET_ACCOUNTED_FOR"
+        ],
+        "assurance": "OPERATOR_RELAYED_NOT_AUTHENTICATED_NOT_A_DATA_EXPORT",
+        "independent_authentication": "PENDING",
+        "qualification": "DATA_NOT_QUALIFIED",
+        "historical_validation": "PENDING",
+        "historical_comparisons": "NOT_RUN",
+        "execution_allowed": false,
+        "sha256": "faeff4d9ce854a5d33e45dcd495c8678a104f0a175505d8f376bdbba1ea2356a"
+      }
+    },
+    "broker_comparison": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/broker"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gap"
+      }
+    },
+    "evidence_coverage": {
+      "type": "object",
+      "properties": {
+        "gap_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "label_counts": {
+          "type": "object",
+          "properties": {
+            "VERIFIED": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "PARTIALLY_VERIFIED": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "UNVERIFIED": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "CONTRADICTED": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "NOT_APPLICABLE": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "UNVERIFIED",
+            "CONTRADICTED",
+            "NOT_APPLICABLE"
+          ],
+          "additionalProperties": false
+        },
+        "independent_authenticity": {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "null"
+            },
+            "denominator": {
+              "type": "null"
+            },
+            "status": {
+              "const": "UNVERIFIED"
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "gap_count",
+        "label_counts",
+        "independent_authenticity"
+      ],
+      "additionalProperties": false
+    },
+    "qualification": {
+      "const": "DATA_NOT_QUALIFIED"
+    },
+    "historical_validation": {
+      "const": "PENDING"
+    },
+    "historical_comparisons": {
+      "const": "NOT_RUN"
+    },
+    "exness": {
+      "const": "BLOCKED"
+    },
+    "mode": {
+      "const": "READ_ONLY_SHADOW"
+    },
+    "signal": {
+      "const": "WAIT"
+    },
+    "execution_allowed": {
+      "const": false
+    },
+    "safety": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "const": "READ_ONLY_SHADOW"
+        },
+        "signal": {
+          "const": "WAIT"
+        },
+        "execution_allowed": {
+          "const": false
+        },
+        "broker_access": {
+          "const": false
+        },
+        "orders_requested": {
+          "const": 0
+        },
+        "profitability_tested": {
+          "const": false
+        }
+      },
+      "required": [
+        "mode",
+        "signal",
+        "execution_allowed",
+        "broker_access",
+        "orders_requested",
+        "profitability_tested"
+      ],
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "const": "EVIDENCE_ASSESSMENT_LABELS_NOT_PRODUCTION_QUALIFICATION_STATES"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "assessment_version",
+    "kind",
+    "dataset_id",
+    "inventory",
+    "references",
+    "input_errors",
+    "mechanical",
+    "existing_preflight",
+    "existing_qualification",
+    "source_review",
+    "replay_evidence",
+    "broker_reference",
+    "broker_comparison",
+    "gaps",
+    "evidence_coverage",
+    "qualification",
+    "historical_validation",
+    "historical_comparisons",
+    "exness",
+    "mode",
+    "signal",
+    "execution_allowed",
+    "safety",
+    "interpretation",
+    "sha256"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:iat:historical-provenance-gap-analysis:v1",
+  "$defs": {
+    "state": {
+      "type": "object",
+      "properties": {
+        "verification_status": {
+          "enum": [
+            "VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "UNVERIFIED",
+            "CONTRADICTED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{1,120}$"
+          }
+        }
+      },
+      "required": [
+        "verification_status",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "frame": {
+      "type": "object",
+      "properties": {
+        "row_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duplicate_timestamps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "out_of_order_pairs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "misaligned_openings": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "invalid_ohlc_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_utc_grid_intervals": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "missing_declared_calendar_ordinary_intervals": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "closed_after_declared_retrieval_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "existing_candle_validator": {
+          "enum": [
+            "VERIFIED",
+            "CONTRADICTED"
+          ]
+        },
+        "declared_calendar_classifications": {
+          "type": "object",
+          "patternProperties": {
+            "^[A-Z0-9_]{1,120}$": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        "restricted_phase_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unverified_calendar_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "partial_session_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "row_count",
+        "duplicate_timestamps",
+        "out_of_order_pairs",
+        "misaligned_openings",
+        "invalid_ohlc_rows",
+        "missing_utc_grid_intervals",
+        "missing_declared_calendar_ordinary_intervals",
+        "closed_after_declared_retrieval_count",
+        "existing_candle_validator",
+        "declared_calendar_classifications",
+        "restricted_phase_bars",
+        "unverified_calendar_bars",
+        "partial_session_bars"
+      ],
+      "additionalProperties": false
+    },
+    "inventory": {
+      "type": "object",
+      "properties": {
+        "dataset_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_name": {
+          "type": "string"
+        },
+        "acquisition_reference": {
+          "type": "string"
+        },
+        "instrument": {
+          "const": "XAUUSD"
+        },
+        "dataset_kind": {
+          "enum": [
+            "SYNTHETIC_FIXTURE",
+            "INDEPENDENT_HISTORICAL"
+          ]
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            }
+          },
+          "required": [
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        "timestamp_basis": {
+          "enum": [
+            "UNKNOWN",
+            "PENDING",
+            "INTERVAL_OPEN_UTC"
+          ]
+        },
+        "normalized_timezone": {
+          "const": "UTC"
+        },
+        "original_timezone_declaration": {
+          "enum": [
+            "UTC",
+            "UNKNOWN"
+          ]
+        },
+        "declared_price_basis": {
+          "enum": [
+            "BID",
+            "ASK",
+            "MID",
+            "UNKNOWN"
+          ]
+        },
+        "spread_availability": {
+          "const": "UNKNOWN"
+        },
+        "declared_feed_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "declared_raw_lineage_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "m5_origin": {
+          "enum": [
+            "UNKNOWN",
+            "AGGREGATED_FROM_M1",
+            "NATIVE_SAME_FEED"
+          ]
+        },
+        "source_authenticity": {
+          "const": "OPERATOR_DECLARATION_NOT_AUTHENTICATED"
+        },
+        "declared_broker": {
+          "enum": [
+            "EXNESS",
+            "NON_EXNESS",
+            "UNKNOWN"
+          ]
+        },
+        "frames": {
+          "type": "object",
+          "properties": {
+            "M1": {
+              "type": "object",
+              "properties": {
+                "row_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "start_utc": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                },
+                "end_utc": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                },
+                "supplied_csv_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "normalized_ohlc_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "original_import_sha256": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "corrections_declaration": {
+                  "enum": [
+                    "UNKNOWN",
+                    "NO_KNOWN_CORRECTIONS_DECLARED",
+                    "PROVIDER_CORRECTED"
+                  ]
+                },
+                "previous_source_sha256": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "correction_reference_supplied": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "row_count",
+                "start_utc",
+                "end_utc",
+                "supplied_csv_sha256",
+                "normalized_ohlc_sha256",
+                "original_import_sha256",
+                "corrections_declaration",
+                "previous_source_sha256",
+                "correction_reference_supplied"
+              ],
+              "additionalProperties": false
+            },
+            "M5": {
+              "type": "object",
+              "properties": {
+                "row_count": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "start_utc": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                },
+                "end_utc": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|\\+00:00)$"
+                },
+                "supplied_csv_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "normalized_ohlc_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "original_import_sha256": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "corrections_declaration": {
+                  "enum": [
+                    "UNKNOWN",
+                    "NO_KNOWN_CORRECTIONS_DECLARED",
+                    "PROVIDER_CORRECTED"
+                  ]
+                },
+                "previous_source_sha256": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "correction_reference_supplied": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "row_count",
+                "start_utc",
+                "end_utc",
+                "supplied_csv_sha256",
+                "normalized_ohlc_sha256",
+                "original_import_sha256",
+                "corrections_declaration",
+                "previous_source_sha256",
+                "correction_reference_supplied"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "M1",
+            "M5"
+          ],
+          "additionalProperties": false
+        },
+        "normalization": {
+          "$ref": "#/$defs/state"
+        },
+        "usage_evidence_declaration": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "enum": [
+                    "VERIFIED",
+                    "PENDING"
+                  ]
+                },
+                "reference": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "reason_code": {
+                  "type": "string",
+                  "pattern": "^[A-Z0-9_]{1,120}$"
+                }
+              },
+              "required": [
+                "status",
+                "reference",
+                "reason_code"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "dataset_id",
+        "source_name",
+        "acquisition_reference",
+        "instrument",
+        "dataset_kind",
+        "coverage",
+        "timestamp_basis",
+        "normalized_timezone",
+        "original_timezone_declaration",
+        "declared_price_basis",
+        "spread_availability",
+        "declared_feed_id",
+        "declared_raw_lineage_sha256",
+        "m5_origin",
+        "source_authenticity",
+        "declared_broker",
+        "frames",
+        "normalization",
+        "usage_evidence_declaration"
+      ],
+      "additionalProperties": false
+    },
+    "mechanical": {
+      "type": "object",
+      "properties": {
+        "frames": {
+          "type": "object",
+          "properties": {
+            "M1": {
+              "$ref": "#/$defs/frame"
+            },
+            "M5": {
+              "$ref": "#/$defs/frame"
+            }
+          },
+          "required": [
+            "M1",
+            "M5"
+          ],
+          "additionalProperties": false
+        },
+        "alignment": {
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "maxProperties": 0
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "policy": {
+                      "const": "FIVE_M1_TO_M5_OHLC_ABSOLUTE_TOLERANCE"
+                    },
+                    "tolerance": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "comparable_m5_bars": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "uncovered_m5_bars": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "mismatch_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "evaluation": {
+                      "type": "object",
+                      "properties": {
+                        "expected_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "provided_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "comparable_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "uncovered_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "missing_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "unexpected_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "mismatch_count": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "minimum_comparable_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "warmup_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "warmup_uncovered_m5_bars": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "start_utc": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "(Z|\\+00:00)$"
+                        },
+                        "end_utc": {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "(Z|\\+00:00)$"
+                        },
+                        "denominator_basis": {
+                          "enum": [
+                            "UTC_GRID_SESSION_COVERAGE_UNVERIFIED",
+                            "VERIFIED_CALENDAR_FULL_M5_INTERVALS"
+                          ]
+                        },
+                        "coverage_sufficient": {
+                          "type": "boolean"
+                        },
+                        "m5_origin": {
+                          "enum": [
+                            "NATIVE_SAME_FEED",
+                            "AGGREGATED_FROM_M1",
+                            "UNKNOWN"
+                          ]
+                        },
+                        "consistency_evidence": {
+                          "enum": [
+                            "INTERNAL_AGGREGATION_ONLY",
+                            "SAME_FEED_NATIVE_COMPARISON",
+                            "LINEAGE_UNVERIFIED"
+                          ]
+                        },
+                        "cross_frame_claim": {
+                          "enum": [
+                            "NOT_ESTABLISHED",
+                            "SCOPED_SAME_FEED_CONSISTENCY"
+                          ]
+                        },
+                        "provided_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "comparable_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "matching_coverage_percent": {
+                          "anyOf": [
+                            {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 100
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "expected_m5_bars",
+                        "provided_m5_bars",
+                        "comparable_m5_bars",
+                        "uncovered_m5_bars",
+                        "missing_m5_bars",
+                        "unexpected_m5_bars",
+                        "mismatch_count",
+                        "minimum_comparable_m5_bars",
+                        "warmup_m5_bars",
+                        "warmup_uncovered_m5_bars",
+                        "start_utc",
+                        "end_utc",
+                        "denominator_basis",
+                        "coverage_sufficient",
+                        "m5_origin",
+                        "consistency_evidence",
+                        "cross_frame_claim",
+                        "provided_coverage_percent",
+                        "comparable_coverage_percent",
+                        "matching_coverage_percent"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "policy",
+                    "tolerance",
+                    "comparable_m5_bars",
+                    "uncovered_m5_bars",
+                    "mismatch_count"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "alignment_status": {
+          "enum": [
+            "VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "CONTRADICTED",
+            "UNVERIFIED"
+          ]
+        },
+        "alignment_assurance": {
+          "enum": [
+            "INTERNAL_AGGREGATION_ONLY",
+            "DECLARED_LINEAGE_NOT_INDEPENDENT_FEED_AUTHENTICATION"
+          ]
+        }
+      },
+      "required": [
+        "frames",
+        "alignment",
+        "alignment_status",
+        "alignment_assurance"
+      ],
+      "additionalProperties": false
+    },
+    "broker": {
+      "type": "object",
+      "properties": {
+        "source_commit": {
+          "const": "09cf0f13c649b522447e1f5a1796bf52e2ff2519"
+        },
+        "reference_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "applicability": {
+          "enum": [
+            "VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "UNVERIFIED",
+            "CONTRADICTED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "assurance": {
+          "const": "CONDITIONAL_ON_OPERATOR_BINDING_AND_RELAYED_CLAIMS"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]{1,120}$"
+          }
+        },
+        "evaluated_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "closed_quote_conflicts": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "partial_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "close_only_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "friday_ambiguous_bars": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timeframe": {
+                "enum": [
+                  "M1",
+                  "M5"
+                ]
+              },
+              "open_utc": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "(Z|\\+00:00)$"
+              },
+              "end_utc": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "(Z|\\+00:00)$"
+              },
+              "classification": {
+                "enum": [
+                  "FRIDAY_REOPEN_UNRESOLVED",
+                  "CONFLICTS_WITH_REPORTED_CLOSED_QUOTES",
+                  "PARTIAL_QUOTE_INTERVAL",
+                  "QUOTED_WITH_CLOSE_ONLY_PORTION",
+                  "POST_2302_OPENING_PERMISSION_UNCONFIRMED"
+                ]
+              },
+              "reported_quote_seconds": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 300
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "new_position_permission": {
+                "enum": [
+                  false,
+                  null
+                ]
+              },
+              "iat_execution_allowed": {
+                "const": false
+              }
+            },
+            "required": [
+              "timeframe",
+              "open_utc",
+              "end_utc",
+              "classification",
+              "reported_quote_seconds",
+              "new_position_permission",
+              "iat_execution_allowed"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "source_commit",
+        "reference_sha256",
+        "applicability",
+        "assurance",
+        "reason_codes",
+        "evaluated_bars",
+        "closed_quote_conflicts",
+        "partial_bars",
+        "close_only_bars",
+        "friday_ambiguous_bars",
+        "observations"
+      ],
+      "additionalProperties": false
+    },
+    "gap": {
+      "type": "object",
+      "properties": {
+        "gap_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]{1,120}$"
+        },
+        "layer": {
+          "enum": [
+            "MECHANICAL",
+            "PROVENANCE",
+            "INDEPENDENT"
+          ]
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "dataset_id": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "interval": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    },
+                    "end": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "(Z|\\+00:00)$"
+                    }
+                  },
+                  "required": [
+                    "start",
+                    "end"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timeframes": {
+              "const": [
+                "M1",
+                "M5"
+              ]
+            }
+          },
+          "required": [
+            "dataset_id",
+            "interval",
+            "timeframes"
+          ],
+          "additionalProperties": false
+        },
+        "required_evidence": {
+          "type": "string"
+        },
+        "available_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "verification_status": {
+          "enum": [
+            "VERIFIED",
+            "PARTIALLY_VERIFIED",
+            "UNVERIFIED",
+            "CONTRADICTED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "blocking_reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z0-9_]{1,120}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_verification_action": {
+          "type": "string"
+        },
+        "source_references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z_]+:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "required": [
+        "gap_id",
+        "code",
+        "layer",
+        "scope",
+        "required_evidence",
+        "available_evidence",
+        "verification_status",
+        "blocking_reason",
+        "next_verification_action",
+        "source_references"
+      ],
+      "additionalProperties": false
+    },
+    "reference": {
+      "type": "object",
+      "properties": {
+        "reference_id": {
+          "type": "string",
+          "pattern": "^[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "role": {
+          "enum": [
+            "manifest",
+            "broker_binding",
+            "import_spec",
+            "independent_review",
+            "source_registry",
+            "replay_report",
+            "broker_note"
+          ]
+        },
+        "file_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payload_sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "binding": {
+          "enum": [
+            "VERIFIED",
+            "UNVERIFIED",
+            "REFERENCE_ONLY"
+          ]
+        }
+      },
+      "required": [
+        "reference_id",
+        "role",
+        "file_sha256",
+        "payload_sha256",
+        "binding"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "description": "Read-only evidence assessment, never source qualification. Structural schema only; validate_provenance_assessment with the original private inputs is required for semantic validation."
+}

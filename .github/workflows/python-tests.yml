@@ -33,6 +33,7 @@ on:
       - feat/iat2-scenario-transition-v1
       - feat/iat2-historical-replay-integration-v1
       - feat/iat2-replay-diagnostics-v1
+      - feat/iat2-historical-provenance-gap-analysis-v1
   pull_request:
     branches:
       - main
@@ -64,6 +65,7 @@ on:
       - feat/iat2-market-decision-intelligence-v1
       - feat/iat2-scenario-transition-v1
       - feat/iat2-historical-replay-integration-v1
+      - feat/iat2-replay-diagnostics-v1
   workflow_dispatch:
 
 permissions:
@@ -440,3 +442,27 @@ jobs:
               pass
           else:
               raise AssertionError('Diagnostics promoted missing qualification from a checksum')
+      - name: Historical provenance remains unqualified without source files
+        shell: python
+        run: |
+          import pathlib, sys
+          sys.path.insert(0, str(pathlib.Path.cwd()))
+          from iat.provenance_assessment import assess_historical_provenance, validate_provenance_assessment
+          from iat.intelligence.strategy_replay import digest
+          report = assess_historical_provenance()
+          assert validate_provenance_assessment(report)
+          assert report['inventory'] is None and report['dataset_id'] is None
+          assert report['evidence_coverage']['independent_authenticity']['denominator'] is None
+          assert report['qualification'] == 'DATA_NOT_QUALIFIED'
+          assert report['exness'] == 'BLOCKED' and report['signal'] == 'WAIT'
+          assert report['execution_allowed'] is False and report['safety']['broker_access'] is False
+          assert report['historical_validation'] == 'PENDING' and report['historical_comparisons'] == 'NOT_RUN'
+          assert report['broker_reference']['source_commit'] == '09cf0f13c649b522447e1f5a1796bf52e2ff2519'
+          report['qualification'] = 'DATA_QUALIFIED'
+          report['sha256'] = digest({k:v for k,v in report.items() if k != 'sha256'})
+          try:
+              validate_provenance_assessment(report)
+          except ValueError:
+              pass
+          else:
+              raise AssertionError('Provenance gap labels bypassed the existing qualification gate')
