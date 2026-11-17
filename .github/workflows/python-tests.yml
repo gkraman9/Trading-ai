@@ -89,6 +89,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: python -m pip install -r requirements-dev.txt
+      - name: Check committed provenance metadata bytes
+        run: python diagnostics/check_provenance_metadata.py
+      - name: Provenance focused tests including stale CRLF checkout regression
+        run: python -m unittest discover -s tests -p test_provenance_assessment.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test

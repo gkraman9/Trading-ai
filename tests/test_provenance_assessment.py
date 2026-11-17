@@ -10,6 +10,7 @@ from io import StringIO
 import json
 from pathlib import Path
 import tempfile
+import subprocess
 import unittest
 from unittest.mock import patch
 from jsonschema import Draft202012Validator, FormatChecker
@@ -21,6 +22,7 @@ from iat.pilot_qualification import ITEMS
 from iat.chart_benchmark import hashed,write_new
 from iat.intelligence.strategy_replay import digest
 from diagnostics.provenance_assessment import main
+from diagnostics.check_provenance_metadata import check_metadata, git as metadata_git, CATALOG, METADATA
 from test_evaluation_window import v2_fixture
 from test_historical_replay import rewrite,recalc
 from test_scenario_replay import modify_frame,run
@@ -327,7 +329,9 @@ class ProvenanceAssessmentTests(unittest.TestCase):
         p=Path('docs/research_audits/provenance-gap-analysis-synthetic-v1/audit.json')
         self.assertEqual(json.loads(p.read_text()),synthetic_audit())
         catalog=json.loads(Path('docs/source_reviews/provenance-gap-analysis-v1/available-sources.json').read_text())
-        for r in catalog['metadata_references']:self.assertEqual(sha256(Path(r['path']).read_bytes()).hexdigest(),r['file_sha256'])
+        for r in catalog['metadata_references']:
+            self.assertEqual(sha256(Path(r['path']).read_bytes()).hexdigest(),r['file_sha256'],
+                r['path'] + ': actual-byte mismatch; run diagnostics/check_provenance_metadata.py for checkout diagnosis')
         self.assertTrue(all(not x['raw_market_bytes_inspected'] for x in catalog['sources']))
 
 
@@ -397,3 +401,88 @@ for name,change in {
  'unknown_denominator':lambda r:r['evidence_coverage']['independent_authenticity'].update(denominator=0),
  'raw_support':lambda r:r.update(raw_correspondence='must not be present'),
 }.items():tamper(name,change)
+
+
+class MetadataCheckoutRegressionTests(unittest.TestCase):
+    """Real local Git checkouts, synthetic repository; no network or private data."""
+    def setUp(self):
+        self.folder = tempfile.TemporaryDirectory(prefix='iat stale CRLF ')
+        self.addCleanup(self.folder.cleanup)
+        self.root = Path(self.folder.name).resolve()
+        self.repo = Path(__file__).resolve().parents[1]
+        self.git('init')
+        self.git('config', 'user.name', 'Synthetic Checkout Regression')
+        self.git('config', 'user.email', 'synthetic@example.invalid')
+        self.git('config', 'core.autocrlf', 'false')
+        self.git('config', 'commit.gpgsign', 'false')
+        self.git('config', 'core.hooksPath', str(self.root / 'no-hooks'))
+        for name in (CATALOG, *METADATA):
+            dest = self.root / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(metadata_git(self.repo, 'show', 'HEAD:' + name))
+        self.git('add', '.')
+        self.git('commit', '-qm', 'Synthetic fixture before LF attributes')
+        self.git('config', 'core.autocrlf', 'true')
+        for name in (CATALOG, *METADATA):
+            (self.root / name).unlink()
+        self.git('checkout-index', '--all', '--force')
+        # Reproduce an unchanged blob surviving the commit which adds eol=lf.
+        (self.root / '.gitattributes').write_bytes((self.repo / '.gitattributes').read_bytes())
+        self.git('add', '.gitattributes')
+        self.git('commit', '-qm', 'Add current checkout attributes')
+
+    def git(self, *args):
+        return metadata_git(self.root, *args)
+
+    def snapshot(self):
+        return {name: (self.root / name).read_bytes() for name in METADATA}
+
+    def test_stale_crlf_checkout_matches_windows_failure_and_explicit_repair(self):
+        name = 'config/examples/historical-evidence/operator-reported-v1.json'
+        blob = self.git('show', 'HEAD:' + name)
+        self.assertEqual(sha256(blob).hexdigest(),
+                         '1457034e96a286583a62d1db19ac1b38e4e6358fd8403282537f1ae22f18862a')
+        self.assertEqual(sha256((self.root / name).read_bytes()).hexdigest(),
+                         '36259e802eb758c04252380d4f5b9085906d62500217038f6d9bcd4a765d6f7c')
+        attrs = self.git('check-attr', 'eol', '--', name).decode()
+        self.assertIn('eol: lf', attrs)
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'Stale CRLF checkout'):
+            check_metadata(self.root)
+        self.assertEqual(self.snapshot(), before)  # Default check is read-only.
+        self.assertEqual(check_metadata(self.root, refresh=True), len(METADATA))
+        self.assertEqual(check_metadata(self.root), 0)
+        for file in METADATA:
+            self.assertEqual((self.root / file).read_bytes(), self.git('show', 'HEAD:' + file))
+
+    def test_content_changes_refuse_refresh_without_partial_repairs(self):
+        path = self.root / METADATA[-1]
+        path.write_bytes(path.read_bytes() + b' ')
+        before = self.snapshot()
+        with self.assertRaisesRegex(ValueError, 'Content mismatch'):
+            check_metadata(self.root, refresh=True)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_staged_changes_and_modified_inventory_are_not_overwritten(self):
+        path = self.root / METADATA[0]
+        path.write_bytes(path.read_bytes() + b' ')
+        self.git('add', METADATA[0])
+        before = self.snapshot()
+        with self.assertRaises(subprocess.CalledProcessError):
+            check_metadata(self.root, refresh=True)
+        self.assertEqual(self.snapshot(), before)
+        catalog = self.root / CATALOG
+        value = json.loads(catalog.read_bytes())
+        value['metadata_references'][0]['file_sha256'] = '0' * 64
+        catalog.write_bytes(json.dumps(value).encode())
+        with self.assertRaisesRegex(ValueError, 'Inventory differs from HEAD'):
+            check_metadata(self.root, refresh=True)
+        self.assertEqual(self.snapshot(), before)
+
+    def test_unrelated_evidence_bytes_are_never_normalized_or_refreshed(self):
+        evidence = self.root / 'private-evidence.csv'
+        original = b'timestamp,open,high,low,close\r\nSYNTHETIC,1,2,0,1\r\n'
+        evidence.write_bytes(original)
+        check_metadata(self.root, refresh=True)
+        self.assertEqual(evidence.read_bytes(), original)
+        self.assertNotEqual(sha256(original).hexdigest(), sha256(original.replace(b'\r\n', b'\n')).hexdigest())

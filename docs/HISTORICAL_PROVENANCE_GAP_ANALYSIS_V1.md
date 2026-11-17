@@ -246,3 +246,60 @@ comparisons NOT_RUN. Remaining real-data blockers are authenticated acquisition
 and feed/basis, permitted use, exact dated sessions (including Friday and 23:02),
 closed-bar capture/finality/corrections, and independent qualification. No real
 performance, win rate, source certification or broker-equivalence claim is made.
+
+## Windows stale-checkout SHA-256 regression (PR #31)
+
+The reported mismatch identifies exactly
+`config/examples/historical-evidence/operator-reported-v1.json`:
+
+| Bytes | SHA-256 |
+| --- | --- |
+| Committed Git blob, LF (123 line endings); recorded inventory | `1457034e96a286583a62d1db19ac1b38e4e6358fd8403282537f1ae22f18862a` |
+| Same content checked out with CRLF | `36259e802eb758c04252380d4f5b9085906d62500217038f6d9bcd4a765d6f7c` |
+
+The inventory is not stale. The Windows file itself was not supplied here; a local
+Git reproduction of a pre-attributes checkout produces the exact reported hash.
+The current `.gitattributes` already requires `text eol=lf` for this file and
+`operator-manifest-v1.json`. Git can retain CRLF working-tree bytes when updating
+the attributes without changing the files' blobs. Adding the LF rule alone does
+not retroactively refresh those working files. A clean checkout passes while an
+older checkout can still fail strict actual-byte verification.
+
+From the existing repository checkout, after updating to the corrected PR head:
+
+```powershell
+# Inspect local changes. The default checker never writes files.
+git status --short
+py -3.11 diagnostics/check_provenance_metadata.py
+
+# Only if it diagnoses stale CRLF checkout bytes, explicitly restore the five
+# allowlisted committed metadata files from their verified HEAD Git blobs.
+py -3.11 diagnostics/check_provenance_metadata.py --refresh-checkout
+if ($LASTEXITCODE -ne 0) { throw 'Metadata recovery refused; review local changes before retrying.' }
+
+py -3.11 -m unittest discover -s tests -p test_provenance_assessment.py -v
+py -3.11 -m unittest discover -s tests -v
+py -3.12 -m unittest discover -s tests -p test_provenance_assessment.py -v
+py -3.12 -m unittest discover -s tests -v
+```
+
+The recovery command operates offline, requires Git and the repository checkout,
+and has no user-supplied data-path option. It verifies each HEAD blob against the
+committed inventory, verifies that the working inventory agrees with HEAD, and
+refuses staged changes or content differences other than the exact known CRLF
+checkout representation. All candidates are checked before any restoration.
+Explicit restoration uses exact Git blob bytes and atomic per-file publication;
+there is no batch transaction if an OS write fails. A nonzero exit is never a
+successful check. Preserve local edits and resolve such errors before retrying.
+
+It never normalizes arbitrary evidence, CSVs, exports or private data. It does not
+regenerate the inventory, change recorded hashes, accept a normalized-content hash,
+or change production SHA-256 validation. The original golden test still hashes
+actual working-tree bytes; its failure now identifies the offending file and the
+diagnostic command. Existing clean checkouts require no recovery.
+
+Four regression tests construct a local Git repository with `core.autocrlf=true`,
+check out the older CRLF files, add the actual LF attributes, reproduce the exact
+Windows mismatch, and exercise explicit recovery and refusal cases. CI runs the
+focused suite and the full suite separately on Linux/Windows Python 3.11/3.12.
+None of these repository checks changes qualification or execution gates.
