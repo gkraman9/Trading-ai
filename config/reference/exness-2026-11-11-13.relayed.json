@@ -1,0 +1,56 @@
+{
+  "reference_version": 1,
+  "kind": "REDACTED_OPERATOR_RELAYED_BROKER_FACTS",
+  "source_commit": "09cf0f13c649b522447e1f5a1796bf52e2ff2519",
+  "source_metadata_path": "docs/source_reviews/exness-2026-11-11-13/evidence.json",
+  "source_metadata_file_sha256": "af356ff7d9e7d8b7f9b3ec5069a4580aba5ddf03b8d9e8d0ac4a74f349adac8c",
+  "source_metadata_payload_sha256": "4fbc3e7e45f864d791c507fde8d9add76db4bb29ee8017fe027c13c229148c85",
+  "source_transcription_sha256": "e004b4af85731c05b077fa11abe75f27c55277b40044d8aa7cbccd7c9d1c9946",
+  "broker": "Exness",
+  "instrument": "XAUUSD",
+  "interval_utc": {
+    "start": "2026-11-11T00:00:00Z",
+    "end_exclusive": "2026-11-14T00:00:00Z"
+  },
+  "claims": {
+    "timezone": "UTC",
+    "daily_break": {
+      "start": "21:58:00",
+      "end_exclusive": "23:00:00",
+      "quotations_available": false,
+      "trading_available": false
+    },
+    "close_only": {
+      "start": "23:00:00",
+      "end_exclusive": "23:02:00",
+      "quotations_available": true,
+      "new_positions_allowed": false
+    },
+    "chart_ohlc_basis": "BID",
+    "chart_platforms": [
+      "METATRADER_5",
+      "EXNESS_TERMINAL"
+    ],
+    "special_maintenance_or_holiday_exceptions_reported": false,
+    "demo_real_trading_conditions_reported_same": true
+  },
+  "unresolved": [
+    "EXPLICIT_NEW_POSITION_PERMISSION_AT_OR_AFTER_23_02",
+    "FRIDAY_2026_11_13_2300_REOPEN_VS_REGULAR_WEEKEND_CLOSE",
+    "FULL_DATED_SESSION_SPECIFICATION_AND_FRIDAY_WEEKEND_BOUNDARY",
+    "EXACT_EXPORT_FEED_AND_BID_BASIS_MAPPING",
+    "UTC_INTERVAL_OPEN_TIMESTAMP_CONVENTION_FOR_EXPORT",
+    "CLOSED_BAR_FINALITY_AND_CAPTURE_COMPLETENESS",
+    "CORRECTION_POLICY",
+    "OFFLINE_USAGE_PERMISSION",
+    "INDEPENDENT_SOURCE_REVIEW",
+    "ATTACHMENTS_NOT_YET_ACCOUNTED_FOR"
+  ],
+  "assurance": "OPERATOR_RELAYED_NOT_AUTHENTICATED_NOT_A_DATA_EXPORT",
+  "independent_authentication": "PENDING",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "execution_allowed": false,
+  "sha256": "faeff4d9ce854a5d33e45dcd495c8678a104f0a175505d8f376bdbba1ea2356a"
+}

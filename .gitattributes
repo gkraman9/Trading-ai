@@ -5,3 +5,9 @@ config/examples/replay.synthetic/*.csv text eol=lf
 config/examples/replay.synthetic/*.json text eol=lf
 # Published source-review manifests bind exact private dataset preparation bytes.
 docs/source_reviews/*.json text eol=lf
+
+# Provenance inventory binds exact committed metadata bytes across platforms.
+# Existing CRLF working copies can survive this rule being added; use the
+# explicit check_provenance_metadata.py --refresh-checkout repair (not data normalization).
+config/examples/historical-evidence/operator-reported-v1.json text eol=lf
+config/examples/historical-evidence/operator-manifest-v1.json text eol=lf

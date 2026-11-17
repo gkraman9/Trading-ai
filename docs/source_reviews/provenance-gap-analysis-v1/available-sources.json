@@ -1,0 +1,110 @@
+{
+  "inventory_version": 1,
+  "kind": "COMMITTED_SOURCE_METADATA_INVENTORY",
+  "base_commit": "028c02e280ba1c8dfd7174a757e7cd35b00e3e73",
+  "metadata_references": [
+    {
+      "path": "docs/source_reviews/xauusd-pilot.manifest.json",
+      "file_sha256": "dda3785de354bf93c66e7f1d47d2ff9bf31a4f4ddcaae4c7b68ec84f6b788992",
+      "scope": "COMMITTED_METADATA_BYTES_ONLY_NOT_RAW_DATA_REPRODUCTION"
+    },
+    {
+      "path": "docs/source_reviews/xauusd-pilot-review.json",
+      "file_sha256": "9cb4cc219d0782c370298c1d9ea736477e83b7a79ec8cc3014dea435b9e167ee",
+      "scope": "COMMITTED_METADATA_BYTES_ONLY_NOT_RAW_DATA_REPRODUCTION"
+    },
+    {
+      "path": "docs/source_reviews/source-qualification-2026-11-14.json",
+      "file_sha256": "be4cd1291cc7b58cc4c622b7b558c2e3268411f2d653f5e5903f74ec292af79b",
+      "scope": "COMMITTED_METADATA_BYTES_ONLY_NOT_RAW_DATA_REPRODUCTION"
+    },
+    {
+      "path": "config/examples/historical-evidence/operator-reported-v1.json",
+      "file_sha256": "1457034e96a286583a62d1db19ac1b38e4e6358fd8403282537f1ae22f18862a",
+      "scope": "COMMITTED_METADATA_BYTES_ONLY_NOT_RAW_DATA_REPRODUCTION"
+    },
+    {
+      "path": "config/examples/historical-evidence/operator-manifest-v1.json",
+      "file_sha256": "a1118640097f502863d400f782d6bba62a356c3690edde438694fc9cf80c5ce1",
+      "scope": "COMMITTED_METADATA_BYTES_ONLY_NOT_RAW_DATA_REPRODUCTION"
+    }
+  ],
+  "sources": [
+    {
+      "source_name": "Silva C XAUUSD Tick Data CC BY 4.0",
+      "acquisition_reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+      "instrument": "XAUUSD",
+      "coverage": {
+        "start": "2021-05-25T08:00:00+00:00",
+        "end": "2021-05-25T12:00:00+00:00"
+      },
+      "lineage": {
+        "feed_id": "CarlosSilva1/xauusd-ticks",
+        "price_basis": "BID",
+        "timestamp_convention": "INTERVAL_OPEN_UTC",
+        "m5_origin": "AGGREGATED_FROM_M1",
+        "raw_sha256": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec"
+      },
+      "supplied_file_hashes": {
+        "M1": "3fcb4eed61ce5a6cb773de8c686ca11a108134031068289ee18ca7e2e7070023",
+        "M5": "362c82c850bb22946b2820265b32d561859b7431c1acf2e8c675424754904dc6"
+      },
+      "raw_archive_sha256_reported": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec",
+      "row_counts_reported": {
+        "M1": 240,
+        "M5": 48
+      },
+      "usage_reference": "https://creativecommons.org/licenses/by/4.0/",
+      "origin_assurance": "PUBLISHER_DECLARATIONS_NOT_ORIGINAL_FEED_AUTHENTICATION",
+      "comparison_scope": "INTERNAL_AGGREGATION_ONLY",
+      "exness_2026_evidence_applicability": "NOT_APPLICABLE",
+      "raw_market_bytes_inspected": false,
+      "remaining": [
+        "ORIGINAL_FEED_IDENTITY",
+        "DATED_2021_SESSION_COVERAGE",
+        "CAPTURE_COMPLETENESS_AND_FINALITY",
+        "INDEPENDENT_QUALIFICATION"
+      ]
+    },
+    {
+      "source_name": "OPERATOR_REPORTED_EXNESS_NOVEMBER_EXPORTS",
+      "acquisition_reference": null,
+      "instrument": "XAUUSD",
+      "coverage": {
+        "start": "2026-11-11T00:00:00Z",
+        "end": "2026-11-14T00:00:00Z"
+      },
+      "file_hashes_reported": {
+        "M1": "c98944d8de6251efecc4e75071517030e3ae1fea9cabb71f22f498a29097e54f",
+        "M5": "d6b54a12956b7acade014d907957923640a995de905fb40f72805111cc67dc9f"
+      },
+      "row_counts_reported": {
+        "M1": 4074,
+        "M5": 816
+      },
+      "price_basis_verified": "UNKNOWN",
+      "feed_identity_verified": null,
+      "raw_market_bytes_inspected": false,
+      "broker_note_commit": "09cf0f13c649b522447e1f5a1796bf52e2ff2519",
+      "broker_note_assurance": "OPERATOR_RELAYED_CHART_BID_AND_BOUNDARY_CLAIMS_NOT_EXPORT_AUTHENTICATION",
+      "remaining": [
+        "ACTUAL_ORIGINAL_EXPORT_FILES",
+        "EXPORT_FEED_AND_PRICE_BASIS_MAPPING",
+        "TIMESTAMP_BASIS",
+        "USAGE_PERMISSION",
+        "FINALITY_AND_CORRECTIONS",
+        "FRIDAY_REOPENING",
+        "POST_2302_PERMISSION",
+        "INDEPENDENT_REVIEW"
+      ]
+    }
+  ],
+  "raw_data_published": false,
+  "support_correspondence_embedded": false,
+  "qualification": "DATA_NOT_QUALIFIED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "exness": "BLOCKED",
+  "signal": "WAIT",
+  "execution_allowed": false
+}
