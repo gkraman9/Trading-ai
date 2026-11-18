@@ -210,7 +210,15 @@ class LiveObserver:
     def start(self):
         if self.thread is not None:raise ValueError('Observer already started')
         def run():
-            while not self.stop.is_set():self.step();self.stop.wait(self.interval)
+            while not self.stop.is_set():
+                try:self.step()
+                except Exception:
+                    # Unexpected transport/container faults cannot terminate the observer.
+                    failure=base(None,'OBSERVER_POLL_FAILED');self.previous=None
+                    try:self.log.append(failure,{})
+                    except Exception:failure=base(None,'SHADOW_LOG_FAILED')
+                    with self.lock:self.cached=failure
+                self.stop.wait(self.interval)
         self.thread=Thread(target=run,name='iat-read-only-observer',daemon=True);self.thread.start()
 
     def close(self):
