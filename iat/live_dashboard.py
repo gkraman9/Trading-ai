@@ -1,9 +1,11 @@
 """Dedicated loopback read-only UI; does not register or alter production APIs."""
 from pathlib import Path
+from iat.live_reasoning import LiveReasoning
 from flask import Flask,jsonify,request,send_from_directory,abort
 
 
-def create_dashboard(observer):
+def create_dashboard(observer,reasoning=None):
+    reasoning=reasoning or LiveReasoning()
     app=Flask(__name__,static_folder=None)
     assets=Path(__file__).resolve().parent/'live_web'
     @app.before_request
@@ -25,6 +27,8 @@ def create_dashboard(observer):
     def css():return send_from_directory(assets,'live.css')
     @app.get('/live/v1/snapshot')
     def snapshot():return jsonify(observer.latest())
+    @app.get('/live/v2/snapshot')
+    def reasoning_snapshot():return jsonify(reasoning.envelope(observer.latest()))
     @app.get('/live/v1/settings')
     def settings():return jsonify(dict(symbol='XAUUSD',refresh_seconds=observer.interval,execution_allowed=False,signal='WAIT'))
     return app
