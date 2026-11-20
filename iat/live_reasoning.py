@@ -12,17 +12,19 @@ from iat.intelligence.strategy_replay import digest
 
 
 class CommentaryJournal:
+    filename='commentary.jsonl'
+    log_version=2
     def __init__(self,log_directory):
         root=Path(log_directory);repo=Path(__file__).resolve().parents[1]
         if not root.is_dir() or root.resolve().is_relative_to(repo) or any(p.is_symlink() for p in (root,*root.parents)):
             raise ValueError('Existing private log directory outside repository required')
-        self.path=root/'commentary.jsonl';self.path.open('xb').close()
+        self.path=root/self.filename;self.path.open('xb').close()
         self.lock=Lock();self.last=None;self.previous=None
     def append(self,snapshot,view,commentary):
         key=digest([snapshot['snapshot_id'],view['claims']['bundle_id'],commentary])
         with self.lock:
             if key==self.last:return
-            record=dict(commentary_log_version=2,source_snapshot_id=snapshot['snapshot_id'],
+            record=dict(commentary_log_version=self.log_version,source_snapshot_id=snapshot['snapshot_id'],
                 claim_bundle_id=view['claims']['bundle_id'],recorded_at_utc=datetime.now(timezone.utc).isoformat(),
                 commentary=commentary,previous_entry_sha256=self.previous,execution_allowed=False,signal='WAIT')
             record['sha256']=digest(record)

@@ -1,5 +1,9 @@
 # Live AI reasoning and dashboard v2
 
+On the v3 feature branch, the Windows runner uses the optional SDK provider and
+the new v3 dashboard. Follow `LIVE_AI_COMMENTARY_V3.md` for current startup/provider
+steps. This page retains the v2 API contract and local stability procedure.
+
 Base: PR #33 corrected commit `25d7d3746aa6b1f52174049d0925938b9ef551c9`.
 This feature adds a readable presentation and optional commentary provider to the
 existing read-only observer. Existing strategy definitions, confluence weights,

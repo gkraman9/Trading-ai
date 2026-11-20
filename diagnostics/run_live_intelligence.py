@@ -5,8 +5,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from iat.live_data import ReadOnlyMarketData
 from iat.live_observer import LiveObserver,ShadowLog
 from iat.live_dashboard import create_dashboard
-from iat.live_commentary import OpenAICommentary,CommentaryManager,CommentaryFailure
-from iat.live_reasoning import LiveReasoning,CommentaryJournal
+from iat.live_commentary import CommentaryFailure
+from iat.live_ai_provider import OpenAIResearchProvider
+from iat.live_ai_runtime import LiveAIReasoning,ResearchCommentary,AIJournal
 from iat.mt5_data import MarketDataError
 from iat.session_config import load_session_config
 
@@ -20,7 +21,7 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--log-directory',required=True);p.add_argument('--interval',type=int,default=10)
     p.add_argument('--port',type=int,default=8765);p.add_argument('--session-config')
-    p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send approved derived claims to OpenAI, never raw logs.')
+    p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send bounded typed research facts to OpenAI, never raw logs.')
     p.add_argument('--llm-model');p.add_argument('--llm-min-seconds',type=int,default=60)
     a=p.parse_args(argv)
     if sys.platform!='win32' or sys.version_info[:2]!=(3,11):
@@ -37,15 +38,15 @@ def main(argv=None):
             provider=ReadOnlyMarketData(module)
         except Exception:provider=UnavailableProvider()
         observer=LiveObserver(provider,log,calendar=calendar,interval=a.interval)
-        manager=CommentaryManager()
+        manager=ResearchCommentary()
         if a.enable_llm:
             try:
-                provider=OpenAICommentary(os.environ.get('IAT_OPENAI_API_KEY'),a.llm_model or os.environ.get('IAT_REASONING_MODEL'))
-                manager=CommentaryManager(provider,min_seconds=a.llm_min_seconds)
-            except CommentaryFailure as exc:manager=CommentaryManager(unavailable_code=exc.code)
-            except ValueError:manager=CommentaryManager(unavailable_code='LLM_CONFIGURATION_INVALID')
-        reasoning=LiveReasoning(manager,CommentaryJournal(log.root))
-        app=create_dashboard(observer,reasoning);observer.start()
+                provider=OpenAIResearchProvider(os.environ.get('IAT_OPENAI_API_KEY'),a.llm_model or os.environ.get('IAT_REASONING_MODEL'))
+                manager=ResearchCommentary(provider,min_seconds=a.llm_min_seconds)
+            except CommentaryFailure as exc:manager=ResearchCommentary(error=exc.code)
+            except ValueError:manager=ResearchCommentary(error='LLM_CONFIGURATION_INVALID')
+        reasoning=LiveAIReasoning(manager,AIJournal(log.root))
+        app=create_dashboard(observer,ai_reasoning=reasoning);observer.start();reasoning.start(observer)
         print('Open http://127.0.0.1:'+str(a.port)+' — READ ONLY; WAIT; execution disabled; zero order capability.')
         print('Without verified session coverage, real descriptive observations may appear but the assessment remains WAIT.')
         app.run(host='127.0.0.1',port=a.port,debug=False,use_reloader=False,threaded=True)
