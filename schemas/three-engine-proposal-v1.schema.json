@@ -1,0 +1,344 @@
+{
+  "$id": "https://iat.local/schemas/three-engine-proposal-v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_at": {
+      "type": "string"
+    },
+    "bundle_id": {
+      "type": "string"
+    },
+    "confidence_band": {
+      "const": "UNCALIBRATED"
+    },
+    "confidence_probability": {
+      "type": "null"
+    },
+    "confirmation_timeframe": {
+      "type": "string"
+    },
+    "contradicting_evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "decision": {
+      "enum": [
+        "BUY",
+        "SELL",
+        "WAIT",
+        "BLOCKED"
+      ],
+      "type": "string"
+    },
+    "decision_available_at": {
+      "type": "string"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "engine": {
+      "enum": [
+        "A_RULES",
+        "B_HYBRID",
+        "C_AI_LED"
+      ],
+      "type": "string"
+    },
+    "engine_version": {
+      "type": "string"
+    },
+    "entry_price": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entry_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "execution_allowed": {
+      "const": false
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "feasibility": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "hold_seconds": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "invalidation_conditions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "latency_seconds": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lot_size": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "market_reasoning": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "interpretation": {
+            "enum": [
+              "BUYERS_CONTROL",
+              "SELLERS_CONTROL",
+              "BREAKOUT_CONTINUATION",
+              "LIQUIDITY_TRAP_RISK",
+              "MOMENTUM_ACCELERATING",
+              "MOMENTUM_WEAKENING",
+              "M1_M5_CONFLICT",
+              "REACTION_ZONE",
+              "TOO_LATE",
+              "COSTS_TOO_LARGE",
+              "INSUFFICIENT_EVIDENCE"
+            ],
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "SUPPORT",
+              "CONFLICT",
+              "UNCERTAINTY"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "interpretation",
+          "evidence_id",
+          "role"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "market_to_decision_seconds": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "model": {
+      "type": "string"
+    },
+    "model_confidence_assessment": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "orders_requested": {
+      "const": 0,
+      "type": "integer"
+    },
+    "prompt_version": {
+      "type": "string"
+    },
+    "proposal_version": {
+      "const": 1
+    },
+    "protocol_sha256": {
+      "type": "string"
+    },
+    "provider_latency_seconds": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "provider_response_valid": {
+      "type": "boolean"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "request_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requested_research_band": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "response_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reward_risk": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "risk_amount": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "risk_percent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "risk_reduction": {
+      "type": "string"
+    },
+    "setup_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "signal": {
+      "const": "WAIT"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "stop_anchor_price": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "stop_loss": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "supporting_evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "take_profit_1": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "take_profit_2": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "take_profit_3": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "timeframe": {
+      "type": "string"
+    },
+    "tp_allocations": {
+      "items": {
+        "type": "string"
+      },
+      "type": [
+        "array",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "analysis_at",
+    "bundle_id",
+    "confidence_band",
+    "confidence_probability",
+    "confirmation_timeframe",
+    "contradicting_evidence_ids",
+    "decision",
+    "decision_available_at",
+    "decision_id",
+    "engine",
+    "engine_version",
+    "entry_price",
+    "entry_type",
+    "execution_allowed",
+    "expires_at",
+    "feasibility",
+    "hold_seconds",
+    "invalidation_conditions",
+    "latency_seconds",
+    "lot_size",
+    "market_reasoning",
+    "market_to_decision_seconds",
+    "model",
+    "model_confidence_assessment",
+    "orders_requested",
+    "prompt_version",
+    "proposal_version",
+    "protocol_sha256",
+    "provider_latency_seconds",
+    "provider_response_valid",
+    "reason_codes",
+    "request_at",
+    "requested_research_band",
+    "response_at",
+    "reward_risk",
+    "risk_amount",
+    "risk_percent",
+    "risk_reduction",
+    "setup_id",
+    "signal",
+    "source_kind",
+    "stop_anchor_price",
+    "stop_loss",
+    "supporting_evidence_ids",
+    "symbol",
+    "take_profit_1",
+    "take_profit_2",
+    "take_profit_3",
+    "timeframe",
+    "tp_allocations"
+  ],
+  "type": "object"
+}

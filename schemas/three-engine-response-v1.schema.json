@@ -1,0 +1,176 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bundle_id": {
+      "type": "string"
+    },
+    "confidence_estimate": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "contradicting_evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "decision": {
+      "enum": [
+        "BUY",
+        "SELL",
+        "WAIT",
+        "BLOCKED"
+      ],
+      "type": "string"
+    },
+    "entry_anchor_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entry_type": {
+      "enum": [
+        "MARKET",
+        "PULLBACK",
+        "BREAKOUT",
+        "REVERSAL"
+      ],
+      "type": "string"
+    },
+    "expiry_seconds": {
+      "type": "integer"
+    },
+    "hold_seconds": {
+      "type": "integer"
+    },
+    "invalidation_conditions": {
+      "items": {
+        "enum": [
+          "OPPOSING_M1_CHOCH",
+          "ANCHOR_LOST",
+          "HIGH_VOLATILITY",
+          "TIME_LIMIT"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "market_reasoning": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "interpretation": {
+            "enum": [
+              "BUYERS_CONTROL",
+              "SELLERS_CONTROL",
+              "BREAKOUT_CONTINUATION",
+              "LIQUIDITY_TRAP_RISK",
+              "MOMENTUM_ACCELERATING",
+              "MOMENTUM_WEAKENING",
+              "M1_M5_CONFLICT",
+              "REACTION_ZONE",
+              "TOO_LATE",
+              "COSTS_TOO_LARGE",
+              "INSUFFICIENT_EVIDENCE"
+            ],
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "SUPPORT",
+              "CONFLICT",
+              "UNCERTAINTY"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "interpretation",
+          "evidence_id",
+          "role"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "requested_band": {
+      "enum": [
+        null,
+        "40_60",
+        "60_80",
+        "80_90"
+      ],
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "response_version": {
+      "enum": [
+        1
+      ],
+      "type": "integer"
+    },
+    "risk_percent": {
+      "type": "string"
+    },
+    "risk_reduction": {
+      "enum": [
+        "NONE",
+        "BREAKEVEN_AT_R1"
+      ],
+      "type": "string"
+    },
+    "stop_anchor_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "supporting_evidence_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "target_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "tp_allocations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "response_version",
+    "bundle_id",
+    "decision",
+    "entry_type",
+    "entry_anchor_id",
+    "stop_anchor_id",
+    "target_refs",
+    "tp_allocations",
+    "risk_percent",
+    "confidence_estimate",
+    "requested_band",
+    "market_reasoning",
+    "supporting_evidence_ids",
+    "contradicting_evidence_ids",
+    "invalidation_conditions",
+    "expiry_seconds",
+    "hold_seconds",
+    "risk_reduction"
+  ],
+  "type": "object"
+}
