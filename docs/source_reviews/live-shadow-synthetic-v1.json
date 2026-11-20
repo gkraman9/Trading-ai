@@ -1,0 +1,222 @@
+{
+  "engine_contracts": [
+    {
+      "exit": {
+        "commission_and_fees": "0.02",
+        "contract_size": "100",
+        "currency_quantum": ".01",
+        "decision_available_at": "2026-11-12T12:00:00+00:00",
+        "decision_id": "f2324be37d50453876d4f2f299bf776dc8368ea347263106590517703113e2e0",
+        "entry": "100.00",
+        "entry_at": "2026-11-12T12:00:01+00:00",
+        "entry_quote_id": "584afc29ad5ab7c9f6a9260ebcb643e8f530cde616d18c5756ba07137f23d65f",
+        "entry_spread": "0.1",
+        "exit": "102.00",
+        "exit_at": "2026-11-12T12:00:02+00:00",
+        "exit_quote_id": "17dbc61441b3499f2c47ba3bb0db3256266eea2f0f60b2e943e1f059c87249c4",
+        "gross_pnl": "2.00",
+        "holding_seconds": "1.0",
+        "id": "bbbfc4ee92aed3eb449732e2dfbf42e7c1bbdaa7961a7378f61e73f1bd2cebe7",
+        "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+        "money_rounding": "ROUND_HALF_EVEN",
+        "net_pnl": "1.98",
+        "paid_costs": "0.01",
+        "qualification_reason": "LIVE_SHADOW_NOT_INDEPENDENTLY_QUALIFIED",
+        "qualified_performance_eligible": false,
+        "reason": "TP",
+        "segmentation": {
+          "alignment": "SYNTHETIC",
+          "calendar_status": "MISSING",
+          "regime": "UNKNOWN",
+          "session": "UNKNOWN",
+          "strategy_version": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a"
+        },
+        "setup_id": "SYNTHETIC:BUY",
+        "side": "BUY",
+        "slippage_assumption_ticks": 0,
+        "specification_sha256": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a",
+        "state": "CLOSED",
+        "stop": "99",
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "target": "102.00",
+        "volume": "0.01"
+      },
+      "fixture": "SYNTHETIC_DECISION_QUOTE_CONTRACT_NOT_OHLC_STRATEGY_VALIDATION",
+      "side": "BUY",
+      "summary": {
+        "average_holding_seconds": "1.0",
+        "average_loss": null,
+        "average_win": "1.98",
+        "closed_trades": 1,
+        "commission_and_fees": "0.02",
+        "entry_spread_cost": "0.100",
+        "expectancy": "1.98",
+        "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+        "maximum_drawdown": "0.000011",
+        "open_positions": 0,
+        "profit_factor": null,
+        "qualified_performance_metrics": null,
+        "realized_net_pnl": "1.98",
+        "rejection_count": 0,
+        "rejections": {},
+        "segments": [
+          {
+            "closed": 1,
+            "net": "1.98",
+            "qualified_count": 0,
+            "segmentation": {
+              "alignment": "SYNTHETIC",
+              "calendar_status": "MISSING",
+              "regime": "UNKNOWN",
+              "session": "UNKNOWN",
+              "strategy_version": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a"
+            },
+            "wins": 1
+          }
+        ],
+        "signal_denominator": 1,
+        "signal_frequency": {
+          "BUY_CANDIDATE": 1
+        },
+        "spread_accounting": "ENTRY_SPREAD_DIAGNOSTIC_ALREADY_EMBEDDED_IN_BID_ASK_PNL_NOT_ADDITIVE",
+        "unrealized_pnl": null,
+        "unresolved_positions": 0,
+        "win_rate": "1"
+      }
+    },
+    {
+      "exit": {
+        "commission_and_fees": "0.02",
+        "contract_size": "100",
+        "currency_quantum": ".01",
+        "decision_available_at": "2026-11-12T12:00:00+00:00",
+        "decision_id": "214f3432aa201c02053bc624e928d03dba0d2116226539712cb94b07d058b200",
+        "entry": "100.00",
+        "entry_at": "2026-11-12T12:00:01+00:00",
+        "entry_quote_id": "7944734f733c784057814a6ed4e5d6e240a430434583c232ed1f255a49a932c2",
+        "entry_spread": "0.1",
+        "exit": "98.00",
+        "exit_at": "2026-11-12T12:00:02+00:00",
+        "exit_quote_id": "e6848e6acf94b843273c84fbe398d89de2ef9d52e6c47b8831f33c0ce09c3cc8",
+        "gross_pnl": "2.00",
+        "holding_seconds": "1.0",
+        "id": "7c431ca7c6e34c3e8e55df19d473f152b2bdafe29beea8c6749897e3dafb9909",
+        "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+        "money_rounding": "ROUND_HALF_EVEN",
+        "net_pnl": "1.98",
+        "paid_costs": "0.01",
+        "qualification_reason": "LIVE_SHADOW_NOT_INDEPENDENTLY_QUALIFIED",
+        "qualified_performance_eligible": false,
+        "reason": "TP",
+        "segmentation": {
+          "alignment": "SYNTHETIC",
+          "calendar_status": "MISSING",
+          "regime": "UNKNOWN",
+          "session": "UNKNOWN",
+          "strategy_version": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a"
+        },
+        "setup_id": "SYNTHETIC:SELL",
+        "side": "SELL",
+        "slippage_assumption_ticks": 0,
+        "specification_sha256": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a",
+        "state": "CLOSED",
+        "stop": "101",
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "target": "98.00",
+        "volume": "0.01"
+      },
+      "fixture": "SYNTHETIC_DECISION_QUOTE_CONTRACT_NOT_OHLC_STRATEGY_VALIDATION",
+      "side": "SELL",
+      "summary": {
+        "average_holding_seconds": "1.0",
+        "average_loss": null,
+        "average_win": "1.98",
+        "closed_trades": 1,
+        "commission_and_fees": "0.02",
+        "entry_spread_cost": "0.100",
+        "expectancy": "1.98",
+        "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+        "maximum_drawdown": "0.000011",
+        "open_positions": 0,
+        "profit_factor": null,
+        "qualified_performance_metrics": null,
+        "realized_net_pnl": "1.98",
+        "rejection_count": 0,
+        "rejections": {},
+        "segments": [
+          {
+            "closed": 1,
+            "net": "1.98",
+            "qualified_count": 0,
+            "segmentation": {
+              "alignment": "SYNTHETIC",
+              "calendar_status": "MISSING",
+              "regime": "UNKNOWN",
+              "session": "UNKNOWN",
+              "strategy_version": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a"
+            },
+            "wins": 1
+          }
+        ],
+        "signal_denominator": 1,
+        "signal_frequency": {
+          "SELL_CANDIDATE": 1
+        },
+        "spread_accounting": "ENTRY_SPREAD_DIAGNOSTIC_ALREADY_EMBEDDED_IN_BID_ASK_PNL_NOT_ADDITIVE",
+        "unrealized_pnl": null,
+        "unresolved_positions": 0,
+        "win_rate": "1"
+      }
+    }
+  ],
+  "example_version": 1,
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "journal_replay": {
+    "checkpoint_sha256": "7af8b57246d8671721f0995c6edd063a5dc5e4b0548c0f1a7a9e394e2c821cfa",
+    "event_count": 3,
+    "execution_allowed": false,
+    "last_event_sha256": "b4df87bfa7fbd46589cd2b1dfa391526c87a3b2d2647fc9fb12722d643daf091",
+    "orders_requested": 0,
+    "signal": "WAIT",
+    "source_kind": "SYNTHETIC_FIXTURE",
+    "status": "MATCH",
+    "summary": {
+      "average_holding_seconds": null,
+      "average_loss": null,
+      "average_win": null,
+      "closed_trades": 0,
+      "commission_and_fees": "0",
+      "entry_spread_cost": "0",
+      "expectancy": null,
+      "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+      "maximum_drawdown": null,
+      "open_positions": 0,
+      "profit_factor": null,
+      "qualified_performance_metrics": null,
+      "realized_net_pnl": null,
+      "rejection_count": 4,
+      "rejections": {
+        "BLOCKED_RESEARCH_EVIDENCE": 1,
+        "SIMULATION_COSTS_NOT_CONFIGURED": 3
+      },
+      "segments": [],
+      "signal_denominator": 1,
+      "signal_frequency": {
+        "BLOCKED": 1
+      },
+      "spread_accounting": "ENTRY_SPREAD_DIAGNOSTIC_ALREADY_EMBEDDED_IN_BID_ASK_PNL_NOT_ADDITIVE",
+      "unrealized_pnl": null,
+      "unresolved_positions": 0,
+      "win_rate": null
+    }
+  },
+  "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
+  "orders_requested": 0,
+  "scope": "SOFTWARE_CONTRACTS_NOT_MARKET_OR_PROFITABILITY_EVIDENCE",
+  "sha256": "db0f3d79b0dfc8141225d98f2ec77094802ef5655cfb4009de3be3b472a1eb0b",
+  "signal": "WAIT",
+  "source_kind": "SYNTHETIC_FIXTURE"
+}
