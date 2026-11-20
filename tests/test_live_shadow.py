@@ -935,3 +935,40 @@ class ShadowTests(unittest.TestCase):
         r = session_diagnostics(declared, NOW, quote=tick())
         self.assertIn("ACTUAL_MARKET_CLOSURE", r["reason_codes"])
         self.assertFalse(r["operational_eligible"])
+
+    def test_whole_second_api_query_preserves_exact_logical_tick_boundaries(self):
+        module = TickMT5()
+        calls = []
+        times = [
+            NOW - timedelta(seconds=0.9),
+            NOW - timedelta(seconds=0.5),
+            NOW + timedelta(seconds=0.5),
+            NOW + timedelta(seconds=0.9),
+        ]
+
+        def query(symbol_, start, end, flags):
+            calls.append((start, end))
+            return [
+                dict(
+                    time=int(t.timestamp()),
+                    time_msc=round(t.timestamp() * 1000),
+                    bid=100.0,
+                    ask=100.1,
+                )
+                for t in times
+            ]
+
+        module.copy_ticks_range = query
+        result = ShadowFeed(module).capture(
+            NOW - timedelta(seconds=0.75), NOW + timedelta(seconds=0.75)
+        )
+        self.assertEqual(result["status"], "OBSERVED_RANGE")
+        self.assertEqual(len(result["ticks"]), 2)
+        self.assertEqual(result["excluded_outside_window"], 2)
+        self.assertEqual(
+            calls, [(NOW - timedelta(seconds=1), NOW + timedelta(seconds=1))]
+        )
+        self.assertEqual(
+            [q["timestamp"] for q in result["ticks"]],
+            [times[1].isoformat(), times[2].isoformat()],
+        )

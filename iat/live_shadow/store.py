@@ -90,7 +90,21 @@ def safe_packet(packet):
     quote(packet["quote"])
     c = packet["capture"]
     if (
-        set(c) != {"start", "end", "status", "reason_codes", "ticks", "assurance"}
+        set(c)
+        not in (
+            {"start", "end", "status", "reason_codes", "ticks", "assurance"},
+            {
+                "start",
+                "end",
+                "status",
+                "reason_codes",
+                "ticks",
+                "assurance",
+                "requested_start",
+                "requested_end",
+                "excluded_outside_window",
+            },
+        )
         or c["status"] not in ("OBSERVED_RANGE", "UNAVAILABLE")
         or c["assurance"]
         != "TERMINAL_RETURNED_OBSERVATIONS_NOT_PROVIDER_CAPTURE_COMPLETENESS_PROOF"
@@ -98,6 +112,20 @@ def safe_packet(packet):
         raise ValueError("CAPTURE_SCHEMA_INVALID")
     utc(c["start"])
     utc(c["end"])
+    if "requested_start" in c:
+        from datetime import timedelta
+
+        a, b = utc(c["requested_start"]), utc(c["requested_end"])
+        if (
+            a.microsecond
+            or b.microsecond
+            or not a <= utc(c["start"]) <= utc(c["end"]) <= b
+            or utc(c["start"]) - a >= timedelta(seconds=1)
+            or b - utc(c["end"]) >= timedelta(seconds=1)
+            or type(c["excluded_outside_window"]) is not int
+            or not 0 <= c["excluded_outside_window"] <= 20000
+        ):
+            raise ValueError("CAPTURE_QUERY_BOUNDARIES_INVALID")
     if len(c["ticks"]) > 20000:
         raise ValueError("CAPTURE_LIMIT")
     for q in c["ticks"]:
@@ -198,7 +226,7 @@ class Journal:
 
         self.binding = dict(
             schema_version=1,
-            engine_version="live-shadow-1.0.1",
+            engine_version="live-shadow-1.0.2",
             research_specifications=[v.description() for v in specifications()],
             context_sha256=ContextConfig().digest,
             intelligence_sha256=IntelligenceConfig().digest,

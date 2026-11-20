@@ -130,7 +130,16 @@ class ShadowFeed(ReadOnlyMarketData):
             return result
         try:
             self.preflight()
-            rows = self._tick_range("XAUUSD", start, end, self._all_ticks)
+            query_start = start.replace(microsecond=0)
+            query_end = end.replace(microsecond=0) + (
+                timedelta(seconds=1) if end.microsecond else timedelta(0)
+            )
+            result.update(
+                requested_start=query_start.isoformat(),
+                requested_end=query_end.isoformat(),
+                excluded_outside_window=0,
+            )
+            rows = self._tick_range("XAUUSD", query_start, query_end, self._all_ticks)
             if rows is None:
                 raise ValueError("TICK_HISTORY_UNAVAILABLE")
             ticks = []
@@ -140,10 +149,13 @@ class ShadowFeed(ReadOnlyMarketData):
                 if index >= 20000:
                     raise ValueError("TICK_CAPTURE_LIMIT")
                 values = {k: scalar(row[k]) for k in ("bid", "ask", "time", "time_msc")}
-                q = observed_tick(values, end, historical=True)
+                q = observed_tick(values, query_end, historical=True)
                 at = utc(q["timestamp"])
-                if not start <= at <= end:
+                if not query_start <= at <= query_end:
                     raise ValueError("TICK_RANGE_INCONSISTENT")
+                if not start <= at <= end:
+                    result["excluded_outside_window"] += 1
+                    continue
                 if q["id"] in seen:
                     continue
                 if previous is not None and at <= previous:

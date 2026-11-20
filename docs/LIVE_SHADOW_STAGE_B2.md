@@ -135,6 +135,9 @@ Every position/exit/summary carries SHADOW_SIMULATED_NOT_BROKER_EXECUTED.
   losses, unresolved cases or rejected observations; preserve each study separately.
 
 A terminal-returned tick range is **not independent capture-completeness proof**.
+Whole-second API query envelopes are recorded separately from the exact logical
+UTC capture window; observed boundary ticks outside that window are counted and
+excluded, never interpolated or treated as earlier information.
 Exact duplicate ticks collapse; different prices at one millisecond or reversed
 order quarantine the entire batch before fills. Missing/truncated history and
 catch-up intervals over 60 seconds are blocked; batches cap at 20,000 ticks.
@@ -153,8 +156,8 @@ when marks are stale/unavailable, current unrealized P&L is withheld.
 
 ## SQLite schema v1 and recovery
 
-Engine version `live-shadow-1.0.1` binds the stricter calendar diagnostics.
-Pre-release 1.0.0 journals must be retained and replayed with their original code;
+Engine version `live-shadow-1.0.2` binds the stricter diagnostics and query-window policy.
+Pre-release 1.0.0/1.0.1 journals must be retained and replayed with their original code;
 do not edit metadata to resume them under changed semantics. Start a separately
 labeled study for this build.
 
