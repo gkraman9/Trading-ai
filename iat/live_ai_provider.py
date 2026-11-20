@@ -19,6 +19,7 @@ class OpenAIResearchProvider:
                     timeout=Timeout(timeout,connect=min(3,timeout)),
                     http_client=DefaultHttpxClient(trust_env=False,follow_redirects=False,timeout=timeout))
             except ImportError:raise CommentaryFailure('LLM_OPTIONAL_SDK_MISSING') from None
+            except Exception:raise CommentaryFailure('LLM_CONFIGURATION_INVALID') from None
         self.client=client
 
     def request(self,packet):

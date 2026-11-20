@@ -307,3 +307,10 @@ class LiveAIV3Tests(unittest.TestCase):
     def test_duplicate_market_events_do_not_inflate_catalog(self):
         r=deepcopy(self.snapshot);f=r['observations']['frames']['M1'];f['events'].append(deepcopy(f['events'][-1]));rehash(r)
         v=LiveAIReasoning().envelope(r);self.assertEqual(v['deterministic_snapshot']['feed_status'],'DATA_UNAVAILABLE')
+
+    def test_sdk_initialization_fault_is_sanitized_optional_failure(self):
+        with patch('openai.OpenAI',side_effect=RuntimeError('PRIVATE_CONFIGURATION_SECRET')):
+            with self.assertRaises(CommentaryFailure) as exc:OpenAIResearchProvider('synthetic-123','gpt-4.1-mini')
+        self.assertEqual(exc.exception.code,'LLM_CONFIGURATION_INVALID');self.assertNotIn('PRIVATE',str(exc.exception))
+        v=LiveAIReasoning(self.manager(error=exc.exception.code)).envelope(self.snapshot)
+        self.assertEqual(v['deterministic_snapshot']['feed_status'],'CONNECTED');self.assertEqual(v['commentary']['status'],'ERROR');self.safe(v)
