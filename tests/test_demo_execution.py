@@ -1,5 +1,6 @@
 """SYNTHETIC Stage-A state machine only. No broker module, credential or order call."""
 from copy import deepcopy
+from contextlib import closing
 from dataclasses import asdict,replace
 from datetime import datetime,timedelta,timezone
 from decimal import Decimal
@@ -192,7 +193,7 @@ class StageATests(unittest.TestCase):
         reopened.emergency_stop(reset=True,acknowledge=True);self.process()
         with self.assertRaises(Blocked):reopened.emergency_stop(reset=True,acknowledge=True)
     def test_corrupt_state_or_configuration_never_sends(self):
-        with sqlite3.connect(self.store.path) as db:db.execute("UPDATE meta SET value='fake' WHERE key='config'")
+        with closing(sqlite3.connect(self.store.path)) as db:db.execute("UPDATE meta SET value='fake' WHERE key='config'");db.commit()
         r=self.process();self.assertEqual(r['status'],'BLOCKED');self.assertEqual(self.broker.sent,[])
         with self.assertRaises(Blocked):Store(self.root,self.config.sha256)
     def test_strict_config_and_source_files_unchanged(self):
@@ -240,7 +241,7 @@ class StageATests(unittest.TestCase):
     def test_state_mirroring_detects_tampering_and_legal_transitions(self):
         self.process()
         with self.assertRaises(Blocked):self.store.transition(next(iter(self.broker.history)),'REJECTED',None)
-        with sqlite3.connect(self.store.path) as db:db.execute("UPDATE orders SET state='CLOSED'")
+        with closing(sqlite3.connect(self.store.path)) as db:db.execute("UPDATE orders SET state='CLOSED'");db.commit()
         with self.assertRaises(Blocked):self.store.verify()
     def test_cli_template_state_and_stop_actions_never_activate(self):
         from diagnostics.demo_execution import main
@@ -266,3 +267,12 @@ class StageATests(unittest.TestCase):
             records=[json.loads(row[0]) for row in db.execute('SELECT body FROM audit')]
         self.assertTrue(all(r['scope']=='SYNTHETIC_REHEARSAL_ONLY' and r['execution_allowed'] is False and r['orders_requested']==0 for r in records))
         intent=next(r for r in records if r['event']=='INTENT');self.assertEqual(intent['data']['signal_reference']['source'],'SYNTHETIC_TEST_ONLY')
+    def test_ledger_connections_close_on_success_and_exception(self):
+        with self.store.connection() as db:db.execute('SELECT 1')
+        with self.assertRaises(sqlite3.ProgrammingError):db.execute('SELECT 1')
+        with self.assertRaises(Blocked):
+            with self.store.connection() as failed:raise Blocked('SYNTHETIC_FAILURE')
+        with self.assertRaises(sqlite3.ProgrammingError):failed.execute('SELECT 1')
+        with closing(sqlite3.connect(self.store.path)) as tamper:
+            tamper.execute('SELECT 1');tamper.commit()
+        with self.assertRaises(sqlite3.ProgrammingError):tamper.execute('SELECT 1')
