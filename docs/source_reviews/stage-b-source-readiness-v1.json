@@ -1,0 +1,287 @@
+{
+  "broker_orders": 0,
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "other_operator_exports": "NOT_SUPPLIED_TO_CLOUD_NO_NATIVE_M1_OR_QUOTE_PAIR_ASSUMED",
+  "pilots": [
+    {
+      "candidates": [
+        {
+          "historical_metrics": null,
+          "qualification": "DATA_NOT_QUALIFIED",
+          "strategy_id": "M5_TREND_M1_CONFIRMATION"
+        },
+        {
+          "historical_metrics": null,
+          "qualification": "DATA_NOT_QUALIFIED",
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE"
+        }
+      ],
+      "comparisons": "NOT_RUN",
+      "dataset_id": "5b07c9f88e8b532cef35a85061c752d8d918fcd428703e7b626c1b0dfa222bf9",
+      "later_stages": {
+        "C": {
+          "reason": "NO_STAGE_B_QUALIFIED_CANDIDATE",
+          "status": "BLOCKED_NOT_STARTED"
+        },
+        "D": {
+          "reason": "STAGE_B_AND_C_ACCEPTANCE_NOT_ESTABLISHED",
+          "status": "BLOCKED_NOT_STARTED"
+        }
+      },
+      "manifest_sha256": "dda3785de354bf93c66e7f1d47d2ff9bf31a4f4ddcaae4c7b68ec84f6b788992",
+      "name": "original_pilot",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "reason_codes": [
+        "CANDLE_FINALITY_UNCERTAIN",
+        "DATED_COST_AND_SYMBOL_EVIDENCE_REQUIRED",
+        "EVIDENCE_CALENDAR_PENDING",
+        "EVIDENCE_FINALITY_PENDING",
+        "HUMAN_QUALIFICATION_REVIEW_REQUIRED",
+        "INDEPENDENT_BACKTEST_REPRODUCTION_REQUIRED",
+        "INDEPENDENT_REVIEW_PENDING",
+        "PREDECLARED_IS_OOS_PLAN_REQUIRED",
+        "QUALIFIED_BID_ASK_QUOTES_REQUIRED",
+        "SESSION_CALENDAR_REQUIRED"
+      ],
+      "source_metadata": {
+        "checksums": {
+          "M1": {
+            "file_sha256": "3fcb4eed61ce5a6cb773de8c686ca11a108134031068289ee18ca7e2e7070023",
+            "normalized_ohlc_sha256": "209563bd204ee4c513d120e37525e6e03a13d00e3261524e630bef9962c522cf"
+          },
+          "M5": {
+            "file_sha256": "362c82c850bb22946b2820265b32d561859b7431c1acf2e8c675424754904dc6",
+            "normalized_ohlc_sha256": "a8e1dbd7546a9ad4b59bcddd8744bd7361310b4e78997b762bea71ea371461b6"
+          }
+        },
+        "coverage": {
+          "M1": {
+            "candle_count": 240,
+            "end_utc": "2021-05-25T12:00:00+00:00",
+            "start_utc": "2021-05-25T08:00:00+00:00"
+          },
+          "M5": {
+            "candle_count": 48,
+            "end_utc": "2021-05-25T12:00:00+00:00",
+            "start_utc": "2021-05-25T08:00:00+00:00"
+          }
+        },
+        "dataset_kind": "INDEPENDENT_HISTORICAL",
+        "evaluation": {
+          "end": "2021-05-25T12:00:00+00:00",
+          "start": "2021-05-25T11:00:00+00:00"
+        },
+        "evidence_review": {
+          "calendar": {
+            "reason_code": "DATED_SOURCE_CALENDAR_UNAVAILABLE",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "PENDING"
+          },
+          "finality": {
+            "reason_code": "CAPTURE_COMPLETENESS_CONTRACT_UNAVAILABLE",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "PENDING"
+          },
+          "instrument": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "price_basis": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "timestamp": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "usage": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          }
+        },
+        "finality_attested": false,
+        "lineage": {
+          "feed_id": "CarlosSilva1/xauusd-ticks",
+          "m5_origin": "AGGREGATED_FROM_M1",
+          "price_basis": "BID",
+          "raw_sha256": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec",
+          "timestamp_convention": "INTERVAL_OPEN_UTC"
+        },
+        "manifest_sha256": "dda3785de354bf93c66e7f1d47d2ff9bf31a4f4ddcaae4c7b68ec84f6b788992",
+        "manifest_version": 2,
+        "session_config_sha256": null,
+        "source": {
+          "curation_id": "carlos-silva-2021-05-pilot-pending",
+          "independent_review": "PENDING",
+          "name": "Silva C XAUUSD Tick Data CC BY 4.0",
+          "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+          "retrieved_at_utc": "2026-11-14T06:26:58.846523+00:00"
+        },
+        "source_authenticity": "OPERATOR_DECLARATION_NOT_AUTHENTICATED",
+        "symbol": "XAUUSD",
+        "utc_range": {
+          "end": "2021-05-25T12:00:00+00:00",
+          "start": "2021-05-25T08:00:00+00:00"
+        },
+        "warmup": {
+          "M1": {
+            "end": "2021-05-25T11:00:00+00:00",
+            "start": "2021-05-25T08:00:00+00:00"
+          },
+          "M5": {
+            "end": "2021-05-25T11:00:00+00:00",
+            "start": "2021-05-25T08:00:00+00:00"
+          }
+        }
+      }
+    },
+    {
+      "candidates": [
+        {
+          "historical_metrics": null,
+          "qualification": "DATA_NOT_QUALIFIED",
+          "strategy_id": "M5_TREND_M1_CONFIRMATION"
+        },
+        {
+          "historical_metrics": null,
+          "qualification": "DATA_NOT_QUALIFIED",
+          "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE"
+        }
+      ],
+      "comparisons": "NOT_RUN",
+      "dataset_id": "bb048eb26e70e7c90e8ac9a0d9ab4e911e873ae211a9d591d2d1ca936e63d9ca",
+      "later_stages": {
+        "C": {
+          "reason": "NO_STAGE_B_QUALIFIED_CANDIDATE",
+          "status": "BLOCKED_NOT_STARTED"
+        },
+        "D": {
+          "reason": "STAGE_B_AND_C_ACCEPTANCE_NOT_ESTABLISHED",
+          "status": "BLOCKED_NOT_STARTED"
+        }
+      },
+      "manifest_sha256": "6465759b2c74a07bd4a176d53bad96bb4fc55ee9e4ee3cbada5533354548f353",
+      "name": "truncated_prefix",
+      "qualification": "DATA_NOT_QUALIFIED",
+      "reason_codes": [
+        "CANDLE_FINALITY_UNCERTAIN",
+        "DATED_COST_AND_SYMBOL_EVIDENCE_REQUIRED",
+        "EVALUATION_COVERAGE_INSUFFICIENT",
+        "EVIDENCE_CALENDAR_PENDING",
+        "EVIDENCE_FINALITY_PENDING",
+        "HUMAN_QUALIFICATION_REVIEW_REQUIRED",
+        "INDEPENDENT_BACKTEST_REPRODUCTION_REQUIRED",
+        "INDEPENDENT_REVIEW_PENDING",
+        "PREDECLARED_IS_OOS_PLAN_REQUIRED",
+        "QUALIFIED_BID_ASK_QUOTES_REQUIRED",
+        "SESSION_CALENDAR_REQUIRED"
+      ],
+      "source_metadata": {
+        "checksums": {
+          "M1": {
+            "file_sha256": "b4561f64b86bee6841e83383421db875df9877c3e2d5d31b375731edc71035c2",
+            "normalized_ohlc_sha256": "a5fac0aaeb84c149aa201c2b8d87b49996311bdbb139f5bde7f5cc554fc3a724"
+          },
+          "M5": {
+            "file_sha256": "1b3082f18ff80851294ea08a3cae9409728b00960d8d3cd8723dfac8b9050e01",
+            "normalized_ohlc_sha256": "32ac8f15ee50af3459f857b567ab79e37c900913e175f294700316996d177b6f"
+          }
+        },
+        "coverage": {
+          "M1": {
+            "candle_count": 210,
+            "end_utc": "2021-05-25T11:30:00+00:00",
+            "start_utc": "2021-05-25T08:00:00+00:00"
+          },
+          "M5": {
+            "candle_count": 42,
+            "end_utc": "2021-05-25T11:30:00+00:00",
+            "start_utc": "2021-05-25T08:00:00+00:00"
+          }
+        },
+        "dataset_kind": "INDEPENDENT_HISTORICAL",
+        "evaluation": {
+          "end": "2021-05-25T11:30:00+00:00",
+          "start": "2021-05-25T11:00:00+00:00"
+        },
+        "evidence_review": {
+          "calendar": {
+            "reason_code": "DATED_SOURCE_CALENDAR_UNAVAILABLE",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "PENDING"
+          },
+          "finality": {
+            "reason_code": "CAPTURE_COMPLETENESS_CONTRACT_UNAVAILABLE",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "PENDING"
+          },
+          "instrument": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "price_basis": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "timestamp": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          },
+          "usage": {
+            "reason_code": "PUBLISHER_DECLARATION_REVIEWED",
+            "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+            "status": "VERIFIED"
+          }
+        },
+        "finality_attested": false,
+        "lineage": {
+          "feed_id": "CarlosSilva1/xauusd-ticks",
+          "m5_origin": "AGGREGATED_FROM_M1",
+          "price_basis": "BID",
+          "raw_sha256": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec",
+          "timestamp_convention": "INTERVAL_OPEN_UTC"
+        },
+        "manifest_sha256": "6465759b2c74a07bd4a176d53bad96bb4fc55ee9e4ee3cbada5533354548f353",
+        "manifest_version": 2,
+        "session_config_sha256": null,
+        "source": {
+          "curation_id": "carlos-silva-2021-05-pilot-pending",
+          "independent_review": "PENDING",
+          "name": "Silva C XAUUSD Tick Data CC BY 4.0",
+          "reference": "https://huggingface.co/datasets/CarlosSilva1/xauusd-ticks/blob/d14fc64dc3b0452732e60662d94b500a6bb3d534/README.md",
+          "retrieved_at_utc": "2026-11-14T06:26:58.846523+00:00"
+        },
+        "source_authenticity": "OPERATOR_DECLARATION_NOT_AUTHENTICATED",
+        "symbol": "XAUUSD",
+        "utc_range": {
+          "end": "2021-05-25T11:30:00+00:00",
+          "start": "2021-05-25T08:00:00+00:00"
+        },
+        "warmup": {
+          "M1": {
+            "end": "2021-05-25T11:00:00+00:00",
+            "start": "2021-05-25T08:00:00+00:00"
+          },
+          "M5": {
+            "end": "2021-05-25T11:00:00+00:00",
+            "start": "2021-05-25T08:00:00+00:00"
+          }
+        }
+      }
+    }
+  ],
+  "review_date": "2026-11-20",
+  "scope": "STAGE_B_SOURCE_READINESS_NOT_PERFORMANCE",
+  "signal": "WAIT",
+  "version": 1
+}

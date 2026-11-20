@@ -1,0 +1,68 @@
+{
+  "data_kind": "SYNTHETIC_ONLY",
+  "examples": [
+    {
+      "closed_trades": 1,
+      "direction": "BUY",
+      "events_sha256": "bd8891296027b4a611a94df736e8abe3e1f0af245015d4285e1fc2ab597988a7",
+      "fixture": "EXPLICIT_SYNTHETIC_DECISION_AND_QUOTE_CONTRACT_NOT_STRATEGY_PERFORMANCE",
+      "open_positions": false,
+      "outcomes": [
+        "TP"
+      ],
+      "qualification": "EXPERIMENTAL",
+      "run_sha256": "a53dba4a0143d907d36978bc222338797cb55a538e367b277b0ad11b0e94bec9",
+      "strategy_id": "M5_TREND_M1_CONFIRMATION",
+      "unresolved_reasons": []
+    },
+    {
+      "closed_trades": 1,
+      "direction": "SELL",
+      "events_sha256": "f358be9a8f789755839ec01f01705ab9e3edf39456285aca9f0ca1bb8ee42d53",
+      "fixture": "EXPLICIT_SYNTHETIC_DECISION_AND_QUOTE_CONTRACT_NOT_STRATEGY_PERFORMANCE",
+      "open_positions": false,
+      "outcomes": [
+        "TP"
+      ],
+      "qualification": "EXPERIMENTAL",
+      "run_sha256": "9f913a66b95a63b21bced4bce44c7699883369cf232a5661f65b8f1ad5d668f5",
+      "strategy_id": "M5_TREND_M1_CONFIRMATION",
+      "unresolved_reasons": []
+    },
+    {
+      "closed_trades": 1,
+      "direction": "BUY",
+      "events_sha256": "fb7113847d69aa545021c26b9c402aac7569ce3714075fcde3eb11b1dbe7fbc2",
+      "fixture": "EXPLICIT_SYNTHETIC_DECISION_AND_QUOTE_CONTRACT_NOT_STRATEGY_PERFORMANCE",
+      "open_positions": false,
+      "outcomes": [
+        "TP"
+      ],
+      "qualification": "EXPERIMENTAL",
+      "run_sha256": "d87144216395e395d238d05455659c2e723c977083680a62cd0423021b83900f",
+      "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+      "unresolved_reasons": []
+    },
+    {
+      "closed_trades": 1,
+      "direction": "SELL",
+      "events_sha256": "94ec9e62f2527d4ad9d07d8f73712f0f18e03b78b19bc872af8f08924285a93e",
+      "fixture": "EXPLICIT_SYNTHETIC_DECISION_AND_QUOTE_CONTRACT_NOT_STRATEGY_PERFORMANCE",
+      "open_positions": false,
+      "outcomes": [
+        "TP"
+      ],
+      "qualification": "EXPERIMENTAL",
+      "run_sha256": "7f48c7f152b4d91e71a2f79bc82637d2a26cf1fa6d83f493433424939e6b306b",
+      "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+      "unresolved_reasons": []
+    }
+  ],
+  "execution_allowed": false,
+  "historical_comparisons": "NOT_RUN",
+  "historical_metrics": null,
+  "historical_validation": "PENDING",
+  "orders_requested": 0,
+  "signal": "WAIT",
+  "version": 1
+}

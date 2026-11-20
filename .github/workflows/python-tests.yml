@@ -40,6 +40,7 @@ on:
       - feat/iat2-live-ai-commentary-v3
       - feat/iat-v3-gemini-provider
       - feat/iat-v3-demo-execution-stage-a
+      - feat/iat-v3-strategy-qualification
   pull_request:
     branches:
       - main
@@ -78,6 +79,7 @@ on:
       - feat/iat2-live-reasoning-dashboard-v2
       - feat/iat2-live-ai-commentary-v3
       - feat/iat-v3-gemini-provider
+      - feat/iat-v3-demo-execution-stage-a
   workflow_dispatch:
 
 permissions:
@@ -117,6 +119,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_live_ai_gemini.py -v
       - name: Demo execution Stage A (synthetic transports only)
         run: python -m unittest discover -s tests -p test_demo_execution.py -v
+      - name: Stage B offline strategy research (synthetic only)
+        run: python -m unittest discover -s tests -p test_strategy_qualification.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test

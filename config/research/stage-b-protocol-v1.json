@@ -1,0 +1,118 @@
+{
+  "protocol": {
+    "bootstrap_day_blocks": 1000,
+    "bootstrap_seed": 1729,
+    "hold_minutes_sensitivity": [
+      10,
+      15,
+      20
+    ],
+    "independent_reproduction_required": true,
+    "maximum_drawdown_fraction": "0.10",
+    "min_closed_trades": 300,
+    "min_distinct_utc_days": 60,
+    "min_oos_days": 30,
+    "min_oos_trades": 100,
+    "min_trades_per_fold": 30,
+    "min_walk_forward_folds": 3,
+    "minimum_day_bootstrap_expectancy_lower_bound": "0",
+    "minimum_profit_factor": "1.2",
+    "registration": "FROZEN_CODE_HASH_BEFORE_QUALIFIED_OOS_ANALYSIS_NOT_AN_EXTERNAL_TIMESTAMP_AUTHORITY",
+    "reward_risk_sensitivity": [
+      "1.5",
+      "2",
+      "2.5"
+    ],
+    "robustness_cost_multipliers": [
+      "1",
+      "1.5",
+      "2"
+    ],
+    "spread_stress_multipliers": [
+      "1",
+      "1.5",
+      "2"
+    ],
+    "version": 1
+  },
+  "protocol_sha256": "90c57efec796df788c3356bc910dd326aaf080088c2df1ecaaa81e7885b5d05e",
+  "specifications": [
+    {
+      "author": "Original IAT research-policy composition",
+      "constraints": "0.01 lot, one position, five openings per UTC day, 1% daily admission/latch; qualified costs and opening marks required.",
+      "entry": "Unchanged original candidate predicates, eligible closed M1/M5 evidence; next executable quote strictly AFTER decision, within two seconds.",
+      "exit": "Broker-side SL/TP quote crossings; next close-permitted quote after original anchor invalidation/retirement or 15-minute holding horizon.",
+      "iat_choices": [
+        "ONE_TICK_STOP_BUFFER",
+        "TWO_R_TARGET",
+        "FIFTEEN_MINUTE_MAX_HOLD",
+        "NORMAL_RELATIVE_VOLATILITY_ONLY"
+      ],
+      "identity": "Existing canonical setup anchor plus new specification version/hash; same setup cannot rearm after close.",
+      "invalidation": "Original anchored INVALIDATED event; continuation loses M5 trend; blocked evidence makes outcome inconclusive, not a fabricated exit.",
+      "limitations": [
+        "UNVALIDATED_POLICY_CHOICES_NOT_PROFITABILITY_EVIDENCE",
+        "OHLC_ALONE_CANNOT_ESTABLISH_FILL_ORDER",
+        "NO_EXECUTION_AUTHORIZATION"
+      ],
+      "missing_data": "Abstain; no imputation, no unconfirmed pivot, no forming M5, no caller/model approval.",
+      "regime": "Continuation: M1/M5 direction aligned. Sweep: established M5 structure, original post-sweep CLOSE CHoCH; opposite M5 allowed as in original research.",
+      "session": "Verified quote and new-position permissions; close-only permits exits only; UNKNOWN blocks.",
+      "source_predicate_rule_version": "1.0.0",
+      "source_registry_sha256": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+      "specification": {
+        "max_hold_minutes": 15,
+        "maximum_relative_volatility": "1.5",
+        "minimum_relative_volatility": "0.67",
+        "reward_risk": "2",
+        "stop_buffer_ticks": 1,
+        "strategy_id": "M5_TREND_M1_CONFIRMATION",
+        "version": "stage-b-research-1.0.0"
+      },
+      "specification_sha256": "57826f138ca314ff58e5ebec1aa4b0ae7f70eeb01a4d4004d1bc323dcc2eca9a",
+      "status": "EXPERIMENTAL",
+      "stop": "Last available confirmed M1 LOW for BUY / HIGH for SELL; sweep also includes swept level; one tick beyond the adverse extreme, adverse tick-grid rounding. Reject invalid geometry.",
+      "target": "2R from actual simulated bid/ask entry with declared adverse slippage; tick-rounded away from entry.",
+      "volatility": "Existing relative volatility in [0.67,1.5], available ATR/momentum observations; no new indicator or confluence tuning."
+    },
+    {
+      "author": "Original IAT research-policy composition",
+      "constraints": "0.01 lot, one position, five openings per UTC day, 1% daily admission/latch; qualified costs and opening marks required.",
+      "entry": "Unchanged original candidate predicates, eligible closed M1/M5 evidence; next executable quote strictly AFTER decision, within two seconds.",
+      "exit": "Broker-side SL/TP quote crossings; next close-permitted quote after original anchor invalidation/retirement or 15-minute holding horizon.",
+      "iat_choices": [
+        "ONE_TICK_STOP_BUFFER",
+        "TWO_R_TARGET",
+        "FIFTEEN_MINUTE_MAX_HOLD",
+        "NORMAL_RELATIVE_VOLATILITY_ONLY"
+      ],
+      "identity": "Existing canonical setup anchor plus new specification version/hash; same setup cannot rearm after close.",
+      "invalidation": "Original anchored INVALIDATED event; continuation loses M5 trend; blocked evidence makes outcome inconclusive, not a fabricated exit.",
+      "limitations": [
+        "UNVALIDATED_POLICY_CHOICES_NOT_PROFITABILITY_EVIDENCE",
+        "OHLC_ALONE_CANNOT_ESTABLISH_FILL_ORDER",
+        "NO_EXECUTION_AUTHORIZATION"
+      ],
+      "missing_data": "Abstain; no imputation, no unconfirmed pivot, no forming M5, no caller/model approval.",
+      "regime": "Continuation: M1/M5 direction aligned. Sweep: established M5 structure, original post-sweep CLOSE CHoCH; opposite M5 allowed as in original research.",
+      "session": "Verified quote and new-position permissions; close-only permits exits only; UNKNOWN blocks.",
+      "source_predicate_rule_version": "1.0.0",
+      "source_registry_sha256": "57e9092c6886280db1dec10b5e4cecbd16ce00ae722b708724a906f07e3debe1",
+      "specification": {
+        "max_hold_minutes": 15,
+        "maximum_relative_volatility": "1.5",
+        "minimum_relative_volatility": "0.67",
+        "reward_risk": "2",
+        "stop_buffer_ticks": 1,
+        "strategy_id": "SWEEP_M1_STRUCTURE_CHANGE",
+        "version": "stage-b-research-1.0.0"
+      },
+      "specification_sha256": "2d0cca955f891169cdf8f480477dc0f9b679d56636a7b357ea45a21477da7885",
+      "status": "EXPERIMENTAL",
+      "stop": "Last available confirmed M1 LOW for BUY / HIGH for SELL; sweep also includes swept level; one tick beyond the adverse extreme, adverse tick-grid rounding. Reject invalid geometry.",
+      "target": "2R from actual simulated bid/ask entry with declared adverse slippage; tick-rounded away from entry.",
+      "volatility": "Existing relative volatility in [0.67,1.5], available ATR/momentum observations; no new indicator or confluence tuning."
+    }
+  ],
+  "version": 1
+}
