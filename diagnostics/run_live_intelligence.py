@@ -7,6 +7,7 @@ from iat.live_observer import LiveObserver,ShadowLog
 from iat.live_dashboard import create_dashboard
 from iat.live_commentary import CommentaryFailure
 from iat.live_ai_provider import OpenAIResearchProvider
+from iat.live_ai_gemini import GeminiResearchProvider,DEFAULT_MODEL
 from iat.live_ai_runtime import LiveAIReasoning,ResearchCommentary,AIJournal
 from iat.mt5_data import MarketDataError
 from iat.session_config import load_session_config
@@ -17,11 +18,19 @@ class UnavailableProvider:
     def preflight(self):raise MarketDataError('MT5 unavailable','PROVIDER_UNAVAILABLE')
 
 
+def configured_provider(name,model=None):
+    """Read only the explicitly selected provider's credential after --enable-llm."""
+    if name=='gemini':return GeminiResearchProvider(os.environ.get('IAT_GEMINI_API_KEY'),model or DEFAULT_MODEL)
+    if name=='openai':return OpenAIResearchProvider(os.environ.get('IAT_OPENAI_API_KEY'),model or os.environ.get('IAT_REASONING_MODEL'))
+    raise CommentaryFailure('LLM_CONFIGURATION_INVALID')
+
+
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--log-directory',required=True);p.add_argument('--interval',type=int,default=10)
     p.add_argument('--port',type=int,default=8765);p.add_argument('--session-config')
-    p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send bounded typed research facts to OpenAI, never raw logs.')
+    p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send bounded typed research facts to the selected provider, never raw logs.')
+    p.add_argument('--llm-provider',choices=('openai','gemini'),default='openai')
     p.add_argument('--llm-model');p.add_argument('--llm-min-seconds',type=int,default=60)
     a=p.parse_args(argv)
     if sys.platform!='win32' or sys.version_info[:2]!=(3,11):
@@ -41,7 +50,7 @@ def main(argv=None):
         manager=ResearchCommentary()
         if a.enable_llm:
             try:
-                provider=OpenAIResearchProvider(os.environ.get('IAT_OPENAI_API_KEY'),a.llm_model or os.environ.get('IAT_REASONING_MODEL'))
+                provider=configured_provider(a.llm_provider,a.llm_model)
                 manager=ResearchCommentary(provider,min_seconds=a.llm_min_seconds)
             except CommentaryFailure as exc:manager=ResearchCommentary(error=exc.code)
             except ValueError:manager=ResearchCommentary(error='LLM_CONFIGURATION_INVALID')

@@ -38,6 +38,7 @@ on:
       - feat/iat2-live-intelligence-dashboard-v1
       - feat/iat2-live-reasoning-dashboard-v2
       - feat/iat2-live-ai-commentary-v3
+      - feat/iat-v3-gemini-provider
   pull_request:
     branches:
       - main
@@ -74,6 +75,7 @@ on:
       - feat/iat2-exness-historical-intake-v1
       - feat/iat2-live-intelligence-dashboard-v1
       - feat/iat2-live-reasoning-dashboard-v2
+      - feat/iat2-live-ai-commentary-v3
   workflow_dispatch:
 
 permissions:
@@ -109,6 +111,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_live_reasoning.py -v
       - name: Live AI commentary v3 mocked SDK evidence tests
         run: python -m unittest discover -s tests -p test_live_ai_v3.py -v
+      - name: Gemini compact evidence selection (mocked SDK only)
+        run: python -m unittest discover -s tests -p test_live_ai_gemini.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test
