@@ -1,5 +1,9 @@
 # Live AI commentary and evidence validation v3
 
+Gemini is an additional optional provider on `feat/iat-v3-gemini-provider`. See
+[GEMINI_PROVIDER.md](GEMINI_PROVIDER.md) for compact selection, installation and
+`--llm-provider gemini`. Existing commands still default to OpenAI.
+
 Base: exact PR #34 `db4bebe4b82497c5b253b8a66c13e3e652b180d5`.
 No merge, rebase, strategy, score, confluence, session-calendar or execution-gate
 change. The optional provider is a separate research boundary with no terminal

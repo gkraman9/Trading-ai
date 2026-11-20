@@ -1,0 +1,2 @@
+# Optional Gemini research provider; no SDK import when disabled.
+google-genai==3.6.1
