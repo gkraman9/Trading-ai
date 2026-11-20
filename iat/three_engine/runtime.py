@@ -9,7 +9,7 @@ from iat.replay_dataset import utc
 from iat.intelligence.strategy_replay import digest
 from iat.three_engine.config import PROTOCOL
 from iat.three_engine.evidence import build
-from iat.three_engine.contracts import validate_response
+from iat.three_engine.contracts import validate_response, proposal
 from iat.three_engine.reducer import request_packet
 
 
@@ -74,6 +74,19 @@ class ComparisonRuntime:
                     except Exception:
                         raw = None
                         code = "MODEL_SCHEMA_INVALID"
+                # Finish common pricing/risk validation before sampling availability.
+                # The journal repeats this pure validation for integrity, without new evidence.
+                proposal(
+                    req["engine"],
+                    bundle,
+                    raw,
+                    self.clock().isoformat(),
+                    self.journal.config,
+                    model=req["model"],
+                    request_at=req["at"],
+                    response_at=result["response_at"],
+                    blocked_reason=code,
+                )
                 available = self.clock().isoformat()
                 # Record only validated bounded fields, never SDK errors, free text or private thoughts.
                 self.journal.record(
@@ -134,7 +147,17 @@ class ComparisonRuntime:
             bundle["id"] = digest(bundle)
         from iat.three_engine.rules import baseline
 
-        baseline(bundle, state["rules"], self.journal.config, self.journal.calendar)
+        _, raw, _ = baseline(
+            bundle, state["rules"], self.journal.config, self.journal.calendar
+        )
+        proposal(
+            "A_RULES",
+            bundle,
+            raw,
+            self.clock().isoformat(),
+            self.journal.config,
+            request_at=bundle["cutoff"],
+        )
         self.journal.record(
             dict(
                 kind="POINT",

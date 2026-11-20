@@ -1223,3 +1223,45 @@ class ThreeEngineTests(unittest.TestCase):
         key = self.request(blocked)
         self.assertEqual(blocked.state()["requests"][key]["reason"], "BUDGET_EXHAUSTED")
         self.assertEqual(blocked.state()["budget"]["calls"], 0)
+
+    def test_final_availability_follows_risk_validation_not_just_model_receipt(self):
+        from concurrent.futures import Future
+
+        j = self.journal()
+        self.point(j)
+        key = self.request(j)
+        future = Future()
+        future.set_result(
+            dict(
+                raw=response(self.b),
+                response_at=(NOW + timedelta(seconds=0.5)).isoformat(),
+                code=None,
+            )
+        )
+        clock_at = [NOW + timedelta(seconds=0.5)]
+        runtime = ComparisonRuntime.__new__(ComparisonRuntime)
+        runtime.journal = j
+        runtime.jobs = {
+            key: dict(future=future, recorded=False, engine="C_AI_LED", started=0)
+        }
+        runtime.clock = lambda: clock_at[0]
+        runtime.monotonic = lambda: 0
+
+        def slow_validation(*args, **kwargs):
+            p = proposal(*args, **kwargs)
+            clock_at[0] += timedelta(seconds=0.5)
+            return p
+
+        with patch("iat.three_engine.runtime.proposal", side_effect=slow_validation):
+            runtime.drain()
+        p = j.state()["proposals"]["C_AI_LED"]
+        self.assertEqual(p["decision"], "BUY")
+        self.assertEqual(
+            p["decision_available_at"], (NOW + timedelta(seconds=1)).isoformat()
+        )
+        s, _ = simulation.decision(simulation.initial(self.cfg), p, self.b)
+        s, _ = simulation.quote(s, tick(0.75), self.cfg, session())
+        self.assertEqual(s["counts"]["entries"], 0)
+        s, _ = simulation.quote(s, tick(1.1), self.cfg, session())
+        self.assertEqual(s["counts"]["entries"], 1)
+        self.assertEqual(j.verify(replay=True)["status"], "MATCH")
