@@ -68,10 +68,25 @@ def session_diagnostics(calendar, at, *, quote=None, errors=()):
                 close_positions=p["broker_close_positions"],
                 reason_codes=list(state["reason_codes"]),
             )
+            synthetic = "SYNTHETIC_TEST" in state.get("provenance_kinds", ())
+            verified = (
+                state["verification"] == "VERIFIED_DECLARATIONS" and not synthetic
+            )
+            if synthetic:
+                out["calendar_status"] = "SYNTHETIC_CALENDAR_NOT_REAL_VERIFICATION"
+                out["reason_codes"].append("SYNTHETIC_CALENDAR_NOT_REAL_EVIDENCE")
             if p["phase"] == "CLOSED":
-                out["reason_codes"].append("ACTUAL_MARKET_CLOSURE")
+                out["reason_codes"].append(
+                    "ACTUAL_MARKET_CLOSURE"
+                    if verified and p["market_data_expected"] is False
+                    else "UNVERIFIED_DECLARED_CLOSURE"
+                )
             if p["phase"] in ("CLOSE_ONLY", "QUOTE_ONLY"):
-                out["reason_codes"].append("SESSION_TRANSITION_RESTRICTED")
+                out["reason_codes"].append(
+                    "SESSION_TRANSITION_RESTRICTED"
+                    if verified
+                    else "UNVERIFIED_DECLARED_RESTRICTED_PHASE"
+                )
         else:
             out.update(
                 calendar_status="QUOTE_CALENDAR_WITHOUT_TRADE_PERMISSION_EVIDENCE",

@@ -85,8 +85,11 @@ The user's local runtime/configuration has not been remotely inspected, so code
 inspection does not establish the exact cause on that machine.
 
 New diagnostics distinguish missing evidence, unverified coverage, CALENDAR_EXPIRED,
-actual CLOSED phases, CLOSE_ONLY/QUOTE_ONLY transitions, stale/missing Bid/Ask,
+verified-calendar CLOSED phases, CLOSE_ONLY/QUOTE_ONLY transitions, stale/missing Bid/Ask,
 broker mismatch, symbol visibility/unsupported terms, transport and data errors.
+Unverified or synthetic CLOSED phases are labeled UNVERIFIED_DECLARED_CLOSURE,
+never ACTUAL_MARKET_CLOSURE; synthetic calendars cannot establish operational
+eligibility. A verified declaration is still not independent terminal proof.
 Quote permission and permission to open new positions are separate. For a verified
 close-only phase: quotes may be true, new_positions false and close_positions true.
 Neither permission grants IAT execution authority.
@@ -149,6 +152,11 @@ missing-calendar cases are retained. Unresolved trades have no realized outcome;
 when marks are stale/unavailable, current unrealized P&L is withheld.
 
 ## SQLite schema v1 and recovery
+
+Engine version `live-shadow-1.0.1` binds the stricter calendar diagnostics.
+Pre-release 1.0.0 journals must be retained and replayed with their original code;
+do not edit metadata to resume them under changed semantics. Start a separately
+labeled study for this build.
 
 The private directory contains `shadow.sqlite3` (SQLite's default rollback journal,
 not an application broker database). All write transactions use BEGIN IMMEDIATE

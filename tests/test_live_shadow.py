@@ -896,3 +896,42 @@ class ShadowTests(unittest.TestCase):
                 for e in a["engine_contracts"]
             )
         )
+
+    def test_unverified_and_synthetic_calendar_closure_never_claims_actual_closure(
+        self,
+    ):
+        from test_session_v2 import synthetic_v2, window
+        from iat.session_config import compile_session_config
+
+        value = synthetic_v2()
+        value["weekdays"]["thu"] = {"quotes": [], "phases": [window(state="CLOSED")]}
+        cal = compile_session_config(value)
+        r = session_diagnostics(cal, NOW, quote=tick())
+        self.assertIn("UNVERIFIED_DECLARED_CLOSURE", r["reason_codes"])
+        self.assertNotIn("ACTUAL_MARKET_CLOSURE", r["reason_codes"])
+        self.assertIn("SYNTHETIC_CALENDAR_NOT_REAL_EVIDENCE", r["reason_codes"])
+        self.assertFalse(r["operational_eligible"])
+        value["verification"]["quote_schedule_verified"] = False
+        value["verification"]["trade_schedule_verified"] = False
+        r = session_diagnostics(compile_session_config(value), NOW, quote=tick())
+        self.assertNotIn("ACTUAL_MARKET_CLOSURE", r["reason_codes"])
+        # A verified calendar declaration is still distinct from real-terminal proof.
+        state = dict(
+            verification="VERIFIED_DECLARATIONS",
+            provenance_kinds=["PUBLISHED"],
+            reason_codes=[],
+            permissions=dict(
+                phase="CLOSED",
+                market_data_expected=False,
+                broker_open_positions=False,
+                broker_close_positions=False,
+            ),
+        )
+        declared = SimpleNamespace(
+            configuration_sha256="a" * 64,
+            public_state=lambda at: state,
+            validate_request=lambda *a: None,
+        )
+        r = session_diagnostics(declared, NOW, quote=tick())
+        self.assertIn("ACTUAL_MARKET_CLOSURE", r["reason_codes"])
+        self.assertFalse(r["operational_eligible"])

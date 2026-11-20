@@ -198,7 +198,7 @@ class Journal:
 
         self.binding = dict(
             schema_version=1,
-            engine_version="live-shadow-1.0.0",
+            engine_version="live-shadow-1.0.1",
             research_specifications=[v.description() for v in specifications()],
             context_sha256=ContextConfig().digest,
             intelligence_sha256=IntelligenceConfig().digest,

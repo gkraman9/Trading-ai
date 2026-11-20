@@ -178,7 +178,7 @@
     "checkpoint_sha256": "7af8b57246d8671721f0995c6edd063a5dc5e4b0548c0f1a7a9e394e2c821cfa",
     "event_count": 3,
     "execution_allowed": false,
-    "last_event_sha256": "1d9068bd551d468e9a2ed7713dc156e0c97eae9f11a4288ee7cc560005e64080",
+    "last_event_sha256": "0c16e4f61c462112a6e7a17e7cdc540afc3e0c3bc0bdacd71861d0fcbb13d925",
     "orders_requested": 0,
     "signal": "WAIT",
     "source_kind": "SYNTHETIC_FIXTURE",
@@ -216,7 +216,7 @@
   "label": "SHADOW_SIMULATED_NOT_BROKER_EXECUTED",
   "orders_requested": 0,
   "scope": "SOFTWARE_CONTRACTS_NOT_MARKET_OR_PROFITABILITY_EVIDENCE",
-  "sha256": "9a692df9db4e443e63ca5de7150d03c2663c55b88751fad6438d9d944e37c50a",
+  "sha256": "29ab3f448befbc76d28bf387cfe06dc50c5011a273ec9a3fac0f175414cdd4db",
   "signal": "WAIT",
   "source_kind": "SYNTHETIC_FIXTURE"
 }
