@@ -5,7 +5,7 @@ from iat.live_ai_runtime import LiveAIReasoning
 from flask import Flask,jsonify,request,send_from_directory,abort
 
 
-def create_dashboard(observer,reasoning=None,ai_reasoning=None):
+def create_dashboard(observer,reasoning=None,ai_reasoning=None,shadow=None):
     reasoning=reasoning or LiveReasoning()
     ai_reasoning=ai_reasoning or LiveAIReasoning()
     app=Flask(__name__,static_folder=None)
@@ -33,6 +33,12 @@ def create_dashboard(observer,reasoning=None,ai_reasoning=None):
     def reasoning_snapshot():return jsonify(reasoning.envelope(observer.latest()))
     @app.get('/live/v3/snapshot')
     def ai_snapshot():return jsonify(ai_reasoning.envelope(observer.latest()))
+    @app.get('/live/shadow/v1/snapshot')
+    def shadow_snapshot():
+        from iat.live_shadow.runtime import unavailable
+        return jsonify(shadow.shadow_latest() if shadow is not None else unavailable())
+    @app.get('/shadow.js')
+    def shadow_js():return send_from_directory(assets,'shadow.js')
     @app.get('/live/v1/settings')
     def settings():return jsonify(dict(symbol='XAUUSD',refresh_seconds=observer.interval,execution_allowed=False,signal='WAIT'))
     return app

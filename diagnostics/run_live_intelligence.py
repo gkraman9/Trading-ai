@@ -29,6 +29,8 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--log-directory',required=True);p.add_argument('--interval',type=int,default=10)
     p.add_argument('--port',type=int,default=8765);p.add_argument('--session-config')
+    p.add_argument('--shadow-journal-directory',help='Optional read-only attachment to a separately running Stage B.2 recorder.')
+    p.add_argument('--shadow-config',help='Matching Stage B.2 config; absent means record-only configuration.')
     p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send bounded typed research facts to the selected provider, never raw logs.')
     p.add_argument('--llm-provider',choices=('openai','gemini'),default='openai')
     p.add_argument('--llm-model');p.add_argument('--llm-min-seconds',type=int,default=60)
@@ -55,7 +57,13 @@ def main(argv=None):
             except CommentaryFailure as exc:manager=ResearchCommentary(error=exc.code)
             except ValueError:manager=ResearchCommentary(error='LLM_CONFIGURATION_INVALID')
         reasoning=LiveAIReasoning(manager,AIJournal(log.root))
-        app=create_dashboard(observer,ai_reasoning=reasoning);observer.start();reasoning.start(observer)
+        shadow=None
+        if a.shadow_journal_directory:
+            from iat.live_shadow.store import Journal
+            from iat.live_shadow.policy import configuration
+            from iat.live_shadow.runtime import ReadOnlyJournalView
+            shadow=ReadOnlyJournalView(Journal(a.shadow_journal_directory,configuration(a.shadow_config),calendar=calendar))
+        app=create_dashboard(observer,ai_reasoning=reasoning,shadow=shadow);observer.start();reasoning.start(observer)
         print('Open http://127.0.0.1:'+str(a.port)+' — READ ONLY; WAIT; execution disabled; zero order capability.')
         print('Without verified session coverage, real descriptive observations may appear but the assessment remains WAIT.')
         app.run(host='127.0.0.1',port=a.port,debug=False,use_reloader=False,threaded=True)
