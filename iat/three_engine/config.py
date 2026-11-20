@@ -25,6 +25,7 @@ PROTOCOL = dict(
     output_tokens=2048,
     prompt_version="evidence-plan-1",
     input_byte_bound=256000,
+    provider_envelope_token_reserve=4096,
     max_reasoning_items=12,
     confidence="UNCALIBRATED",
     partial_fills="UNSUPPORTED_REMAIN_UNRESOLVED",

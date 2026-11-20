@@ -6,7 +6,8 @@ import json
 from iat.three_engine import ENGINES
 from iat.three_engine.config import PROTOCOL
 from iat.three_engine import simulation
-from iat.three_engine.contracts import proposal, validate_response
+from iat.three_engine.contracts import proposal, validate_response, response_schema
+from iat.three_engine.providers import PROMPT
 from iat.three_engine.rules import baseline
 from iat.three_engine.evidence import validate as validate_bundle
 from iat.live_shadow.policy import session_diagnostics
@@ -206,9 +207,21 @@ def reduce(state, event, config, calendar=None):
             separators=(",", ":"),
             allow_nan=False,
         ).encode()
-        tokens = len(encoded) + PROTOCOL["output_tokens"]
+        # Reserve for the whole supplied prompt/schema, not just the evidence packet.
+        # Vendor framing is additionally bounded by a declared reserve, not a billing guarantee.
+        input_bound = (
+            len(encoded)
+            + len(PROMPT.encode())
+            + len(
+                json.dumps(
+                    response_schema(), sort_keys=True, separators=(",", ":")
+                ).encode()
+            )
+            + PROTOCOL["provider_envelope_token_reserve"]
+        )
+        tokens = input_bound + PROTOCOL["output_tokens"]
         cost = (
-            Decimal(len(encoded)) * dec(config["budgets"]["input_usd_per_million"])
+            Decimal(input_bound) * dec(config["budgets"]["input_usd_per_million"])
             + Decimal(PROTOCOL["output_tokens"])
             * dec(config["budgets"]["output_usd_per_million"])
         ) / 1000000

@@ -1192,3 +1192,34 @@ class ThreeEngineTests(unittest.TestCase):
                 ),
                 q["id"],
             )
+
+    def test_budget_includes_prompt_schema_and_provider_envelope_before_transport(self):
+        from iat.three_engine.providers import PROMPT
+
+        j = self.journal()
+        self.point(j)
+        key = self.request(j)
+        encoded = json.dumps(
+            request_packet(j.state(), self.b, "C_AI_LED"),
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode()
+        schema = json.dumps(
+            response_schema(), sort_keys=True, separators=(",", ":")
+        ).encode()
+        expected = (
+            len(encoded)
+            + len(PROMPT.encode())
+            + len(schema)
+            + PROTOCOL["provider_envelope_token_reserve"]
+            + PROTOCOL["output_tokens"]
+        )
+        self.assertEqual(j.state()["requests"][key]["reserved_tokens"], expected)
+        c = deepcopy(self.cfg)
+        c["budgets"]["max_tokens"] = len(encoded) + PROTOCOL["output_tokens"]
+        blocked = self.journal("budget-without-prompt", config_=c)
+        self.point(blocked)
+        key = self.request(blocked)
+        self.assertEqual(blocked.state()["requests"][key]["reason"], "BUDGET_EXHAUSTED")
+        self.assertEqual(blocked.state()["budget"]["calls"], 0)

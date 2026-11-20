@@ -124,7 +124,7 @@
   "historical_validation": "PENDING",
   "orders_requested": 0,
   "scope": "DETERMINISTIC_SOFTWARE_FIXTURE_NOT_AI_PERFORMANCE_OR_PROFITABILITY",
-  "sha256": "f61b27cc249db91984eb1560b4364ee5f68eeb05814f1f80dbd1c5c346480651",
+  "sha256": "d95970e251774ceb0037551622d294a0dd37fee7604c739adb94051d1fc25de1",
   "signal": "WAIT",
   "source_kind": "SYNTHETIC_FIXTURE",
   "source_unchanged": true,
@@ -135,11 +135,11 @@
     "execution_allowed": false,
     "historical_comparisons": "NOT_RUN",
     "historical_validation": "PENDING",
-    "log_sha256": "146f4b9377535e499473f5ac2346c98d12fbdc7f04aa96cb9ecba129785d450a",
+    "log_sha256": "dda492da87d3725f17e875d717286244abe5fb766ff9c87e0884dbedbf9e5929",
     "orders_requested": 0,
     "signal": "WAIT",
     "source_kind": "SYNTHETIC_FIXTURE",
-    "state_sha256": "291140a9d113d8ae3a3d80fec1ca43c5e893793d03f1d59c27eb0ed8e1a65ac4",
+    "state_sha256": "3d69ef5e939303e7d30f0b18750270e926701291030a039dca2d2e12a824fe4f",
     "status": "MATCH"
   }
 }
