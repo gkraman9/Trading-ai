@@ -1107,3 +1107,88 @@ class ThreeEngineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "MODEL_BINDING"):
             self.request(j, model="DIFFERENT_MODEL")
         self.assertEqual(j.state()["budget"]["calls"], 0)
+
+    def test_reversal_requires_referenced_confirmed_directional_sweep(self):
+        # Explicitly injected SYNTHETIC evidence tests the contract gate; not broker observations.
+        for side, pool in (("BUY", "SWING_LOWS"), ("SELL", "SWING_HIGHS")):
+            b = deepcopy(self.b)
+            key = "SYNTHETIC:sweep"
+            entry = next(
+                k
+                for k, v in b["price_catalog"].items()
+                if v["kind"]
+                == ("CLOSED_CANDLE_HIGH" if side == "BUY" else "CLOSED_CANDLE_LOW")
+            )
+            for event in (
+                "LEVEL_PENETRATION",
+                "AMBIGUOUS_EVENT",
+                "SUSTAINED_BREAKOUT",
+                "CONFIRMED_SWEEP",
+            ):
+                b["evidence_index"][key] = dict(
+                    category="LIQUIDITY",
+                    available_at=NOW.isoformat(),
+                    details=dict(event_type=event, pool_kind=pool),
+                )
+                b["id"] = digest({k: v for k, v in b.items() if k != "id"})
+                raw = response(b, side, entry_type="REVERSAL", entry_anchor_id=entry)
+                raw["supporting_evidence_ids"].append(key)
+                p = self.plan(side, bundle=b, raw=raw)
+                self.assertEqual(
+                    p["decision"],
+                    side if event == "CONFIRMED_SWEEP" else "BLOCKED",
+                    p["reason_codes"],
+                )
+            raw["supporting_evidence_ids"].remove(key)
+            self.assertIn(
+                "CONFIRMED_REVERSAL_EVIDENCE_REQUIRED",
+                self.plan(side, bundle=b, raw=raw)["reason_codes"],
+            )
+            raw["supporting_evidence_ids"].append(key)
+            b["evidence_index"][key]["details"]["pool_kind"] = (
+                "SWING_HIGHS" if side == "BUY" else "SWING_LOWS"
+            )
+            b["id"] = digest({k: v for k, v in b.items() if k != "id"})
+            raw["bundle_id"] = b["id"]
+            self.assertEqual(self.plan(side, bundle=b, raw=raw)["decision"], "BLOCKED")
+
+    def test_pullback_requires_a_later_executable_side_trigger(self):
+        for side in ("BUY", "SELL"):
+            b = deepcopy(self.b)
+            # Add a genuine OHLC low/high at the pullback level in explicitly synthetic closed data.
+            row = b["candles"]["M1"][-1]
+            row["low" if side == "BUY" else "high"] = 99.8 if side == "BUY" else 100.2
+            # Rebuild the complete evidence from this fixture instead of inventing a price catalog level.
+            packet = deepcopy(self.p)
+            packet["candles"]["M1"][-1] = row
+            packet["candles"]["M5"][-1]["low" if side == "BUY" else "high"] = (
+                99.0 if side == "BUY" else 101.0
+            )
+            b = build(
+                packet, self.cfg, NOW.isoformat(), source_kind="SYNTHETIC_FIXTURE"
+            )
+            entry = next(
+                k
+                for k, v in b["price_catalog"].items()
+                if v["price"] == ("99.8" if side == "BUY" else "100.2")
+            )
+            p = self.plan(
+                side,
+                bundle=b,
+                raw=response(b, side, entry_type="PULLBACK", entry_anchor_id=entry),
+            )
+            self.assertEqual(p["decision"], side, p["reason_codes"])
+            s, _ = simulation.decision(simulation.initial(self.cfg), p, b)
+            s, _ = simulation.quote(s, tick(1), self.cfg, session())
+            self.assertIsNone(s["position"])
+            q = tick(2, 99.7, 99.8) if side == "BUY" else tick(2, 100.2, 100.3)
+            s, events = simulation.quote(s, q, self.cfg, session())
+            self.assertIsNotNone(s["position"], s["reasons"])
+            self.assertEqual(
+                next(
+                    e["position"]["entry_quote_id"]
+                    for e in events
+                    if e["kind"] == "ENTRY"
+                ),
+                q["id"],
+            )

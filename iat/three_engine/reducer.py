@@ -176,7 +176,6 @@ def reduce(state, event, config, calendar=None):
             p["decision_id"] = digest(p)
         queue(s, "CONTEXT", b["cutoff"], b["id"])
         s["proposals"][p["engine"]] = deepcopy(p)
-        s["proposals"][p["engine"]] = deepcopy(p)
         queue(s, "PROPOSAL", p["decision_available_at"], p)
         effects.append(dict(kind="FROZEN_PROPOSAL", proposal=p))
     elif kind == "REQUEST":

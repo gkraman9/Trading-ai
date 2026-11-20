@@ -483,7 +483,16 @@ def proposal(
             for ref in r["target_refs"]
         ]
         if r["entry_type"] == "REVERSAL" and not any(
-            e.get("category") == "LIQUIDITY" for e in bundle["evidence_index"].values()
+            key in r["supporting_evidence_ids"]
+            and e.get("category") == "LIQUIDITY"
+            and e.get("details", {}).get("event_type") == "CONFIRMED_SWEEP"
+            and e.get("details", {}).get("pool_kind")
+            in (
+                ("SWING_LOWS", "EQUAL_LOWS")
+                if side == "BUY"
+                else ("SWING_HIGHS", "EQUAL_HIGHS")
+            )
+            for key, e in bundle["evidence_index"].items()
         ):
             raise ValueError("CONFIRMED_REVERSAL_EVIDENCE_REQUIRED")
         f = feasibility(
