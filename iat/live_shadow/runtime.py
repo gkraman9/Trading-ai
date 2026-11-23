@@ -70,11 +70,13 @@ class ShadowRuntime:
                             "XAUUSD", getattr(self.feed, "TIMEFRAME_" + tf), 1, count
                         )
                     raw = deepcopy(self.feed.raw)
-                    now = self.clock()
-                    self.feed.quote(now)
+                    self.feed.quote_observed(self.clock)
                     quote = deepcopy(self.feed.last_quote)
                 except Exception as exc:
                     errors.append(getattr(exc, "code", "QUOTE_UNAVAILABLE"))
+                # Close after acquisition, even when the read failed. A successful
+                # quote must never sit beyond its own recorded capture window.
+                now = self.clock()
                 state = self.journal.state()
                 start = (
                     datetime.fromisoformat(state["last_capture_end"])
