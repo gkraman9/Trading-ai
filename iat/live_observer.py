@@ -112,21 +112,27 @@ class LiveObserver:
         self.clock=ClockGuard(clock or (lambda:datetime.now(timezone.utc)))
         self.lock=Lock();self.poll_lock=Lock();self.cached=base();self.previous=None;self.stop=Event();self.thread=None
 
+    def _quote(self, cutoff):
+        # Optional read-completion protocol; legacy provider APIs stay compatible.
+        observe = getattr(self.provider, 'quote_observed', None)
+        return observe(self.clock) if callable(observe) else self.provider.quote(cutoff)
+
     def step(self):
         with self.poll_lock:
             r=base();raw={}
             try:
                 started=self.clock();r=base(iso(started));self.provider.preflight()
-                quote=self.provider.quote(started);r['quote']=quote
+                quote=self._quote(started);r['quote']=quote
                 shots={tf:get_candle_snapshot('XAUUSD',tf,count,mt5=self.provider,clock=self.clock)
                        for tf,count in (('M1',500),('M5',100))}
-                now=self.clock();r['acquired_at_utc']=iso(now);r['acquired_at_local']=now.astimezone().isoformat();r['acquisition_started_at_utc']=iso(started)
+                now=self.clock();r['quote']=self._quote(now)
+                if callable(getattr(self.provider,'quote_observed',None)):now=self.clock()
+                r['acquired_at_utc']=iso(now);r['acquired_at_local']=now.astimezone().isoformat();r['acquisition_started_at_utc']=iso(started)
                 # Recheck both frames at one clock after both fetches.
                 for tf,s in shots.items():
                     q=assess_candles(s.candles,tf,now,observed_finality=True)
                     if not q.valid:raise MarketDataError('Snapshot invalid',report=q)
                 if (now-started).total_seconds()>10:raise MarketDataError('Acquisition too slow','ACQUISITION_LATENCY_EXCEEDED')
-                r['quote']=self.provider.quote(now)
                 at=datetime.fromisoformat(shots['M1'].candles[-1]['timestamp'])+timedelta(minutes=1)
                 rows={tf:prefix(s.candles,tf,at) for tf,s in shots.items()}
                 for tf in rows:

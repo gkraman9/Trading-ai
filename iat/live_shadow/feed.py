@@ -90,9 +90,22 @@ class ShadowFeed(ReadOnlyMarketData):
             mode if type(mode) is int and mode in (0, 1) else None
         )
 
+    def quote_observed(self, clock):
+        """Read first, then sample UTC; never treat read latency as clock-skew tolerance."""
+        if not callable(clock):
+            raise ValueError("OBSERVATION_CLOCK_REQUIRED")
+        return self.quote(clock)
+
     def quote(self, now):
+        # Datetime callers retain explicit-cutoff validation. Live acquisition opts
+        # into a callable clock so a tick arriving during the read is not "future".
         try:
-            q = observed_tick(self._tick("XAUUSD"), now)
+            started = now() if callable(now) else now
+            tick = self._tick("XAUUSD")
+            observed = now() if callable(now) else now
+            if observed < started:
+                raise ValueError("CLOCK_MOVED_BACKWARD")
+            q = observed_tick(tick, observed)
         except (ValueError, OverflowError, OSError) as exc:
             raise MarketDataError(
                 "Bid/Ask unavailable",
@@ -106,7 +119,7 @@ class ShadowFeed(ReadOnlyMarketData):
             observed_at_utc=q["timestamp"],
             epoch_seconds=int(utc(q["timestamp"]).timestamp()),
             epoch_milliseconds=int(utc(q["timestamp"]).timestamp() * 1000),
-            age_seconds=(now - utc(q["timestamp"])).total_seconds(),
+            age_seconds=(observed - utc(q["timestamp"])).total_seconds(),
             price_basis="OBSERVED_MT5_BID_ASK",
         )
 
