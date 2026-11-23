@@ -45,6 +45,7 @@ on:
       - feat/iat-v3-three-engine-research-v1
       - fix/iat-v3-shadow-quote-observation-time
       - research/iat-v3-exness-boundary-evidence
+      - feat/iat-v3-unified-market-view
   pull_request:
     branches:
       - main
@@ -88,6 +89,7 @@ on:
       - feat/iat-v3-live-shadow-research-v1
       - feat/iat-v3-three-engine-research-v1
       - fix/iat-v3-shadow-quote-observation-time
+      - research/iat-v3-exness-boundary-evidence
   workflow_dispatch:
 
 permissions:

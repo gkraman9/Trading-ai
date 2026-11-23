@@ -1,0 +1,606 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_version",
+    "model_version",
+    "status",
+    "market_state",
+    "price_structure",
+    "liquidity",
+    "confluence",
+    "restrictions",
+    "advisory",
+    "bindings",
+    "limitations",
+    "mode",
+    "signal",
+    "execution_allowed",
+    "qualification",
+    "exness",
+    "historical_validation",
+    "historical_comparisons",
+    "sha256"
+  ],
+  "properties": {
+    "report_version": {
+      "const": 1
+    },
+    "model_version": {
+      "const": "IAT_MARKET_INTELLIGENCE_V3"
+    },
+    "status": {
+      "enum": [
+        "BLOCKED",
+        "UNKNOWN",
+        "ABSTAINED",
+        "ASSESSED"
+      ]
+    },
+    "market_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symbol",
+        "observation_at_utc",
+        "provenance",
+        "available_timeframes",
+        "closed_through",
+        "regime",
+        "directional_bias",
+        "trend_structure",
+        "momentum",
+        "volatility"
+      ],
+      "properties": {
+        "symbol": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "observation_at_utc": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provenance": {
+          "enum": [
+            null,
+            "SYNTHETIC_RESEARCH",
+            "HISTORICAL_RESEARCH",
+            "VALIDATED_LIVE"
+          ]
+        },
+        "available_timeframes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "M1",
+              "M5"
+            ]
+          }
+        },
+        "closed_through": {
+          "type": "object"
+        },
+        "regime": {
+          "enum": [
+            "UNKNOWN",
+            "TREND_UP",
+            "TREND_DOWN",
+            "RANGE",
+            "TRANSITION"
+          ]
+        },
+        "directional_bias": {
+          "enum": [
+            "UNKNOWN",
+            "NEUTRAL",
+            "BULLISH",
+            "BEARISH"
+          ]
+        },
+        "trend_structure": {
+          "type": "object"
+        },
+        "momentum": {
+          "type": "object"
+        },
+        "volatility": {
+          "type": "object"
+        }
+      }
+    },
+    "price_structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "swings",
+        "structural_events",
+        "patterns",
+        "support_resistance",
+        "supply_demand",
+        "structure_changes"
+      ],
+      "properties": {
+        "swings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "structural_events": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "patterns": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "support_resistance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "supply_demand": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "structure_changes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    },
+    "liquidity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pools",
+        "events",
+        "hypotheses"
+      ],
+      "properties": {
+        "pools": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "events": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "AVAILABLE",
+                "UNAVAILABLE"
+              ]
+            },
+            "reason_codes": {
+              "type": "array"
+            },
+            "items": {
+              "type": "array"
+            }
+          }
+        },
+        "hypotheses": {
+          "type": "array"
+        }
+      }
+    },
+    "confluence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "m1_structure",
+        "m5_structure",
+        "agreement",
+        "scores",
+        "conflicts",
+        "evidence_index",
+        "sources"
+      ],
+      "properties": {
+        "m1_structure": {
+          "type": "string"
+        },
+        "m5_structure": {
+          "type": "string"
+        },
+        "agreement": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scores": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "conflicts": {
+          "type": "array"
+        },
+        "evidence_index": {
+          "type": "array"
+        },
+        "sources": {
+          "type": "object"
+        }
+      }
+    },
+    "restrictions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_quality",
+        "session",
+        "calendar_qualification",
+        "missing_timeframes",
+        "warmup",
+        "reason_codes",
+        "qualification_snapshot"
+      ],
+      "properties": {
+        "data_quality": {},
+        "session": {},
+        "calendar_qualification": {
+          "type": "string"
+        },
+        "missing_timeframes": {
+          "type": "array"
+        },
+        "warmup": {
+          "type": "array"
+        },
+        "reason_codes": {
+          "type": "array"
+        },
+        "qualification_snapshot": {}
+      }
+    },
+    "advisory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "upstream_signal",
+        "selected_hypothesis",
+        "directional_bias",
+        "confidence",
+        "confidence_status",
+        "score_kind",
+        "ranked_hypotheses",
+        "leading_hypotheses",
+        "supporting_evidence",
+        "contradictory_evidence",
+        "assumptions",
+        "invalidation_conditions",
+        "explanation",
+        "abstention_reasons",
+        "wait_reasons"
+      ],
+      "properties": {
+        "upstream_signal": {
+          "enum": [
+            null,
+            "WAIT"
+          ]
+        },
+        "selected_hypothesis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "directional_bias": {
+          "enum": [
+            "UNKNOWN",
+            "NEUTRAL",
+            "BULLISH",
+            "BEARISH"
+          ]
+        },
+        "confidence": {
+          "const": null
+        },
+        "confidence_status": {
+          "const": "NOT_PROVIDED_BY_UPSTREAM"
+        },
+        "score_kind": {
+          "const": "HEURISTIC_EVIDENCE_NOT_PROBABILITY"
+        },
+        "ranked_hypotheses": {
+          "type": "array"
+        },
+        "leading_hypotheses": {
+          "type": "array"
+        },
+        "supporting_evidence": {
+          "type": "array"
+        },
+        "contradictory_evidence": {
+          "type": "array"
+        },
+        "assumptions": {
+          "type": "array"
+        },
+        "invalidation_conditions": {
+          "type": "array"
+        },
+        "explanation": {
+          "type": "array"
+        },
+        "abstention_reasons": {
+          "type": "array"
+        },
+        "wait_reasons": {
+          "type": "array"
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context",
+        "adaptive",
+        "scenario",
+        "intelligence",
+        "session",
+        "qualification",
+        "configuration_hashes",
+        "policy"
+      ],
+      "properties": {
+        "context": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "adaptive": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scenario": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "intelligence": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "qualification": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configuration_hashes": {
+          "type": "object"
+        },
+        "policy": {
+          "type": "string"
+        }
+      }
+    },
+    "limitations": {
+      "type": "array"
+    },
+    "mode": {
+      "const": "READ_ONLY_SHADOW"
+    },
+    "signal": {
+      "const": "WAIT"
+    },
+    "execution_allowed": {
+      "const": false
+    },
+    "qualification": {
+      "const": "DATA_NOT_QUALIFIED"
+    },
+    "exness": {
+      "const": "BLOCKED"
+    },
+    "historical_validation": {
+      "const": "PENDING"
+    },
+    "historical_comparisons": {
+      "const": "NOT_RUN"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iat.invalid/schemas/market-intelligence-v3.schema.json",
+  "title": "IAT read-only unified market intelligence V3",
+  "description": "Shape and fixed safety contract. Semantic/reference/source-binding checks also require validate_market_view_v3."
+}
