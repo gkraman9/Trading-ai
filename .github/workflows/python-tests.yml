@@ -44,6 +44,7 @@ on:
       - feat/iat-v3-live-shadow-research-v1
       - feat/iat-v3-three-engine-research-v1
       - fix/iat-v3-shadow-quote-observation-time
+      - research/iat-v3-exness-boundary-evidence
   pull_request:
     branches:
       - main
@@ -86,6 +87,7 @@ on:
       - feat/iat-v3-strategy-qualification
       - feat/iat-v3-live-shadow-research-v1
       - feat/iat-v3-three-engine-research-v1
+      - fix/iat-v3-shadow-quote-observation-time
   workflow_dispatch:
 
 permissions:
@@ -135,6 +137,36 @@ jobs:
         run: python -m unittest discover -s tests -p test_shadow_quote_timing.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Windows historical evidence runner (synthetic files, no terminal)
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
+        shell: pwsh
+        run: |
+          $env:IAT_BOUNDARY_FIXTURE = Join-Path $env:RUNNER_TEMP ('iat boundary SYNTHETIC ' + [Guid]::NewGuid().ToString('N'))
+          @'
+          import json, os, pathlib, sys
+          sys.path.insert(0, 'tests')
+          from test_boundary_reproduction import fixture
+          root = pathlib.Path(os.environ['IAT_BOUNDARY_FIXTURE'])
+          paths = fixture(root / 'inputs')
+          (root / 'paths.json').write_text(json.dumps([str(p) for p in paths]), encoding='utf-8')
+          '@ | python -
+          if ($LASTEXITCODE -ne 0) { throw 'Synthetic fixture preparation failed' }
+          $paths = Get-Content -LiteralPath (Join-Path $env:IAT_BOUNDARY_FIXTURE 'paths.json') -Raw | ConvertFrom-Json
+          $out = Join-Path $env:IAT_BOUNDARY_FIXTURE 'private output with spaces'
+          $python = (Get-Command python).Source
+          & powershell.exe -NoProfile -File diagnostics/Verify-IATBoundaryEvidence.ps1 -PythonExe $python -M1Csv ($paths[0]) -M5Csv ($paths[1]) -OriginalReport ($paths[2]) -CalendarPath ($paths[3]) -OutputDirectory $out
+          if ($LASTEXITCODE -ne 3) { throw 'Expected completed unqualified research' }
+          $r = Get-Content -LiteralPath (Join-Path $out 'evidence-summary.json') -Raw | ConvertFrom-Json
+          if ($r.status -ne 'DIFFERENCES_FOUND' -or $r.qualification -ne 'DATA_NOT_QUALIFIED' -or $r.execution_allowed -ne $false -or $r.diagnostic.exit_code -ne 3) { throw 'Unsafe research result' }
+          foreach ($key in @('M1','M5','original_report','calendar')) {
+            if ($r.input_integrity.$key.unchanged -ne $true) { throw 'Input modified' }
+          }
+          $missingOut = Join-Path $env:IAT_BOUNDARY_FIXTURE 'blocked output'
+          & powershell.exe -NoProfile -File diagnostics/Verify-IATBoundaryEvidence.ps1 -PythonExe $python -M1Csv (Join-Path $env:IAT_BOUNDARY_FIXTURE 'missing.csv') -M5Csv ($paths[1]) -OriginalReport ($paths[2]) -CalendarPath ($paths[3]) -OutputDirectory $missingOut
+          if ($LASTEXITCODE -ne 2) { throw 'Missing input must remain BLOCKED' }
+          $blocked = Get-Content -LiteralPath (Join-Path $missingOut 'evidence-summary.json') -Raw | ConvertFrom-Json
+          if ($blocked.status -ne 'BLOCKED' -or $blocked.comparison.status -ne 'NOT_RUN' -or $blocked.execution_allowed -ne $false) { throw 'Unsafe missing-input report' }
+          exit 0
       - name: Windows runner fail-closed smoke test
         if: runner.os == 'Windows'
         shell: pwsh
