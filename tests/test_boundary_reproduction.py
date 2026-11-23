@@ -49,7 +49,9 @@ def fixture(root):
                 )
     report = inspect_csv_files(files["M1"], files["M5"], cal, START, END, MAPPING)
     old = root / "original-SYNTHETIC.json"
-    old.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    # Match the existing diagnostic's explicit UTF-8/LF writer on every test OS.
+    # Operator evidence files are never rewritten; CRLF differences have a separate regression.
+    old.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     return files["M1"], files["M5"], old, cal
 
 
