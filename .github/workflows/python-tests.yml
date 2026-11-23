@@ -44,6 +44,7 @@ on:
       - feat/iat-v3-live-shadow-research-v1
       - feat/iat-v3-three-engine-research-v1
       - fix/iat-v3-shadow-quote-observation-time
+      - research/iat-v3-exness-boundary-evidence
   pull_request:
     branches:
       - main
@@ -86,6 +87,7 @@ on:
       - feat/iat-v3-strategy-qualification
       - feat/iat-v3-live-shadow-research-v1
       - feat/iat-v3-three-engine-research-v1
+      - fix/iat-v3-shadow-quote-observation-time
   workflow_dispatch:
 
 permissions:
@@ -133,6 +135,8 @@ jobs:
         run: python -m unittest discover -s tests -p test_three_engine.py -v
       - name: Quote acquisition chronology (mocked MT5, no skew allowance)
         run: python -m unittest discover -s tests -p test_shadow_quote_timing.py -v
+      - name: Exness session evidence distinctions (synthetic boundary probes only)
+        run: python -m unittest discover -s tests -p test_session_evidence_investigation.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows runner fail-closed smoke test

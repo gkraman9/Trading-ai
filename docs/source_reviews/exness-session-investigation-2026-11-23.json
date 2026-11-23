@@ -1,0 +1,516 @@
+{
+  "calendar_integrity": {
+    "all_required_verification_flags_false": true,
+    "calendar_approval_performed": false,
+    "candidate_exact_bytes_match_review": true,
+    "flags_unchanged": true
+  },
+  "conflicts": [
+    {
+      "code": "FIRST_30_SECONDS_REOPEN",
+      "note": "Candidate quotes/UNKNOWN from 23:00; public notice closed until 23:00:30; relayed reply close-only from 23:00. Minute labels cannot resolve first-tick time.",
+      "state": "UNRESOLVED_SOURCE_CONFLICT"
+    },
+    {
+      "code": "FRIDAY_WEEKEND_SCOPE",
+      "note": "Candidate/public baseline closed Friday after 21:58; generic daily-break wording must not create a Friday reopening.",
+      "state": "UNRESOLVED_RELAY_APPLICABILITY"
+    },
+    {
+      "code": "REGULAR_VS_SPECIAL_MAINTENANCE",
+      "note": "No special interruptions is not independent proof that regular pauses were absent.",
+      "state": "UNRESOLVED_DATED_APPLICABILITY"
+    },
+    {
+      "code": "NUMERIC_MATCH_VS_PHASE_ELIGIBILITY",
+      "note": "Full quote geometry and five-M1 numeric agreement do not establish full-trading permissions or finality.",
+      "state": "ESTABLISHED_SOFTWARE_DISTINCTION"
+    }
+  ],
+  "current_calendar_state": {
+    "configuration_sha256": "085673f4d58a435c4244682195fe0cb6487d879634bd22ae2fbe541f09859acc",
+    "coverage_end_utc": "2026-11-16T00:00:00+00:00",
+    "coverage_start_utc": "2026-11-06T00:00:00+00:00",
+    "evaluated_at_utc": "2026-11-23T00:00:00+00:00",
+    "evidence_latest_at_utc": "2026-11-12T13:10:47+00:00",
+    "expires_at_utc": "2026-11-16T00:00:00+00:00",
+    "permissions": {
+      "broker_close_positions": null,
+      "broker_open_positions": null,
+      "broker_permissions_verified": false,
+      "iat_execution_allowed": false,
+      "market_data_expected": null,
+      "phase": "UNKNOWN"
+    },
+    "provenance_count": 3,
+    "provenance_kinds": [
+      "LOCAL_OBSERVATION",
+      "PUBLISHED"
+    ],
+    "reason_codes": [
+      "CALENDAR_SCHEDULE_CONFLICT",
+      "CALENDAR_COVERAGE_UNVERIFIED",
+      "SESSION_PHASE_UNKNOWN",
+      "HOLIDAY_COVERAGE_UNKNOWN",
+      "MAINTENANCE_COVERAGE_UNKNOWN",
+      "CANDLE_FINALITY_UNCERTAIN",
+      "CALENDAR_EXPIRED"
+    ],
+    "verification": "BLOCKED",
+    "version": 2
+  },
+  "dated_widget_request": {
+    "account_accessed": false,
+    "client_key_reused": false,
+    "dated_payload_available": false,
+    "http_status": 403,
+    "limitation": "Official UI may display dates; no dated payload was obtained by this request.",
+    "method": "NONCREDENTIALED_GET",
+    "script_executed": false,
+    "status": "NOT_RETRIEVED"
+  },
+  "evaluation_window": {
+    "end_exclusive_utc": "2026-11-14T00:00:00Z",
+    "start_utc": "2026-11-11T00:00:00Z"
+  },
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "investigation_version": 1,
+  "kind": "EXNESS_SESSION_EVIDENCE_INVESTIGATION",
+  "local_inputs": [
+    {
+      "actual_sha256": null,
+      "availability": "NOT_AVAILABLE_IN_CLOUD",
+      "name": "XAUUSD_M1_Exness_20261111_20261113.csv"
+    },
+    {
+      "actual_sha256": null,
+      "availability": "NOT_AVAILABLE_IN_CLOUD",
+      "name": "XAUUSD_M5_Exness_20261111_20261113.csv"
+    },
+    {
+      "actual_sha256": null,
+      "availability": "NOT_AVAILABLE_IN_CLOUD",
+      "name": "b2_historical_boundaries_20261123.json"
+    }
+  ],
+  "nominal_calendar_points": [
+    {
+      "at_utc": "2026-11-11T21:55:00+00:00",
+      "configured_phase": "FULL_TRADING",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-11T21:58:00+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-11T23:00:00+00:00",
+      "configured_phase": "UNKNOWN",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-11T23:00:30+00:00",
+      "configured_phase": "CLOSE_ONLY",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-11T23:02:00+00:00",
+      "configured_phase": "FULL_TRADING",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-12T21:55:00+00:00",
+      "configured_phase": "FULL_TRADING",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "FULL_TRADING"
+      }
+    },
+    {
+      "at_utc": "2026-11-12T21:58:00+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSED"
+      }
+    },
+    {
+      "at_utc": "2026-11-12T23:00:00+00:00",
+      "configured_phase": "UNKNOWN",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "UNKNOWN"
+      }
+    },
+    {
+      "at_utc": "2026-11-12T23:00:30+00:00",
+      "configured_phase": "CLOSE_ONLY",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSE_ONLY"
+      }
+    },
+    {
+      "at_utc": "2026-11-12T23:02:00+00:00",
+      "configured_phase": "FULL_TRADING",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "FULL_TRADING"
+      }
+    },
+    {
+      "at_utc": "2026-11-13T21:55:00+00:00",
+      "configured_phase": "FULL_TRADING",
+      "configured_quotation_window_contains": true,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "FULL_TRADING"
+      }
+    },
+    {
+      "at_utc": "2026-11-13T21:58:00+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSED"
+      }
+    },
+    {
+      "at_utc": "2026-11-13T23:00:00+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSED"
+      }
+    },
+    {
+      "at_utc": "2026-11-13T23:00:30+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSED"
+      }
+    },
+    {
+      "at_utc": "2026-11-13T23:02:00+00:00",
+      "configured_phase": "CLOSED",
+      "configured_quotation_window_contains": false,
+      "verified_permissions": {
+        "broker_close_positions": null,
+        "broker_open_positions": null,
+        "broker_permissions_verified": false,
+        "iat_execution_allowed": false,
+        "market_data_expected": null,
+        "phase": "CLOSED"
+      }
+    }
+  ],
+  "nominal_partial_m5_geometry": [
+    {
+      "broker_close_positions": null,
+      "broker_finality": "UNESTABLISHED",
+      "broker_open_positions": null,
+      "classification": "PARTIAL_SESSION_CLOSE",
+      "eligible_for_strategy": false,
+      "iat_execution_allowed": false,
+      "market_open_portions": [
+        {
+          "end": "2026-11-11T21:58:00+00:00",
+          "start": "2026-11-11T21:55:00+00:00"
+        }
+      ],
+      "market_open_seconds": 180.0,
+      "phase_states": [
+        "CLOSED",
+        "FULL_TRADING"
+      ],
+      "schedule_verified": false,
+      "scheduled_end_utc": "2026-11-11T22:00:00+00:00",
+      "scheduled_open_utc": "2026-11-11T21:55:00+00:00"
+    },
+    {
+      "broker_close_positions": null,
+      "broker_finality": "UNESTABLISHED",
+      "broker_open_positions": null,
+      "classification": "PARTIAL_SESSION_CLOSE",
+      "eligible_for_strategy": false,
+      "iat_execution_allowed": false,
+      "market_open_portions": [
+        {
+          "end": "2026-11-12T21:58:00+00:00",
+          "start": "2026-11-12T21:55:00+00:00"
+        }
+      ],
+      "market_open_seconds": 180.0,
+      "phase_states": [
+        "CLOSED",
+        "FULL_TRADING"
+      ],
+      "schedule_verified": false,
+      "scheduled_end_utc": "2026-11-12T22:00:00+00:00",
+      "scheduled_open_utc": "2026-11-12T21:55:00+00:00"
+    },
+    {
+      "broker_close_positions": null,
+      "broker_finality": "UNESTABLISHED",
+      "broker_open_positions": null,
+      "classification": "PARTIAL_SESSION_CLOSE",
+      "eligible_for_strategy": false,
+      "iat_execution_allowed": false,
+      "market_open_portions": [
+        {
+          "end": "2026-11-13T21:58:00+00:00",
+          "start": "2026-11-13T21:55:00+00:00"
+        }
+      ],
+      "market_open_seconds": 180.0,
+      "phase_states": [
+        "CLOSED",
+        "FULL_TRADING"
+      ],
+      "schedule_verified": false,
+      "scheduled_end_utc": "2026-11-13T22:00:00+00:00",
+      "scheduled_open_utc": "2026-11-13T21:55:00+00:00"
+    }
+  ],
+  "operator_reported": {
+    "evidence_class": "OPERATOR_REPORTED_NOT_INDEPENDENTLY_REPRODUCED",
+    "five_m1_matches": 813,
+    "m1_count": 4074,
+    "m5_count": 816,
+    "missing_m1_open_times_utc": [
+      "21:58:00",
+      "21:59:00"
+    ],
+    "partial_m5_count": 3,
+    "partial_open_time_utc": "21:55:00",
+    "reported_diagnostic_status": "RESEARCH_DIAGNOSTICS_ONLY",
+    "reported_reopen_bar_intervals": [
+      "2026-11-11T23:00:00Z",
+      "2026-11-12T23:00:00Z"
+    ]
+  },
+  "ordinary_inputs_emitted": false,
+  "primary_references": [
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "Ordinary XAUUSD winter baseline, not feed-specific exception certification.",
+      "id": "winter_notice",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://get.exness.help/hc/en-us/articles/31342732737180-Trading-Hours-Update-End-of-US-Daylight-Saving-Time-01-Nov-2026"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "General UTC and maintenance guidance; updated after target dates, not dated continuity evidence.",
+      "id": "hours_maintenance",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://get.exness.help/hc/en-us/articles/4405235684498-Instrument-trading-hours"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "General holiday listing is not a dated XAUUSD exception declaration.",
+      "id": "holidays",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://get.exness.help/hc/en-us/articles/17923046759836-Holiday-trading-hours"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "General GMT+0 convention, not export timestamp authentication.",
+      "id": "timezone",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://get.exness.help/hc/en-us/articles/360014390760-What-is-the-default-timezone-set-for-MetaTrader"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "UTC bar opening labels do not identify the first tick second.",
+      "id": "bar_openings",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesrange_py"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "Current bar indexing and history limits do not establish permanent finality.",
+      "id": "bar_positions",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://www.mql5.com/en/docs/python_metatrader5/mt5copyratesfrompos_py"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "Weekly quote windows, not dated exception evidence.",
+      "id": "weekly_quotes",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://www.mql5.com/en/docs/marketinformation/symbolinfosessionquote"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "Weekly trade windows, not second-level historical permission evidence.",
+      "id": "weekly_trades",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://www.mql5.com/en/docs/marketinformation/symbolinfosessiontrade"
+    },
+    {
+      "access_date": "2026-11-23",
+      "applicability_limit": "Session quote/trade functions are not listed in the standard Python API.",
+      "id": "python_api",
+      "retrieval": "PUBLIC_CONTENT_REVIEWED",
+      "url": "https://www.mql5.com/en/docs/python_metatrader5"
+    }
+  ],
+  "qualification": "DATA_NOT_QUALIFIED",
+  "real_data_reproduction": {
+    "measured_counts": null,
+    "measured_numeric_consistency": null,
+    "reason": "EXACT_LOCAL_CSV_AND_REPORT_BYTES_UNAVAILABLE",
+    "status": "NOT_RUN"
+  },
+  "relayed_source_integrity": {
+    "attachment_inventory": "NOT_SUPPLIED",
+    "independent_authentication": "PENDING",
+    "integrity_is_authenticity": false,
+    "metadata_file_hash_matches": true,
+    "metadata_path": "docs/source_reviews/exness-2026-11-11-13/evidence.json",
+    "metadata_payload_hash_matches": true,
+    "original_email_headers": "NOT_SUPPLIED",
+    "provider_sent_at_known": false,
+    "source_commit": "09cf0f13c649b522447e1f5a1796bf52e2ff2519",
+    "transcription_hash_matches": true
+  },
+  "remaining_requirements": [
+    "EXACT_RAW_INPUTS_AND_HASHES",
+    "NATIVE_SAME_FEED_PROVENANCE_AND_BID_MAPPING",
+    "UTC_INTERVAL_OPEN_CONVENTION",
+    "OFFLINE_USAGE_AND_REVIEW_PERMISSION",
+    "AUTHENTICATED_BROKER_REPLY_AND_ATTACHMENTS",
+    "DATED_QUOTE_TRADE_EXCEPTION_COVERAGE",
+    "FRIDAY_WEEKEND_AND_REOPEN_CONFLICT_RESOLUTION",
+    "REGULAR_MAINTENANCE_AND_HOLIDAY_APPLICABILITY",
+    "FULL_AND_PARTIAL_BAR_FINALITY",
+    "CAPTURE_COMPLETENESS_AND_CORRECTIONS",
+    "INDEPENDENT_REVIEW_AND_QUALIFICATION"
+  ],
+  "repository_fingerprints": [
+    {
+      "path": "config/profiles/exness-xauusd-v2.candidate.json",
+      "sha256": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4"
+    },
+    {
+      "path": "config/profiles/exness-xauusd-v2.review.json",
+      "sha256": "ee93d1695d165b15a049fe4103170add960b2c50b9095ebdb5b48634808f923c"
+    },
+    {
+      "path": "config/reference/exness-2026-11-11-13.relayed.json",
+      "sha256": "a13472561028204d7e60bcfb4d53923ea66b9ad4b55b6694396e83c8d5b5d404"
+    },
+    {
+      "path": "config/examples/historical-evidence/operator-reported-v1.json",
+      "sha256": "1457034e96a286583a62d1db19ac1b38e4e6358fd8403282537f1ae22f18862a"
+    },
+    {
+      "path": "docs/research_audits/historical-evidence-manifest-synthetic-v1/audit.json",
+      "sha256": "c2d948c99a39cd9a08b734aea6f2bb56a4bf179dcd753aaca7ce467e1dd10406"
+    }
+  ],
+  "review_date": "2026-11-23",
+  "safety": {
+    "broker_access": false,
+    "execution_allowed": false,
+    "mode": "READ_ONLY_SHADOW",
+    "orders_requested": 0,
+    "profitability_tested": false,
+    "signal": "WAIT"
+  },
+  "sha256": "52fedab4aac1acd44d66b3fa0f8c61b8a505940575baa68ccf2fc87ab792f3bf",
+  "status": "REPOSITORY_AND_PUBLIC_SOURCE_REVIEW_ONLY",
+  "symbol": "XAUUSD",
+  "timeframes": [
+    "M1",
+    "M5"
+  ]
+}
