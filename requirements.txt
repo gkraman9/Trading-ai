@@ -1,3 +1,6 @@
 flask
 requests
 tzdata
+
+# Unified V3 runtime validates the same published JSON contract as offline tests.
+jsonschema>=4.23,<5

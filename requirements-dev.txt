@@ -2,5 +2,3 @@
 # Real SDK transport is mocked in offline tests; optional for normal runtime.
 -r requirements-ai.txt
 -r requirements-gemini.txt
-# Test-only validation of published JSON contracts; not a runtime dependency.
-jsonschema>=4.23,<5
