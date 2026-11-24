@@ -183,3 +183,28 @@ First independently review E2 and the historical/fill prerequisites. No genuinel
 qualified export or portable raw-source bridge was available here. Historical
 qualification stays pending; private source/journals remain private; no calendar
 or independent sign-off is approved by this architecture.
+
+## E3 implementation and E4 preparation
+
+Automated E2 independent-contract review passed 21 new adversarial probes before
+E3 implementation; no verified critical/high/medium defect required correction.
+This is not external human approval. See EXIT_INTELLIGENCE_V1_INDEPENDENT_REVIEW.md.
+
+E3 now provides a stateless source-authenticated projection of the original SR
+float invalidation threshold, frozen E2 near-boundary reward and REFERENCE_RR_ONLY.
+It preserves actual E1/E2 lifecycle/ambiguity, explicit evaluation cutoff and all
+source/configuration/policy bindings. Optional current ATR ratios require selected
+M1/M5 and matching canonical V3/context evidence. No indicator or strategy predicate
+is duplicated. Cost declarations are mechanical synthetic metadata only, never a
+qualified cost/fill model. All executable price/size, margin, capital, fill-based/
+net R:R, probability and P&L fields remain null. No threshold approves or ranks an
+opportunity. RISK_INTELLIGENCE_V1.md specifies arithmetic, provenance and limits.
+
+PAPER_TRADING_ENGINE_ARCHITECTURE.md defines proposed E4 side-specific quotes,
+fill/cost identity/lifecycle, unresolved states, exposure prerequisites, matched
+cohorts and historical bridge. The existing timing protocol remains unchanged;
+exact 50-second research still needs a validated hypothetical fill plus granular
+Bid/Ask. E3 implements none of the paper-position lifecycle or account sizing.
+Original historical qualification remains pending and no private dataset is
+uploaded or replayed. Next: independent E3 review, then one synthetic quote/fill
+contract with strict unavailable inputs, not a live trading milestone.

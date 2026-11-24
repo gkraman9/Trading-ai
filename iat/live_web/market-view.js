@@ -11,8 +11,9 @@
     // Availability only: never call the offline SR/entry engine from live UI.
     byId('entry-research-state').textContent='BLOCKED';
     byId('exit-research-state').textContent='BLOCKED';
+    byId('risk-research-state').textContent='BLOCKED';
     const entryReasons=byId('entry-research-reasons');entryReasons.replaceChildren();
-    for(const reason of [...new Set(['ENTRY_SYNTHETIC_ONLY','ENTRY_LIVE_PROVENANCE_NOT_AUTHORIZED','EXIT_SYNTHETIC_ONLY','EXIT_LIVE_PROVENANCE_NOT_AUTHORIZED',...(value.reason_codes||[])])])entryReasons.append(make('li',reason));
+    for(const reason of [...new Set(['ENTRY_SYNTHETIC_ONLY','ENTRY_LIVE_PROVENANCE_NOT_AUTHORIZED','EXIT_SYNTHETIC_ONLY','EXIT_LIVE_PROVENANCE_NOT_AUTHORIZED','RISK_SYNTHETIC_ONLY','RISK_LIVE_PROVENANCE_NOT_AUTHORIZED',...(value.reason_codes||[])])])entryReasons.append(make('li',reason));
     const q=value.quote||{},r=value.runtime||{},checks=r.demo_checks||{},cutoffs=value.cutoffs||{};
     const dl=byId('mv-runtime');dl.replaceChildren();
     for(const [label,v] of [

@@ -584,6 +584,7 @@ function all(n){return n.textContent+' '+n.children.map(all).join(' ');}
 if(nodes['mv-status'].textContent!=='DESCRIPTIVE_ONLY'||!all(nodes['mv-runtime']).includes('100.03')||!all(nodes['mv-strategy']).includes('NOT_RUN'))throw Error('Rendering failed');
 if(nodes['entry-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-research-reasons']).includes('ENTRY_SYNTHETIC_ONLY'))throw Error('Live entry research was not blocked');
 if(nodes['exit-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-research-reasons']).includes('EXIT_SYNTHETIC_ONLY'))throw Error('Live exit research was not blocked');
+if(nodes['risk-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-research-reasons']).includes('RISK_SYNTHETIC_ONLY'))throw Error('Live risk research was not blocked');
 fail=true;const retry=scheduled.find(x=>x[1]===10000);await retry[0]();
 if(nodes['mv-status'].textContent!=='UNAVAILABLE'||all(nodes['mv-runtime']).includes('100.03')||nodes['mv-report'].textContent!=='Unavailable')throw Error('Stale fields retained');
 console.log('render and unavailable state passed');
