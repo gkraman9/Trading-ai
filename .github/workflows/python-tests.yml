@@ -50,6 +50,7 @@ on:
       - feat/iat-v3-live-market-view
       - feat/iat-v3-entry-intelligence-v1
       - feat/iat-v3-exit-intelligence-v1
+      - feat/iat-v3-risk-intelligence-v1
   pull_request:
     branches:
       - main
@@ -98,6 +99,7 @@ on:
       - feat/iat-v3-sr-rejection-research-v1
       - feat/iat-v3-live-market-view
       - feat/iat-v3-entry-intelligence-v1
+      - feat/iat-v3-exit-intelligence-v1
   workflow_dispatch:
 
 permissions:
@@ -111,7 +113,7 @@ jobs:
       matrix:
         python-version: ['3.11.9', '3.12']
         os: [ubuntu-24.04, windows-latest]
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -156,9 +158,13 @@ jobs:
       - name: Entry intelligence E1 (independent synthetic OHLC only)
         run: python -m unittest discover -s tests -p test_entry_intelligence.py -v
       - name: E1 independent contract review and E2 synthetic exit research
-        run: python -m unittest discover -s tests -p 'test_*independent_review.py' -v
+        run: python -m unittest discover -s tests -p test_entry_independent_review.py -v
       - name: E2 exit source and ambiguity regressions
         run: python -m unittest discover -s tests -p test_exit_intelligence.py -v
+      - name: E2 independent contract review before risk research
+        run: python -m unittest discover -s tests -p test_exit_independent_review.py -v
+      - name: E3 source-bound reference risk and availability
+        run: python -m unittest discover -s tests -p test_risk_intelligence.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)
