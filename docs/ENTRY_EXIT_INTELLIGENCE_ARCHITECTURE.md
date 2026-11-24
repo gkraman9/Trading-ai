@@ -152,3 +152,34 @@ E2 should begin with one structural invalidation/exit observation interface and
 explicit ambiguous-order tests, without fills, profitability or activation. A
 separate validated tick/price-basis/cost adapter is required before paper fills
 or the 50-second experiment. None of this design authorizes future execution.
+
+## E2 implementation and proposed E3 boundary
+
+E1 automated contract review now passes without unresolved critical/high findings;
+see ENTRY_INTELLIGENCE_V1_INDEPENDENT_REVIEW.md (not external human approval).
+EXIT_INTELLIGENCE_V1.md specifies implemented synthetic-only structural close
+invalidation, frozen opposing-reference contact, existing fresh CHoCH and upstream
+five-eligible-close expiry. Source eligibility, setup lifecycle and analytical
+observations remain separate. Target/invalidation co-availability is unresolved,
+not a hypothetical exit winner. E1 and E2 are never evaluated on live dashboard
+observations. Other exit families, risk, fills and timers remain unimplemented.
+EXIT_TIMING_RESEARCH_PROTOCOL.md defines future matched-cohort 15/30/50/60/90/120
+second comparisons without using M1 OHLC as exact ticks or producing results.
+
+Proposed E3 `IAT_RISK_INTELLIGENCE_V1` should consume source-authenticated frozen
+E1/E2 reports, existing structural references, explicitly declared quote basis,
+provider contract/currency and cost evidence. Separate reference-to-reference
+geometry from position risk: unknown hypothetical fill means position risk,
+reward and holding exposure remain unavailable. Any future distances/R:R need
+units, cutoffs, exact evidence, side compatibility, slippage/commission uncertainty
+and no implied executable stop/target. MFE/MAE require a validated fill plus a
+complete side-specific observation sequence. No position size, account exposure,
+trade permission, default strategy choice or orders should be introduced in E3.
+
+E3 acceptance should test bid/ask asymmetry, missing basis/cost/contract data,
+zero/negative or inconsistent distances, unknown currency conversion, revised
+sources, stale quotes, mixed units, prefix invariance and disabled execution.
+First independently review E2 and the historical/fill prerequisites. No genuinely
+qualified export or portable raw-source bridge was available here. Historical
+qualification stays pending; private source/journals remain private; no calendar
+or independent sign-off is approved by this architecture.
