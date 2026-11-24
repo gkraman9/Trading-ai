@@ -897,3 +897,31 @@ class SRLifecycleTests(unittest.TestCase):
         for n in range(22, 29):
             self.record(l, n)
         self.assertEqual(l.to_dict()["sha256"], audit["lifecycle_log_sha256"])
+
+    def test_rechecksummed_evaluated_result_cannot_bypass_quality_or_session(self):
+        original = result()
+        for mode in ("quality", "quality_null", "missing", "session"):
+            r = deepcopy(original)
+            if mode == "quality":
+                r["restrictions"]["data_quality"].update(valid=False, status="BLOCKED")
+            elif mode == "quality_null":
+                r["restrictions"]["data_quality"] = None
+            elif mode == "missing":
+                r["restrictions"]["missing_timeframes"] = ["M5"]
+            else:
+                from test_market_view_audit import calendar_fixture, AT
+
+                r["restrictions"]["session"] = calendar_fixture().public_state(
+                    datetime.fromisoformat(r["evaluation_at_utc"])
+                )
+                r["restrictions"]["session"]["verification"] = "BLOCKED"
+                r["restrictions"]["session"]["reason_codes"] = [
+                    "CALENDAR_COVERAGE_UNVERIFIED"
+                ]
+            r = seal({k: v for k, v in r.items() if k != "sha256"})
+            with self.assertRaises(ValueError):
+                validate_sr_result(r)
+            ledger = SRRejectionLedger()
+            with self.assertRaises(ValueError):
+                ledger._record(r)
+            self.assertFalse(ledger.entries)

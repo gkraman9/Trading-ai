@@ -13,6 +13,7 @@ from iat.intelligence.market_view import (
     validate_market_view_v3,
     SAFETY,
     plain,
+    _session,
 )
 from iat.intelligence.strategy_replay import digest
 from iat.replay_dataset import utc
@@ -407,6 +408,35 @@ def validate_sr_result(result, *, view=None, context=None, view_inputs=None):
             "SR_BLOCKED_HAS_EVIDENCE",
         )
     else:
+        restrictions = result["restrictions"]
+        need(
+            (restrictions.get("data_quality") or {}).get("valid") is True
+            and restrictions["data_quality"]["status"] == "VALID"
+            and not restrictions["missing_timeframes"]
+            and not any(
+                d["severity"] == "ERROR"
+                for d in restrictions["data_quality"]["diagnostics"]
+            ),
+            "SR_ELIGIBILITY_RESTRICTIONS_INVALID",
+        )
+        session = restrictions.get("session")
+        if session is not None:
+            _session(session, at)
+        need(
+            session is None
+            or (
+                session["verification"] != "BLOCKED"
+                and session["permissions"]["phase"]
+                not in ("CLOSED", "QUOTE_ONLY", "CLOSE_ONLY")
+            ),
+            "SR_SESSION_RESTRICTIONS_INVALID",
+        )
+        need(
+            result["provenance"] == "SYNTHETIC_RESEARCH"
+            or result["provenance"] == "HISTORICAL_RESEARCH"
+            and result["bindings"]["dataset"] is not None,
+            "SR_MANIFEST_BINDING_REQUIRED",
+        )
         need(
             result["bindings"]["view"] is not None
             and result["bindings"]["context"] is not None,

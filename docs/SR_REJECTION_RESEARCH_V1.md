@@ -73,7 +73,7 @@ The first observed qualifying paper criterion is recorded separately from lifecy
 
 ## Contracts and source audit
 
-`config/sr-rejection-research-v1.schema.json` defines snapshot version 1. `validate_sr_result` enforces shape, fixed safety, checksums, policy, canonical setup identity, reference chronology, latest close, outcome/condition consistency and optional exact source-bound recomputation. `validate_sr_log` reconstructs every lifecycle transition/inventory/count from the versioned snapshots. It does not authenticate source data from an unkeyed hash.
+`config/sr-rejection-research-v1.schema.json` defines snapshot version 1. `validate_sr_result` enforces shape, fixed safety, checksums, policy, canonical setup identity, reference chronology, latest close, outcome/condition consistency and optional exact source-bound recomputation. Independently rechecksummed EVALUATED snapshots with missing/blocked quality, missing frames or restricted sessions are rejected before ledger progress. Session declarations are revalidated using the existing V3 session checker. `validate_sr_log` reconstructs every lifecycle transition/inventory/count from the versioned snapshots. It does not authenticate source data from an unkeyed hash.
 
 | Binding | Enforcement |
 |---|---|
@@ -102,7 +102,7 @@ py -3.11 -m unittest discover -s tests -p test_sr_rejection.py -v
 py -3.11 tests/benchmark_sr_rejection.py --iterations 3
 ```
 
-Benchmark methodology: prebuild synthetic contexts/views, one excluded warm-up, three iterations, GC before each, `perf_counter_ns`, and Python `tracemalloc`. Source validation remains enabled; the eight-close case includes full log validation. Python 3.12 Linux measurements: snapshot median 468.981 ms / peak 694,960 traced bytes; eight-close lifecycle median 4,418.984 ms / peak 2,526,320 bytes. All repeated hashes matched. These shared-machine, tracing-enabled small samples exclude context/view creation, are not RSS measurements or live-latency guarantees, and say nothing about profitability.
+Benchmark methodology: prebuild synthetic contexts/views, one excluded warm-up, three iterations, GC before each, `perf_counter_ns`, and Python `tracemalloc`. Source validation remains enabled; the eight-close case includes full log validation. Python 3.12 Linux measurements: snapshot median 448.400 ms / peak 696,297 traced bytes; eight-close lifecycle median 4,412.450 ms / peak 2,535,064 bytes. All repeated hashes matched. These shared-machine, tracing-enabled small samples exclude context/view creation, are not RSS measurements or live-latency guarantees, and say nothing about profitability.
 
 Regression scope covers both directions, P/T/C timing, actual late-created zones, bad zone state, wrong M5 structure, overlaps, current opposing CHoCH, missing/stale/unfinished/late data, unknown/blocked sessions, identity, duplicate/late/corrected input, new touches, qualified versus unqualified invalidation, five-close expiry and blocked suspension, ambiguous paper exits, source hash tampering, raw/full/prefix/future-append equivalence, manifest preflight/carry-in/read-only files, unchanged original strategies/DecisionLog and execution-disabled safety. Exact focused/full/CI results are recorded against the draft PR head.
 

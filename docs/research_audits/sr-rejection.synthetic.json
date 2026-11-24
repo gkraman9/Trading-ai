@@ -189,21 +189,21 @@
     "python": "3.12.14",
     "platform": "Linux",
     "method": "Prebuilt independent synthetic contexts/views; one excluded warm-up; perf_counter_ns and tracemalloc; GC before each iteration; snapshot source validation remains enabled; lifecycle benchmark includes full log validation.",
-    "source_sha256": "2f14fd0500bc79a8c38efa759a6ab14516dfef9e23a472ba10076740bf7e05ad",
+    "source_sha256": "7e717a28a9c58b724c230d503d101cea7ed7d8c28befd04c6deacf5fe367f5f8",
     "results": [
       {
         "workload": "source_bound_snapshot",
         "iterations": 3,
-        "median_ms": 468.980697,
-        "peak_traced_bytes": 694960,
+        "median_ms": 448.399932,
+        "peak_traced_bytes": 696297,
         "identical_hashes": true,
         "sha256": "54a5e2ec2da7c3170c438781d24019cd8908c306db459b720c35ec00f46b9fb8"
       },
       {
         "workload": "eight_close_lifecycle_and_validation",
         "iterations": 3,
-        "median_ms": 4418.983553,
-        "peak_traced_bytes": 2526320,
+        "median_ms": 4412.450043,
+        "peak_traced_bytes": 2535064,
         "identical_hashes": true,
         "sha256": "06c7df753700f2bfa628a311c0e1a6b26ddda0458de6a277bf1cf2f8a97a52ae"
       }
