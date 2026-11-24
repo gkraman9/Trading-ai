@@ -147,8 +147,8 @@ jobs:
         if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
         shell: powershell
         run: |
-          & .\diagnostics\Start-IATLiveMarketView.ps1 -PythonExe (Get-Command python).Source -ValidateOnly
-          if ($LASTEXITCODE -ne 0) { throw 'Live helper validation failed' }
+          & .\diagnostics\Test-IATLiveStartup.ps1 -PythonExe (Get-Command python).Source
+          if ($LASTEXITCODE -ne 0) { throw 'Live helper -File regression failed' }
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)
