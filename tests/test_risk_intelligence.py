@@ -614,6 +614,45 @@ class RiskIntelligenceTests(unittest.TestCase):
         with patch.dict(LIMITS, max_report_bytes=size - 1):
             self.assertEqual(self.assess(k)["source_eligibility"], "BLOCKED")
 
+    def test_live_dashboard_never_calls_synthetic_risk_projection(self):
+        import tempfile
+        from pathlib import Path
+        from test_live_market_view import SyntheticTerminal, NOW
+        from iat.live_observer import LiveObserver, ShadowLog
+        from iat.live_data import ReadOnlyMarketData
+        from iat.live_dashboard import create_dashboard
+
+        with tempfile.TemporaryDirectory() as folder:
+            observer = LiveObserver(
+                ReadOnlyMarketData(SyntheticTerminal(lambda: NOW)),
+                ShadowLog(Path(folder) / "private"),
+                clock=lambda: NOW,
+            )
+            with patch(
+                "iat.intelligence.risk_intelligence.assess_risk",
+                side_effect=AssertionError("live risk forbidden"),
+            ), patch.object(
+                ExitResearchSession,
+                "record",
+                side_effect=AssertionError("live exit forbidden"),
+            ), patch.object(
+                EntryResearchSession,
+                "record",
+                side_effect=AssertionError("live entry forbidden"),
+            ):
+                before = observer.step()
+                client = create_dashboard(observer).test_client()
+                with client.get("/") as response:
+                    html = response.get_data(as_text=True)
+                self.assertEqual(client.get("/live/v1/snapshot").get_json(), before)
+                self.assertEqual(
+                    client.get("/live/intelligence/v3/snapshot").status_code, 200
+                )
+            self.assertIn("risk-research-state", html)
+            self.assertIn("not a qualified cost-model input", html)
+            self.assertIn("REFERENCE_RR_ONLY", html)
+            self.assertIn("Paper Research", html)
+
     def test_no_broker_execution_ai_or_account_access(self):
         import ast
         from pathlib import Path
