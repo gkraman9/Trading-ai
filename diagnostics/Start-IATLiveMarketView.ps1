@@ -17,7 +17,7 @@ try {
     $pythonArgs = @()
     if ($PythonExe) { $python = (Resolve-Path -LiteralPath $PythonExe).Path }
     else { $python = (Get-Command py -ErrorAction Stop).Source; $pythonArgs = @('-3.11') }
-    & $python @pythonArgs -c 'import sys; assert sys.version_info[:2] == (3,11), "Python 3.11 required"; import flask, jsonschema, tzdata'
+    & $python @pythonArgs -c 'import sys; assert sys.version_info[:2] == (3,11); import flask, jsonschema, tzdata'
     if ($LASTEXITCODE -ne 0) { throw 'Install requirements with py -3.11 -m pip install -r requirements.txt, then retry.' }
     if ($SessionConfig) {
         $SessionConfig = (Resolve-Path -LiteralPath $SessionConfig).Path
