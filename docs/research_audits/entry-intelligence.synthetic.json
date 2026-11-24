@@ -1,0 +1,184 @@
+{
+  "cases": {
+    "awaiting_confirmation": {
+      "reason_codes": [
+        "RESEARCH_ONLY_CONTINUE_WAITING"
+      ],
+      "report_sha256": "16775956a82673797bf74df460c4c3a5f2fc5731c82720380379ced499fef0e5",
+      "research_states": [
+        "AWAITING_CONFIRMATION"
+      ],
+      "setup_count": 2,
+      "setup_ids": [
+        "SRSETUP:2c794e67e840804cc94dee2e0d1329c1506baaa882f9b0bca92a2677bdf32eab",
+        "SRSETUP:7ed1d46944f36ae557acd3b6dcc236f9e02b14bc7755374f834b2f09b58c1abf"
+      ],
+      "status": "EVALUATED"
+    },
+    "bearish": {
+      "reason_codes": [
+        "RESEARCH_ONLY_CONTINUE_WAITING"
+      ],
+      "report_sha256": "0db80a57ddc547b7fa57a874e24f4d3c991c6a40491c2d7886b76acdc9dba577",
+      "research_states": [
+        "RESEARCH_QUALIFIED"
+      ],
+      "setup_count": 2,
+      "setup_ids": [
+        "SRSETUP:9945e8420b581242d1b31bb09a21040dccd3055e4fd2f2bd040b7b2094783043",
+        "SRSETUP:d164042c1922a0160dd1b85951ec3f96f4cd81df1c876f12ef4a9c7a1fdb10a9"
+      ],
+      "status": "EVALUATED"
+    },
+    "blocked_live": {
+      "reason_codes": [
+        "ENTRY_SYNTHETIC_ONLY"
+      ],
+      "report_sha256": "0406a043acf5b3456fb3a21a8e23ceb660476b7f0e15e14ec7860681c3f3dbd1",
+      "research_states": [
+        "BLOCKED"
+      ],
+      "setup_count": 0,
+      "setup_ids": [],
+      "status": "BLOCKED"
+    },
+    "bullish": {
+      "reason_codes": [
+        "RESEARCH_ONLY_CONTINUE_WAITING"
+      ],
+      "report_sha256": "b2b67e8533c430cb6615620311fd75c802f7f352b4b87b21ff797314bc715ff5",
+      "research_states": [
+        "RESEARCH_QUALIFIED"
+      ],
+      "setup_count": 2,
+      "setup_ids": [
+        "SRSETUP:2c794e67e840804cc94dee2e0d1329c1506baaa882f9b0bca92a2677bdf32eab",
+        "SRSETUP:7ed1d46944f36ae557acd3b6dcc236f9e02b14bc7755374f834b2f09b58c1abf"
+      ],
+      "status": "EVALUATED"
+    },
+    "expired": {
+      "reason_codes": [
+        "RESEARCH_ONLY_CONTINUE_WAITING"
+      ],
+      "report_sha256": "b145d453f9ba513ffa893c6a6ebb91b2d6e76c8a9c871cc0bb0b37be41e0d91c",
+      "research_states": [
+        "EXPIRED"
+      ],
+      "setup_count": 2,
+      "setup_ids": [
+        "SRSETUP:2c794e67e840804cc94dee2e0d1329c1506baaa882f9b0bca92a2677bdf32eab",
+        "SRSETUP:7ed1d46944f36ae557acd3b6dcc236f9e02b14bc7755374f834b2f09b58c1abf"
+      ],
+      "status": "EVALUATED"
+    },
+    "no_setup": {
+      "reason_codes": [
+        "RESEARCH_ONLY_CONTINUE_WAITING"
+      ],
+      "report_sha256": "34435af90dd3d9223bfc20fa3f9294ddd46a003abb7beb7d4df093862434ae48",
+      "research_states": [
+        "NO_SETUP"
+      ],
+      "setup_count": 0,
+      "setup_ids": [],
+      "status": "EVALUATED"
+    }
+  },
+  "evidence": "INDEPENDENT_INVENTED_OHLC_SYNTHETIC_ONLY",
+  "example_version": 1,
+  "not_historical_validation": true,
+  "not_profitability_evidence": true,
+  "worked_bullish_plan": {
+    "confirmation": {
+      "candle_ids": {
+        "C": "M1:CANDLE:2e45f67018e72f15ae59fba2d771dd830945edd57899e4616ff61b1c804449ab",
+        "P": "M1:CANDLE:41ce5388c3e6d4e5d4e27f84accafffd79b08d4c74f57a6e65caf33d7331da80",
+        "T": "M1:CANDLE:1bffe5056eeb1f6d8cd7633a6e44eb15de38f99ef02f63662323f93425d37014"
+      },
+      "earliest_research_qualification_at_utc": "2026-11-12T12:23:00+00:00",
+      "event_available_at_utc": "2026-11-12T12:23:00+00:00",
+      "event_opened_at_utc": "2026-11-12T12:22:00+00:00",
+      "missing_evidence": [],
+      "predicate_scope": "UPSTREAM_ANCHORED_SNAPSHOT_NOT_NEW_ENTRY_AUTHORIZATION",
+      "predicates": {
+        "confirmation_body": true,
+        "confirmation_break": true,
+        "contiguous": true,
+        "m5_compatible": true,
+        "no_opposing_choch": true,
+        "previous_not_touching": true,
+        "touch_close_inside": true,
+        "zone_active": true,
+        "zone_known": true
+      }
+    },
+    "contradictory_evidence": [],
+    "entry_location": {
+      "confirmed_at": "2026-11-12T09:25:00+00:00",
+      "id": "M5:SUPPORT:609edb677b8d9fdcf19e5ebe102fde14d4c7611cc27520a761fe3dc8ccec627f",
+      "kind": "SUPPORT",
+      "lower": 2097.7999999999997,
+      "reference_type": "FROZEN_UPSTREAM_ZONE_REFERENCE",
+      "status": "TESTED",
+      "timeframe": "M5",
+      "upper": 2097.9
+    },
+    "evaluation_at_utc": "2026-11-12T12:23:00+00:00",
+    "explanation": [
+      "Location and predicates are unchanged upstream SR research observations.",
+      "A zone interval is a hypothesis reference, not a hypothetical fill.",
+      "No directional authorization follows from research qualification.",
+      "RESEARCH_QUALIFIED describes the original SR lifecycle, not a new entry at this cutoff."
+    ],
+    "lifecycle_events": [
+      {
+        "at_utc": "2026-11-12T12:23:00+00:00",
+        "from_state": null,
+        "reason_codes": [
+          "ALL_RESEARCH_RULES_MET"
+        ],
+        "setup_id": "SRSETUP:2c794e67e840804cc94dee2e0d1329c1506baaa882f9b0bca92a2677bdf32eab",
+        "to_state": "QUALIFIED"
+      }
+    ],
+    "reason_codes": [
+      "ALL_RESEARCH_RULES_MET"
+    ],
+    "relevant_level_references": [
+      "M5:SUPPORT:609edb677b8d9fdcf19e5ebe102fde14d4c7611cc27520a761fe3dc8ccec627f"
+    ],
+    "research_direction": "BULLISH",
+    "research_state": "RESEARCH_QUALIFIED",
+    "rule_version": "1.0.0",
+    "setup_age": {
+      "elapsed_seconds": 0.0,
+      "eligible_closes_after_confirmation": 0,
+      "first_seen_at_utc": "2026-11-12T12:23:00+00:00"
+    },
+    "setup_id": "SRSETUP:2c794e67e840804cc94dee2e0d1329c1506baaa882f9b0bca92a2677bdf32eab",
+    "strategy_id": "SR_REJECTION_M1_CONFIRMATION",
+    "structural_invalidation": {
+      "break_tolerance": 0.01,
+      "conditions": [
+        "LATER_ELIGIBLE_CLOSE_LOSES_FROZEN_ZONE",
+        "FRESH_OPPOSING_M1_CHOCH"
+      ],
+      "lower": 2097.7999999999997,
+      "upper": 2097.9,
+      "zone_id": "M5:SUPPORT:609edb677b8d9fdcf19e5ebe102fde14d4c7611cc27520a761fe3dc8ccec627f"
+    },
+    "supporting_evidence": [
+      "M1:CANDLE:1bffe5056eeb1f6d8cd7633a6e44eb15de38f99ef02f63662323f93425d37014",
+      "M1:CANDLE:2e45f67018e72f15ae59fba2d771dd830945edd57899e4616ff61b1c804449ab",
+      "M1:CANDLE:41ce5388c3e6d4e5d4e27f84accafffd79b08d4c74f57a6e65caf33d7331da80",
+      "M5:SUPPORT:609edb677b8d9fdcf19e5ebe102fde14d4c7611cc27520a761fe3dc8ccec627f"
+    ],
+    "timing_research": {
+      "earliest_confirmation_at_utc": "2026-11-12T12:23:00+00:00",
+      "fill": null,
+      "fill_status": "NOT_MODELLED",
+      "future_observation_required": "VALIDATED_BID_ASK_TICK_STRICTLY_AFTER_CONFIRMATION_AND_FILL_COST_MODEL"
+    }
+  }
+}

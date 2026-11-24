@@ -1,7 +1,7 @@
 # Uses the existing read-only observer; does not launch B.2/B.3 or enable AI.
 [CmdletBinding()]
 param(
-    [string]$ProjectRoot = (Split-Path -Parent $PSScriptRoot),
+    [string]$ProjectRoot = '',
     [string]$PythonExe = '',
     [ValidateRange(1024,65535)][int]$Port = 8768,
     [ValidateRange(2,60)][int]$Interval = 10,
@@ -11,6 +11,12 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 try {
+    # Parameter defaults can run before PSScriptRoot is populated in -File binding.
+    # Resolve only here; never guess the project from the caller's working directory.
+    if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
+        if ([string]::IsNullOrWhiteSpace($PSScriptRoot)) { throw 'Script directory unavailable. Supply -ProjectRoot explicitly.' }
+        $ProjectRoot = [IO.Path]::GetDirectoryName($PSScriptRoot)
+    }
     $root = (Resolve-Path -LiteralPath $ProjectRoot).Path
     $runner = Join-Path $root 'diagnostics\run_live_intelligence.py'
     if (-not (Test-Path -LiteralPath $runner -PathType Leaf)) { throw 'Runner missing. Fetch and check out the integration PR branch first.' }
