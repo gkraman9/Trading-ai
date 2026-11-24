@@ -17,27 +17,36 @@ def scalar(value):
 class ReadOnlyMarketData:
     """Retain only read callables, never the MT5 module or an order/login capability."""
     timestamp_basis='MT5_API_UTC_EPOCH'
+    quote_max_age_seconds=30  # Existing legacy quote freshness policy, unchanged.
     def __init__(self,mt5):
         self._terminal=mt5.terminal_info;self._account=mt5.account_info
         self._symbol=mt5.symbol_info;self._tick=mt5.symbol_info_tick;self._rates=mt5.copy_rates_from_pos
         self.TIMEFRAME_M1=mt5.TIMEFRAME_M1;self.TIMEFRAME_M5=mt5.TIMEFRAME_M5
         self._demo=getattr(mt5,'ACCOUNT_TRADE_MODE_DEMO',None)
-        self.raw={}
+        self.raw={};self.diagnostics={};self._point=None
 
     def terminal_info(self):
         t=self._terminal()
         return SimpleNamespace(connected=t is not None and getattr(t,'connected',None) is True)
 
     def preflight(self):
-        self.raw={}
+        self.raw={};self._point=None;self.diagnostics={}
         t=self._terminal()
+        self.diagnostics=dict(connected=t is not None and getattr(t,'connected',None) is True,
+            demo_verified=None,terminal_trading_disabled=None,python_api_trading_disabled=None,symbol_visible=None)
+        self.diagnostics['terminal_trading_disabled']=getattr(t,'trade_allowed',None) is False
+        self.diagnostics['python_api_trading_disabled']=getattr(t,'tradeapi_disabled',None) is True
         if t is None or getattr(t,'connected',None) is not True:raise MarketDataError('Disconnected','PROVIDER_DISCONNECTED')
         if getattr(t,'trade_allowed',None) is not False or getattr(t,'tradeapi_disabled',None) is not True:
             raise MarketDataError('Disable both terminal trading permissions','TRADING_PERMISSIONS_NOT_DISABLED')
         # Read only trade_mode; never read/serialize account ID, server or credentials.
         mode=getattr(self._account(),'trade_mode',None)
+        self.diagnostics['demo_verified']=type(mode) is int and type(self._demo) is int and self._demo==0 and mode==0
         if type(mode) is not int or type(self._demo) is not int or self._demo!=0 or mode!=0:raise MarketDataError('Demo account required','DEMO_ACCOUNT_REQUIRED')
         symbol=self._symbol('XAUUSD')
+        self.diagnostics['symbol_visible']=symbol is not None and getattr(symbol,'visible',None) is True
+        point=getattr(symbol,'point',None)
+        self._point=float(point) if type(point) in (int,float) and isfinite(point) and point>0 else None
         if symbol is None or getattr(symbol,'visible',None) is not True:raise MarketDataError('Make XAUUSD visible manually','SYMBOL_NOT_VISIBLE')
         if self.timestamp_basis!='MT5_API_UTC_EPOCH':raise MarketDataError('Unverified time basis','TIMESTAMP_BASIS_UNVERIFIED')
 
@@ -72,5 +81,10 @@ class ReadOnlyMarketData:
         latency=(now-at).total_seconds()
         if latency < -2:raise MarketDataError('Future quote','TICK_FUTURE_OR_TIME_BASIS_AMBIGUOUS')
         if latency>30:raise MarketDataError('Stale quote','TICK_STALE')
-        return dict(bid=float(price),observed_at_utc=at.isoformat(),epoch_seconds=epoch,
+        ask=getattr(tick,'ask',None)
+        if ask is not None and (type(ask) not in (int,float) or not isfinite(ask) or ask<float(price)):
+            raise MarketDataError('Invalid ask','TICK_MALFORMED')
+        return dict(bid=float(price),ask=float(ask) if ask is not None else None,
+                    broker_point=self._point,spread_points=(float(ask)-float(price))/self._point if ask is not None and self._point is not None else None,
+                    observed_at_utc=at.isoformat(),epoch_seconds=epoch,
                     epoch_milliseconds=msc,age_seconds=latency,price_basis='OBSERVED_MT5_BID')

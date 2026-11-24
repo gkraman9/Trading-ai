@@ -42,6 +42,7 @@ def observed_tick(tick, now, *, historical=False):
 
 
 class ShadowFeed(ReadOnlyMarketData):
+    quote_max_age_seconds = 2  # Declare the existing observed_tick policy; no tolerance change.
     def __init__(self, module):
         super().__init__(module)
         self._tick_range = getattr(module, "copy_ticks_range", None)
