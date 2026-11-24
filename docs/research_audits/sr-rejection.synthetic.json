@@ -1,0 +1,216 @@
+{
+  "kind": "SYNTHETIC_SR_REJECTION_EXAMPLES",
+  "not_historical_validation": true,
+  "fixture": "tests/test_sr_rejection.py::fixture",
+  "cases": {
+    "bullish": {
+      "snapshot_sha256": "54a5e2ec2da7c3170c438781d24019cd8908c306db459b720c35ec00f46b9fb8",
+      "status": "EVALUATED",
+      "evaluation_at_utc": "2026-11-12T12:23:00+00:00",
+      "outcomes": [
+        {
+          "setup_id": "SRSETUP:212d4aeb65a7828240a7276c2f160972296ba3c6457d11824eb6e3a5e6c307c9",
+          "direction": "BULLISH",
+          "state": "QUALIFIED",
+          "zone_id": "M5:SUPPORT:09f891ce1e16e3ce94e827a636033711971c0883ae0e76b479541939ad7bc196",
+          "zone": {
+            "confirmed_at": "2026-11-12T11:25:00+00:00",
+            "id": "M5:SUPPORT:09f891ce1e16e3ce94e827a636033711971c0883ae0e76b479541939ad7bc196",
+            "kind": "SUPPORT",
+            "lower": 99.85000000000001,
+            "status": "TESTED",
+            "timeframe": "M5",
+            "upper": 99.95
+          },
+          "reason_codes": [
+            "ALL_RESEARCH_RULES_MET"
+          ]
+        },
+        {
+          "setup_id": "SRSETUP:af1dfc45c0185d96cfe71e729b91e7dcc3612e91f5c0cb87d5fb64a88b23ab94",
+          "direction": "BULLISH",
+          "state": "QUALIFIED",
+          "zone_id": "M1:SUPPORT:dae26d7915a6cdc8739f06458cedae457a19940153772b21331bcaab1963e8fd",
+          "zone": {
+            "confirmed_at": "2026-11-12T12:09:00+00:00",
+            "id": "M1:SUPPORT:dae26d7915a6cdc8739f06458cedae457a19940153772b21331bcaab1963e8fd",
+            "kind": "SUPPORT",
+            "lower": 99.85000000000001,
+            "status": "TESTED",
+            "timeframe": "M1",
+            "upper": 99.95
+          },
+          "reason_codes": [
+            "ALL_RESEARCH_RULES_MET"
+          ]
+        }
+      ]
+    },
+    "bearish": {
+      "snapshot_sha256": "190b5f569debd31fb2e0a87a12d9f382817707d951ef25fac500bad5fb9a137f",
+      "status": "EVALUATED",
+      "evaluation_at_utc": "2026-11-12T12:23:00+00:00",
+      "outcomes": [
+        {
+          "setup_id": "SRSETUP:1395c5f0c5d430fdb7ae38c761147029909cec91251f5ff78134905c96e9da2e",
+          "direction": "BEARISH",
+          "state": "QUALIFIED",
+          "zone_id": "M5:RESISTANCE:f64c259fbfd0a6b7f891e2b5d3361b6578bd5075bc17f583f2bd261f6d3e5782",
+          "zone": {
+            "confirmed_at": "2026-11-12T11:25:00+00:00",
+            "id": "M5:RESISTANCE:f64c259fbfd0a6b7f891e2b5d3361b6578bd5075bc17f583f2bd261f6d3e5782",
+            "kind": "RESISTANCE",
+            "lower": 100.05,
+            "status": "TESTED",
+            "timeframe": "M5",
+            "upper": 100.14999999999999
+          },
+          "reason_codes": [
+            "ALL_RESEARCH_RULES_MET"
+          ]
+        },
+        {
+          "setup_id": "SRSETUP:81f36a1d39ffb3717f8780dc3b72644d831d6c1f919e56533700e875d3a37176",
+          "direction": "BEARISH",
+          "state": "QUALIFIED",
+          "zone_id": "M1:RESISTANCE:05ca368fbfbf8dc9257831a66ab46816cb5b67bc5eb1e781c3681bcd9ca138a1",
+          "zone": {
+            "confirmed_at": "2026-11-12T12:09:00+00:00",
+            "id": "M1:RESISTANCE:05ca368fbfbf8dc9257831a66ab46816cb5b67bc5eb1e781c3681bcd9ca138a1",
+            "kind": "RESISTANCE",
+            "lower": 100.05,
+            "status": "TESTED",
+            "timeframe": "M1",
+            "upper": 100.14999999999999
+          },
+          "reason_codes": [
+            "ALL_RESEARCH_RULES_MET"
+          ]
+        }
+      ]
+    },
+    "candidate": {
+      "snapshot_sha256": "7ce7a7e9a2966508e8ca1e8b6283278acfb296cd4f8c53e391000d8b9ca4d729",
+      "status": "EVALUATED",
+      "evaluation_at_utc": "2026-11-12T12:22:00+00:00",
+      "outcomes": [
+        {
+          "setup_id": "SRSETUP:212d4aeb65a7828240a7276c2f160972296ba3c6457d11824eb6e3a5e6c307c9",
+          "direction": "BULLISH",
+          "state": "CANDIDATE",
+          "zone_id": "M5:SUPPORT:09f891ce1e16e3ce94e827a636033711971c0883ae0e76b479541939ad7bc196",
+          "zone": {
+            "confirmed_at": "2026-11-12T11:25:00+00:00",
+            "id": "M5:SUPPORT:09f891ce1e16e3ce94e827a636033711971c0883ae0e76b479541939ad7bc196",
+            "kind": "SUPPORT",
+            "lower": 99.85000000000001,
+            "status": "TESTED",
+            "timeframe": "M5",
+            "upper": 99.95
+          },
+          "reason_codes": [
+            "CONFIRMATION_PENDING"
+          ]
+        },
+        {
+          "setup_id": "SRSETUP:af1dfc45c0185d96cfe71e729b91e7dcc3612e91f5c0cb87d5fb64a88b23ab94",
+          "direction": "BULLISH",
+          "state": "CANDIDATE",
+          "zone_id": "M1:SUPPORT:dae26d7915a6cdc8739f06458cedae457a19940153772b21331bcaab1963e8fd",
+          "zone": {
+            "confirmed_at": "2026-11-12T12:09:00+00:00",
+            "id": "M1:SUPPORT:dae26d7915a6cdc8739f06458cedae457a19940153772b21331bcaab1963e8fd",
+            "kind": "SUPPORT",
+            "lower": 99.85000000000001,
+            "status": "TESTED",
+            "timeframe": "M1",
+            "upper": 99.95
+          },
+          "reason_codes": [
+            "CONFIRMATION_PENDING"
+          ]
+        }
+      ]
+    },
+    "no_confirmation": {
+      "snapshot_sha256": "43239275c4446c76a27ba3220748c239d394fdcf763cbca180159d99b9157cd0",
+      "status": "EVALUATED",
+      "outcomes": [
+        {
+          "setup_id": "SRSETUP:212d4aeb65a7828240a7276c2f160972296ba3c6457d11824eb6e3a5e6c307c9",
+          "state": "ABSTAINED",
+          "reason_codes": [
+            "M1_CONFIRMATION_NOT_DIRECTIONAL"
+          ]
+        },
+        {
+          "setup_id": "SRSETUP:af1dfc45c0185d96cfe71e729b91e7dcc3612e91f5c0cb87d5fb64a88b23ab94",
+          "state": "ABSTAINED",
+          "reason_codes": [
+            "M1_CONFIRMATION_NOT_DIRECTIONAL"
+          ]
+        }
+      ]
+    }
+  },
+  "lifecycle_log_sha256": "cf4a42cfab10269c049455fb0148cfc1316ce0a0afdabc55dc200edaaf883777",
+  "lifecycle_summary": {
+    "blocked_snapshots": 0,
+    "directions": {
+      "BEARISH": {
+        "expired_qualified": 0,
+        "invalidated_qualified": 0,
+        "states": {},
+        "unique_qualified": 0,
+        "unqualified_invalidated": 0
+      },
+      "BULLISH": {
+        "expired_qualified": 2,
+        "invalidated_qualified": 0,
+        "states": {
+          "EXPIRED": 2
+        },
+        "unique_qualified": 2,
+        "unqualified_invalidated": 0
+      }
+    },
+    "snapshots": 7
+  },
+  "context_configuration_sha256": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+  "intelligence_configuration_sha256": "03a93266dd7695d3ffa45cf31163e4ab6a49b3d43652a408decb578a8c4973f4",
+  "signal": "WAIT",
+  "execution_allowed": false,
+  "qualification": "DATA_NOT_QUALIFIED",
+  "exness": "BLOCKED",
+  "historical_validation": "PENDING",
+  "historical_comparisons": "NOT_RUN",
+  "benchmark": {
+    "kind": "SYNTHETIC_SR_RESEARCH_BENCHMARK",
+    "python": "3.12.14",
+    "platform": "Linux",
+    "method": "Prebuilt independent synthetic contexts/views; one excluded warm-up; perf_counter_ns and tracemalloc; GC before each iteration; snapshot source validation remains enabled; lifecycle benchmark includes full log validation.",
+    "source_sha256": "2f14fd0500bc79a8c38efa759a6ab14516dfef9e23a472ba10076740bf7e05ad",
+    "results": [
+      {
+        "workload": "source_bound_snapshot",
+        "iterations": 3,
+        "median_ms": 468.980697,
+        "peak_traced_bytes": 694960,
+        "identical_hashes": true,
+        "sha256": "54a5e2ec2da7c3170c438781d24019cd8908c306db459b720c35ec00f46b9fb8"
+      },
+      {
+        "workload": "eight_close_lifecycle_and_validation",
+        "iterations": 3,
+        "median_ms": 4418.983553,
+        "peak_traced_bytes": 2526320,
+        "identical_hashes": true,
+        "sha256": "06c7df753700f2bfa628a311c0e1a6b26ddda0458de6a277bf1cf2f8a97a52ae"
+      }
+    ],
+    "signal": "WAIT",
+    "execution_allowed": false,
+    "historical_validation": "PENDING",
+    "historical_comparisons": "NOT_RUN"
+  }
+}
