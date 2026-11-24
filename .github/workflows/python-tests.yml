@@ -47,6 +47,7 @@ on:
       - research/iat-v3-exness-boundary-evidence
       - feat/iat-v3-unified-market-view
       - feat/iat-v3-sr-rejection-research-v1
+      - feat/iat-v3-live-market-view
   pull_request:
     branches:
       - main
@@ -92,6 +93,7 @@ on:
       - fix/iat-v3-shadow-quote-observation-time
       - research/iat-v3-exness-boundary-evidence
       - feat/iat-v3-unified-market-view
+      - feat/iat-v3-sr-rejection-research-v1
   workflow_dispatch:
 
 permissions:
@@ -139,6 +141,14 @@ jobs:
         run: python -m unittest discover -s tests -p test_three_engine.py -v
       - name: Quote acquisition chronology (mocked MT5, no skew allowance)
         run: python -m unittest discover -s tests -p test_shadow_quote_timing.py -v
+      - name: Live V3 presentation (synthetic MT5, no services)
+        run: python -m unittest discover -s tests -p test_live_market_view.py -v
+      - name: Windows live helper validation only (no terminal or service)
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
+        shell: pwsh
+        run: |
+          & .\diagnostics\Start-IATLiveMarketView.ps1 -PythonExe (Get-Command python).Source -ValidateOnly
+          if ($LASTEXITCODE -ne 0) { throw 'Live helper validation failed' }
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)

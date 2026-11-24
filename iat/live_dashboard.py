@@ -33,6 +33,13 @@ def create_dashboard(observer,reasoning=None,ai_reasoning=None,shadow=None):
     def reasoning_snapshot():return jsonify(reasoning.envelope(observer.latest()))
     @app.get('/live/v3/snapshot')
     def ai_snapshot():return jsonify(ai_reasoning.envelope(observer.latest()))
+    @app.get('/live/intelligence/v3/snapshot')
+    def market_intelligence():
+        from iat.live_market_view import unavailable,seal_presentation
+        method=getattr(observer,'market_intelligence',None)
+        return jsonify(seal_presentation(method() if callable(method) else unavailable('LIVE_V3_INTEGRATION_UNAVAILABLE')))
+    @app.get('/market-view.js')
+    def market_view_js():return send_from_directory(assets,'market-view.js')
     @app.get('/live/shadow/v1/snapshot')
     def shadow_snapshot():
         from iat.live_shadow.runtime import unavailable
