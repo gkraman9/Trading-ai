@@ -447,6 +447,46 @@ class ExitIntelligenceTests(unittest.TestCase):
         self.assertFalse(r["observations"])
         self.assertFalse(e._events)
 
+    def test_live_dashboard_does_not_evaluate_synthetic_entry_or_exit(self):
+        import tempfile
+        from pathlib import Path
+        from test_live_market_view import SyntheticTerminal, NOW
+        from iat.live_observer import LiveObserver, ShadowLog
+        from iat.live_data import ReadOnlyMarketData
+        from iat.live_dashboard import create_dashboard
+
+        with tempfile.TemporaryDirectory() as folder:
+            observer = LiveObserver(
+                ReadOnlyMarketData(SyntheticTerminal(lambda: NOW)),
+                ShadowLog(Path(folder) / "private"),
+                clock=lambda: NOW,
+            )
+            with patch.object(
+                EntryResearchSession,
+                "record",
+                side_effect=AssertionError("live entry forbidden"),
+            ), patch.object(
+                ExitResearchSession,
+                "record",
+                side_effect=AssertionError("live exit forbidden"),
+            ):
+                before = observer.step()
+                client = create_dashboard(observer).test_client()
+                with client.get("/") as response:
+                    html = response.get_data(as_text=True)
+                self.assertEqual(client.get("/live/v1/snapshot").get_json(), before)
+                self.assertEqual(
+                    client.get("/live/intelligence/v3/snapshot").status_code, 200
+                )
+            for label in (
+                "exit-research-state",
+                "Risk Intelligence",
+                "Paper Research",
+                "SYNTHETIC_ONLY",
+                "live.js",
+            ):
+                self.assertIn(label, html)
+
     def test_no_acquisition_execution_or_ai_capabilities(self):
         import ast
         from pathlib import Path
