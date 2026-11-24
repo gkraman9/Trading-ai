@@ -1,0 +1,249 @@
+{
+  "authenticated_synthetic_reports": {
+    "C_missing_target": {
+      "ambiguity": {
+        "groups": [],
+        "status": "NO_COAVAILABLE_CONFLICT_OBSERVED"
+      },
+      "hypothesis_lifecycle": {
+        "eligible_closes_after_confirmation": 1,
+        "scope": "RESEARCH_SETUP_NOT_POSITION",
+        "state": "RESEARCH_QUALIFIED"
+      },
+      "reference_geometry": {
+        "authentication": "SOURCE_BOUND_REFERENCE_GEOMETRY",
+        "basis": "REFERENCE_RR_ONLY",
+        "breach_semantics": "STRICT_ELIGIBLE_CLOSE_BELOW_THRESHOLD",
+        "direction": "BULLISH",
+        "invalidation_threshold": "2097.74",
+        "ratio_units": "DIMENSIONLESS",
+        "reward_distance": null,
+        "reward_to_risk": null,
+        "risk_distance": "9.26",
+        "units": "INSTRUMENT_PRICE_UNITS"
+      },
+      "reference_price_basis": {
+        "ask": null,
+        "bid": null,
+        "price_basis": null,
+        "reason_codes": [
+          "UPSTREAM_SR_PRICE_BASIS_NOT_DECLARED"
+        ],
+        "spread": null,
+        "status": "UNAVAILABLE"
+      },
+      "sha256": "0780fd7f211067fb03eb73248fec574eda483a8452d2fd40aee4eb514ed34f4f",
+      "source_eligibility": "VALID",
+      "states": [
+        "COST_MODEL_UNAVAILABLE",
+        "FILL_MODEL_UNAVAILABLE",
+        "REFERENCE_GEOMETRY_AVAILABLE",
+        "TARGET_UNAVAILABLE"
+      ]
+    },
+    "E_ambiguous": {
+      "ambiguity": {
+        "groups": [
+          {
+            "available_at_utc": "2026-11-12T15:36:00+00:00",
+            "event_ids": [
+              "E2EVENT:120554148724c0fd6229cbf6c1754f14c6be3b7404088fd5a76a7c871dfb3e03",
+              "E2EVENT:bb6957cf853d08f1c5bdc11a7ec50a5030eb0dee5ac33dc6b9d13064c15ff782"
+            ],
+            "status": "UNRESOLVED_EVENT_ORDER",
+            "timing_basis": "UNKNOWN_INTRABAR_ORDER"
+          }
+        ],
+        "status": "UNRESOLVED_EVENT_ORDER"
+      },
+      "hypothesis_lifecycle": {
+        "eligible_closes_after_confirmation": 1,
+        "scope": "RESEARCH_SETUP_NOT_POSITION",
+        "state": "INVALIDATED"
+      },
+      "reference_geometry": {
+        "authentication": "SOURCE_BOUND_REFERENCE_GEOMETRY",
+        "basis": "REFERENCE_RR_ONLY",
+        "breach_semantics": "STRICT_ELIGIBLE_CLOSE_BELOW_THRESHOLD",
+        "direction": "BULLISH",
+        "invalidation_threshold": "2097.74",
+        "ratio_units": "DIMENSIONLESS",
+        "reward_distance": "6.1499999999996",
+        "reward_to_risk": "2.721238938052920353982300884955752",
+        "risk_distance": "2.26",
+        "units": "INSTRUMENT_PRICE_UNITS"
+      },
+      "reference_price_basis": {
+        "ask": null,
+        "bid": null,
+        "price_basis": null,
+        "reason_codes": [
+          "UPSTREAM_SR_PRICE_BASIS_NOT_DECLARED"
+        ],
+        "spread": null,
+        "status": "UNAVAILABLE"
+      },
+      "sha256": "0e0f2854fad05c2432bb10d08378c92d6a75c3c2bf4a53abf8cbacb6cebee8b0",
+      "source_eligibility": "VALID",
+      "states": [
+        "COST_MODEL_UNAVAILABLE",
+        "FILL_MODEL_UNAVAILABLE",
+        "HYPOTHESIS_INVALIDATED",
+        "OBSERVATION_ORDER_UNRESOLVED",
+        "REFERENCE_GEOMETRY_AVAILABLE"
+      ]
+    },
+    "F_missing_costs": {
+      "ambiguity": {
+        "groups": [],
+        "status": "NO_COAVAILABLE_CONFLICT_OBSERVED"
+      },
+      "hypothesis_lifecycle": {
+        "eligible_closes_after_confirmation": 1,
+        "scope": "RESEARCH_SETUP_NOT_POSITION",
+        "state": "RESEARCH_QUALIFIED"
+      },
+      "reference_geometry": {
+        "authentication": "SOURCE_BOUND_REFERENCE_GEOMETRY",
+        "basis": "REFERENCE_RR_ONLY",
+        "breach_semantics": "STRICT_ELIGIBLE_CLOSE_BELOW_THRESHOLD",
+        "direction": "BULLISH",
+        "invalidation_threshold": "2097.74",
+        "ratio_units": "DIMENSIONLESS",
+        "reward_distance": "6.1499999999996",
+        "reward_to_risk": "2.721238938052920353982300884955752",
+        "risk_distance": "2.26",
+        "units": "INSTRUMENT_PRICE_UNITS"
+      },
+      "reference_price_basis": {
+        "ask": null,
+        "bid": null,
+        "price_basis": null,
+        "reason_codes": [
+          "UPSTREAM_SR_PRICE_BASIS_NOT_DECLARED"
+        ],
+        "spread": null,
+        "status": "UNAVAILABLE"
+      },
+      "sha256": "08ffc3449118c21c0ad3ddf16f584de0dbfbbc7ede68c94c709e6456e42b10c4",
+      "source_eligibility": "VALID",
+      "states": [
+        "COST_MODEL_UNAVAILABLE",
+        "FILL_MODEL_UNAVAILABLE",
+        "REFERENCE_GEOMETRY_AVAILABLE"
+      ]
+    },
+    "bearish_bound": {
+      "ambiguity": {
+        "groups": [],
+        "status": "NO_COAVAILABLE_CONFLICT_OBSERVED"
+      },
+      "hypothesis_lifecycle": {
+        "eligible_closes_after_confirmation": 1,
+        "scope": "RESEARCH_SETUP_NOT_POSITION",
+        "state": "RESEARCH_QUALIFIED"
+      },
+      "reference_geometry": {
+        "authentication": "SOURCE_BOUND_REFERENCE_GEOMETRY",
+        "basis": "REFERENCE_RR_ONLY",
+        "breach_semantics": "STRICT_ELIGIBLE_CLOSE_ABOVE_THRESHOLD",
+        "direction": "BEARISH",
+        "invalidation_threshold": "2102.26",
+        "ratio_units": "DIMENSIONLESS",
+        "reward_distance": "6.1499999999996",
+        "reward_to_risk": "2.721238938052920353982300884955752",
+        "risk_distance": "2.26",
+        "units": "INSTRUMENT_PRICE_UNITS"
+      },
+      "reference_price_basis": {
+        "ask": null,
+        "bid": null,
+        "price_basis": null,
+        "reason_codes": [
+          "UPSTREAM_SR_PRICE_BASIS_NOT_DECLARED"
+        ],
+        "spread": null,
+        "status": "UNAVAILABLE"
+      },
+      "sha256": "0b7b6ce7e187a9556f3f0fef718b4e2a67557ec4e3db63f5b4b5e627a428f3f6",
+      "source_eligibility": "VALID",
+      "states": [
+        "COST_MODEL_UNAVAILABLE",
+        "FILL_MODEL_UNAVAILABLE",
+        "REFERENCE_GEOMETRY_AVAILABLE"
+      ]
+    },
+    "bullish_bound": {
+      "ambiguity": {
+        "groups": [],
+        "status": "NO_COAVAILABLE_CONFLICT_OBSERVED"
+      },
+      "hypothesis_lifecycle": {
+        "eligible_closes_after_confirmation": 1,
+        "scope": "RESEARCH_SETUP_NOT_POSITION",
+        "state": "RESEARCH_QUALIFIED"
+      },
+      "reference_geometry": {
+        "authentication": "SOURCE_BOUND_REFERENCE_GEOMETRY",
+        "basis": "REFERENCE_RR_ONLY",
+        "breach_semantics": "STRICT_ELIGIBLE_CLOSE_BELOW_THRESHOLD",
+        "direction": "BULLISH",
+        "invalidation_threshold": "2097.74",
+        "ratio_units": "DIMENSIONLESS",
+        "reward_distance": "6.1499999999996",
+        "reward_to_risk": "2.721238938052920353982300884955752",
+        "risk_distance": "2.26",
+        "units": "INSTRUMENT_PRICE_UNITS"
+      },
+      "reference_price_basis": {
+        "ask": null,
+        "bid": null,
+        "price_basis": null,
+        "reason_codes": [
+          "UPSTREAM_SR_PRICE_BASIS_NOT_DECLARED"
+        ],
+        "spread": null,
+        "status": "UNAVAILABLE"
+      },
+      "sha256": "08ffc3449118c21c0ad3ddf16f584de0dbfbbc7ede68c94c709e6456e42b10c4",
+      "source_eligibility": "VALID",
+      "states": [
+        "COST_MODEL_UNAVAILABLE",
+        "FILL_MODEL_UNAVAILABLE",
+        "REFERENCE_GEOMETRY_AVAILABLE"
+      ]
+    }
+  },
+  "evidence": "INVENTED_OHLC_SYNTHETIC_ONLY_NOT_PROFITABILITY",
+  "example_version": 1,
+  "illustrative_arithmetic_not_source_qualified": {
+    "A_bullish": {
+      "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+      "basis": "REFERENCE_RR_ONLY",
+      "breach_semantics": "STRICT_ELIGIBLE_CLOSE_BELOW_THRESHOLD",
+      "direction": "BULLISH",
+      "invalidation_threshold": "2098",
+      "ratio_units": "DIMENSIONLESS",
+      "reward_distance": "6",
+      "reward_to_risk": "3",
+      "risk_distance": "2",
+      "units": "INSTRUMENT_PRICE_UNITS"
+    },
+    "B_bearish": {
+      "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+      "basis": "REFERENCE_RR_ONLY",
+      "breach_semantics": "STRICT_ELIGIBLE_CLOSE_ABOVE_THRESHOLD",
+      "direction": "BEARISH",
+      "invalidation_threshold": "2102",
+      "ratio_units": "DIMENSIONLESS",
+      "reward_distance": "6",
+      "reward_to_risk": "3",
+      "risk_distance": "2",
+      "units": "INSTRUMENT_PRICE_UNITS"
+    },
+    "D_invalid": {
+      "reason_code": "REFERENCE_RISK_NONPOSITIVE",
+      "scope": "ARITHMETIC_ONLY"
+    }
+  }
+}
