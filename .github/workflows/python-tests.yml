@@ -49,6 +49,7 @@ on:
       - feat/iat-v3-sr-rejection-research-v1
       - feat/iat-v3-live-market-view
       - feat/iat-v3-entry-intelligence-v1
+      - feat/iat-v3-exit-intelligence-v1
   pull_request:
     branches:
       - main
@@ -96,6 +97,7 @@ on:
       - feat/iat-v3-unified-market-view
       - feat/iat-v3-sr-rejection-research-v1
       - feat/iat-v3-live-market-view
+      - feat/iat-v3-entry-intelligence-v1
   workflow_dispatch:
 
 permissions:
@@ -153,6 +155,10 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Live helper -File regression failed' }
       - name: Entry intelligence E1 (independent synthetic OHLC only)
         run: python -m unittest discover -s tests -p test_entry_intelligence.py -v
+      - name: E1 independent contract review and E2 synthetic exit research
+        run: python -m unittest discover -s tests -p 'test_*independent_review.py' -v
+      - name: E2 exit source and ambiguity regressions
+        run: python -m unittest discover -s tests -p test_exit_intelligence.py -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)

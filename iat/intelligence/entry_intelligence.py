@@ -326,6 +326,30 @@ class EntryResearchSession:
             self._last = blocked_entry(code)
         return deepcopy(self._last)
 
+    def fork_at(self, report):
+        """Isolate an authenticated produced report's exact prefix, excluding future state.
+
+        This is not an arbitrary log importer or qualification/approval interface.
+        """
+        validate_entry_report(report, source=self)
+        need(report["status"] == "EVALUATED", "ENTRY_EVALUATED_FORK_REQUIRED")
+        prefix = SRRejectionLedger()
+        found = False
+        for entry in self._ledger.entries:
+            prefix._record(deepcopy(entry["result"]))
+            if entry["result"]["sha256"] == report["bindings"]["sr_result"]:
+                found = True
+                break
+        need(
+            found and prefix.to_dict()["sha256"] == report["bindings"]["sr_log"],
+            "ENTRY_FORK_PREFIX_BINDING_INVALID",
+        )
+        child = EntryResearchSession()
+        child._ledger = prefix
+        child._last = deepcopy(report)
+        child._produced = {report["sha256"]}
+        return child
+
     def report(self):
         return deepcopy(self._last)
 

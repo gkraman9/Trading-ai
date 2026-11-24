@@ -1,0 +1,136 @@
+{
+  "cases": {
+    "ambiguous": {
+      "ambiguity": "UNRESOLVED_EVENT_ORDER",
+      "analytical_states": [
+        "STRUCTURAL_INVALIDATION_OBSERVED",
+        "STRUCTURAL_TARGET_OBSERVED",
+        "UNRESOLVED_EVENT_ORDER"
+      ],
+      "observation_count": 2,
+      "original_setup_id": "SRSETUP:2571c81a43ddba799dd309ecfbf91e4b49788fdf0358fb09d6209e5861472b6a",
+      "report_sha256": "b169bda9e819d3bb6f3e1a3d96f73cf23320271110a8ef261991d60c04aba9d4"
+    },
+    "bearish_target": {
+      "ambiguity": "NO_COAVAILABLE_CONFLICT_OBSERVED",
+      "analytical_states": [
+        "MONITORING_HYPOTHESIS",
+        "STRUCTURAL_TARGET_OBSERVED"
+      ],
+      "observation_count": 1,
+      "original_setup_id": "SRSETUP:3b2d6b855a4b94808d854b1f0724fac5146fd8b90c4d5026f58a4f6c02268fd3",
+      "report_sha256": "6b75671bcbbaba82e191f1d70212c58dee8c1dacc856968e1cfde564d6256f54"
+    },
+    "bullish_target": {
+      "ambiguity": "NO_COAVAILABLE_CONFLICT_OBSERVED",
+      "analytical_states": [
+        "MONITORING_HYPOTHESIS",
+        "STRUCTURAL_TARGET_OBSERVED"
+      ],
+      "observation_count": 1,
+      "original_setup_id": "SRSETUP:2571c81a43ddba799dd309ecfbf91e4b49788fdf0358fb09d6209e5861472b6a",
+      "report_sha256": "0a4493342f7a466b7284e07423ff2fa8a272747f799dc457d81c32fbfd54db34"
+    },
+    "expiry": {
+      "ambiguity": "NO_COAVAILABLE_CONFLICT_OBSERVED",
+      "analytical_states": [
+        "HYPOTHESIS_EXPIRED"
+      ],
+      "observation_count": 1,
+      "original_setup_id": "SRSETUP:2571c81a43ddba799dd309ecfbf91e4b49788fdf0358fb09d6209e5861472b6a",
+      "report_sha256": "7e70e94d300ee7b673295f96dbdfee2b5a23d7c35edea94c9a320a68892b5d1f"
+    },
+    "invalidation": {
+      "ambiguity": "NO_COAVAILABLE_CONFLICT_OBSERVED",
+      "analytical_states": [
+        "STRUCTURAL_INVALIDATION_OBSERVED"
+      ],
+      "observation_count": 1,
+      "original_setup_id": "SRSETUP:2571c81a43ddba799dd309ecfbf91e4b49788fdf0358fb09d6209e5861472b6a",
+      "report_sha256": "69565bd1269ac58b5e458552395bfef41473d63fb221b23da44ce41f8c3d3d91"
+    }
+  },
+  "evidence": "INVENTED_OHLC_SYNTHETIC_ONLY_NO_FILLS",
+  "example_version": 1,
+  "worked_ambiguity": {
+    "ambiguity": {
+      "groups": [
+        {
+          "available_at_utc": "2026-11-13T10:24:00+00:00",
+          "event_ids": [
+            "E2EVENT:e21608640a9be782c92bf9059037740b91d716373b1d0b406224ebde0ebca5b3",
+            "E2EVENT:fc5890ffc2f1094b6c3cc8aaeba50d4bbd685bca615622360d16b1854b299841"
+          ],
+          "status": "UNRESOLVED_EVENT_ORDER",
+          "timing_basis": "UNKNOWN_INTRABAR_ORDER"
+        }
+      ],
+      "status": "UNRESOLVED_EVENT_ORDER"
+    },
+    "frozen_invalidation": {
+      "break_tolerance": 0.01,
+      "conditions": [
+        "LATER_ELIGIBLE_CLOSE_LOSES_FROZEN_ZONE",
+        "FRESH_OPPOSING_M1_CHOCH"
+      ],
+      "lower": 5746.75,
+      "upper": 5746.85,
+      "zone_id": "M5:SUPPORT:84d301dea455db794af62aa42523db3fe14364c8f7d7a3230b5410330cb280e7"
+    },
+    "frozen_target": {
+      "confirmed_at": "2026-11-13T10:07:00+00:00",
+      "id": "M1:RESISTANCE:17df98e559c4aee82d89a37a7d8c159da90a908c7588914f81bef48009a71671",
+      "kind": "RESISTANCE",
+      "lower": 5753.15,
+      "status": "TESTED",
+      "timeframe": "M1",
+      "upper": 5753.25
+    },
+    "observations": [
+      {
+        "available_at_utc": "2026-11-13T10:24:00+00:00",
+        "canonical_event_id": null,
+        "details": {
+          "closed_beyond_reference": false,
+          "not_a_fill": true,
+          "policy": "WICK_CONTACT",
+          "wick_contact": true
+        },
+        "first_observed_at_utc": "2026-11-13T10:24:00+00:00",
+        "id": "E2EVENT:e21608640a9be782c92bf9059037740b91d716373b1d0b406224ebde0ebca5b3",
+        "kind": "STRUCTURAL_TARGET_OBSERVED",
+        "occurred_at_utc": null,
+        "occurred_interval_utc": [
+          "2026-11-13T10:23:00+00:00",
+          "2026-11-13T10:24:00+00:00"
+        ],
+        "source_references": [
+          "M1:CANDLE:495a406f0a3c9198959ac2fa4e7e6fbc58f575444024379bf5438b7c748cab3a",
+          "M1:RESISTANCE:17df98e559c4aee82d89a37a7d8c159da90a908c7588914f81bef48009a71671"
+        ]
+      },
+      {
+        "available_at_utc": "2026-11-13T10:24:00+00:00",
+        "canonical_event_id": null,
+        "details": {
+          "predicate": "ORIGINAL_SR_ELIGIBLE_CLOSE_LOSES_FROZEN_ZONE"
+        },
+        "first_observed_at_utc": "2026-11-13T10:24:00+00:00",
+        "id": "E2EVENT:fc5890ffc2f1094b6c3cc8aaeba50d4bbd685bca615622360d16b1854b299841",
+        "kind": "STRUCTURAL_INVALIDATION_OBSERVED",
+        "occurred_at_utc": "2026-11-13T10:24:00+00:00",
+        "occurred_interval_utc": null,
+        "source_references": [
+          "M1:CANDLE:495a406f0a3c9198959ac2fa4e7e6fbc58f575444024379bf5438b7c748cab3a",
+          "M5:SUPPORT:84d301dea455db794af62aa42523db3fe14364c8f7d7a3230b5410330cb280e7"
+        ]
+      }
+    ],
+    "original": {
+      "entry_report_sha256": "8e8f1533de1870a6b32e5f5a1b82217ca295553e786d668de3163e0ca960fe2e",
+      "qualification_at_utc": "2026-11-13T10:23:00+00:00",
+      "research_direction": "BULLISH",
+      "setup_id": "SRSETUP:2571c81a43ddba799dd309ecfbf91e4b49788fdf0358fb09d6209e5861472b6a"
+    }
+  }
+}
