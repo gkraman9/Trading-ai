@@ -463,7 +463,9 @@ class MarketViewTests(unittest.TestCase):
         self.assertNotIn("MetaTrader5", code)
         self.assertNotIn("order_send", code)
 
-    def test_synthetic_declared_session_assessed_and_abstained_views_validate(self):
+    def test_synthetic_declared_session_preserves_upstream_but_cannot_bind_calendar(
+        self,
+    ):
         from test_session_v2 import synthetic_v2
         from iat.replay_dataset import utc
 
@@ -482,7 +484,14 @@ class MarketViewTests(unittest.TestCase):
                     intelligence_report=i,
                 )
             )
-            self.assertEqual(v["status"], expected, v["restrictions"])
+            self.assertEqual(v["status"], "UNKNOWN", v["restrictions"])
+            self.assertIn(
+                "SESSION_CONTEXT_BINDING_UNESTABLISHED", v["advisory"]["wait_reasons"]
+            )
+            self.assertEqual(
+                v["advisory"]["selected_hypothesis"],
+                c.confluence["selected_hypothesis"],
+            )
             self.assertEqual(v["qualification"], "DATA_NOT_QUALIFIED")
             self.assertEqual(v["exness"], "BLOCKED")
 
@@ -495,6 +504,17 @@ class MarketViewTests(unittest.TestCase):
         for phase in ("QUOTE_ONLY", "CLOSE_ONLY", "CLOSED", "UNKNOWN"):
             snapshot = calendar.public_state(utc(c.analysis_at))
             snapshot["permissions"]["phase"] = phase
+            pairs = {
+                "QUOTE_ONLY": (False, False),
+                "CLOSE_ONLY": (False, True),
+                "CLOSED": (False, False),
+                "UNKNOWN": (None, None),
+            }
+            (
+                snapshot["permissions"]["broker_open_positions"],
+                snapshot["permissions"]["broker_close_positions"],
+            ) = pairs[phase]
+            snapshot["permissions"]["broker_permissions_verified"] = phase != "UNKNOWN"
             v = self.safe(build_market_view_v3(c, session_snapshot=snapshot))
             self.assertEqual(
                 v["status"], "UNKNOWN" if phase == "UNKNOWN" else "BLOCKED"

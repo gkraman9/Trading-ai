@@ -19,6 +19,7 @@ from iat.intelligence.scenario_assessment import (
     SCORE_KIND,
 )
 from iat.intelligence.strategy_replay import digest
+from iat.intelligence.market_view_contract import validate_shape
 
 MODEL = "IAT_MARKET_INTELLIGENCE_V3"
 SAFETY = dict(
@@ -163,6 +164,7 @@ def _session(snapshot, at):
     if snapshot is None:
         return None
     s = plain(snapshot)
+    validate_shape(s, session=True)
     expected = {
         "version",
         "configuration_sha256",
@@ -252,6 +254,26 @@ def _session(snapshot, at):
             not s["reason_codes"] and start <= at < end and evidence <= at < expiry,
             "SESSION_ASSURANCE_INCONSISTENT",
         )
+    permission_pair = {
+        "CLOSED": (False, False),
+        "QUOTE_ONLY": (False, False),
+        "CLOSE_ONLY": (False, True),
+        "FULL_TRADING": (True, True),
+    }
+    if p["broker_permissions_verified"]:
+        need(
+            p["phase"] in permission_pair
+            and (p["broker_open_positions"], p["broker_close_positions"])
+            == permission_pair[p["phase"]],
+            "SESSION_PERMISSIONS_INCONSISTENT",
+        )
+    else:
+        need(
+            p["phase"] == "UNKNOWN"
+            and p["broker_open_positions"] is None
+            and p["broker_close_positions"] is None,
+            "SESSION_PERMISSIONS_INCONSISTENT",
+        )
     return s
 
 
@@ -307,6 +329,7 @@ def _details(intelligence, context):
         "INTELLIGENCE_FRAMES_MISMATCH",
     )
     swings, events = [], []
+    source_digest = digest(intelligence.to_dict())
     for tf, frame in sorted(intelligence.frames.items()):
         refs = {
             r.id: identity(
@@ -346,7 +369,7 @@ def _details(intelligence, context):
             # Retain their source ID only as a scoped V1 reference, never as an event key.
             events.append(
                 dict(
-                    source_report_sha256=digest(intelligence.to_dict()),
+                    source_report_sha256=source_digest,
                     source_id=e.id,
                     event_id=event_id,
                     timeframe=tf,
@@ -595,6 +618,11 @@ def build_market_view_v3(
                 restrictions["reason_codes"].append("SESSION_RESTRICTED")
             elif phase == "UNKNOWN":
                 out["status"] = "UNKNOWN"
+            if out["status"] != "BLOCKED":
+                out["status"] = "UNKNOWN"
+                restrictions["reason_codes"].append(
+                    "SESSION_CONTEXT_BINDING_UNESTABLISHED"
+                )
         if (
             adaptive["status"] == "UNKNOWN"
             or restrictions["missing_timeframes"]
@@ -654,7 +682,15 @@ def _seal(out):
     )
     out["advisory"]["wait_reasons"] = sorted(set(out["advisory"]["wait_reasons"]))
     out = plain(out)
-    return dict(out, sha256=digest(out))
+    sealed = dict(out, sha256=digest(out))
+    try:
+        validate_shape(sealed)
+    except ValueError:
+        out = _base()
+        out["restrictions"]["reason_codes"] = ["MARKET_VIEW_SCHEMA_INVALID"]
+        out["advisory"]["wait_reasons"].append("MARKET_VIEW_SCHEMA_INVALID")
+        sealed = dict(out, sha256=digest(out))
+    return sealed
 
 
 def _observed_chronology(value, at, key=None):
@@ -687,6 +723,7 @@ def validate_market_view_v3(view, *, context_report=None, **inputs):
     SHA-256 is integrity, not authentication. Independent source qualification is
     deliberately outside this presentation validator.
     """
+    validate_shape(view)
     need(
         isinstance(view, dict) and set(view) == set(_base()) | {"sha256"},
         "MARKET_VIEW_SCHEMA_INVALID",
@@ -710,6 +747,7 @@ def validate_market_view_v3(view, *, context_report=None, **inputs):
         view["status"] in ("BLOCKED", "UNKNOWN", "ABSTAINED", "ASSESSED"),
         "MARKET_VIEW_STATUS_INVALID",
     )
+    shape = _base()
     for section in (
         "market_state",
         "price_structure",
@@ -721,7 +759,7 @@ def validate_market_view_v3(view, *, context_report=None, **inputs):
     ):
         need(
             isinstance(view[section], dict)
-            and set(view[section]) == set(_base()[section]),
+            and set(view[section]) == set(shape[section]),
             "MARKET_VIEW_SCHEMA_INVALID",
         )
     a = view["advisory"]
@@ -816,9 +854,287 @@ def validate_market_view_v3(view, *, context_report=None, **inputs):
                 == "VERIFIED_DECLARATIONS",
                 "MARKET_VIEW_SESSION_INVALID",
             )
+    _validate_presentation(view)
     if context_report is not None:
         need(
             view == build_market_view_v3(context_report, **inputs),
             "MARKET_VIEW_SOURCE_BINDING_INVALID",
         )
     return True
+
+
+def _validate_presentation(view):
+    """Cross-field integrity only. No new market interpretation or eligibility."""
+    a, b, restrictions = view["advisory"], view["bindings"], view["restrictions"]
+    need(
+        set(_base()["advisory"]["wait_reasons"]) <= set(a["wait_reasons"]),
+        "MARKET_VIEW_WAIT_REASONS_INVALID",
+    )
+    if view["market_state"]["observation_at_utc"] is None:
+        base = _base()
+        for section in (
+            "market_state",
+            "price_structure",
+            "liquidity",
+            "confluence",
+            "bindings",
+        ):
+            need(view[section] == base[section], "MARKET_VIEW_QUARANTINE_INVALID")
+        need(
+            not a["supporting_evidence"]
+            and not a["contradictory_evidence"]
+            and not a["leading_hypotheses"],
+            "MARKET_VIEW_QUARANTINE_INVALID",
+        )
+        return
+    scores = view["confluence"]["scores"]
+    sources = view["confluence"]["sources"]
+    index = {e["id"]: e for e in view["confluence"]["evidence_index"]}
+    frames = view["market_state"]["available_timeframes"]
+    need(
+        set(view["market_state"]["trend_structure"])
+        == set(frames)
+        == set(view["market_state"]["momentum"]),
+        "MARKET_VIEW_FRAME_INVALID",
+    )
+    need(
+        restrictions["missing_timeframes"] == sorted({"M1", "M5"} - set(frames))
+        and restrictions["data_quality"]["status"] == "VALID"
+        and not any(
+            d["severity"] == "ERROR"
+            for d in restrictions["data_quality"]["diagnostics"]
+        ),
+        "MARKET_VIEW_QUALITY_INVALID",
+    )
+    need(
+        all(b[k] is not None for k in ("context", "scenario", "adaptive")),
+        "MARKET_VIEW_BINDING_INVALID",
+    )
+    session = restrictions["session"]
+    need(
+        b["session"] == (digest(session) if session else None)
+        and restrictions["calendar_qualification"]
+        == (session["verification"] if session else "UNKNOWN"),
+        "MARKET_VIEW_SESSION_BINDING_INVALID",
+    )
+    config = b["configuration_hashes"]
+    need(
+        set(config)
+        == {
+            "context",
+            "intelligence",
+            "strategy_registry",
+            "adaptive",
+            "compatibility",
+            "ranking",
+            "session",
+            "observed_finality",
+        }
+        and all(
+            config[k] is not None
+            for k in (
+                "context",
+                "intelligence",
+                "strategy_registry",
+                "adaptive",
+                "compatibility",
+                "ranking",
+            )
+        )
+        and config["session"] == (session["configuration_sha256"] if session else None),
+        "MARKET_VIEW_CONFIGURATION_INVALID",
+    )
+    q = restrictions["qualification_snapshot"]
+    need(q is None or q == SAFETY, "MARKET_VIEW_QUALIFICATION_INVALID")
+    need(
+        b["qualification"] == (digest(q) if q else None),
+        "MARKET_VIEW_QUALIFICATION_INVALID",
+    )
+    # ContextReport v1 has no session digest: never assert a same-calendar binding.
+    need(
+        view["status"] in ("UNKNOWN", "BLOCKED"),
+        "MARKET_VIEW_SESSION_BINDING_UNESTABLISHED",
+    )
+    if session and view["status"] != "BLOCKED":
+        need(
+            "SESSION_CONTEXT_BINDING_UNESTABLISHED" in a["wait_reasons"],
+            "MARKET_VIEW_SESSION_BINDING_UNESTABLISHED",
+        )
+    ranked = a["ranked_hypotheses"]
+    need(
+        ranked
+        == sorted(ranked, key=lambda h: (-h["heuristic_score"], h["hypothesis_type"])),
+        "MARKET_VIEW_RANK_INVALID",
+    )
+    values = sorted({h["heuristic_score"] for h in ranked}, reverse=True)
+    for h in ranked:
+        name = h["hypothesis_type"]
+        direction = (
+            "BULLISH"
+            if name.startswith("BULLISH")
+            else "BEARISH" if name.startswith("BEARISH") else "RANGING"
+        )
+        expected_score = 0 if name == NO_DIRECTION else scores["scores"][direction]
+        need(
+            h["rank"] == values.index(h["heuristic_score"]) + 1
+            and h["heuristic_score"] == expected_score,
+            "MARKET_VIEW_RANK_INVALID",
+        )
+    need(
+        a["leading_hypotheses"]
+        == [h["hypothesis_type"] for h in ranked if h["rank"] == 1],
+        "MARKET_VIEW_RANK_INVALID",
+    )
+    selected = next(h for h in ranked if h["selected_by_context"])
+    for key in (
+        "supporting_evidence",
+        "contradictory_evidence",
+        "assumptions",
+        "invalidation_conditions",
+    ):
+        need(a[key] == selected[key], "MARKET_VIEW_SELECTION_INVALID")
+    need(
+        a["abstention_reasons"] == scores["abstention_reasons"]
+        and (a["selected_hypothesis"] == NO_DIRECTION) == bool(a["abstention_reasons"]),
+        "MARKET_VIEW_SELECTION_INVALID",
+    )
+    bias = (
+        "NEUTRAL"
+        if a["selected_hypothesis"] == NO_DIRECTION
+        else (
+            "BULLISH"
+            if a["selected_hypothesis"].startswith("BULLISH")
+            else (
+                "BEARISH"
+                if a["selected_hypothesis"].startswith("BEARISH")
+                else "NEUTRAL"
+            )
+        )
+    )
+    need(
+        view["market_state"]["directional_bias"] == a["directional_bias"] == bias,
+        "MARKET_VIEW_BIAS_INVALID",
+    )
+    contributions = scores["weighted_evidence"]
+    need(
+        [e["evidence_id"] for e in contributions] == sorted(index),
+        "MARKET_VIEW_CONTRIBUTIONS_INVALID",
+    )
+    from iat.intelligence.confluence import CATEGORY_BUCKETS
+
+    used = set()
+    totals = dict(BULLISH=0.0, BEARISH=0.0, RANGING=0.0)
+    for row in contributions:
+        e = index[row["evidence_id"]]
+        key = (e["timeframe"], row["bucket"], e["direction"])
+        need(
+            row["timeframe"] == e["timeframe"]
+            and row["direction"] == e["direction"]
+            and row["bucket"] == CATEGORY_BUCKETS[e["category"]],
+            "MARKET_VIEW_CONTRIBUTIONS_INVALID",
+        )
+        if row["weight"] > 0:
+            need(
+                key not in used and row["direction"] in totals,
+                "MARKET_VIEW_CONTRIBUTIONS_INVALID",
+            )
+            used.add(key)
+            totals[row["direction"]] += row["weight"]
+    need(totals == scores["scores"], "MARKET_VIEW_CONTRIBUTIONS_INVALID")
+    order = sorted(totals, key=lambda k: (-totals[k], k))
+    opposition = max(totals[k] for k in totals if k != order[0])
+    need(
+        scores["leader"] == order[0]
+        and scores["opposition_score"] == opposition
+        and scores["margin"] == totals[order[0]] - opposition,
+        "MARKET_VIEW_CONTRIBUTIONS_INVALID",
+    )
+    for collection_view in list(view["price_structure"].values()) + list(
+        view["liquidity"][k] for k in ("pools", "events")
+    ):
+        need(
+            (collection_view["status"] == "AVAILABLE")
+            == bool(collection_view["items"]),
+            "MARKET_VIEW_COLLECTION_INVALID",
+        )
+    for p in view["price_structure"]["swings"]["items"]:
+        need(
+            p["id"] in sources
+            and sources[p["id"]]["kind"] == "CONFIRMED_PIVOT"
+            and p["price"] == sources[p["id"]]["price"]
+            and p["timeframe"] == sources[p["id"]]["timeframe"]
+            and p["observed_at"] == sources[p["id"]]["observed_at"]
+            and p["available_at"] == sources[p["id"]]["available_at"]
+            and set(p["references"]) <= set(sources),
+            "MARKET_VIEW_SWING_BINDING_INVALID",
+        )
+    seen = set()
+    for event in view["price_structure"]["structural_events"]["items"]:
+        key = (event["source_report_sha256"], event["source_id"])
+        need(
+            b["intelligence"] is not None
+            and event["source_report_sha256"] == b["intelligence"]
+            and key not in seen
+            and set(event["references"]) <= set(sources),
+            "MARKET_VIEW_EVENT_SCOPE_INVALID",
+        )
+        need(
+            (event["event_id"] is not None) == event["event_type"].endswith("_CHOCH"),
+            "MARKET_VIEW_EVENT_SCOPE_INVALID",
+        )
+        seen.add(key)
+    for item in view["price_structure"]["patterns"]["items"]:
+        need(
+            item["id"] in index
+            and index[item["id"]]["category"] == "CANDLE"
+            and item["references"] == index[item["id"]]["references"],
+            "MARKET_VIEW_PATTERN_BINDING_INVALID",
+        )
+    for section in ("support_resistance", "supply_demand"):
+        for zone in view["price_structure"][section]["items"]:
+            need(
+                zone["id"] in sources
+                and sources[zone["id"]]["kind"] == "ZONE"
+                and zone["lower"] == sources[zone["id"]]["lower"]
+                and zone["upper"] == sources[zone["id"]]["upper"],
+                "MARKET_VIEW_ZONE_BINDING_INVALID",
+            )
+    for event in view["price_structure"]["structure_changes"]["items"]:
+        need(
+            event["id"] in index
+            and event == index[event["id"]]
+            and event["category"] == "TRANSITION",
+            "MARKET_VIEW_EVENT_BINDING_INVALID",
+        )
+    for conflict in view["confluence"]["conflicts"]:
+        need(
+            set(conflict["evidence_ids"]) <= set(index), "MARKET_VIEW_CONFLICT_INVALID"
+        )
+    # Reuse the existing detail-reference validator rather than new liquidity logic.
+    _liquidity_contract(
+        dict(
+            symbol=view["market_state"]["symbol"],
+            interpretations=dict(
+                source_registry=sources,
+                frames={
+                    tf: dict(
+                        liquidity_pools=[
+                            p
+                            for p in view["liquidity"]["pools"]["items"]
+                            if p["timeframe"] == tf
+                        ],
+                        liquidity_events=[
+                            e
+                            for e in view["liquidity"]["events"]["items"]
+                            if e["timeframe"] == tf
+                        ],
+                    )
+                    for tf in frames
+                },
+            ),
+            observed_facts={
+                tf: dict(data_as_of=stamp)
+                for tf, stamp in view["market_state"]["closed_through"].items()
+            },
+        )
+    )

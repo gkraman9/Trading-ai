@@ -57,7 +57,9 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "minLength": 1,
+          "maxLength": 128
         },
         "observation_at_utc": {
           "anyOf": [
@@ -89,7 +91,20 @@
           }
         },
         "closed_through": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "M1": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "M5": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            }
+          },
+          "additionalProperties": false
         },
         "regime": {
           "enum": [
@@ -109,13 +124,125 @@
           ]
         },
         "trend_structure": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "M1": {
+              "enum": [
+                "UNKNOWN",
+                "BULLISH",
+                "BEARISH",
+                "RANGING",
+                "TRANSITIONAL"
+              ]
+            },
+            "M5": {
+              "enum": [
+                "UNKNOWN",
+                "BULLISH",
+                "BEARISH",
+                "RANGING",
+                "TRANSITIONAL"
+              ]
+            }
+          },
+          "additionalProperties": false
         },
         "momentum": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "M1": {
+              "$ref": "#/$defs/Momentum"
+            },
+            "M5": {
+              "$ref": "#/$defs/Momentum"
+            }
+          },
+          "additionalProperties": false
         },
         "volatility": {
-          "type": "object"
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "overall": {
+                  "enum": [
+                    "UNKNOWN",
+                    "HIGH",
+                    "MIXED",
+                    "LOW",
+                    "NORMAL"
+                  ]
+                },
+                "aggregation": {
+                  "type": "string"
+                },
+                "frames": {
+                  "type": "object",
+                  "properties": {
+                    "M1": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/Volatility"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "const": "INSUFFICIENT_EVIDENCE"
+                            },
+                            "regime": {
+                              "const": "INSUFFICIENT_EVIDENCE"
+                            }
+                          },
+                          "required": [
+                            "status",
+                            "regime"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "M5": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/Volatility"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "const": "INSUFFICIENT_EVIDENCE"
+                            },
+                            "regime": {
+                              "const": "INSUFFICIENT_EVIDENCE"
+                            }
+                          },
+                          "required": [
+                            "status",
+                            "regime"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "overall",
+                "aggregation",
+                "frames"
+              ],
+              "additionalProperties": false
+            }
+          ]
         }
       }
     },
@@ -133,12 +260,6 @@
       "properties": {
         "swings": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -147,21 +268,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Swing"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "structural_events": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -170,21 +328,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/StructuralEvent"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "patterns": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -193,21 +388,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/PatternView"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "support_resistance": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -216,21 +448,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Zone"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "supply_demand": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -239,21 +508,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Zone"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "structure_changes": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -262,12 +568,55 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/EvidenceIndex"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         }
       }
     },
@@ -282,12 +631,6 @@
       "properties": {
         "pools": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -296,21 +639,58 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Pool"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "events": {
           "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "reason_codes",
-            "items"
-          ],
           "properties": {
             "status": {
               "enum": [
@@ -319,15 +699,61 @@
               ]
             },
             "reason_codes": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             },
             "items": {
-              "type": "array"
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/LiquidityEvent"
+              }
             }
-          }
+          },
+          "required": [
+            "status",
+            "reason_codes",
+            "items"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "UNAVAILABLE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "items": {
+                    "maxItems": 0
+                  },
+                  "reason_codes": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "items": {
+                    "minItems": 1
+                  },
+                  "reason_codes": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
         },
         "hypotheses": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -357,19 +783,175 @@
           ]
         },
         "scores": {
-          "type": [
-            "object",
-            "null"
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "abstention_reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "fresh_opposing_m1_choch": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+                  }
+                },
+                "leader": {
+                  "enum": [
+                    "BULLISH",
+                    "BEARISH",
+                    "RANGING",
+                    "NONE"
+                  ]
+                },
+                "margin": {
+                  "type": "number"
+                },
+                "opposition_score": {
+                  "type": "number"
+                },
+                "score_kind": {
+                  "const": "HEURISTIC_EVIDENCE_NOT_PROBABILITY"
+                },
+                "scores": {
+                  "type": "object",
+                  "properties": {
+                    "BULLISH": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "BEARISH": {
+                      "type": "number",
+                      "minimum": 0
+                    },
+                    "RANGING": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "BULLISH",
+                    "BEARISH",
+                    "RANGING"
+                  ],
+                  "additionalProperties": false
+                },
+                "selected_hypothesis": {
+                  "enum": [
+                    "BULLISH_CONTINUATION_POSSIBILITY",
+                    "BEARISH_CONTINUATION_POSSIBILITY",
+                    "BULLISH_STRUCTURAL_TRANSITION",
+                    "BEARISH_STRUCTURAL_TRANSITION",
+                    "RANGE_CONTINUATION",
+                    "NO_CLEAR_DIRECTIONAL_HYPOTHESIS"
+                  ]
+                },
+                "weighted_evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "bucket": {
+                        "type": "string"
+                      },
+                      "direction": {
+                        "enum": [
+                          "BULLISH",
+                          "BEARISH",
+                          "RANGING",
+                          "NEUTRAL"
+                        ]
+                      },
+                      "evidence_id": {
+                        "type": "string",
+                        "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "timeframe": {
+                        "enum": [
+                          "M1",
+                          "M5"
+                        ]
+                      },
+                      "weight": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "bucket",
+                      "direction",
+                      "evidence_id",
+                      "reason",
+                      "timeframe",
+                      "weight"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "abstention_reasons",
+                "fresh_opposing_m1_choch",
+                "leader",
+                "margin",
+                "opposition_score",
+                "score_kind",
+                "scores",
+                "selected_hypothesis",
+                "weighted_evidence"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "conflicts": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reason_code": {
+                "type": "string"
+              },
+              "evidence_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+                }
+              }
+            },
+            "required": [
+              "reason_code",
+              "evidence_ids"
+            ],
+            "additionalProperties": false
+          }
         },
         "evidence_index": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EvidenceIndex"
+          }
         },
         "sources": {
-          "type": "object"
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/Source"
+          }
         }
       }
     },
@@ -386,21 +968,65 @@
         "qualification_snapshot"
       ],
       "properties": {
-        "data_quality": {},
-        "session": {},
+        "data_quality": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Quality"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Session"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "calendar_qualification": {
-          "type": "string"
+          "enum": [
+            "UNKNOWN",
+            "BLOCKED",
+            "VERIFIED_DECLARATIONS"
+          ]
         },
         "missing_timeframes": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "enum": [
+              "M1",
+              "M5"
+            ]
+          },
+          "uniqueItems": true
         },
         "warmup": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "reason_codes": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
-        "qualification_snapshot": {}
+        "qualification_snapshot": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Safety"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
       }
     },
     "advisory": {
@@ -431,9 +1057,20 @@
           ]
         },
         "selected_hypothesis": {
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "enum": [
+                "BULLISH_CONTINUATION_POSSIBILITY",
+                "BEARISH_CONTINUATION_POSSIBILITY",
+                "BULLISH_STRUCTURAL_TRANSITION",
+                "BEARISH_STRUCTURAL_TRANSITION",
+                "RANGE_CONTINUATION",
+                "NO_CLEAR_DIRECTIONAL_HYPOTHESIS"
+              ]
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "directional_bias": {
@@ -454,31 +1091,58 @@
           "const": "HEURISTIC_EVIDENCE_NOT_PROBABILITY"
         },
         "ranked_hypotheses": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hypothesis"
+          }
         },
         "leading_hypotheses": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "supporting_evidence": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "contradictory_evidence": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "assumptions": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "invalidation_conditions": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "explanation": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "abstention_reasons": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "wait_reasons": {
-          "type": "array"
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -563,7 +1227,98 @@
           ]
         },
         "configuration_hashes": {
-          "type": "object"
+          "type": "object",
+          "properties": {
+            "context": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "intelligence": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "strategy_registry": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "adaptive": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "compatibility": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "ranking": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "session": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "observed_finality": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
         },
         "policy": {
           "type": "string"
@@ -571,7 +1326,10 @@
       }
     },
     "limitations": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "mode": {
       "const": "READ_ONLY_SHADOW"
@@ -602,5 +1360,1339 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://iat.invalid/schemas/market-intelligence-v3.schema.json",
   "title": "IAT read-only unified market intelligence V3",
-  "description": "Shape and fixed safety contract. Semantic/reference/source-binding checks also require validate_market_view_v3."
+  "description": "Strict shape and fixed safety contract; semantic causality/status/reference checks also require validate_market_view_v3. No source authentication or approval.",
+  "$defs": {
+    "Zone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "kind": {
+          "enum": [
+            "SUPPORT",
+            "RESISTANCE",
+            "SUPPLY",
+            "DEMAND"
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "origin_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "status": {
+          "enum": [
+            "FRESH",
+            "TESTED",
+            "BROKEN",
+            "INVALIDATED",
+            "ROLE_REVERSAL_CANDIDATE"
+          ]
+        },
+        "prior_structure": {
+          "type": "string"
+        },
+        "lower": {
+          "type": "number",
+          "minimum": 0
+        },
+        "upper": {
+          "type": "number",
+          "minimum": 0
+        },
+        "supporting_pivots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "historical_touches": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "(Z|\\+00:00)$"
+          }
+        },
+        "retests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "(Z|\\+00:00)$"
+          }
+        },
+        "broken_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "invalidated_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "potential_role_reversal": {
+          "type": "boolean"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "timeframe",
+        "origin_at",
+        "confirmed_at",
+        "status",
+        "prior_structure",
+        "lower",
+        "upper",
+        "supporting_pivots",
+        "evidence",
+        "historical_touches",
+        "retests",
+        "broken_at",
+        "invalidated_at",
+        "potential_role_reversal",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "Pool": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "kind": {
+          "enum": [
+            "SWING_HIGHS",
+            "SWING_LOWS",
+            "EQUAL_HIGHS",
+            "EQUAL_LOWS"
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "level": {
+          "type": "number",
+          "minimum": 0
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "touches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "timeframe",
+        "level",
+        "confirmed_at",
+        "evidence",
+        "touches",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "LiquidityEvent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "pool_id": {
+          "type": "string"
+        },
+        "event_type": {
+          "enum": [
+            "LEVEL_PENETRATION",
+            "CONFIRMED_SWEEP",
+            "SUSTAINED_BREAKOUT",
+            "AMBIGUOUS_EVENT"
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "level": {
+          "type": "number",
+          "minimum": 0
+        },
+        "candle": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "pool_id",
+        "event_type",
+        "timeframe",
+        "occurred_at",
+        "available_at",
+        "level",
+        "candle",
+        "evidence",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "Context": {
+      "type": "object",
+      "properties": {
+        "classification": {
+          "type": "string"
+        },
+        "phase7_alignment": {
+          "type": "string"
+        },
+        "m1_structure": {
+          "type": "string"
+        },
+        "m5_structure": {
+          "type": "string"
+        },
+        "m1_as_of": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "m5_as_of": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "classification",
+        "phase7_alignment",
+        "m1_structure",
+        "m5_structure",
+        "m1_as_of",
+        "m5_as_of",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "Hypothesis": {
+      "type": "object",
+      "properties": {
+        "hypothesis_type": {
+          "enum": [
+            "BULLISH_CONTINUATION_POSSIBILITY",
+            "BEARISH_CONTINUATION_POSSIBILITY",
+            "BULLISH_STRUCTURAL_TRANSITION",
+            "BEARISH_STRUCTURAL_TRANSITION",
+            "RANGE_CONTINUATION",
+            "NO_CLEAR_DIRECTIONAL_HYPOTHESIS"
+          ]
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "model_version": {
+          "const": "IAT_MARKET_CONTEXT_V1"
+        },
+        "configuration_version": {
+          "const": 1
+        },
+        "supporting_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contradictory_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "invalidation_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relevant_zones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timeframe_context": {
+          "$ref": "#/$defs/Context"
+        },
+        "data_quality_limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "heuristic_score": {
+          "type": "number",
+          "minimum": 0
+        },
+        "score_kind": {
+          "const": "HEURISTIC_EVIDENCE_NOT_PROBABILITY"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "selected_by_context": {
+          "type": "boolean"
+        },
+        "explanation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hypothesis_type",
+        "generated_at",
+        "model_version",
+        "configuration_version",
+        "supporting_evidence",
+        "contradictory_evidence",
+        "assumptions",
+        "invalidation_conditions",
+        "relevant_zones",
+        "timeframe_context",
+        "data_quality_limitations",
+        "heuristic_score",
+        "score_kind",
+        "rank",
+        "selected_by_context",
+        "explanation"
+      ],
+      "additionalProperties": false
+    },
+    "Quality": {
+      "type": "object",
+      "properties": {
+        "valid": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "VALID",
+            "BLOCKED"
+          ]
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "severity": {
+                "enum": [
+                  "INFO",
+                  "WARNING",
+                  "ERROR"
+                ]
+              },
+              "message": {
+                "type": "string"
+              },
+              "timeframe": {
+                "enum": [
+                  "M1",
+                  "M5"
+                ]
+              }
+            },
+            "required": [
+              "code",
+              "severity",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "valid",
+        "status",
+        "diagnostics"
+      ],
+      "additionalProperties": false
+    },
+    "Momentum": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "roc": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_roc": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "acceleration": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "body_momentum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "regime": {
+          "type": "string"
+        },
+        "change": {
+          "type": "string"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "roc",
+        "previous_roc",
+        "acceleration",
+        "body_momentum",
+        "regime",
+        "change",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "Volatility": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "atr": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recent_range": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "preceding_range": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "relative_volatility": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "regime": {
+          "type": "string"
+        },
+        "change": {
+          "type": "string"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "atr",
+        "recent_range",
+        "preceding_range",
+        "relative_volatility",
+        "regime",
+        "change",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "EvidenceIndex": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "category": {
+          "enum": [
+            "STRUCTURE",
+            "TRANSITION",
+            "CANDLE",
+            "SUPPORT_RESISTANCE",
+            "SUPPLY_DEMAND",
+            "LIQUIDITY",
+            "MOMENTUM",
+            "VOLATILITY"
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "direction": {
+          "enum": [
+            "BULLISH",
+            "BEARISH",
+            "RANGING",
+            "NEUTRAL"
+          ]
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+          }
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "event_id",
+        "category",
+        "timeframe",
+        "direction",
+        "observed_at",
+        "available_at",
+        "references",
+        "reason_codes"
+      ],
+      "additionalProperties": false
+    },
+    "Swing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "HIGH",
+            "LOW"
+          ]
+        },
+        "relation": {
+          "enum": [
+            "HH",
+            "HL",
+            "LH",
+            "LL",
+            "EH",
+            "EL",
+            "UNCLASSIFIED"
+          ]
+        },
+        "price": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "timeframe",
+        "kind",
+        "relation",
+        "price",
+        "observed_at",
+        "available_at",
+        "references"
+      ],
+      "additionalProperties": false
+    },
+    "StructuralEvent": {
+      "type": "object",
+      "properties": {
+        "source_report_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_id": {
+          "type": "string"
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "event_type": {
+          "enum": [
+            "BULLISH_BOS",
+            "BEARISH_BOS",
+            "BULLISH_CHOCH",
+            "BEARISH_CHOCH",
+            "WICK_PENETRATION",
+            "POTENTIAL_LIQUIDITY_SWEEP",
+            "AMBIGUOUS_STRUCTURAL_EVENT",
+            "FAILED_STRUCTURAL_BREAK"
+          ]
+        },
+        "level": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "policy": {
+          "enum": [
+            "CLOSE",
+            "WICK"
+          ]
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "required": [
+        "source_report_sha256",
+        "source_id",
+        "event_id",
+        "timeframe",
+        "event_type",
+        "level",
+        "available_at",
+        "policy",
+        "references"
+      ],
+      "additionalProperties": false
+    },
+    "PatternView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+        },
+        "timeframe": {
+          "enum": [
+            "M1",
+            "M5"
+          ]
+        },
+        "available_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "interpretation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "timeframe",
+        "available_at",
+        "references",
+        "name",
+        "interpretation"
+      ],
+      "additionalProperties": false
+    },
+    "Source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "CANDLE"
+            },
+            "ohlc": {
+              "type": "object",
+              "properties": {
+                "open": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "high": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "low": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "close": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "open",
+                "high",
+                "low",
+                "close"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "ohlc"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "CONFIRMED_PIVOT"
+            },
+            "price": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "pivot_kind": {
+              "enum": [
+                "HIGH",
+                "LOW"
+              ]
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "price",
+            "pivot_kind",
+            "references"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "ZONE"
+            },
+            "lower": {
+              "type": "number"
+            },
+            "upper": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "lower",
+            "upper",
+            "references"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "LIQUIDITY_POOL"
+            },
+            "level": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "level",
+            "references"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "LIQUIDITY_EVENT"
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "references"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "timeframe": {
+              "enum": [
+                "M1",
+                "M5"
+              ]
+            },
+            "observed_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "available_at": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "(Z|\\+00:00)$"
+            },
+            "kind": {
+              "const": "CHOCH_EVENT"
+            },
+            "level": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^M[15]:[A-Z_]+:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "required": [
+            "timeframe",
+            "observed_at",
+            "available_at",
+            "kind",
+            "level",
+            "references"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 2
+        },
+        "configuration_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "provenance_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "evaluated_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "evidence_latest_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "coverage_start_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "coverage_end_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "expires_at_utc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|\\+00:00)$"
+        },
+        "verification": {
+          "enum": [
+            "BLOCKED",
+            "VERIFIED_DECLARATIONS"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "provenance_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "uniqueItems": true
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "phase": {
+              "enum": [
+                "UNKNOWN",
+                "CLOSED",
+                "QUOTE_ONLY",
+                "CLOSE_ONLY",
+                "FULL_TRADING"
+              ]
+            },
+            "market_data_expected": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "broker_open_positions": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "broker_close_positions": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "broker_permissions_verified": {
+              "type": "boolean"
+            },
+            "iat_execution_allowed": {
+              "const": false
+            }
+          },
+          "required": [
+            "phase",
+            "market_data_expected",
+            "broker_open_positions",
+            "broker_close_positions",
+            "broker_permissions_verified",
+            "iat_execution_allowed"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "version",
+        "configuration_sha256",
+        "provenance_count",
+        "evaluated_at_utc",
+        "evidence_latest_at_utc",
+        "coverage_start_utc",
+        "coverage_end_utc",
+        "expires_at_utc",
+        "verification",
+        "reason_codes",
+        "provenance_kinds",
+        "permissions"
+      ],
+      "additionalProperties": false
+    },
+    "Safety": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "const": "READ_ONLY_SHADOW"
+        },
+        "signal": {
+          "const": "WAIT"
+        },
+        "execution_allowed": {
+          "const": false
+        },
+        "qualification": {
+          "const": "DATA_NOT_QUALIFIED"
+        },
+        "exness": {
+          "const": "BLOCKED"
+        },
+        "historical_validation": {
+          "const": "PENDING"
+        },
+        "historical_comparisons": {
+          "const": "NOT_RUN"
+        }
+      },
+      "required": [
+        "mode",
+        "signal",
+        "execution_allowed",
+        "qualification",
+        "exness",
+        "historical_validation",
+        "historical_comparisons"
+      ],
+      "additionalProperties": false
+    }
+  }
 }

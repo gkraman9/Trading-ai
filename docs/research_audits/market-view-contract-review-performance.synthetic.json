@@ -1,0 +1,581 @@
+{
+  "kind": "AUTOMATED_REVIEW_SYNTHETIC_PERFORMANCE",
+  "reviewed_commit": "da8c1f69b3e95213572420432410e54e1b465ffe",
+  "not_independent_external_approval": true,
+  "measurement_scope": "Shared Linux workspace; local unit suites concurrently active; traced Python allocation peaks are not RSS; no production latency or unbounded-growth claim.",
+  "runs": [
+    {
+      "kind": "AUTOMATED_SYNTHETIC_CONTRACT_BENCHMARK",
+      "python": "3.12.14",
+      "implementation": "CPython",
+      "platform": "Linux",
+      "jsonschema_version": "4.26.0",
+      "schema_sha256": "b625cee47e463e358dd86cd30706f706d877b48af3373acdac50e039d58d39de",
+      "corrected_source_sha256": "75a70f35d9f532c48f5212bbeddb75a6878a66e8afbe19cd2fa198a2f260bf59",
+      "fixture_source_sha256": "ca36676b093f2a60b53bd98feb86a218f3a0bfae124ff53a1807b97a79b81842",
+      "baseline_source_sha256": "3e14fc2020608ec29202d01e9e647fdc1bfbe2fdc80bff6682131a868b825384",
+      "methodology": "perf_counter_ns with tracemalloc enabled; inputs built before timing; one warm-up per case; GC before each measured iteration; no retained outputs or hidden market cache",
+      "results": {
+        "reviewed_baseline": [
+          {
+            "workload": "normal",
+            "iterations": 3,
+            "median_ms": 152.572256,
+            "min_ms": 149.543834,
+            "max_ms": 180.912068,
+            "peak_traced_bytes": 1091959,
+            "retained_after_gc_bytes": [
+              2771,
+              1975,
+              6075
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "2b8ca4466576fc249a89bbb5d53c2903c62088a98aa2de43bd5dec4c29d1d87e",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_registry",
+            "iterations": 3,
+            "median_ms": 454.767737,
+            "min_ms": 426.400937,
+            "max_ms": 463.510041,
+            "peak_traced_bytes": 2795559,
+            "retained_after_gc_bytes": [
+              1871,
+              2875,
+              2025
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "0b233fe67b044d468966fd355e25f3252e001d0aa9b70d53719187a46911342c",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "normal_with_v1",
+            "iterations": 3,
+            "median_ms": 514.703541,
+            "min_ms": 511.115078,
+            "max_ms": 602.695402,
+            "peak_traced_bytes": 1744458,
+            "retained_after_gc_bytes": [
+              7571,
+              6575,
+              9675
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e6a71b7a2a4eef5e391cfe7bd65374ca9f9433447ad5458d02b28ae1e8106c81",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_with_v1",
+            "iterations": 3,
+            "median_ms": 3452.390252,
+            "min_ms": 3408.212698,
+            "max_ms": 3473.944193,
+            "peak_traced_bytes": 3370941,
+            "retained_after_gc_bytes": [
+              15971,
+              17575,
+              17475
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e888ccabd19eed94d721f011bce8bf6ade285305bc091fdca8caee4a92529333",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "missing_frame_warmup",
+            "iterations": 3,
+            "median_ms": 24.053551,
+            "min_ms": 23.756014,
+            "max_ms": 51.641993,
+            "peak_traced_bytes": 228962,
+            "retained_after_gc_bytes": [
+              3271,
+              5025,
+              3225
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "c686e3e24c5a8b5989d488c927d33d2a838ae02904abeb8c65378431df63c9b5",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "62e27574a72a98847a96251f7a0dd99ab0375669cef6bceb7ff737f476308b81",
+            "source_count": 4,
+            "evidence_count": 3,
+            "frame_counts": {
+              "M1": 4
+            }
+          }
+        ],
+        "corrected": [
+          {
+            "workload": "normal",
+            "iterations": 3,
+            "median_ms": 488.408262,
+            "min_ms": 486.469918,
+            "max_ms": 494.750732,
+            "peak_traced_bytes": 1091309,
+            "retained_after_gc_bytes": [
+              6546,
+              2845,
+              3048
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "2b8ca4466576fc249a89bbb5d53c2903c62088a98aa2de43bd5dec4c29d1d87e",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_registry",
+            "iterations": 3,
+            "median_ms": 1292.054066,
+            "min_ms": 1287.270118,
+            "max_ms": 1344.704178,
+            "peak_traced_bytes": 2795659,
+            "retained_after_gc_bytes": [
+              2723,
+              2536,
+              3254
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "0b233fe67b044d468966fd355e25f3252e001d0aa9b70d53719187a46911342c",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "normal_with_v1",
+            "iterations": 3,
+            "median_ms": 588.929082,
+            "min_ms": 541.686185,
+            "max_ms": 615.271179,
+            "peak_traced_bytes": 1415168,
+            "retained_after_gc_bytes": [
+              8285,
+              8889,
+              7901
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e6a71b7a2a4eef5e391cfe7bd65374ca9f9433447ad5458d02b28ae1e8106c81",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_with_v1",
+            "iterations": 3,
+            "median_ms": 1716.063766,
+            "min_ms": 1671.78518,
+            "max_ms": 1721.302077,
+            "peak_traced_bytes": 3737918,
+            "retained_after_gc_bytes": [
+              13894,
+              14804,
+              18795
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e888ccabd19eed94d721f011bce8bf6ade285305bc091fdca8caee4a92529333",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "missing_frame_warmup",
+            "iterations": 3,
+            "median_ms": 42.005497,
+            "min_ms": 40.628208,
+            "max_ms": 78.000112,
+            "peak_traced_bytes": 233833,
+            "retained_after_gc_bytes": [
+              8393,
+              2701,
+              2748
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "c686e3e24c5a8b5989d488c927d33d2a838ae02904abeb8c65378431df63c9b5",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "62e27574a72a98847a96251f7a0dd99ab0375669cef6bceb7ff737f476308b81",
+            "source_count": 4,
+            "evidence_count": 3,
+            "frame_counts": {
+              "M1": 4
+            }
+          }
+        ]
+      },
+      "repeated_calls": {
+        "calls": 100,
+        "retained_after_gc_bytes": [
+          7080,
+          11255,
+          13930,
+          15882,
+          19552,
+          21259,
+          22755,
+          25617,
+          26134,
+          26624,
+          27288,
+          27808,
+          27969,
+          28195,
+          28471,
+          28694,
+          29090,
+          29436,
+          29900,
+          30132,
+          30214,
+          30437,
+          30469,
+          30501,
+          30674,
+          30820,
+          30996,
+          31175,
+          31257,
+          31339,
+          31371,
+          31553,
+          31541,
+          31590,
+          31772,
+          31704,
+          31736,
+          31768,
+          31847,
+          31879,
+          31961,
+          32039,
+          32071,
+          32153,
+          32185,
+          32267,
+          32349,
+          32331,
+          32363,
+          32345,
+          32377,
+          32409,
+          32541,
+          32569,
+          32601,
+          32683,
+          32665,
+          32697,
+          32779,
+          32764,
+          32843,
+          32875,
+          32907,
+          32939,
+          32971,
+          33149,
+          33084,
+          33213,
+          33195,
+          33277,
+          33259,
+          33391,
+          33323,
+          33355,
+          33387,
+          33419,
+          33451,
+          33611,
+          33643,
+          33675,
+          33707,
+          33739,
+          33771,
+          33803,
+          33835,
+          33917,
+          33852,
+          33931,
+          33963,
+          33995,
+          34027,
+          34012,
+          34091,
+          34301,
+          34236,
+          34315,
+          34347,
+          34379,
+          34364,
+          34396
+        ],
+        "peak_traced_bytes": 1120641
+      },
+      "bound_validation_ms_without_tracemalloc": 182.088282,
+      "signal": "WAIT",
+      "execution_allowed": false,
+      "historical_validation": "PENDING",
+      "historical_comparisons": "NOT_RUN"
+    },
+    {
+      "kind": "AUTOMATED_SYNTHETIC_CONTRACT_BENCHMARK",
+      "python": "3.11.9",
+      "implementation": "CPython",
+      "platform": "Linux",
+      "jsonschema_version": "4.26.0",
+      "schema_sha256": "b625cee47e463e358dd86cd30706f706d877b48af3373acdac50e039d58d39de",
+      "corrected_source_sha256": "75a70f35d9f532c48f5212bbeddb75a6878a66e8afbe19cd2fa198a2f260bf59",
+      "fixture_source_sha256": "ca36676b093f2a60b53bd98feb86a218f3a0bfae124ff53a1807b97a79b81842",
+      "baseline_source_sha256": null,
+      "methodology": "perf_counter_ns with tracemalloc enabled; inputs built before timing; one warm-up per case; GC before each measured iteration; no retained outputs or hidden market cache",
+      "results": {
+        "corrected": [
+          {
+            "workload": "normal",
+            "iterations": 3,
+            "median_ms": 491.350689,
+            "min_ms": 483.874138,
+            "max_ms": 493.04266,
+            "peak_traced_bytes": 1456724,
+            "retained_after_gc_bytes": [
+              8043,
+              10260,
+              7855
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "2b8ca4466576fc249a89bbb5d53c2903c62088a98aa2de43bd5dec4c29d1d87e",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_registry",
+            "iterations": 3,
+            "median_ms": 1300.26211,
+            "min_ms": 1295.016553,
+            "max_ms": 1302.400616,
+            "peak_traced_bytes": 3766792,
+            "retained_after_gc_bytes": [
+              7822,
+              7613,
+              7497
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "0b233fe67b044d468966fd355e25f3252e001d0aa9b70d53719187a46911342c",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "normal_with_v1",
+            "iterations": 3,
+            "median_ms": 605.669066,
+            "min_ms": 602.658421,
+            "max_ms": 634.295928,
+            "peak_traced_bytes": 1852582,
+            "retained_after_gc_bytes": [
+              24595,
+              23922,
+              19610
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "d0f705eeb307fbfac956791643447851de3d0bb578f038f885838964d41d8d94",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e6a71b7a2a4eef5e391cfe7bd65374ca9f9433447ad5458d02b28ae1e8106c81",
+            "source_count": 188,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 60,
+              "M5": 60
+            }
+          },
+          {
+            "workload": "larger_with_v1",
+            "iterations": 3,
+            "median_ms": 1727.032182,
+            "min_ms": 1721.632339,
+            "max_ms": 1764.939692,
+            "peak_traced_bytes": 4939102,
+            "retained_after_gc_bytes": [
+              27396,
+              24287,
+              27532
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "9b7542fffbe7040dc64854397e792ca964ee2409a2874e220b036adff81f6e47",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "e888ccabd19eed94d721f011bce8bf6ade285305bc091fdca8caee4a92529333",
+            "source_count": 572,
+            "evidence_count": 6,
+            "frame_counts": {
+              "M1": 180,
+              "M5": 180
+            }
+          },
+          {
+            "workload": "missing_frame_warmup",
+            "iterations": 3,
+            "median_ms": 75.282802,
+            "min_ms": 43.729489,
+            "max_ms": 75.402913,
+            "peak_traced_bytes": 293263,
+            "retained_after_gc_bytes": [
+              12822,
+              9192,
+              8245
+            ],
+            "identical_output_hashes": true,
+            "input_context_sha256": "c686e3e24c5a8b5989d488c927d33d2a838ae02904abeb8c65378431df63c9b5",
+            "configuration_hashes": {
+              "context": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+              "intelligence": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff"
+            },
+            "output_sha256": "62e27574a72a98847a96251f7a0dd99ab0375669cef6bceb7ff737f476308b81",
+            "source_count": 4,
+            "evidence_count": 3,
+            "frame_counts": {
+              "M1": 4
+            }
+          }
+        ]
+      },
+      "repeated_calls": {
+        "calls": 30,
+        "retained_after_gc_bytes": [
+          7411,
+          18557,
+          24915,
+          28768,
+          33585,
+          37690,
+          39023,
+          40072,
+          42513,
+          44677,
+          46254,
+          47135,
+          48887,
+          50095,
+          50921,
+          50959,
+          51684,
+          52015,
+          52108,
+          52256,
+          52795,
+          53325,
+          53470,
+          53893,
+          53763,
+          54433,
+          54572,
+          54387,
+          54645,
+          54796
+        ],
+        "peak_traced_bytes": 1506681
+      },
+      "bound_validation_ms_without_tracemalloc": 164.775004,
+      "signal": "WAIT",
+      "execution_allowed": false,
+      "historical_validation": "PENDING",
+      "historical_comparisons": "NOT_RUN"
+    }
+  ]
+}
