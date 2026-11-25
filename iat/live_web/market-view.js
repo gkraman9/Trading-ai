@@ -13,6 +13,7 @@
     byId('exit-research-state').textContent='BLOCKED';
     byId('risk-research-state').textContent='BLOCKED';
     byId('paper-capital-state').textContent='BLOCKED';
+    byId('paper-protection-facts').textContent='Protective stop reference/status, estimated position risk, modeled risk exceedance, margin level/warning, liquidation status, capital protection status and account exhaustion: BLOCKED / NOT_RUN. Qualification: DATA_NOT_QUALIFIED; historical validation: PENDING; comparisons: NOT_RUN; Exness: BLOCKED; signal: WAIT; execution_allowed=false.';
     byId('paper-capital-facts').textContent='Paper balance, equity, margin, open positions, risk budget, research size, capital suitability, references, evidence strength, exit policy, hypothetical P&L and drawdown: NOT_RUN. No synthetic results are used in this live view.';
     const entryReasons=byId('entry-research-reasons');entryReasons.replaceChildren();
     for(const reason of [...new Set(['ENTRY_SYNTHETIC_ONLY','ENTRY_LIVE_PROVENANCE_NOT_AUTHORIZED','EXIT_SYNTHETIC_ONLY','EXIT_LIVE_PROVENANCE_NOT_AUTHORIZED','RISK_SYNTHETIC_ONLY','RISK_LIVE_PROVENANCE_NOT_AUTHORIZED','PAPER_SYNTHETIC_ONLY','LIVE_PAPER_NOT_AUTHORIZED',...(value.reason_codes||[])])])entryReasons.append(make('li',reason));

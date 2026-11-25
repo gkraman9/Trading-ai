@@ -586,6 +586,7 @@ if(nodes['entry-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-rese
 if(nodes['exit-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-research-reasons']).includes('EXIT_SYNTHETIC_ONLY'))throw Error('Live exit research was not blocked');
 if(nodes['risk-research-state'].textContent!=='BLOCKED'||!all(nodes['entry-research-reasons']).includes('RISK_SYNTHETIC_ONLY'))throw Error('Live risk research was not blocked');
 if(nodes['paper-capital-state'].textContent!=='BLOCKED'||!all(nodes['paper-capital-facts']).includes('NOT_RUN')||!all(nodes['entry-research-reasons']).includes('LIVE_PAPER_NOT_AUTHORIZED'))throw Error('Live paper research was not blocked');
+if(!all(nodes['paper-protection-facts']).includes('execution_allowed=false')||!all(nodes['paper-protection-facts']).includes('liquidation status')||!all(nodes['paper-protection-facts']).includes('BLOCKED / NOT_RUN'))throw Error('Live protection research was not blocked');
 fail=true;const retry=scheduled.find(x=>x[1]===10000);await retry[0]();
 if(nodes['mv-status'].textContent!=='UNAVAILABLE'||all(nodes['mv-runtime']).includes('100.03')||nodes['mv-report'].textContent!=='Unavailable')throw Error('Stale fields retained');
 console.log('render and unavailable state passed');
