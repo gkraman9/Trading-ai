@@ -208,3 +208,25 @@ Bid/Ask. E3 implements none of the paper-position lifecycle or account sizing.
 Original historical qualification remains pending and no private dataset is
 uploaded or replayed. Next: independent E3 review, then one synthetic quote/fill
 contract with strict unavailable inputs, not a live trading milestone.
+
+## E4 synthetic paper/capital milestone
+
+E4 is separate from the unchanged E1/E2/E3 report contracts. See
+PAPER_TRADING_V1.md, CAPITAL_INTELLIGENCE_V1.md and SYNTHETIC_FILL_MODEL_V1.md.
+The new bounded synthetic account begins at configurable USD50; it is not a
+connected account and does not activate a live strategy. Capital assessment
+reauthenticates original E1/E2 and current E2/E3, rejects terminal/ambiguous/stale
+sources, uses side-specific invented quotes and explicit synthetic specifications,
+costs and versioned risk policies. It rounds volume down and rejects minimum-lot,
+margin, daily-loss/drawdown/consecutive-loss/cost constraints. It never tightens
+an existing structural reference or raises leverage to force affordability.
+
+One-position synthetic structural entry/monitor/exit accounting, immutable causal
+journals and explicit unresolved states are implemented. No protective order,
+additional target, partial exit, timer, liquidation adapter, historical bridge or
+live-paper strategy is implied. Observed-only excursions and synthetic journal
+metrics are not actual strategy results. The50-second experiment and0.1-lot
+preference are not mandatory policies. No confidence percentage is calibrated.
+The live Paper Trading and Capital Intelligence panel remains BLOCKED/NOT_RUN;
+USD50 is labeled configuration. The session/data-integrity workstream and every
+execution/qualification gate are preserved.

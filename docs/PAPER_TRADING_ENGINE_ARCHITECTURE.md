@@ -1,131 +1,118 @@
-# Proposed E4 Paper Trading architecture — not implemented by E3
+# E4 paper trading and capital architecture
 
-E4 would be an explicitly versioned, independently reviewed research model, not a
-broker adapter or execution approval. E1/E2/E3 currently establish no fills,
-positions, holding durations or performance. All existing safety gates remain.
-
-## Data flow and state contract
+The current milestone is a bounded **synthetic-only** one-position linear-USD
+research account. It is not the complete future Paper Trading Engine or a live
+adapter. See PAPER_TRADING_V1.md, CAPITAL_INTELLIGENCE_V1.md,
+SYNTHETIC_FILL_MODEL_V1.md and RISK_INTELLIGENCE_V1_INDEPENDENT_REVIEW.md for exact
+contracts, tests, limits, assumptions and deferred work.
 
 ```mermaid
 flowchart LR
- A[Authenticated setup] --> B[Qualification]
- B --> C[Risk reference]
- C --> D[Validated hypothetical entry fill]
- D --> E[Monitoring]
- E --> F[Exit observation]
- F --> G[Validated hypothetical exit fill]
- G --> H[Separate research evaluation]
- C --> U[BLOCKED / UNRESOLVED / UNFILLED]
- E --> U
- F --> U
+ A[Authenticated E1 qualification] --> B[Original and current E2]
+ B --> C[Authenticated E3 reference geometry]
+ C --> D[Capital suitability under explicit synthetic policy]
+ Q[Authenticated invented Bid/Ask tape] --> D
+ S[Declared synthetic specification and costs] --> D
+ D --> U[Unavailable or financially rejected]
+ D --> E[First causal hypothetical entry fill]
+ E --> F[One synthetic account position]
+ B --> F
+ Q --> F
+ F --> G[Structural observation and later hypothetical exit fill]
+ F --> R[Unresolved gaps or order or margin uncertainty]
+ G --> H[Synthetic accounting journal]
 ```
 
-Suggested IAT_PAPER_RESEARCH_V1 inputs: frozen authenticated E1 qualification,
-original/current E2 and E3 reports, a qualified dataset manifest, exact native bar
-and quote source hashes, versioned entry/exit/fill/cost policies, session metadata,
-contract/currency evidence, explicit cutoffs and any separately authorized research
-exposure assumptions. Policy changes require a new cohort/version, not retroactive
-reinterpretation. A research qualification or geometry ratio is never an entry.
+The target research starting capital is USD50; primaryM1/contextM5. WAIT is valid.
+Neither0.1lot nor50seconds is mandatory. There is no daily profit/pip target.
+Evidence strength is not a confidence probability; market qualification and
+capital affordability are separate. A step-rounded minimum lot can be unaffordable;
+do not move the structural reference or raise leverage/risk to make it fit.
 
-Each transition must preserve canonical hypothesis and hypothetical-position
-identities, original direction, policy and dataset/configuration hashes, source
-quote IDs, occurrence/availability/receipt timestamps, session state, unresolved
-reasons and lifecycle events. Distinct touch anchors remain distinct. Repeated
-observations must not mint another position/fill. Blocked data cannot advance a
-position or manufacture an exit; missing data must remain visible. Freeze original
-assessments; attach later outcomes separately. Require transactional state updates,
-bounded inventories, explicit resource-limit failures and no silent resets.
+Implemented sequence: E3 automated contract review → E4.1 typed authenticated
+synthetic quote/fill → E4.2 account/capital → E4.3 one-position E2 structural
+lifecycle → E4.4 versioned accounting journal → E4.5 blocked live availability UI
+and automated adversarial review. External independent approval is still pending.
+There are no real-feed collectors, historical importers, broker calls or live
+paper strategy in this implementation. E1/E2/E3 and DecisionLog contracts remain.
 
-## Side-specific fill and cost prerequisites
+Long entryAsk/exitBid; short entryBid/exitAsk. Explicit latency/slippage/costs,
+freshness/analysis-age/gap policy, source sequence and session permissions are
+required. Quote spread is already in side prices and is never deducted again.
+A candle contact/close is only an observation, never an executable price. E2
+frozen targets/invalidation/ambiguity remain unchanged. Protective-stop activation
+and hypothetical fills are separate; this milestone does not submit or model a
+protective stop at the structural threshold. It can model the first eligible quote
+after a known structural close, including adverse gap-through. Loss estimates are
+not guarantees. Unknown data/costs/specs never become zeros.
 
-Long hypothetical entry requires an eligible **Ask**, exit an eligible **Bid**;
-short entry Bid, exit Ask. Require same-feed timestamped Bid/Ask with validated UTC
-interval/clock/receipt conventions, sequence/duplicate/correction rules, capture
-completeness, session eligibility and predeclared freshness/latency assumptions.
-The earliest candidate observation follows confirmation availability under a
-reviewed entry rule; a confirmation close is not a fill. No tick price, spread,
-liquidity or slippage can be inferred from M1/M5 OHLC.
+## Extension contracts, not enabled exits
 
-A quote is still not evidence of executable liquidity. A reviewed synthetic fill
-model must explicitly distinguish observed quotes from assumed fills, source its
-slippage and commission assumptions, preserve unknown values and handle missing/
-stale/future quotes or simultaneous timestamps. OHLC target/stop observations do
-not select an intrabar order. Any pessimistic/optimistic sensitivity is a labeled
-alternative model, never a historical fact.
+| Exit research policy | Current status | Required next evidence/model |
+| --- | --- | --- |
+| E2 structural target | Implemented synthetic observation then later quote | Frozen original E2 reference and exact observation availability |
+| E2 structural invalidation | Implemented synthetic observation then later quote | Original strict eligible-close predicate; no guaranteed stop fill |
+| E2 opposing structure | Implemented when explicitly selected | Confirmed canonical opposing event, source availability |
+| Protective stop/gap activation | NOT_IMPLEMENTED | Independently reviewed quote-side activation, order and adverse-fill rules |
+| Momentum deterioration | NOT_IMPLEMENTED | Authenticated existing evidence and preregistered invalidation criteria |
+| Trailing | NOT_IMPLEMENTED | Causal update policy, immutable previous levels and missing-tick handling |
+| Timer | NOT_IMPLEMENTED, optional | Hypothetical fill timestamp and sufficiently granular eligible Bid/Ask |
+| TP2/TP3/partial exits | NOT_IMPLEMENTED | Original causally eligible references plus valid min/step volumes |
+| Margin liquidation | UNRESOLVED when encountered | Reviewed method-specific call/stop-out ordering and costs |
 
-Verified symbol specification needs evidence dates/provider, broker point, tick
-size/value, contract size, profit/account currency, conversion and financing/swap
-where applicable. Commission requires units and charging convention; slippage a
-versioned model, not a favorable constant. Side-specific Bid/Ask prices already
-incorporate spread: **do not add spread again**. Missing costs remain unavailable,
-not zero. E3's mechanically valid synthetic declarations are not independently
-qualified inputs. A declared evidence hash is not approval or source authenticity.
+Timer comparisons may include15/30/50/60/90/120seconds, not a default exit. The
+existing EXIT_TIMING_RESEARCH_PROTOCOL.md remains a future matched-cohort protocol.
+The first eligible quote at/after a selected deadline must retain observed delay,
+missing/stale ticks and session interruptions. Exact50-second outcomes cannot come
+from M1OHLC. Do not retrospectively choose the most profitable exit or treat
+unresolved same-candle events as a win.
 
-## Timing and comparisons
+A future multi-target policy must freeze valid opposing references at original
+qualification. No valid extra reference means unavailableTP2/TP3, not invented
+prices. Partial exits need broker minimum/step volume; do not split0.01 into
+unsupported smaller sizes. This milestone rejects all partial exits.
 
-Retain EXIT_TIMING_RESEARCH_PROTOCOL.md. Compare 15/30/50/60/90/120 seconds,
-structural exits, momentum exits and explicitly versioned fixed-reference R:R
-variants on the same entry cohorts with policy choices frozen in advance.
-A 50-second duration starts at a **validated hypothetical fill timestamp**. Use the
-first eligible quote at/after its deadline, retain observed delay, missing ticks,
-staleness and session interruptions. Do not synthesize exact 50-second outcomes
-from M1 OHLC or start the timer at candle open/setup detection. E3 runs no timer.
+## Capital, costs and account extensions
 
-MFE/MAE require complete side-specific mark-to-exit observations between known fill
-and exit, with units and costs explicit. Missing intervals imply incomplete
-excursions, not zero. Holding duration requires both modeled fills. Hypothetical
-P&L, win rate, profit factor, drawdown, entry/exit efficiency and transaction costs
-require qualified data plus reviewed fill/cost/exit models and explicit resolved,
-unresolved, unfilled and blocked denominators. No such metrics exist in E3.
-Use deterministic full/full/prefix replay, frozen warm-up/evaluation boundaries,
-matched cohorts and reserved out-of-sample intervals; do not tune on test outcomes.
+Only declared synthetic linear notional/leverage with USD account/profit/margin
+and conversion1 is implemented. A versioned broker-spec contract retains min/max/
+step/tick/contract/currency/margin/stop/freeze/cost/call/stop-out/session/source/
+effectivity fields. Missing/unsupported values block corresponding calculations.
+The future read-only specification collection plan is metadata preparation only;
+MT5 symbol metadata cannot certify dated sessions, fees or bar finality.
 
-## Exposure and capital protection — future interface only
+Account tracking preserves fees, balance/equity/free margin, hypothetical P&L,
+peak equity and drawdown. No hidden loss clipping, deposits, reset, martingale,
+size escalation or replenishment. Policies explicitly limit per-position and
+aggregate risk, UTC daily realized loss, maximum historical drawdown, reserve,
+concurrent positions, consecutive losses and estimated costs. Cash events are
+explicit and exclude net-return comparisons. One open position; unresolved gaps
+lock new positions. No private balances are read or assumed.
 
-A future authorized research model could consider balance/equity, risk per trade,
-maximum daily loss/drawdown, consecutive losses, open exposure, concentration,
-session/volatility restrictions and emergency stop conditions. No private account
-balance/equity is read without separate authorization. The operator's stated
-**0.1 lot** is a preference for future controlled research, not a recommendation,
-validated size or appropriate exposure for any account. No executable sizing,
-margin or capital exposure is calculated from unverified specifications. E3's
-position_size, capital_at_risk and margin_required remain null.
+## Historical bridge and independent qualification
 
-Future limits should be independently selected/versioned with evidence, currency,
-units, scope and missing-input behavior. A risk-model label cannot approve an
-order or relax source/calendar qualification. Do not reuse E3 reference distance
-as monetary position risk without a validated fill, compatible basis and contract.
-Actual broker permissions and execution adapters remain outside this milestone.
+Before real-data evaluation: authorized private native same-feedM1/M5 and eligible
+Bid/Ask, original/normalized hashes/manifests, price basis, UTC occurrence/receipt
+conventions, dated session/holiday/maintenance coverage, capture completeness,
+bar finality/corrections, contract/currency/cost evidence and independent sign-off.
+Weekly symbol metadata does not prove holiday exceptions. DerivedM5 remains
+internal aggregation evidence only. Reuse existing loader/preflight, warm-up and
+evaluation boundaries; no caller-supplied provenance label can qualify an export.
+Portable raw-source replay and explicit observation cutoffs remain necessary.
 
-## Historical bridge requirements
+Then freeze policies, risk alternatives0.5/1/2%, matched entry cohorts and reserved
+out-of-sample intervals. Distinguish capital survival/suitability from strategy
+profitability. Preserve unresolved/unfilled/blocked denominators and reviewer
+disagreement; synthetic accounting is not historical strategy performance.
+Future calibration needs real out-of-sample reliability evidence before any
+probability or safety label. There are no invented confidence percentages here.
 
-Before any real-data comparison: a legally permitted private export with native
-same-feed M1/M5 consistency, exact original/normalized SHA-256 manifests, declared
-feed/price basis, UTC opening conventions, dated session/holiday/maintenance
-coverage, bar finality/corrections and independent qualification. Derived M5 is
-internal aggregation evidence only. Reuse the existing loader/preflight and SR
-manifest integration; preserve warm-up carry-in, evaluation coverage/denominators
-and outcome observation cutoff. Private raw-source replay is necessary for portable
-verification; no source label or report checksum qualifies data.
-
-Add qualified timestamped Bid/Ask capture, specification/currency/cost evidence,
-correction policy and independent approval before fills or timing comparisons.
-Keep raw broker data and full real-data journals private. No qualified export was
-available here, no bridge was implemented and no historical strategy comparison
-was run. Historical validation stays PENDING; comparisons NOT_RUN.
-
-## E4 first milestone and acceptance
-
-Start with independently invented synthetic quote sequences and one reviewed
-side-specific fill/identity contract. Test long/short asymmetry, confirmation and
-quote availability, same-time ordering, fresh/stale/future ticks, missing ticks,
-clock changes, spreads, corrections, session breaks, partial cost evidence,
-currency/contract mismatches, duplicate prevention, blocked/unfilled states,
-transaction rollback, prefixes/future append and immutable originals. Introduce
-no order API, executable size or live strategy activation. Expand to one exit-fill
-model only after independent review; full paper-position/cohort performance is a
-later milestone. E3 does not implement this lifecycle.
+Live integration awaits formal live provenance, reviewed session/integrity work,
+qualified sources, costs/specs and separate authorization. The current dashboard
+shows only research configurationUSD50 and BLOCKED/NOT_RUN/PENDING availability;
+no synthetic balance/P&L/size is combined with live observations. No B.2/B.3 service
+or external AI is started by this work.
 
 WAIT; execution_allowed=false; Exness BLOCKED; DATA_NOT_QUALIFIED;
-historical_validation=PENDING; historical_comparisons=NOT_RUN. No account/credential
-access, broker order, permission/calendar change, AI activation or PR merge.
+historical_validation=PENDING; historical_comparisons=NOT_RUN. No actual/demo
+orders, execution API, credential/account read, broker approval or PR merge.
