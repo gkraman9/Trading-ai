@@ -514,3 +514,16 @@ class AdditionalLifecycleTests(unittest.TestCase):
         self.sdk.terminal_info = read
         r = self.failed("ACQUISITION_LATENCY_EXCEEDED")
         self.assertIsNone(r["connection"]["last_successful_acquisition_utc"])
+
+    def test_shutdown_failure_is_sanitized_and_distinct_from_attachment_failure(self):
+        def broken():
+            self.sdk.error = (-10005, "PRIVATE_SHUTDOWN_PATH")
+            raise RuntimeError("PRIVATE_SHUTDOWN_PATH")
+
+        self.sdk.shutdown = broken
+        self.sdk.ok = False
+        r = self.failed("INITIALIZATION_FAILED")
+        self.assertEqual(r["connection"]["shutdown_status"], "FAILED")
+        self.assertEqual(r["connection"]["shutdown_error_code"], -10005)
+        self.assertEqual(r["connection"]["mt5_error_code"], 1)
+        self.assertNotIn("PRIVATE", json.dumps(r))

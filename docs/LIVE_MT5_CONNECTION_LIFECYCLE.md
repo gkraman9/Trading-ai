@@ -18,7 +18,7 @@ Failure captures a bounded signed integer last_error code immediately, before
 shutdown/another native call. Exception text and SDK descriptions are never report
 fields. Missing module/API capabilities, failed/exceptional initialize, missing
 terminal info, disconnected terminal and recognized IPC error codes are distinct.
-Cleanup precedes retries. Delays are2,4,8,16,32,60,60...seconds by default; repeated
+Cleanup precedes retries; failed native shutdown is separately reported with a sanitized code, never hidden as successful cleanup. Delays are2,4,8,16,32,60,60...seconds by default; repeated
 attempts are unlimited in total but each delay and initialization timeout is capped.
 The worker uses Event.wait, not busy polling, and can stop during backoff. Healthy
 attachment with unavailable/invalid market data uses the normal polling interval,

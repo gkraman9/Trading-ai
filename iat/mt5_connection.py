@@ -83,6 +83,8 @@ class MT5Connection:
             last_successful_acquisition_utc=None,
             last_connection_failure_reason=None,
             mt5_error_code=None,
+            shutdown_status="NOT_ATTEMPTED",
+            shutdown_error_code=None,
             reconnection_attempt_count=0,
             next_retry_utc=None,
             connection_generation=0,
@@ -169,7 +171,11 @@ class MT5Connection:
             try:
                 self._quiet(self._shutdown)
             except Exception:
-                pass
+                self._update(
+                    shutdown_status="FAILED", shutdown_error_code=self._error()
+                )
+            else:
+                self._update(shutdown_status="COMPLETED", shutdown_error_code=None)
         self._attached = False
         self._reader = None
         self.raw = {}
@@ -357,6 +363,7 @@ class MT5Connection:
             self._failure("CONNECTION_OPERATION_EXCEPTION", self._error())
         if value is None:
             error = self._error()
+            self._update(mt5_error_code=error)
             if error in IPC_CODES:
                 self._failure("IPC_COMMUNICATION_FAILURE", error)
         return value
@@ -385,6 +392,7 @@ class MT5Connection:
             return self._quiet(self._reader.quote, now)
         except MarketDataError:
             error = self._error()
+            self._update(mt5_error_code=error)
             if error in IPC_CODES:
                 self._failure("IPC_COMMUNICATION_FAILURE", error)
             raise
@@ -398,6 +406,7 @@ class MT5Connection:
             self._sync()
             if value is None:
                 error = self._error()
+                self._update(mt5_error_code=error)
                 if error in IPC_CODES:
                     self._failure("IPC_COMMUNICATION_FAILURE", error)
             return value

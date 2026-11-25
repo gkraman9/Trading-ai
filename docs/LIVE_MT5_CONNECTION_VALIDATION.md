@@ -5,8 +5,8 @@ Cloud validation is synthetic only; no actual terminal was attached.
 
 ## Automated evidence
 
-42 new deterministic lifecycle/probe cases pass locally on Python3.11.9 (1.898s)
-and3.12.14 (1.739s). They cover initialization False/exception, unavailable module/
+The initial42 deterministic lifecycle/probe cases passed locally on Python3.11.9 (1.898s)
+and3.12.14 (1.739s). A43rd case then verifies sanitized native-shutdown failure reporting; the draft PR records final focused/full results. They cover initialization False/exception, unavailable module/
 API capabilities, missing/disconnected terminal, IPC loss during acquisition,
 startup/restart recovery, capped backoff, interruptible retry shutdown, native-call
 ownership/overdue handling, repeated start/stop, no overlap, new demo/permission/
