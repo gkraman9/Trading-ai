@@ -34,14 +34,17 @@ class ReadOnlyMarketData:
         t=self._terminal()
         self.diagnostics=dict(connected=t is not None and getattr(t,'connected',None) is True,
             demo_verified=None,terminal_trading_disabled=None,python_api_trading_disabled=None,symbol_visible=None)
-        self.diagnostics['terminal_trading_disabled']=getattr(t,'trade_allowed',None) is False
-        self.diagnostics['python_api_trading_disabled']=getattr(t,'tradeapi_disabled',None) is True
-        if t is None or getattr(t,'connected',None) is not True:raise MarketDataError('Disconnected','PROVIDER_DISCONNECTED')
+        self.diagnostics['terminal_trading_disabled']=None if type(getattr(t,'trade_allowed',None)) is not bool else getattr(t,'trade_allowed') is False
+        self.diagnostics['python_api_trading_disabled']=None if type(getattr(t,'tradeapi_disabled',None)) is not bool else getattr(t,'tradeapi_disabled') is True
+        if t is None:raise MarketDataError('Terminal information unavailable','TERMINAL_INFO_UNAVAILABLE')
+        if getattr(t,'connected',None) is not True:raise MarketDataError('Disconnected','PROVIDER_DISCONNECTED')
+        if self.diagnostics['terminal_trading_disabled'] is None or self.diagnostics['python_api_trading_disabled'] is None:raise MarketDataError('Safety information unavailable','SAFETY_INFORMATION_UNAVAILABLE')
         if getattr(t,'trade_allowed',None) is not False or getattr(t,'tradeapi_disabled',None) is not True:
             raise MarketDataError('Disable both terminal trading permissions','TRADING_PERMISSIONS_NOT_DISABLED')
         # Read only trade_mode; never read/serialize account ID, server or credentials.
         mode=getattr(self._account(),'trade_mode',None)
-        self.diagnostics['demo_verified']=type(mode) is int and type(self._demo) is int and self._demo==0 and mode==0
+        self.diagnostics['demo_verified']=None if type(mode) is not int or type(self._demo) is not int else type(mode) is int and type(self._demo) is int and self._demo==0 and mode==0
+        if self.diagnostics['demo_verified'] is None:raise MarketDataError('Demo verification unavailable','SAFETY_INFORMATION_UNAVAILABLE')
         if type(mode) is not int or type(self._demo) is not int or self._demo!=0 or mode!=0:raise MarketDataError('Demo account required','DEMO_ACCOUNT_REQUIRED')
         symbol=self._symbol('XAUUSD')
         self.diagnostics['symbol_visible']=symbol is not None and getattr(symbol,'visible',None) is True

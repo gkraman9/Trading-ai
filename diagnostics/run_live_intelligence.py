@@ -2,7 +2,7 @@
 import argparse,sys,os
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from iat.live_data import ReadOnlyMarketData
+from iat.mt5_connection import MT5Connection
 from iat.live_observer import LiveObserver,ShadowLog
 from iat.live_dashboard import create_dashboard
 from iat.live_commentary import CommentaryFailure
@@ -28,7 +28,7 @@ def configured_provider(name,model=None):
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--log-directory',required=True);p.add_argument('--interval',type=int,default=10)
-    p.add_argument('--port',type=int,default=8765);p.add_argument('--session-config')
+    p.add_argument('--port',type=int,default=8765);p.add_argument('--session-config');p.add_argument('--terminal-path',help='Optional explicit local terminal executable; never logged')
     p.add_argument('--shadow-journal-directory',help='Optional read-only attachment to a separately running Stage B.2 recorder.')
     p.add_argument('--shadow-config',help='Matching Stage B.2 config; absent means record-only configuration.')
     p.add_argument('--enable-llm',action='store_true',help='Explicit opt-in to send bounded typed research facts to the selected provider, never raw logs.')
@@ -43,11 +43,7 @@ def main(argv=None):
     try:
         calendar=load_session_config(a.session_config) if a.session_config else None
         log=ShadowLog(a.log_directory)
-        try:
-            import MetaTrader5 as module
-            module.initialize(timeout=10000)  # Attach locally, no login/server/password arguments.
-            provider=ReadOnlyMarketData(module)
-        except Exception:provider=UnavailableProvider()
+        provider=MT5Connection(terminal_path=a.terminal_path)
         observer=LiveObserver(provider,log,calendar=calendar,interval=a.interval)
         manager=ResearchCommentary()
         if a.enable_llm:
@@ -72,9 +68,6 @@ def main(argv=None):
     finally:
         if reasoning is not None:reasoning.close()
         if observer is not None:observer.close()
-        if module is not None and (observer is None or observer.thread is None or not observer.thread.is_alive()):
-            try:module.shutdown()
-            except Exception:pass
     return 0
 
 

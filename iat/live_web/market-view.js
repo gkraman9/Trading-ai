@@ -18,6 +18,7 @@
     const entryReasons=byId('entry-research-reasons');entryReasons.replaceChildren();
     for(const reason of [...new Set(['ENTRY_SYNTHETIC_ONLY','ENTRY_LIVE_PROVENANCE_NOT_AUTHORIZED','EXIT_SYNTHETIC_ONLY','EXIT_LIVE_PROVENANCE_NOT_AUTHORIZED','RISK_SYNTHETIC_ONLY','RISK_LIVE_PROVENANCE_NOT_AUTHORIZED','PAPER_SYNTHETIC_ONLY','LIVE_PAPER_NOT_AUTHORIZED',...(value.reason_codes||[])])])entryReasons.append(make('li',reason));
     const q=value.quote||{},r=value.runtime||{},checks=r.demo_checks||{},cutoffs=value.cutoffs||{};
+    byId('mv-connection').textContent=r.connection?JSON.stringify(r.connection,null,2):'Connection lifecycle unavailable · safety UNKNOWN';
     const dl=byId('mv-runtime');dl.replaceChildren();
     for(const [label,v] of [
       ['Bid',number(q.bid)],['Ask',number(q.ask)],['Spread (broker points)',number(q.spread_points)],
