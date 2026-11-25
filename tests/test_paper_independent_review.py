@@ -343,3 +343,32 @@ class PaperIndependentReview(unittest.TestCase):
         self.assertEqual(result["status"], "UNRESOLVED", result)
         self.assertIsNone(result["position"]["exit_fill"])
         self.assertIsNone(k["account"].snapshot()["equity"])
+
+    def test_exit_quote_must_match_frozen_specification_tick_grid(self):
+        k, a, b = setup()
+        open_position(k)
+        before = k["account"].journal()
+        m = later(k, a, b, bid="2100.001", ask="2100.201")
+        with self.assertRaisesRegex(ValueError, "QUOTE_OFF_TICK_GRID"):
+            k["account"].observe(**m)
+        self.assertEqual(before, k["account"].journal())
+
+    def test_nonpositive_modeled_exit_mark_blocks_financial_calculations(self):
+        k, _, _ = setup()
+        r = assess_capital(
+            **dict(k, costs=replace(k["costs"], slippage_price_per_fill="2101"))
+        )
+        self.assertEqual(r["status"], "CAPITAL_ASSESSMENT_UNAVAILABLE")
+        self.assertIn("EXIT_MARK_PRICE_INVALID", r["reason_codes"])
+
+    def test_entry_already_beyond_frozen_target_is_financially_rejected(self):
+        k, _, _ = setup()
+        tape = SyntheticQuoteTape(
+            k["tape"].symbol, k["tape"].feed, k["tape"].dataset_sha256
+        )
+        q = tape.append(
+            SyntheticQuote(**dict(k["quote"]["quote"], bid="2106.9", ask="2107.1"))
+        )
+        r = assess_capital(**dict(k, tape=tape, quote=q))
+        self.assertEqual(r["status"], "FINANCIALLY_UNSUITABLE")
+        self.assertIn("FROZEN_TARGET_NOT_FAVORABLE_TO_ENTRY_FILL", r["reason_codes"])

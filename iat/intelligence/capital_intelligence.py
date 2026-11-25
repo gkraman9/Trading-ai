@@ -261,6 +261,21 @@ def assess_capital(
         )
         with localcontext(ARITHMETIC):
             reasons = list(result["reason_codes"])
+            target_distance = None
+            if risk["frozen_target"] is not None:
+                target = risk["frozen_target"]
+                near = number(
+                    target["lower"]
+                    if risk["research_direction"] == "BULLISH"
+                    else target["upper"]
+                )
+                target_distance = (
+                    near - dec(fill["price"])
+                    if risk["research_direction"] == "BULLISH"
+                    else dec(fill["price"]) - near
+                )
+                if target_distance <= 0:
+                    reasons.append("FROZEN_TARGET_NOT_FAVORABLE_TO_ENTRY_FILL")
             capital = dec(result["available_capital"])
             current_day = at_now.date().isoformat()
             day_loss = dec(state["daily_losses"].get(current_day, "0"))
@@ -284,6 +299,7 @@ def assess_capital(
                 dec(q["bid"] if sign == 1 else q["ask"])
                 - sign * c["slippage_price_per_fill"]
             )
+            require(exit_price > 0, "EXIT_MARK_PRICE_INVALID")
             immediate_gross = (
                 (exit_price - dec(fill["price"]))
                 * sign
@@ -313,6 +329,9 @@ def assess_capital(
                     reasons.append("REFERENCE_RR_POLICY_NOT_MET")
             result.update(
                 projected_free_margin=text_number(projected),
+                hypothetical_fill_to_target_reference_distance=text_number(
+                    target_distance
+                ),
                 reason_codes=sorted(set(reasons)),
                 authentication="SOURCE_AND_ACCOUNT_BOUND_SYNTHETIC_ONLY",
             )

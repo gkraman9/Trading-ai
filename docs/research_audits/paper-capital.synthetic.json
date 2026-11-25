@@ -66,7 +66,7 @@
       "entry_fill": "2100.1",
       "estimated_risk": "0.472",
       "exit_fill": "2090.1",
-      "journal_sha256": "c02f2fad5932730c5a1a9d7fd84f040be8959d22b12ae61caee5acea90045618",
+      "journal_sha256": "536620ccb29e03970688232c164db709f25c298b994e8d00795d921f9dd20ade",
       "next_one_percent_budget": "0.48",
       "realized_hypothetical_pnl": "-2",
       "starting_balance": "50",
@@ -91,6 +91,6 @@
   "qualification": "DATA_NOT_QUALIFIED",
   "report_version": 1,
   "research_only": true,
-  "sha256": "895cfdb9ba613898223d8c626d5ca75957fd4c8d289309b25f2cd43eedab6915",
+  "sha256": "dccc2c75125a650b9547ec461011d017e940604452fcdb9a9687560d370ee180",
   "signal": "WAIT"
 }

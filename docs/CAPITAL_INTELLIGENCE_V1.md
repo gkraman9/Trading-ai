@@ -39,7 +39,10 @@ Implemented financial model: LINEAR_NOTIONAL_LEVERAGE, all three currencies USD,
 tick_value = tick_size × contract_size per lot. Volumes lie on zero-origin step
 multiples; min/max must themselves be multiples. Quotes/slippage must lie on the
 tick grid. Unsupported margin/currency/convention or missing required fields block
-the financial calculation. Point/tick/contract units stay separate. Minimum stop
+the financial calculation. Every monitoring/exit quote is revalidated against
+the same frozen specification, including its tick grid and effective dates.
+A nonpositive modeled exit mark is unsupported and blocks calculation.
+Point/tick/contract units stay separate. Minimum stop
 and freeze values are instrument price units, not presumed broker points. Freeze
 is retained metadata; no stop order or modification is submitted. No liquidation
 is simulated merely from a broker label or unverified rule.
@@ -91,6 +94,9 @@ Fixed decimal context: precision34, HALF_EVEN. Volume rounds **down** using FLOO
 - Theoretical volume = budget / estimated loss per lot; floor to volume step,
   cap at max volume; reject below min lot. Never move the structural reference.
 - Estimated margin = volume × contract size × entry fill / declared leverage.
+- An existing frozen target must still be directionally favorable to the modeled
+  entry fill; otherwise reject without selecting another target. The remaining
+  fill-to-target reference distance is descriptive, not executable or net R/R.
 - Projected free margin includes immediate side-specific mark-to-exit loss and
   both fees, not merely notional margin. Reject below reserve or projected call.
 

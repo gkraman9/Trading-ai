@@ -15,6 +15,7 @@ from iat.intelligence.paper_contracts import (
     canonical,
     name,
     SyntheticQuoteTape,
+    BrokerSpecification,
     SyntheticCosts,
     FillPolicy,
     quote_fill,
@@ -471,12 +472,8 @@ class PaperAccount:
             at(q["available_at_utc"]) >= at(position["last_observation_utc"]),
             "POSITION_QUOTE_BACKWARD",
         )
-        require(
-            at(position["specification"]["effective_at_utc"])
-            <= at(as_of)
-            < at(position["specification"]["expires_at_utc"]),
-            "SPEC_NOT_EFFECTIVE",
-        )
+        # Revalidate the same frozen model for marks/exits, not only for entry.
+        BrokerSpecification(**position["specification"]).validate(q, as_of)
         if quote["sha256"] == position["last_quote_sha256"]:
             require(
                 at(as_of) == at(position["last_observation_utc"]),

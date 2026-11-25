@@ -133,7 +133,13 @@ ambiguity, limits, cash flows, replay/repeatability/prefix/future append and UI.
 The initial64 E4 tests passed on Python3.11.9 (68.354s) and3.12.14 (60.495s).
 A final independent-audit correction requires an explicit synthetic abstract
 structure-to-quote mapping and preserves E3's unknown price basis; the65-test
-focused suite and full suites are rerun after this change. Earlier in-progress
+focused suite and full suites were rerun after this change. A final E4 audit
+then added three reproduced regressions: off-grid monitoring/exit quotes must fail
+against the frozen specification with rollback; a nonpositive modeled exit mark
+blocks financial calculations; and a quote entry beyond an existing frozen target
+is financially rejected without replacing that target. All three failed before
+the correction and passed afterward. The68-test focused suite and complete suites
+are rerun for the corrected final head. No E1/E2 strategy predicate was changed. Earlier in-progress
 full runs were superseded, not counted as successful validation.
 The12 E3 review tests also pass on each (2.058s /2.065s in the final rerun).
 The inherited live-view suite passes36 tests including Node DOM isolation.
@@ -144,9 +150,9 @@ The CI job budget is explicitly40 minutes: the parent Windows3.11 attempt exhaus
 no tests/checks are removed to meet a runner time budget.
 
 Measured Linux3.11.9 tracing with prebuilt synthetic E1/E2/E3 (no context/ATR pair):
-quote/fill0.502ms, capital arithmetic0.219ms, authenticated capital repeats
-53.837/54.618/55.507ms (peak551,261 bytes), account opening60.758ms (548,418 bytes),
-source-bound structural close55.420ms (558,484 bytes); complete example journal
+quote/fill0.485ms, capital arithmetic0.208ms, authenticated capital repeats
+53.637/55.706/54.355ms (peak552,743 bytes), account opening59.158ms (548,476 bytes),
+source-bound structural close56.388ms (552,637 bytes); complete example journal
 11,513 bytes. Benchmark source creation is excluded; traced allocations are not
 RSS or maximum-data throughput. This fixture omits optional authenticated context
 and differs from E3's prior ATR benchmark, so it is not a claimed E3 speedup.
