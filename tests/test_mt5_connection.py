@@ -25,7 +25,8 @@ class SDK(MockMT5):
         self.operations = []
         self.boom = False
 
-    def initialize(self, **kw):
+    def initialize(self, *args, **kw):
+        self.initialization_path = args[0] if args else None
         self.operations.append(("initialize", get_ident(), kw))
         if self.boom:
             raise RuntimeError("PRIVATE_PASSWORD_SERVER_PATH")
@@ -357,6 +358,7 @@ class ConnectionTests(unittest.TestCase):
             path="OTHER_PRIVATE_PATH",
         )
         r = self.failed("TERMINAL_ATTACHMENT_UNVERIFIED")
+        self.assertEqual(self.sdk.initialization_path, "PRIVATE_TERMINAL_PATH")
         self.assertNotIn("PRIVATE", json.dumps(r))
         self.assertEqual(r["connection"]["state"], "SAFETY_BLOCKED")
 

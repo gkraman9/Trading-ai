@@ -262,10 +262,8 @@ class MT5Connection:
                 ),
             )
             try:
-                kw = dict(timeout=10000)
-                if self._path:
-                    kw["path"] = self._path
-                ok = self._quiet(self._initialize, **kw)
+                args = (self._path,) if self._path else ()
+                ok = self._quiet(self._initialize, *args, timeout=10000)
             except Exception:
                 self._failure("INITIALIZATION_EXCEPTION", self._error())
             if ok is not True:
