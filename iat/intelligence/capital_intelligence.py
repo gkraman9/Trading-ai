@@ -233,6 +233,7 @@ def assess_capital(
             <= timedelta(milliseconds=fill_policy.max_gap_ms),
             "ENTRY_QUOTE_COVERAGE_GAP",
         )
+        require(at(specification.effective_at_utc) <= decision, "SPEC_NOT_EFFECTIVE_AT_DECISION")
         spec_values = specification.validate(q, at_now)
         p, c = policy.validate(), costs.validate()
         require(

@@ -22,7 +22,9 @@ yet effective at decision could therefore authorize an earlier modeled fill.
 Required correction: require effectiveness at/before that decision, as well as
 validity at processing. Announced future-effective specifications need a separately
 reviewed publication/availability contract; this model cannot silently assume it.
-Status at review reproduction: OPEN; new functionality blocked until corrected.
+Correction: explicit SPEC_NOT_EFFECTIVE_AT_DECISION guard added in its own
+commit. The isolated HIGH regression passes after the correction. No new
+functionality was implemented while this finding remained open.
 
 ## MEDIUM E46-02 — realized losses bucketed by processing date
 
