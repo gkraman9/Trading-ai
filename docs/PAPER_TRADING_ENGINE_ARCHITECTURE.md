@@ -116,3 +116,16 @@ or external AI is started by this work.
 WAIT; execution_allowed=false; Exness BLOCKED; DATA_NOT_QUALIFIED;
 historical_validation=PENDING; historical_comparisons=NOT_RUN. No actual/demo
 orders, execution API, credential/account read, broker approval or PR merge.
+
+## E4.6 versioned protection extension
+
+`ProtectedPaperAccount` adds a distinct v2 journal, explicit v1 stop/liquidation
+policies, source-authenticated receipt-by-receipt replay and separate cutoff
+reviews. It reuses unchanged v1 capital/settlement math via transaction hooks;
+ordinary v1 payloads remain golden-tested. All consumed quote prefixes are
+privately authenticated in both producers; no serialized hash alone authorizes
+history. See [protective contract](PROTECTIVE_STOP_INTELLIGENCE_V1.md),
+[liquidation contract](SYNTHETIC_LIQUIDATION_V1.md) and
+[independent automated review](PAPER_TRADING_V1_INDEPENDENT_REVIEW.md).
+The live dashboard adds blocked availability text only. No live evaluator,
+qualified historical bridge or execution dependency is introduced.

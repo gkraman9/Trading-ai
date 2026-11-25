@@ -136,3 +136,15 @@ volume0.2, entry Ask2100.1, structural threshold2097.74, later eligible Bid2090.
 after structural invalidation → modeled loss2, balance48, next1% budget0.48.
 Estimated original loss0.472 did not guarantee a maximum loss. No deposit/reset
 manufactures the balance. These are accounting fixtures, not strategy returns.
+
+## E4.6 protected research producer
+
+Capital accepts the exact `ProtectedPaperAccount` producer in addition to the exact
+v1 producer; arbitrary subclasses remain unsupported. A margin warning restricts
+new entries. Sizing/risk allowances/thresholds are unchanged; the protective stop
+must exactly reuse the original structural threshold, not tighten it. Specification
+effectivity is required at the original decision as well as processing time.
+Estimated risk is not a maximum-loss guarantee; separate v2 metrics expose actual
+modeled loss, entry-budget exceedance and gap-through price effects. See
+PROTECTIVE_STOP_INTELLIGENCE_V1.md and SYNTHETIC_LIQUIDATION_V1.md. Historical
+qualification stays pending; no account or calendar permissions change.
