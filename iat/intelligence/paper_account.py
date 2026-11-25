@@ -163,14 +163,23 @@ class PaperAccount:
     def snapshot(self):
         return self._snapshot(self._state, self._events)
 
-    def journal(self):
+    def _journal(self, state, events):
         return report(
             "IAT_PAPER_JOURNAL_V1",
-            account=self.snapshot(),
-            events=deepcopy(self._events),
-            metrics=self.metrics(),
+            account=self._snapshot(state, events),
+            events=deepcopy(events),
+            metrics=self._metrics(state, events),
             result_scope="SYNTHETIC_ACCOUNTING_NOT_STRATEGY_PERFORMANCE",
         )
+
+    def journal(self):
+        return self._journal(self._state, self._events)
+
+    def _prepare_position(self, position, assessment):
+        return position
+
+    def _entry_events(self, events, position):
+        return events
 
     def _commit(self, state, events):
         require(
@@ -189,13 +198,7 @@ class PaperAccount:
             history.append(event)
         candidate = self._snapshot(state, history)
         # Budget checks precede ALL state/history writes; caller receives detached values.
-        journal = report(
-            "IAT_PAPER_JOURNAL_V1",
-            account=candidate,
-            events=history,
-            metrics=self._metrics(state, history),
-            result_scope="SYNTHETIC_ACCOUNTING_NOT_STRATEGY_PERFORMANCE",
-        )
+        journal = self._journal(state, history)
         size = len(
             json.dumps(
                 journal, sort_keys=True, separators=(",", ":"), allow_nan=False
@@ -386,6 +389,7 @@ class PaperAccount:
             holding_seconds=None,
             reason_codes=[],
         )
+        position = self._prepare_position(position, assessment)
         state["balance"] = text_number(dec_signed(state["balance"]) - entry_fee)
         state["transaction_costs"] = text_number(
             dec(state["transaction_costs"]) + entry_fee
@@ -400,14 +404,17 @@ class PaperAccount:
         self._equity(state)
         self._commit(
             state,
-            events
-            + [
-                dict(
-                    kind="HYPOTHETICALLY_OPEN",
-                    position_id=position["position_id"],
-                    fill_sha256=fill["sha256"],
-                )
-            ],
+            self._entry_events(
+                events
+                + [
+                    dict(
+                        kind="HYPOTHETICALLY_OPEN",
+                        position_id=position["position_id"],
+                        fill_sha256=fill["sha256"],
+                    )
+                ],
+                position,
+            ),
         )
         self._quote_history[position["position_id"]] = (
             quote["quote"]["sequence"],
@@ -606,43 +613,7 @@ class PaperAccount:
                 <= timedelta(milliseconds=fp.max_gap_ms),
                 "EXIT_QUOTE_COVERAGE_GAP",
             )
-            gross, exit_fee, financing, holding = self._mark(
-                state, position, q, fill["filled_at_utc"]
-            )
-            net = gross - dec(position["entry_fee"]) - exit_fee - financing
-            position.update(
-                state="HYPOTHETICALLY_CLOSED",
-                exit_fill=fill,
-                gross_hypothetical_pnl=text_number(gross),
-                net_hypothetical_pnl=text_number(net),
-                holding_seconds=text_number(holding),
-                exit_evidence=deepcopy(events[0]),
-                reason_codes=[events[0]["kind"]],
-            )
-            state["balance"] = text_number(
-                dec_signed(state["balance"]) + gross - exit_fee - financing
-            )
-            state["realized_hypothetical_pnl"] = text_number(
-                dec_signed(state["realized_hypothetical_pnl"]) + net
-            )
-            state["transaction_costs"] = text_number(
-                dec(state["transaction_costs"]) + exit_fee + financing
-            )
-            state.update(
-                open_positions=[],
-                used_margin="0",
-                aggregate_open_risk="0",
-                unrealized_hypothetical_pnl="0",
-            )
-            state["closed_positions"].append(deepcopy(position))
-            state["consecutive_losses"] = (
-                state["consecutive_losses"] + 1 if net < 0 else 0
-            )
-            if net < 0:
-                day = at(fill["filled_at_utc"]).date().isoformat()
-                state["daily_losses"][day] = text_number(
-                    dec(state["daily_losses"].get(day, "0")) - net
-                )
+            self._settle(state, position, fill, quote, events[0])
             kinds = ["EXIT_PENDING", "HYPOTHETICALLY_CLOSED"]
         else:
             position["state"] = "MONITORING"
@@ -689,6 +660,44 @@ class PaperAccount:
             position=deepcopy(position),
             reason_codes=position["reason_codes"],
         )
+
+    @fixed_decimal
+    def _settle(self, state, position, fill, quote, exit_evidence):
+        gross, exit_fee, financing, holding = self._mark(
+            state, position, quote["quote"], fill["filled_at_utc"]
+        )
+        net = gross - dec(position["entry_fee"]) - exit_fee - financing
+        position.update(
+            state="HYPOTHETICALLY_CLOSED",
+            exit_fill=fill,
+            gross_hypothetical_pnl=text_number(gross),
+            net_hypothetical_pnl=text_number(net),
+            holding_seconds=text_number(holding),
+            exit_evidence=deepcopy(exit_evidence),
+            reason_codes=[exit_evidence["kind"]],
+        )
+        state["balance"] = text_number(
+            dec_signed(state["balance"]) + gross - exit_fee - financing
+        )
+        state["realized_hypothetical_pnl"] = text_number(
+            dec_signed(state["realized_hypothetical_pnl"]) + net
+        )
+        state["transaction_costs"] = text_number(
+            dec(state["transaction_costs"]) + exit_fee + financing
+        )
+        state.update(
+            open_positions=[],
+            used_margin="0",
+            aggregate_open_risk="0",
+            unrealized_hypothetical_pnl="0",
+        )
+        state["closed_positions"].append(deepcopy(position))
+        state["consecutive_losses"] = state["consecutive_losses"] + 1 if net < 0 else 0
+        if net < 0:
+            day = at(fill["filled_at_utc"]).date().isoformat()
+            state["daily_losses"][day] = text_number(
+                dec(state["daily_losses"].get(day, "0")) - net
+            )
 
     @fixed_decimal
     def metrics(self):

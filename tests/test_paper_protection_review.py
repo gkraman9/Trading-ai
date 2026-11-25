@@ -243,7 +243,14 @@ class IndependentPaperReview(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "QUOTE_SOURCE_HISTORY_MISMATCH"):
             k["account"].observe(**dict(current, tape=replacement, quote=row))
         self.assertEqual(before, k["account"].journal())
-        replayed = SyntheticQuoteTape(k["tape"].symbol,k["tape"].feed,k["tape"].dataset_sha256)
+        replayed = SyntheticQuoteTape(
+            k["tape"].symbol, k["tape"].feed, k["tape"].dataset_sha256
+        )
         for prior in k["tape"].rows():
             actual = replayed.append(SyntheticQuote(**prior["quote"]))
-        self.assertEqual(k["account"].observe(**dict(current,tape=replayed,quote=actual))["status"],"MONITORING")
+        self.assertEqual(
+            k["account"].observe(**dict(current, tape=replayed, quote=actual))[
+                "status"
+            ],
+            "MONITORING",
+        )
