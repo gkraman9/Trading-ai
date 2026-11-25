@@ -82,6 +82,8 @@ def get_candle_snapshot(
     try:
         connected = mt5.terminal_info()
         is_connected = connected is not None and getattr(connected, "connected", False)
+    except MarketDataError:
+        raise
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
     if not is_connected:
@@ -89,6 +91,8 @@ def get_candle_snapshot(
     try:
         tf = getattr(mt5, "TIMEFRAME_" + timeframe)
         rates = mt5.copy_rates_from_pos(symbol, tf, 1, count)
+    except MarketDataError:
+        raise
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
     now = read_now()

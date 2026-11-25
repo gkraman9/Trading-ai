@@ -104,6 +104,7 @@ on:
       - feat/iat-v3-exit-intelligence-v1
       - feat/iat-v3-risk-intelligence-v1
       - feat/iat-v3-paper-capital-v1
+      - feat/iat-v3-protective-liquidation-v1
   workflow_dispatch:
 
 permissions:
@@ -175,6 +176,17 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_paper*.py' -v
       - name: E4.6 synthetic protective stop and liquidation contracts
         run: python -m unittest discover -s tests -p 'test_protection*.py' -v
+      - name: MT5 lifecycle contracts (synthetic SDK only)
+        run: python -m unittest discover -s tests -p test_mt5_connection.py -v
+      - name: Windows connection comparison ValidateOnly (no SDK attachment)
+        if: runner.os == 'Windows' && startsWith(matrix.python-version, '3.11')
+        shell: powershell
+        run: |
+          $python = (Get-Command python).Source
+          $json = & powershell.exe -NoProfile -File diagnostics/Test-IATMT5Connection.ps1 -RunnerPythonExe $python -IndependentPythonExe $python -ValidateOnly
+          if ($LASTEXITCODE -ne 0) { throw 'Comparison ValidateOnly failed' }
+          $r = ($json | ConvertFrom-Json)
+          if (-not $r.validate_only -or $r.runner_environment.attachment_attempted -or $r.independent_environment.attachment_attempted -or $r.execution_allowed -or $r.same_terminal_attachment -ne $null) { throw 'Unsafe comparison inspection' }
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)

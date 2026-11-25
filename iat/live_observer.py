@@ -113,7 +113,7 @@ class LiveObserver:
         if type(interval) is not int or not 2<=interval<=60:raise ValueError('Refresh must be 2..60 seconds')
         self.provider=provider;self.log=log;self.calendar=calendar;self.interval=interval;self.model_adapter=model_adapter
         self.clock=ClockGuard(clock or (lambda:datetime.now(timezone.utc)))
-        self.lock=Lock();self.poll_lock=Lock();self.cached=base();self.previous=None;self.stop=Event();self.thread=None
+        self.lock=Lock();self.poll_lock=Lock();self.cached=base();self.previous=None;self.stop=Event();self.thread=None;self.lifecycle_lock=Lock()
         self._closed_cache=None;self._live_publication=None
         self.analysis_computations=0;self.analysis_cache_hits=0;self.analysis_invalidations=0
 
@@ -193,6 +193,10 @@ class LiveObserver:
                         payload={k:deepcopy(r[k]) for k in ['feed_status', 'research_assessment', 'scenario', 'reason_codes', 'reasoning', 'cutoffs', 'analysis_at_utc', 'analysis_scope', 'observations', 'forming_candles']},
                         formal=formal_artifact(r,context,self.calendar))
                     self._closed_cache['cacheable']='LIVE_CONTEXT_BINDING_INVALID' not in self._closed_cache['formal']['formal_context']['reason_codes']
+                complete=getattr(self.provider,'acquisition_complete',None)
+                if callable(complete):
+                    complete(started_at=started,quote_at=r['quote']['observed_at_utc'])
+                    completed=self.clock();r['acquired_at_utc']=iso(completed);r['acquired_at_local']=completed.astimezone().isoformat()
                 scenario=r['scenario']
                 r['acquisition_seconds']=(now-started).total_seconds()
                 r['candle_quality']={tf:s.quality.to_dict() for tf,s in shots.items()}
@@ -207,9 +211,15 @@ class LiveObserver:
                 if code is None and hasattr(exc,'report'):code=exc.report.diagnostics[0].code
                 code=code if isinstance(code,str) and code.replace('_','').isalnum() and code.upper()==code else 'LIVE_OBSERVATION_UNAVAILABLE'
                 # Do not keep an old directional interpretation after failure.
+                complete=getattr(self.provider,'acquisition_complete',None)
+                if callable(complete):
+                    try:complete(code)
+                    except Exception:pass
                 r=base(r['acquired_at_utc'],code)
                 if code!='CLOSED_CANDLE_REVISION_DETECTED':self.previous=None
                 presentation_adapter(self.model_adapter,r)
+            connection=getattr(self.provider,'snapshot',None)
+            if callable(connection):r['connection']=connection()
             raw=dict(getattr(self.provider,'raw',{}))
             try:
                 r=_report_tree(r)
@@ -231,7 +241,8 @@ class LiveObserver:
                     broker_point=getattr(self.provider,'_point',None),processing_ms=round((perf_counter()-began)*1000,3),cache_hit=cache_hit,
                     analysis_computations=self.analysis_computations,cache_hits=self.analysis_cache_hits,
                     cache_invalidations=self.analysis_invalidations,
-                    demo_checks=deepcopy(getattr(self.provider,'diagnostics',{}))))
+                    demo_checks=deepcopy(getattr(self.provider,'diagnostics',{})),
+                    connection=deepcopy(r.get('connection'))))
             with self.lock:
                 self.cached=json.loads(json.dumps(r,allow_nan=False));self._live_publication=publication
             return json.loads(json.dumps(r,allow_nan=False))
@@ -239,6 +250,16 @@ class LiveObserver:
     def latest(self):
         with self.lock:
             result=json.loads(json.dumps(self.cached))
+            if self.stop.is_set():return base(result['acquired_at_utc'],'OBSERVER_STOPPING_OR_STOPPED')
+            connection=getattr(self.provider,'snapshot',None)
+            if callable(connection):
+                status=connection()  # Memory-only; HTTP never calls the SDK.
+                old=result.get('connection',{})
+                if status['state']!='CONNECTED' or old.get('connection_generation')!=status['connection_generation']:
+                    result=base(result['acquired_at_utc'],'CONNECTION_FRESH_ACQUISITION_REQUIRED' if status['state']=='CONNECTED' else (status.get('status_reason_code') or 'LIVE_CONNECTION_NOT_CURRENT'))
+                    result['connection']=status
+                    result['snapshot_id']=digest({k:v for k,v in result.items() if k!='snapshot_id'})
+                    return result
             try:
                 now=self.clock();at=result['acquired_at_utc']
                 if at is not None and (now-datetime.fromisoformat(at)).total_seconds()>max(30,self.interval*2):
@@ -257,6 +278,10 @@ class LiveObserver:
             if publication is None or publication['snapshot_id']!=snapshot['snapshot_id']:
                 result=live_view_unavailable((snapshot.get('reason_codes') or ['LIVE_SOURCE_NOT_CURRENT'])[0])
                 if publication is not None:result['runtime']=publication['runtime']
+                if 'connection' in snapshot:
+                    c=snapshot['connection'];result['runtime']['connection']=c
+                    result['runtime']['demo_checks']={k:c.get(k) for k in ('connected','demo_verified','terminal_trading_disabled','python_api_trading_disabled','symbol_visible')}
+                    result['runtime']['broker_point']=None
                 return seal_presentation(result)
             if publication['rows'] is not None:
                 for tf,rows in publication['rows'].items():
@@ -272,21 +297,34 @@ class LiveObserver:
         except Exception:return seal_presentation(live_view_unavailable('LIVE_PRESENTATION_UNAVAILABLE'))
 
     def start(self):
-        if self.thread is not None:raise ValueError('Observer already started')
-        def run():
-            while not self.stop.is_set():
-                try:self.step()
-                except Exception:
-                    # Unexpected transport/container faults cannot terminate the observer.
-                    failure=base(None,'OBSERVER_POLL_FAILED');self.previous=None
-                    try:self.log.append(failure,{})
-                    except Exception:failure=base(None,'SHADOW_LOG_FAILED')
-                    if self._closed_cache is not None:self.analysis_invalidations+=1
-                    self._closed_cache=None
-                    with self.lock:self.cached=failure;self._live_publication=None
-                self.stop.wait(self.interval)
-        self.thread=Thread(target=run,name='iat-read-only-observer',daemon=True);self.thread.start()
+        with self.lifecycle_lock:
+            if self.thread is not None and self.thread.is_alive():raise ValueError('Observer already started')
+            with self.poll_lock:
+                if self._closed_cache is not None:self.analysis_invalidations+=1
+                self._closed_cache=None;self.previous=None
+                with self.lock:self.cached=base();self._live_publication=None
+            self.stop.clear()
+            def run():
+                try:
+                    while not self.stop.is_set():
+                        try:self.step()
+                        except Exception:
+                            failure=base(None,'OBSERVER_POLL_FAILED');self.previous=None
+                            try:self.log.append(failure,{})
+                            except Exception:failure=base(None,'SHADOW_LOG_FAILED')
+                            if self._closed_cache is not None:self.analysis_invalidations+=1
+                            self._closed_cache=None
+                            with self.lock:self.cached=failure;self._live_publication=None
+                        delay=getattr(self.provider,'retry_delay',None)
+                        self.stop.wait(delay(self.interval) if callable(delay) else self.interval)
+                finally:
+                    close=getattr(self.provider,'close_owner',None)
+                    if callable(close):close()
+            self.thread=Thread(target=run,name='iat-read-only-observer',daemon=True);self.thread.start()
 
     def close(self):
-        self.stop.set()
-        if self.thread is not None:self.thread.join(timeout=12)
+        with self.lifecycle_lock:
+            self.stop.set();thread=self.thread
+        if thread is not None:thread.join(timeout=12)
+        # Never call native shutdown from the joining thread. A blocked native call
+        # retains ownership; start() refuses overlap until the old worker exits.

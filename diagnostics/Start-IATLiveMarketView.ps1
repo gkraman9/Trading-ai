@@ -7,6 +7,7 @@ param(
     [ValidateRange(2,60)][int]$Interval = 10,
     [string]$LogParent = '',
     [string]$SessionConfig = '',
+    [string]$TerminalPath = '',
     [switch]$ValidateOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -48,6 +49,7 @@ try {
     if (Test-Path -LiteralPath $log) { throw 'Journal already exists; rerun to allocate a new directory.' }
     $argsForRunner = @($runner, '--log-directory', $log, '--interval', "$Interval", '--port', "$Port")
     if ($SessionConfig) { $argsForRunner += @('--session-config', $SessionConfig) }
+    if ($TerminalPath) { $argsForRunner += @('--terminal-path', $TerminalPath) }
     Write-Output "New private journal: $log"
     Write-Output "Dashboard: http://127.0.0.1:$Port ; DEMO and disabled terminal/API permissions required."
     Write-Output 'Formal V3 live provenance is restricted. Descriptive observations remain unqualified. AI disabled; WAIT; execution disabled.'
