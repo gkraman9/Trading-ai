@@ -529,3 +529,23 @@ class AdditionalLifecycleTests(unittest.TestCase):
         self.assertEqual(r["connection"]["shutdown_error_code"], -10005)
         self.assertEqual(r["connection"]["mt5_error_code"], 1)
         self.assertNotIn("PRIVATE", json.dumps(r))
+
+    def test_typed_transport_errors_preserve_only_allowlisted_codes_never_messages(
+        self,
+    ):
+        from iat.mt5_data import MarketDataError, get_candle_snapshot
+
+        for supplied, expected in [
+            ("IPC_COMMUNICATION_FAILURE", "IPC_COMMUNICATION_FAILURE"),
+            ("PRIVATE_SERVER_CODE", "PROVIDER_FAILURE"),
+        ]:
+
+            def bad():
+                raise MarketDataError("PRIVATE_PROVIDER_MESSAGE", supplied)
+
+            with self.assertRaises(MarketDataError) as raised:
+                get_candle_snapshot(
+                    mt5=SimpleNamespace(terminal_info=bad), clock=lambda: NOW
+                )
+            self.assertEqual(raised.exception.code, expected)
+            self.assertNotIn("PRIVATE", str(raised.exception.report.to_dict()))

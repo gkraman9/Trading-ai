@@ -82,3 +82,15 @@ Actual operator/runtime diagnosis, native-call behavior and long-run recovery re
 UNVERIFIED. A subprocess transport for hard native cancellation is deferred. No
 claim of a permanently resolved Windows root cause, broker certification, historical
 validation, paper activation or trading readiness is made by cloud tests.
+
+## Redaction correction verification
+
+An unchanged inherited privacy assertion caught one failure in the initial full
+Python3.12 run (2,052 tests). Typed transport messages must be treated as untrusted,
+even when their error code is recognizable. The final boundary retains only a
+small allowlist of lifecycle codes, reconstructs fixed diagnostic text and maps
+other codes to PROVIDER_FAILURE. The inherited assertion was not weakened.
+After correction, all25 quality tests pass and44 lifecycle/probe tests pass on
+Python3.11.9 (6.120s) and3.12.14 (5.590s). Earlier in-flight local runs were stopped
+as superseded, and complete suites were restarted on the corrected tree. Consult
+the draft PR for the final full-suite/CI evidence, not the superseded run.

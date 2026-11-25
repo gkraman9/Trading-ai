@@ -22,8 +22,7 @@ having no terminal information. These unknown checks are now null. Confirmed
 unsafe settings and confirmed non-demo modes remain explicit safety blocks.
 
 A controlled acquisition failure exposed another defect: get_candle_snapshot
-wrapped an already typed IPC failure into generic PROVIDER_FAILURE. Existing
-MarketDataError codes now propagate unchanged; other exceptions remain sanitized.
+wrapped an already typed IPC failure into generic PROVIDER_FAILURE. Only recognized lifecycle error codes now survive the transport boundary; every provider-supplied message/report is replaced with fixed text, and unknown codes become PROVIDER_FAILURE.
 The new IPC regression failed before that correction and passes afterward.
 
 ## Corrected mechanisms, not a certified Windows diagnosis
@@ -57,3 +56,13 @@ it cannot authenticate the identity of an earlier running process automatically.
 GAP_UNVERIFIED and session assurance are independent of connectivity. No calendar,
 quote-age limit, candle count, strategy, paper-account gate or qualification approval
 is changed. Recovered connectivity can legitimately reveal a data-quality failure.
+
+## Inherited privacy regression caught before completion
+
+The first full Python3.12 suite ran2,052 tests and found one failure in the unchanged
+`test_adapter_exception_cannot_leak_domain_error_message`. Initially forwarding a
+typed error also forwarded its untrusted message. The final correction allowlists
+lifecycle codes but always reconstructs a sanitized error report. The inherited
+assertion was preserved, and a new test covers private messages with both an
+allowed IPC code and an unrecognized private code. This implementation regression
+is corrected; it is not attributed to the user's Windows terminal.

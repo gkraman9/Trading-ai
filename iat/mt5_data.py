@@ -11,6 +11,11 @@ from iat.quality import QualityReport, assess_candles, failed
 from iat.sessions import SessionCalendar, SessionValidationError
 
 TIMEFRAMES = {"M1": 60, "M5": 300}
+# Transport error messages/reports are untrusted even when their type is known.
+SDK_READ_FAILURE_CODES = frozenset({
+    "PROVIDER_DISCONNECTED", "TERMINAL_INFO_UNAVAILABLE", "IPC_COMMUNICATION_FAILURE",
+    "CONNECTION_OPERATION_EXCEPTION", "CONNECTION_OWNER_MISMATCH", "MT5_NATIVE_CALL_OVERDUE",
+})
 
 class MarketDataError(RuntimeError):
     """Data unavailable, incomplete, stale, or inconsistent."""
@@ -82,8 +87,9 @@ def get_candle_snapshot(
     try:
         connected = mt5.terminal_info()
         is_connected = connected is not None and getattr(connected, "connected", False)
-    except MarketDataError:
-        raise
+    except MarketDataError as exc:
+        code = exc.code if exc.code in SDK_READ_FAILURE_CODES else "PROVIDER_FAILURE"
+        raise MarketDataError("MT5 data request failed", code) from None
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
     if not is_connected:
@@ -91,8 +97,9 @@ def get_candle_snapshot(
     try:
         tf = getattr(mt5, "TIMEFRAME_" + timeframe)
         rates = mt5.copy_rates_from_pos(symbol, tf, 1, count)
-    except MarketDataError:
-        raise
+    except MarketDataError as exc:
+        code = exc.code if exc.code in SDK_READ_FAILURE_CODES else "PROVIDER_FAILURE"
+        raise MarketDataError("MT5 data request failed", code) from None
     except Exception as exc:
         raise MarketDataError("MT5 data request failed") from exc
     now = read_now()
