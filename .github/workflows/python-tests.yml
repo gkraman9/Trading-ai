@@ -187,6 +187,11 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Comparison ValidateOnly failed' }
           $r = ($json | ConvertFrom-Json)
           if (-not $r.validate_only -or $r.runner_environment.attachment_attempted -or $r.independent_environment.attachment_attempted -or $r.execution_allowed -or $r.same_terminal_attachment -ne $null) { throw 'Unsafe comparison inspection' }
+          $failed = & powershell.exe -NoProfile -File diagnostics/Test-IATMT5Connection.ps1 -RunnerPythonExe '__PRIVATE_NONEXISTENT_INTERPRETER__' -ValidateOnly
+          if ($LASTEXITCODE -ne 1 -or ($failed -join '').Contains('__PRIVATE_NONEXISTENT_INTERPRETER__')) { throw 'Comparison failure leaked input or had incorrect status' }
+          $blocked = ($failed | ConvertFrom-Json)
+          if ($blocked.status -ne 'BLOCKED' -or $blocked.execution_allowed -or $blocked.code -ne 'COMPARISON_FAILED') { throw 'Unsafe comparison failure' }
+          exit 0
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)

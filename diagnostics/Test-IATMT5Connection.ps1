@@ -49,6 +49,6 @@ try {
     exit 0
 }
 catch {
-    Write-Error 'COMPARISON_FAILED: verify both local Python executable selections and package installation privately. No exception text or local path is published. No service was started.'
+    [ordered]@{ comparison_version=1; status='BLOCKED'; code='COMPARISON_FAILED'; recovery='Verify both local Python executable selections and package installation privately.'; signal='WAIT'; execution_allowed=$false; exness='BLOCKED'; qualification='DATA_NOT_QUALIFIED'; historical_validation='PENDING'; historical_comparisons='NOT_RUN'; mode='READ_ONLY_SHADOW' } | ConvertTo-Json
     exit 1
 }
