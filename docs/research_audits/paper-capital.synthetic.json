@@ -1,0 +1,96 @@
+{
+  "examples": {
+    "A_before_costs_min_lot_rejection": {
+      "adverse_gap_price": "0",
+      "adverse_price_exposure": "0",
+      "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+      "available_capital": "50",
+      "currency": "USD",
+      "estimated_loss": "0",
+      "estimated_required_margin": "0",
+      "estimated_transaction_costs": "0",
+      "minimum_lot_affordable": false,
+      "reason_codes": [
+        "MINIMUM_LOT_EXCEEDS_RISK_BUDGET"
+      ],
+      "risk_budget": "0.5",
+      "size_unit": "SYNTHETIC_LOTS_NOT_ORDER_VOLUME",
+      "spread_accounting": "INCLUDED_IN_SIDE_SPECIFIC_FILL_NO_SECOND_DEDUCTION",
+      "step_adjusted_position_size": "0",
+      "structural_stop_distance": "2",
+      "structural_stop_reference": "2098",
+      "theoretical_position_size": "0.0025"
+    },
+    "B_no_remaining_budget": {
+      "adverse_gap_price": "0",
+      "adverse_price_exposure": "1",
+      "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+      "available_capital": "50",
+      "currency": "USD",
+      "estimated_loss": "1",
+      "estimated_required_margin": "21",
+      "estimated_transaction_costs": "0",
+      "minimum_lot_affordable": true,
+      "reason_codes": [],
+      "risk_budget": "1",
+      "size_unit": "SYNTHETIC_LOTS_NOT_ORDER_VOLUME",
+      "spread_accounting": "INCLUDED_IN_SIDE_SPECIFIC_FILL_NO_SECOND_DEDUCTION",
+      "step_adjusted_position_size": "0.01",
+      "structural_stop_distance": "1",
+      "structural_stop_reference": "2099",
+      "theoretical_position_size": "0.01"
+    },
+    "B_with_declared_costs_rejection": {
+      "adverse_gap_price": "0",
+      "adverse_price_exposure": "0",
+      "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+      "available_capital": "50",
+      "currency": "USD",
+      "estimated_loss": "0",
+      "estimated_required_margin": "0",
+      "estimated_transaction_costs": "0",
+      "minimum_lot_affordable": false,
+      "reason_codes": [
+        "MINIMUM_LOT_EXCEEDS_RISK_BUDGET"
+      ],
+      "risk_budget": "1",
+      "size_unit": "SYNTHETIC_LOTS_NOT_ORDER_VOLUME",
+      "spread_accounting": "INCLUDED_IN_SIDE_SPECIFIC_FILL_NO_SECOND_DEDUCTION",
+      "step_adjusted_position_size": "0",
+      "structural_stop_distance": "1",
+      "structural_stop_reference": "2099",
+      "theoretical_position_size": "0.009803921568627450980392156862745098"
+    },
+    "C_source_bound_gap_loss": {
+      "cash_events": [],
+      "entry_fill": "2100.1",
+      "estimated_risk": "0.472",
+      "exit_fill": "2090.1",
+      "journal_sha256": "341ae3f74540106a319aaf23bad0b29c133a80a1644c8afc450f7763a8461595",
+      "next_one_percent_budget": "0.48",
+      "realized_hypothetical_pnl": "-2",
+      "starting_balance": "50",
+      "structural_reference": "2097.74",
+      "updated_balance": "48",
+      "volume": "0.2"
+    }
+  },
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "limitations": [
+    "ALL_PRICES_QUOTES_SPECS_COSTS_ARE_INVENTED",
+    "NOT_EXNESS_SPECIFICATIONS",
+    "NO_HISTORICAL_OR_PROFITABILITY_VALIDATION",
+    "EXAMPLE_ARITHMETIC_CANNOT_ESTABLISH_ELIGIBILITY"
+  ],
+  "mode": "READ_ONLY_SHADOW",
+  "model_version": "IAT_E4_SYNTHETIC_EXAMPLES_V1",
+  "provenance": "SYNTHETIC_RESEARCH",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "report_version": 1,
+  "research_only": true,
+  "sha256": "be1f046c5b94b7059a147ab7e2245688296ae5232c681c06567da4e03f3eea0a",
+  "signal": "WAIT"
+}
