@@ -1,0 +1,354 @@
+{
+  "cases": {
+    "A_normal_stop": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "49.5044",
+      "equity": "49.5044",
+      "journal_sha256": "ab080faa5dd0ff69b768bfa6a332f62d850df798bdde30d12aa77407980769a6",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.4956",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "PROTECTIVE_STOP"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "0.4956",
+          "risk_budget_exceedance": "0"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "B_adverse_gap": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "47.9",
+      "equity": "47.9",
+      "journal_sha256": "3c9ea3377f42d64db5d1619159e0862a1c744f847bbad2556ed08a6b58f8cd94",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "2.1",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "PROTECTIVE_STOP"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "1.6044",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "2.1",
+          "risk_budget_exceedance": "1.6"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "C_delayed_fill": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "49.454",
+      "equity": "49.454",
+      "journal_sha256": "4ba4aa240de8064914ce5efb8b440bb4d3ed4fe05e338641d0eabfc89d6390dd",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.546",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "PROTECTIVE_STOP"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "0.0504",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "0.546",
+          "risk_budget_exceedance": "0.046"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "D_missing_fill": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "50",
+      "equity": "49.496",
+      "journal_sha256": "4953bb1e8f15e22c1a03c9be60b2c4b78dfa2e66c22a2f6bda4529a18950f81e",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.504",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "INCOMPLETE_EXIT_HORIZON_OR_MISSING_OBSERVATIONS"
+      ],
+      "risk_observations": [],
+      "status": "UNRESOLVED",
+      "structural_exits": 0,
+      "unresolved_exits": 1
+    },
+    "E_margin_warning": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "50",
+      "equity": "49.916",
+      "journal_sha256": "3940db4b582c61dc9ffac723522252406b47184dc2a46586eaabd7767d09c19e",
+      "liquidations": 0,
+      "margin_warnings": 1,
+      "max_drawdown": "0.084",
+      "protective_stop_exits": 0,
+      "reason_codes": [],
+      "risk_observations": [],
+      "status": "MONITORING",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "F_stop_out": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "49.811",
+      "equity": "49.811",
+      "journal_sha256": "c38e58bbac0323e5e86206cf2bacc37e0b96d767958bc2f22b639c06a70392de",
+      "liquidations": 1,
+      "margin_warnings": 1,
+      "max_drawdown": "0.189",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "LIQUIDATION"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "0.189",
+          "risk_budget_exceedance": "0"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "G_structural_stop_conflict": {
+      "account_lifecycle": "UNRESOLVED",
+      "balance": "50",
+      "equity": null,
+      "journal_sha256": "ed22cdb559282a245ede370dd913c651940fc750c069a4e7f8cca6e7c4589a47",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.504",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "COMPETING_EXIT_POLICIES_UNRESOLVED"
+      ],
+      "risk_observations": [],
+      "status": "UNRESOLVED",
+      "structural_exits": 0,
+      "unresolved_exits": 1
+    },
+    "H_liquidation_stop_conflict": {
+      "account_lifecycle": "UNRESOLVED",
+      "balance": "50",
+      "equity": null,
+      "journal_sha256": "ba1adf1327793c79e6121db3a5966ac83314b579a22b86158f03772a1c792906",
+      "liquidations": 0,
+      "margin_warnings": 1,
+      "max_drawdown": "231.021",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "COMPETING_EXIT_POLICIES_UNRESOLVED"
+      ],
+      "risk_observations": [],
+      "status": "UNRESOLVED",
+      "structural_exits": 0,
+      "unresolved_exits": 1
+    },
+    "I_negative_balance": {
+      "account_lifecycle": "EXHAUSTED",
+      "balance": "-181.021",
+      "equity": "-181.021",
+      "journal_sha256": "7e94ebd7b6f7997b2b34689581a9685abc2c346530c494022701961db8d5b1dd",
+      "liquidations": 1,
+      "margin_warnings": 1,
+      "max_drawdown": "231.021",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "COINCIDENT_PROTECTIVE_STOP_AND_LIQUIDATION"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "230.5254",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "231.021",
+          "risk_budget_exceedance": "230.521"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "J_exhaustion": {
+      "account_lifecycle": "EXHAUSTED",
+      "balance": "-181.021",
+      "equity": "-181.021",
+      "journal_sha256": "7e94ebd7b6f7997b2b34689581a9685abc2c346530c494022701961db8d5b1dd",
+      "liquidations": 1,
+      "margin_warnings": 1,
+      "max_drawdown": "231.021",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "COINCIDENT_PROTECTIVE_STOP_AND_LIQUIDATION"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "230.5254",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "231.021",
+          "risk_budget_exceedance": "230.521"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "K_minimum_lot": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "50",
+      "equity": "50",
+      "journal_sha256": "5d05eca26bce0f4975a2700139785e0d8d01b0d4f9fcfac459f65195d469a846",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "MINIMUM_LOT_EXCEEDS_RISK_BUDGET"
+      ],
+      "risk_observations": [],
+      "status": "ENTRY_REJECTED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "L_repeated_loss_restriction": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "49.0324",
+      "equity": "49.0324",
+      "journal_sha256": "2768ec06f0cfb349dcc4fa8553feeec637e93693d7a9ba27888a5476d8f64521",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.9676",
+      "protective_stop_exits": 2,
+      "reason_codes": [
+        "CONSECUTIVE_LOSS_LIMIT"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:e6d26a08d121279e26d289eac9c6716cc427c2c05b5c17aed64bd6df66de2ef1",
+          "realized_hypothetical_loss": "0.4956",
+          "risk_budget_exceedance": "0"
+        },
+        {
+          "estimated_risk_at_entry": "0.472",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:a60474f3a6def490f88debc42ea39b854bc709c7efe5361b2bfd195ab7482a4d",
+          "realized_hypothetical_loss": "0.472",
+          "risk_budget_exceedance": "0"
+        }
+      ],
+      "status": "ENTRY_REJECTED",
+      "structural_exits": 0,
+      "unresolved_exits": 0
+    },
+    "M_recovery_preserves_drawdown": {
+      "account_lifecycle": "ACTIVE",
+      "balance": "50.7244",
+      "equity": "50.7244",
+      "journal_sha256": "e6cfd7dfd96db08a3c00b35d2ec02fecda05823e786bcc89c454b924df7f144e",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.5356",
+      "protective_stop_exits": 1,
+      "reason_codes": [
+        "E2_STRUCTURAL_TARGET_OBSERVED"
+      ],
+      "risk_observations": [
+        {
+          "estimated_risk_at_entry": "0.4956",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:ba7d51c64e21b309745a8248d9b03ebfcb311c9dd02dcc7f4df98e36d0a10275",
+          "realized_hypothetical_loss": "0.4956",
+          "risk_budget_exceedance": "0"
+        },
+        {
+          "estimated_risk_at_entry": "0.472",
+          "gap_through_loss": "0",
+          "position_id": "PAPER:d3c9bc747c589c60c6fd38f2e32baf7d9ed313df4b060185fdf6cf11fd17cc14",
+          "realized_hypothetical_loss": "0",
+          "risk_budget_exceedance": "0"
+        }
+      ],
+      "status": "HYPOTHETICALLY_CLOSED",
+      "structural_exits": 1,
+      "unresolved_exits": 0
+    },
+    "N_missing_interval": {
+      "account_lifecycle": "UNRESOLVED",
+      "balance": "50",
+      "equity": null,
+      "journal_sha256": "d214910b2c3797f471d7468f11585e9e475f64b940b6a84d28c0c20780a0b480",
+      "liquidations": 0,
+      "margin_warnings": 0,
+      "max_drawdown": "0.042",
+      "protective_stop_exits": 0,
+      "reason_codes": [
+        "KNOWN_QUOTE_SEQUENCE_SKIPPED"
+      ],
+      "risk_observations": [],
+      "status": "UNRESOLVED",
+      "structural_exits": 0,
+      "unresolved_exits": 1
+    }
+  },
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "full_example_report_sha256": "4db1653c4de538e7c98944feb5a8c5defc1287f971606861c5c9377861955a44",
+  "historical_comparisons": "NOT_RUN",
+  "historical_validation": "PENDING",
+  "isolated_gap_arithmetic": {
+    "additional_costs": "0",
+    "authentication": "NOT_ESTABLISHED_BY_ARITHMETIC",
+    "estimated_price_risk": "0.5",
+    "execution_allowed": false,
+    "exness": "BLOCKED",
+    "gap_through_component": "0.75",
+    "gross_hypothetical_loss": "1.25",
+    "historical_comparisons": "NOT_RUN",
+    "historical_validation": "PENDING",
+    "mode": "READ_ONLY_SHADOW",
+    "model_version": "IAT_STOP_GAP_ARITHMETIC_V1",
+    "net_hypothetical_loss": "1.25",
+    "provenance": "SYNTHETIC_RESEARCH",
+    "qualification": "DATA_NOT_QUALIFIED",
+    "report_version": 1,
+    "research_only": true,
+    "scope": "EXPLICITLY_INVENTED_ARITHMETIC_NOT_MARKET_VALIDATION",
+    "sha256": "4199965e7d6668b32ac5928ace5bacf00a273c25b37e8b9d6ce72f6757ed994b",
+    "signal": "WAIT"
+  },
+  "label": "INVENTED_SYNTHETIC_NOT_MARKET_VALIDATION",
+  "mode": "READ_ONLY_SHADOW",
+  "model_version": "IAT_E46_SYNTHETIC_EXAMPLE_SUMMARY_V1",
+  "provenance": "SYNTHETIC_RESEARCH",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "repeatability": "IDENTICAL_FULL_OUTPUTS",
+  "report_version": 1,
+  "research_only": true,
+  "sha256": "daac88206ceffdd55083b504417bbcc7dbcd300793fe88914119ebbba174bb8f",
+  "signal": "WAIT"
+}

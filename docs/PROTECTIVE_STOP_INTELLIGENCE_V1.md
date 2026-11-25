@@ -88,3 +88,7 @@ proofs. In-process producers are not a security sandbox or signed external evide
 A qualified historical source/capture and a separately reviewed import adapter are
 still required; this function is not a manifest-gate bypass. No live paper bridge,
 TP2/TP3, partial/trailing/timer exits, new strategy or broker calendar changes exist.
+
+Actual test, example and benchmark results are recorded in
+[E4.6 validation results](E46_VALIDATION_RESULTS.md). The compact example projection
+is `config/examples/protection-v1.synthetic.json`; full generated reports stay local.
