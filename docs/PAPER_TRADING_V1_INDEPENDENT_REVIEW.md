@@ -59,3 +59,26 @@ Python3.11.9). No unresolved CRITICAL or HIGH finding remains from this automate
 review. Existing v1 goldens/consumer contracts remain regression requirements;
 only the two invalid causal/accounting edge cases change. External review remains
 pending. Protective-stop/liquidation functionality begins only after this result.
+
+## HIGH E46-03 — matching source labels did not establish history continuity
+
+A follow-up adversarial case supplied a new tape with identical declared feed,
+dataset hash and current quote, but without the original entry/history prefix.
+V1 accepted that producer. This violated the in-process source-history contract;
+labels/checksums alone do not prove the previously consumed prefix. The isolated
+case failed before correction. New functionality was paused for this correction.
+
+The ledger now retains a private signature of the complete producing prefix up to
+the last committed sequence, verifies it before subsequent observations and only
+advances that signature after successful account commit. A genuine producer that
+replays the identical complete prefix remains compatible. Truncation, reordering
+or changed old rows fail even if labels match. Future appended rows are excluded
+from the signature. Resource/source failures leave the prior signature untouched.
+No v1 serialized field or ordinary journal meaning changes; historical source
+import still requires actual replay. The protected model uses the same check.
+
+E46-03 verification: all13 review tests pass after prefix binding (the complete
+identical-history producer also succeeds). No unresolved CRITICAL/HIGH finding
+remains; implementation resumes only after that result. Private source continuity
+is transactionally retained, not inferred from serialized labels or exposed as
+historical qualification.

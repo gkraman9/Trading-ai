@@ -230,3 +230,20 @@ class IndependentPaperReview(unittest.TestCase):
             ("historical_comparisons", "NOT_RUN"),
         ]:
             self.assertEqual(k["account"].snapshot()[key], val)
+
+    def test_same_feed_label_with_missing_producer_history_is_not_continuity(self):
+        k, a, b = setup()
+        open_position(k)
+        before = k["account"].journal()
+        current = later(k, a, b)
+        replacement = SyntheticQuoteTape(
+            k["tape"].symbol, k["tape"].feed, k["tape"].dataset_sha256
+        )
+        row = replacement.append(SyntheticQuote(**current["quote"]["quote"]))
+        with self.assertRaisesRegex(ValueError, "QUOTE_SOURCE_HISTORY_MISMATCH"):
+            k["account"].observe(**dict(current, tape=replacement, quote=row))
+        self.assertEqual(before, k["account"].journal())
+        replayed = SyntheticQuoteTape(k["tape"].symbol,k["tape"].feed,k["tape"].dataset_sha256)
+        for prior in k["tape"].rows():
+            actual = replayed.append(SyntheticQuote(**prior["quote"]))
+        self.assertEqual(k["account"].observe(**dict(current,tape=replayed,quote=actual))["status"],"MONITORING")

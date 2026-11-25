@@ -88,6 +88,7 @@ class PaperAccount:
         self.account_id = name(account_id)
         self._max_events, self._max_report_bytes = max_events, max_report_bytes
         self._events = []
+        self._quote_history = {}
         self._state = dict(
             account_id=self.account_id,
             account_currency="USD",
@@ -118,6 +119,25 @@ class PaperAccount:
             data_quality_exclusions=0,
         )
         self._commit(deepcopy(self._state), [dict(kind="ACCOUNT_CREATED")])
+
+    @staticmethod
+    def _quote_prefix_signature(tape, sequence):
+        require(type(tape) is SyntheticQuoteTape, "QUOTE_PRODUCER_REQUIRED")
+        return digest(
+            [
+                row["sha256"]
+                for row in tape.rows()
+                if row["quote"]["sequence"] <= sequence
+            ]
+        )
+
+    def _check_quote_history(self, position, tape):
+        previous = self._quote_history.get(position["position_id"])
+        require(
+            previous is not None
+            and previous[1] == self._quote_prefix_signature(tape, previous[0]),
+            "QUOTE_SOURCE_HISTORY_MISMATCH",
+        )
 
     def _snapshot(self, state, events):
         return report(
@@ -373,6 +393,9 @@ class PaperAccount:
         state["used_margin"] = position["required_margin"]
         state["aggregate_open_risk"] = position["estimated_risk"]
         state["open_positions"] = [position]
+        prefix_signature = self._quote_prefix_signature(
+            tape, quote["quote"]["sequence"]
+        )
         self._mark(state, position, quote["quote"], as_of)
         self._equity(state)
         self._commit(
@@ -385,6 +408,10 @@ class PaperAccount:
                     fill_sha256=fill["sha256"],
                 )
             ],
+        )
+        self._quote_history[position["position_id"]] = (
+            quote["quote"]["sequence"],
+            prefix_signature,
         )
         return report(
             "IAT_PAPER_ENTRY_V1",
@@ -468,6 +495,8 @@ class PaperAccount:
             and quote["source"] == position["quote_source"],
             "QUOTE_FEED_OR_DATASET_MISMATCH",
         )
+        self._check_quote_history(position, tape)
+        prefix_signature = self._quote_prefix_signature(tape, q["sequence"])
         require(
             at(q["available_at_utc"]) >= at(position["last_observation_utc"]),
             "POSITION_QUOTE_BACKWARD",
@@ -653,6 +682,7 @@ class PaperAccount:
                 for k in kinds
             ],
         )
+        self._quote_history[position["position_id"]] = (q["sequence"], prefix_signature)
         return report(
             "IAT_PAPER_OBSERVATION_V1",
             status=position["state"],
