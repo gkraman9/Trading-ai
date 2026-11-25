@@ -52,7 +52,21 @@ def costs():
 
 def policy(risk="0.01", **kw):
     return replace(
-        CapitalPolicy(risk, "0.1", "0.1", "0.2", "1", 1, 3, "0.5", 120, "0", None), **kw
+        CapitalPolicy(
+            risk,
+            "0.1",
+            "0.1",
+            "0.2",
+            "1",
+            1,
+            3,
+            "0.5",
+            120,
+            "0",
+            None,
+            "DECLARED_SYNTHETIC_ABSTRACT_REFERENCE_TO_QUOTE_UNITS",
+        ),
+        **kw
     )
 
 

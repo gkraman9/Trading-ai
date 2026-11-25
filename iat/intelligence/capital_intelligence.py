@@ -39,12 +39,18 @@ class CapitalPolicy:
     reserve_holding_seconds: int
     adverse_gap_price: str
     min_reference_rr: str | None
+    reference_mapping: str
     version: int = 1
 
     def validate(self):
         require(
             type(self.version) is int and self.version == 1,
             "CAPITAL_POLICY_VERSION_INVALID",
+        )
+        require(
+            self.reference_mapping
+            == "DECLARED_SYNTHETIC_ABSTRACT_REFERENCE_TO_QUOTE_UNITS",
+            "STRUCTURAL_QUOTE_BASIS_MAPPING_REQUIRED",
         )
         v = {
             k: dec(getattr(self, k), positive=True)
@@ -323,7 +329,11 @@ def assess_capital(
                 if reasons
                 else "SUITABLE_UNDER_DECLARED_SYNTHETIC_ASSUMPTIONS"
             ),
-            assessment=result,
+            assessment=dict(
+                result,
+                structural_source_price_basis=risk["reference_price_basis"],
+                reference_mapping=policy.reference_mapping,
+            ),
             hypothetical_entry_fill=fill,
             setup_id=risk["original_setup"]["setup_id"],
             direction=risk["research_direction"],

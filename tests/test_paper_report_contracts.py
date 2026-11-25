@@ -136,3 +136,19 @@ class PaperReportContracts(unittest.TestCase):
             r = assess_capital(**dict(k, **{field: None}))
             self.assertEqual(r["status"], "CAPITAL_ASSESSMENT_UNAVAILABLE")
             self.assertIsNone(r["assessment"])
+
+    def test_abstract_structure_mapping_must_be_explicit_and_keeps_unknown_basis(self):
+        k, _, _ = setup()
+        r = assess_capital(
+            **dict(k, policy=replace(k["policy"], reference_mapping=None))
+        )
+        self.assertEqual(r["status"], "CAPITAL_ASSESSMENT_UNAVAILABLE")
+        r = assess_capital(**k)
+        self.assertEqual(
+            r["assessment"]["structural_source_price_basis"],
+            k["risk"]["reference_price_basis"],
+        )
+        self.assertEqual(
+            r["assessment"]["reference_mapping"],
+            "DECLARED_SYNTHETIC_ABSTRACT_REFERENCE_TO_QUOTE_UNITS",
+        )

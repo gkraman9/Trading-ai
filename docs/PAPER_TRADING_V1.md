@@ -130,7 +130,11 @@ high or medium E3 defect required correction. See independent review document.
 New E4 tests cover long/short quotes/fills, chronology/freshness/session permissions,
 forgeries, financial/spec/cost gaps, affordability, margin, source-bound gap losses,
 ambiguity, limits, cash flows, replay/repeatability/prefix/future append and UI.
-Focused E4:64 PASS on Python3.11.9 (68.354s) and3.12.14 (60.495s).
+The initial64 E4 tests passed on Python3.11.9 (68.354s) and3.12.14 (60.495s).
+A final independent-audit correction requires an explicit synthetic abstract
+structure-to-quote mapping and preserves E3's unknown price basis; the65-test
+focused suite and full suites are rerun after this change. Earlier in-progress
+full runs were superseded, not counted as successful validation.
 The12 E3 review tests also pass on each (2.058s /2.065s in the final rerun).
 The inherited live-view suite passes36 tests including Node DOM isolation.
 Exact completed full-suite/matrix results and head are recorded in the draft PR;
@@ -140,10 +144,10 @@ The CI job budget is explicitly40 minutes: the parent Windows3.11 attempt exhaus
 no tests/checks are removed to meet a runner time budget.
 
 Measured Linux3.11.9 tracing with prebuilt synthetic E1/E2/E3 (no context/ATR pair):
-quote/fill0.442ms, capital arithmetic0.211ms, authenticated capital repeats
-52.998/52.218/52.174ms (peak552,902 bytes), account opening56.934ms (553,185 bytes),
-source-bound structural close54.334ms (555,604 bytes); complete example journal
-11,438 bytes. Benchmark source creation is excluded; traced allocations are not
+quote/fill0.502ms, capital arithmetic0.219ms, authenticated capital repeats
+53.837/54.618/55.507ms (peak551,261 bytes), account opening60.758ms (548,418 bytes),
+source-bound structural close55.420ms (558,484 bytes); complete example journal
+11,513 bytes. Benchmark source creation is excluded; traced allocations are not
 RSS or maximum-data throughput. This fixture omits optional authenticated context
 and differs from E3's prior ATR benchmark, so it is not a claimed E3 speedup.
 Numbers are synthetic component measurements, not Windows/MT5 latency or profit.

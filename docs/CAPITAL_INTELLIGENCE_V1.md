@@ -64,9 +64,17 @@ approval. No collector is connected by E4.
 daily_loss_fraction, drawdown_fraction, free_margin_reserve,
 max_positions=1, max_consecutive_losses, max_cost_fraction_of_budget,
 reserve_holding_seconds, adverse_gap_price, and optional **explicit**
-min_reference_rr (None disables that research filter). Candidate 0.5%,1%,2% budgets
+min_reference_rr (None disables that research filter), and reference_mapping. Candidate 0.5%,1%,2% budgets
 are tested research alternatives, not live settings. There is no default lot,
 mandatory timer, daily profit/pip target or leverage/risk escalation.
+
+E3 retains an unknown OHLC price basis. E4 must not silently reinterpret it as
+Bid, Ask or MID. The policy therefore explicitly requires
+`reference_mapping='DECLARED_SYNTHETIC_ABSTRACT_REFERENCE_TO_QUOTE_UNITS'`.
+Missing or unsupported mapping blocks capital assessment. Reports retain the
+original price-basis object alongside that invented mapping. This only permits
+comparison of abstract synthetic levels in common instrument units; it does not
+verify a real feed, broker price basis or protective-stop execution model.
 
 Fixed decimal context: precision34, HALF_EVEN. Volume rounds **down** using FLOOR.
 
