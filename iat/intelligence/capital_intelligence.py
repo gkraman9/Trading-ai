@@ -185,9 +185,13 @@ def assess_capital(
 ):
     """Reauthenticate every source and current account; a caller's label cannot qualify it."""
     from iat.intelligence.paper_account import PaperAccount
+    from iat.intelligence.protected_paper import ProtectedPaperAccount
 
     try:
-        require(type(account) is PaperAccount, "PAPER_ACCOUNT_PRODUCER_REQUIRED")
+        require(
+            type(account) in (PaperAccount, ProtectedPaperAccount),
+            "PAPER_ACCOUNT_PRODUCER_REQUIRED",
+        )
         require(
             type(specification) is BrokerSpecification
             and type(policy) is CapitalPolicy
@@ -223,6 +227,10 @@ def assess_capital(
             at(state["as_of_utc"]) <= decision <= at_now, "ACCOUNT_OR_DECISION_FUTURE"
         )
         require(state["account_lifecycle"] == "ACTIVE", "ACCOUNT_NOT_ACTIVE")
+        require(
+            not state.get("new_positions_restricted", False),
+            "MARGIN_WARNING_NEW_POSITIONS_RESTRICTED",
+        )
         require(state["account_currency"] == "USD", "ACCOUNT_CURRENCY_UNSUPPORTED")
         require(not state["open_positions"], "MAX_CONCURRENT_POSITIONS")
         q = tape.authenticate(
@@ -233,7 +241,10 @@ def assess_capital(
             <= timedelta(milliseconds=fill_policy.max_gap_ms),
             "ENTRY_QUOTE_COVERAGE_GAP",
         )
-        require(at(specification.effective_at_utc) <= decision, "SPEC_NOT_EFFECTIVE_AT_DECISION")
+        require(
+            at(specification.effective_at_utc) <= decision,
+            "SPEC_NOT_EFFECTIVE_AT_DECISION",
+        )
         spec_values = specification.validate(q, at_now)
         p, c = policy.validate(), costs.validate()
         require(
