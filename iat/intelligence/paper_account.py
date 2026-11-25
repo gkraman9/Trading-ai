@@ -610,7 +610,7 @@ class PaperAccount:
                 state["consecutive_losses"] + 1 if net < 0 else 0
             )
             if net < 0:
-                day = at(as_of).date().isoformat()
+                day = at(fill["filled_at_utc"]).date().isoformat()
                 state["daily_losses"][day] = text_number(
                     dec(state["daily_losses"].get(day, "0")) - net
                 )

@@ -32,7 +32,9 @@ A source-authenticated exit fill at November12 23:59:59.900 UTC processed200ms
 later was charged to November13. Costs/holding used the actual fill timestamp but
 `daily_losses` used caller `as_of`. Required correction: bucket realized loss by
 `exit_fill.filled_at_utc`, retaining processing cutoff separately in the journal.
-Status at review reproduction: OPEN.
+Correction: realized loss now uses the actual modeled exit-fill UTC date;
+processing/observation cutoff remains separately recorded. Corrected in a
+separate accounting commit.
 
 ## LOW / design limits
 
@@ -48,3 +50,12 @@ fee duplication, unchanged historical drawdown after recovery, negative balances
 and exhaustion without replenishment, source/hash forgery rejection, missing cost/
 basis rejection, clock/source rollback, frozen reports and live provenance denial.
 All safety invariants remain unchanged. No CRITICAL finding was established.
+
+## Correction verification before E4.6 functionality
+
+Both defects were reproduced against the untouched parent, then corrected in
+separate source commits. The same12 adversarial tests now all pass (15.831s on
+Python3.11.9). No unresolved CRITICAL or HIGH finding remains from this automated
+review. Existing v1 goldens/consumer contracts remain regression requirements;
+only the two invalid causal/accounting edge cases change. External review remains
+pending. Protective-stop/liquidation functionality begins only after this result.
