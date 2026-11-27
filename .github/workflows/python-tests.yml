@@ -105,6 +105,7 @@ on:
       - feat/iat-v3-risk-intelligence-v1
       - feat/iat-v3-paper-capital-v1
       - feat/iat-v3-protective-liquidation-v1
+      - docs/iat-v3-multi-timeframe-architecture
   workflow_dispatch:
 
 permissions:
@@ -192,6 +193,8 @@ jobs:
           $blocked = ($failed | ConvertFrom-Json)
           if ($blocked.status -ne 'BLOCKED' -or $blocked.execution_allowed -or $blocked.code -ne 'COMPARISON_FAILED') { throw 'Unsafe comparison failure' }
           exit 0
+      - name: R1 timeframe contracts and unchanged baseline golden equivalence
+        run: python -m unittest discover -s tests -p 'test_timeframe*.py' -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)
