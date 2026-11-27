@@ -1,0 +1,97 @@
+{
+  "artifacts": null,
+  "assurance": "FILE_BOUND_DECLARATIONS_NOT_PROVIDER_AUTHENTICATION",
+  "bundle_sha256": null,
+  "configuration_hashes": null,
+  "contract": {
+    "baseline": "UNCHANGED_M1_M5",
+    "contract_version": 1,
+    "quote_columns": [
+      "sequence",
+      "occurred_at_utc",
+      "available_at_utc",
+      "bid",
+      "ask",
+      "revision",
+      "finality"
+    ],
+    "required_artifacts": [
+      "raw_m1",
+      "raw_m5",
+      "quote_events",
+      "specification",
+      "costs",
+      "policies"
+    ],
+    "required_evidence": [
+      "usage",
+      "source_feed",
+      "raw_normalized_lineage",
+      "timestamp_availability",
+      "bid_ask_sequence_completeness",
+      "calendar_holidays_maintenance",
+      "bar_finality_corrections",
+      "dated_instrument_specifications",
+      "dated_costs",
+      "independent_qualification"
+    ],
+    "starting_capital": "50",
+    "symbol": "XAUUSD",
+    "unsupported": [
+      "OHLC_INFERRED_TICKS",
+      "SYNTHETIC_AS_HISTORICAL",
+      "CORRECTIONS_WITHOUT_AS_OF_REVISION_ADAPTER",
+      "UNREVIEWED_QUOTE_SESSION_OR_COST_ADAPTER"
+    ]
+  },
+  "dataset_hashes": null,
+  "evidence_hashes": null,
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_metrics": null,
+  "historical_validation": "PENDING",
+  "input_checks_status": "NOT_RUN",
+  "mode": "READ_ONLY_SHADOW",
+  "model_version": "IAT_HISTORICAL_PAPER_READINESS_V1",
+  "provenance": "OFFLINE_EVIDENCE_REVIEW_NOT_MARKET_VALIDATION",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "quote_audit": null,
+  "reason_codes": [
+    "DATASET_UNAVAILABLE",
+    "PAPER_BID_ASK_AVAILABILITY_REQUIRED",
+    "PAPER_DATED_SPECIFICATION_AND_COSTS_REQUIRED",
+    "PAPER_EVIDENCE_BUNDLE_REQUIRED",
+    "PAPER_SOURCE_QUALIFICATION_REQUIRED"
+  ],
+  "replay_status": "NOT_RUN",
+  "report_version": 1,
+  "research_only": true,
+  "sha256": "60468287db2369f1675382c13d1e12bba3c24286ed0e3f3adf61f8fdf05ce9b7",
+  "signal": "WAIT",
+  "source_qualification": {
+    "assurance": "HUMAN_ATTESTATIONS_AND_DOCUMENT_HASHES_NOT_EXTERNALLY_AUTHENTICATED",
+    "dataset": null,
+    "dataset_id": null,
+    "exness": "BLOCKED",
+    "historical_comparisons": "NOT_RUN",
+    "historical_validation": "PENDING",
+    "human_review_sha256": null,
+    "preflight": null,
+    "qualification_version": 1,
+    "reason_codes": [
+      "DATASET_UNAVAILABLE"
+    ],
+    "safety": {
+      "broker_access": false,
+      "execution_allowed": false,
+      "mode": "READ_ONLY_SHADOW",
+      "orders_requested": 0,
+      "profitability_tested": false,
+      "signal": "WAIT"
+    },
+    "status": "DATA_NOT_QUALIFIED"
+  },
+  "status": "BLOCKED",
+  "windows": null
+}
