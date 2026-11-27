@@ -61,6 +61,16 @@ def report(model, **fields):
     return dict(value, sha256=digest(value))
 
 
+def reports_equal(value, expected):
+    """Compare serialized report meaning without bool/int equality coercion."""
+    if type(value) is not dict or value != expected:
+        return False
+    try:
+        return digest(value) == digest(expected)
+    except (ValueError, TypeError, OverflowError):
+        return False
+
+
 @dataclass(frozen=True)
 class SyntheticQuote:
     symbol: str

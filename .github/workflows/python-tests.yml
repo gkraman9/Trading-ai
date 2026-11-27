@@ -55,6 +55,7 @@ on:
       - feat/iat-v3-protective-liquidation-v1
   pull_request:
     branches:
+      - docs/iat-v3-multi-timeframe-architecture
       - main
       - feat/iat2-foundation
       - feat/iat2-mt5-data
@@ -192,6 +193,8 @@ jobs:
           $blocked = ($failed | ConvertFrom-Json)
           if ($blocked.status -ne 'BLOCKED' -or $blocked.execution_allowed -or $blocked.code -ne 'COMPARISON_FAILED') { throw 'Unsafe comparison failure' }
           exit 0
+      - name: E4.7 independent paper review and blocked historical readiness
+        run: python -m unittest discover -s tests -p 'test_e47*.py' -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)
