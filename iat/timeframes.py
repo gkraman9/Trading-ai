@@ -454,7 +454,23 @@ class TimeframeProfile:
         for edge in d["edges"]:
             need(type(edge) is list and len(edge) == 2, "EDGES_INVALID")
             edges.append(tuple(fixed_frame(v) for v in edge))
-        return cls(tuple(bindings), tuple(edges), d["version"])
+        profile = cls(tuple(bindings), tuple(edges), d["version"])
+        _profile_documents(profile, evidence)
+        return profile
+
+
+def _profile_documents(profile, evidence):
+    """A single profile cannot silently combine incompatible feed/price bases."""
+    docs = {b.frame: bound_documents(b, evidence) for b in profile.bindings}
+    identities = {
+        tuple(
+            packet[0]["claims"][key]
+            for key in ("provider", "feed", "symbol", "price_basis", "provenance")
+        )
+        for packet in docs.values()
+    }
+    need(len(identities) <= 1, "PROFILE_SOURCE_CONFLICT")
+    return docs
 
 
 SAFETY = MappingProxyType(
@@ -505,7 +521,8 @@ def assess_closed_prefix(
             "TYPED_CONFIGURATION_REQUIRED",
         )
         binding = profile.binding(frame)
-        source, interval, calendar, finality = bound_documents(binding, evidence)
+        packets = _profile_documents(profile, evidence)
+        source, interval, calendar, finality = packets[binding.frame]
         now = utc(as_of_utc)
         start, first_close = _resolve_fixed(
             binding, interval["claims"], window_start_utc
@@ -514,7 +531,7 @@ def assess_closed_prefix(
             start < now < utc(interval["claims"]["valid_until_utc"]),
             "INTERVAL_COVERAGE_UNKNOWN",
         )
-        for d in (source, interval, calendar, finality):
+        for d in (item for packet in packets.values() for item in packet):
             need(utc(d["available_at_utc"]) <= now, "CONFIGURATION_NOT_AVAILABLE_AS_OF")
         cal = calendar["claims"]
         need(

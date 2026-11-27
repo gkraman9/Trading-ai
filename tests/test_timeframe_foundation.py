@@ -487,3 +487,40 @@ class FrameContracts(unittest.TestCase):
             k["rows"][0][key] = Forbidden()
             r = self.blocked(k)
             self.assertNotIn("PRIVATE", json.dumps(r))
+
+    def test_mixed_feed_or_basis_profile_cannot_be_silently_combined(self):
+        for changed in ({"feed": "OTHER_FEED"}, {"price_basis": "ASK"}):
+            k = fixture("M1")
+            other = fixture("M15", source=changed)
+            docs = {
+                d.sha256: d
+                for d in k["evidence"].documents + other["evidence"].documents
+            }
+            k["evidence"] = EvidenceStore(tuple(docs.values()))
+            k["profile"] = TimeframeProfile(
+                k["profile"].bindings + other["profile"].bindings
+            )
+            self.blocked(k, "PROFILE_SOURCE_CONFLICT")
+            with self.assertRaises(FoundationError):
+                TimeframeProfile.from_json(
+                    canonical(asdict(k["profile"])), evidence=k["evidence"]
+                )
+
+    def test_explicit_compatible_multi_frame_profile_is_supported_without_automatic_acquisition(
+        self,
+    ):
+        k = fixture("M1")
+        other = fixture("M15")
+        docs = {
+            d.sha256: d for d in k["evidence"].documents + other["evidence"].documents
+        }
+        k["evidence"] = EvidenceStore(tuple(docs.values()))
+        k["profile"] = TimeframeProfile(
+            k["profile"].bindings + other["profile"].bindings,
+            ((FrameName.M15, FrameName.M1),),
+        )
+        p = TimeframeProfile.from_json(
+            canonical(asdict(k["profile"])), evidence=k["evidence"]
+        )
+        self.assertEqual(p, k["profile"])
+        self.good(k)

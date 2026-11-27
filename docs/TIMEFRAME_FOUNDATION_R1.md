@@ -99,7 +99,8 @@ verification flag is created or approved by these synthetic declarations.
 TimeframeProfile v1 JSON has exactly `version`, `bindings`, `edges`. Each binding
 has version, frame, source/interval/calendar/finality SHA256 references,
 required_closed_bars and max_slots. from_json requires an EvidenceStore and checks
-all references and cross-source/frame/finality bindings. Duplicate frames, unknown
+all references and cross-source/frame/finality bindings. A profile must use one consistent provider/feed/symbol/basis/provenance; mixed-feed
+or mixed-basis configurations reject. Duplicate frames, unknown
 names, unsupported mappings, bad types (including bool-as-int), graph cycles,
 duplicate edges or edges to unconfigured frames reject. Edges only declare a
 finite dependency graph in R1, not strategic voting or direction predicates.
@@ -173,7 +174,9 @@ Cache scheduling and detector updates remain later MTF milestones.
 
 ## Validation and sequencing
 
-The53 focused tests pass locally on Python3.11.9 (8.586s) and3.12.14 (7.126s).
+The initial53 focused tests passed locally on Python3.11.9 (8.586s) and3.12.14 (7.126s).
+Two further profile-consistency cases reject mixed feeds/bases and validate an
+explicit compatible two-frame profile. Consult the PR for final counts.
 They include exact seven-frame contracts, missing/duplicate/out-of-order bars,
 known overnight closures, partial boundaries, late publication, future/forming
 payload exclusion, DST anchor contracts, unknown zones, missing finality/evidence,
