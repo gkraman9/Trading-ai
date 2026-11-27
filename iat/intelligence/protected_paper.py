@@ -20,6 +20,7 @@ from iat.intelligence.paper_contracts import (
     BrokerSpecification,
     SyntheticCosts,
     FillPolicy,
+    reports_equal,
 )
 from iat.intelligence.protection_contracts import (
     ProtectiveStopPolicy,
@@ -334,6 +335,8 @@ class ProtectedPaperAccount(PaperAccount):
         fp = FillPolicy(**position["fill_policy"])
         costs = SyntheticCosts(**position["costs"])
         events = []
+        # Authenticate the committed prefix before any unresolved-state mutation.
+        self._check_quote_history(position, tape)
         try:
             q = tape.authenticate(quote, as_of=as_of, policy=fp)
         except PaperError as exc:
@@ -343,7 +346,6 @@ class ProtectedPaperAccount(PaperAccount):
                 )
             raise
         BrokerSpecification(**position["specification"]).validate(q, as_of)
-        self._check_quote_history(position, tape)
         prefix_signature = self._quote_prefix_signature(tape, q["sequence"])
         if quote["sha256"] == position["last_quote_sha256"]:
             require(
@@ -775,7 +777,7 @@ class ProtectedPaperAccount(PaperAccount):
 
 def validate_protected_journal(value, *, source):
     require(
-        type(source) is ProtectedPaperAccount and value == source.journal(),
+        type(source) is ProtectedPaperAccount and reports_equal(value, source.journal()),
         "PROTECTED_JOURNAL_SOURCE_MISMATCH",
     )
     return True

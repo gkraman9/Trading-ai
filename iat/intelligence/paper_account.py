@@ -19,6 +19,7 @@ from iat.intelligence.paper_contracts import (
     SyntheticCosts,
     FillPolicy,
     quote_fill,
+    reports_equal,
 )
 from iat.intelligence.capital_intelligence import assess_capital, CapitalPolicy
 from iat.intelligence.risk_intelligence import (
@@ -795,7 +796,7 @@ def dec_signed(value):
 
 def validate_paper_journal(value, *, source):
     require(
-        type(source) is PaperAccount and value == source.journal(),
+        type(source) is PaperAccount and reports_equal(value, source.journal()),
         "JOURNAL_SOURCE_BINDING_INVALID",
     )
     return True
