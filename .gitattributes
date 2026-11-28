@@ -11,3 +11,7 @@ docs/source_reviews/*.json text eol=lf
 # explicit check_provenance_metadata.py --refresh-checkout repair (not data normalization).
 config/examples/historical-evidence/operator-reported-v1.json text eol=lf
 config/examples/historical-evidence/operator-manifest-v1.json text eol=lf
+# E5 recovery inventory binds these committed metadata bytes, never private archives.
+docs/source_reviews/provenance-gap-analysis-v1/available-sources.json text eol=lf
+config/reference/exness-2026-11-11-13.relayed.json text eol=lf
+config/protocols/e5-usd50-m1-m5-v1.json text eol=lf

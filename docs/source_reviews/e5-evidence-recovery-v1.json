@@ -1,0 +1,258 @@
+{
+  "base_commit": "6cb9e040c66e4366f3c605e8b1d738bc9524d314",
+  "candidates": [
+    {
+      "actual_existing_qualification_gate": {
+        "historical_replay": "NOT_RUN",
+        "reason_codes": [
+          "CANDLE_FINALITY_UNCERTAIN",
+          "EVIDENCE_CALENDAR_PENDING",
+          "EVIDENCE_FINALITY_PENDING",
+          "HUMAN_QUALIFICATION_REVIEW_REQUIRED",
+          "INDEPENDENT_REVIEW_PENDING",
+          "SESSION_CALENDAR_REQUIRED"
+        ],
+        "status": "DATA_NOT_QUALIFIED"
+      },
+      "blockers": [
+        "UPSTREAM_FEED_AND_USAGE",
+        "DATED_2021_CALENDAR",
+        "CAPTURE_FINALITY_CORRECTIONS",
+        "NATIVE_M1_M5",
+        "NATIVE_RECEIPT_SEQUENCE",
+        "OUTCOME_WINDOW",
+        "DATED_FINANCIAL_DOCUMENTS",
+        "INDEPENDENT_REVIEWS"
+      ],
+      "coverage": {
+        "evaluation_end": "2021-05-25T12:00:00Z",
+        "evaluation_start": "2021-05-25T11:00:00Z",
+        "outcome_end": null,
+        "warmup_start": "2021-05-25T08:00:00Z"
+      },
+      "declared_basis": "BID",
+      "declared_feed": "CarlosSilva1/xauusd-ticks; upstream unidentified",
+      "files": [
+        {
+          "bytes": 10304019,
+          "columns": [
+            "timestamp",
+            "bid_price",
+            "ask_price",
+            "bid_volume",
+            "ask_volume"
+          ],
+          "role": "raw_parquet",
+          "rows": 1156740,
+          "sha256": "6dd18367ceed4385424a69c7d4380455cb526a866af8d352a59d25520e123bec"
+        },
+        {
+          "bytes": 14892,
+          "role": "normalized_M1",
+          "rows": 240,
+          "sha256": "3fcb4eed61ce5a6cb773de8c686ca11a108134031068289ee18ca7e2e7070023"
+        },
+        {
+          "bytes": 3006,
+          "role": "derived_M5",
+          "rows": 48,
+          "sha256": "362c82c850bb22946b2820265b32d561859b7431c1acf2e8c675424754904dc6"
+        }
+      ],
+      "id": "public-2021-pilot",
+      "m5_origin": "AGGREGATED_FROM_M1",
+      "mechanical_inspection": "EXISTING_CLOUD_BYTES_REHASHED_2026_11_28",
+      "receipt_history": "NO_RECEIPT_COLUMN_IN_ARCHIVE_NO_ORIGINAL_COLLECTION_RECORD_OR_AVAILABILITY_CONTRACT_FOUND_IN_REVIEWED_MATERIAL",
+      "state": "AVAILABLE_UNQUALIFIED",
+      "unsupported": [
+        "DERIVED_M5_NOT_NATIVE",
+        "RAW_ARCHIVE_EXCEEDS_4MIB_ADAPTER_LIMIT"
+      ]
+    },
+    {
+      "actual_file_hashes": null,
+      "availability": "WINDOWS_LOCAL_REPORTED_NOT_ACCESSED",
+      "blockers": [
+        "EXACT_ORIGINAL_BYTES_AND_LOCAL_REPRODUCTION",
+        "SOURCE_BASIS_USAGE",
+        "NATIVE_QUOTES_AND_ACTUAL_AVAILABILITY",
+        "DATED_SESSION_EXCEPTIONS",
+        "PARTIAL_M5_FINALITY_UNSUPPORTED",
+        "WARMUP_EVALUATION_OUTCOME_PREREGISTRATION",
+        "DATED_FINANCIAL_DOCUMENTS",
+        "INDEPENDENT_REVIEWS"
+      ],
+      "coverage": "2026-11-11T00:00:00Z/2026-11-14T00:00:00Z OPERATOR_DECLARED_NOT_MEASURED",
+      "id": "exness-2026-11-11-13",
+      "measured_rows": null,
+      "receipt_history": "NOT_SUPPLIED",
+      "reported_full_m5_matches": 813,
+      "reported_hashes": {
+        "M1": "c98944d8de6251efecc4e75071517030e3ae1fea9cabb71f22f498a29097e54f",
+        "M5": "d6b54a12956b7acade014d907957923640a995de905fb40f72805111cc67dc9f"
+      },
+      "reported_partial_m5": 3,
+      "reported_rows": {
+        "M1": 4074,
+        "M5": 816
+      },
+      "state": "UNAVAILABLE"
+    },
+    {
+      "actual_file_hash": null,
+      "blockers": [
+        "ACTUAL_AUTHORIZED_FILE",
+        "NATIVE_M1_PAIR",
+        "NATIVE_M5_PROVENANCE",
+        "WINDOW_SELECTION_WITHOUT_TICK_THINNING",
+        "ALL_E5_EVIDENCE"
+      ],
+      "id": "large-normalized-M5",
+      "measured_rows": null,
+      "name": "XAUUSD_M5_IAT_normalized.csv",
+      "native_M1_pair": "NOT_SUPPLIED",
+      "reported_date_range": "2026-04-01/2026-10-26",
+      "reported_rows": 40610,
+      "state": "UNAVAILABLE"
+    },
+    {
+      "availability": "REAL_WINDOWS_JOURNALS_NOT_SUPPLIED",
+      "blockers": [
+        "ORIGINAL_CODE_VERSION_AND_IMMUTABLE_ARCHIVE",
+        "SAME_DATE_FEED_AND_CAPTURE_COVERAGE",
+        "OBSERVATION_VS_OCCURRENCE_SEMANTICS",
+        "FINALITY_AND_CORRECTIONS",
+        "INDEPENDENT_REVIEW"
+      ],
+      "existing_cloud_examples": "EXPLICIT_SYNTHETIC_NOT_HISTORICAL",
+      "id": "b2-b3-archives",
+      "receipt_history": "PACKET_RECEIVED_AT_MAY_BE_RELEVANT_ONLY_AFTER_AUTHENTICATED_ARCHIVE_REVIEW",
+      "state": "UNAVAILABLE",
+      "unsupported": [
+        "RANGE_TICKS_DO_NOT_HAVE_INDIVIDUAL_RECEIPT_TIMES",
+        "NO_REVIEWED_B2_TO_E5_ADAPTER"
+      ]
+    },
+    {
+      "availability": "DOCUMENTATION_LEADS_NOT_AUTHORIZED_EXPORTS",
+      "blockers": [
+        "ENTITY_APPLICABLE_TERMS",
+        "AUTHORIZED_NATIVE_XAUUSD_M1_M5_AND_QUOTES",
+        "DATED_CALENDAR_FINALITY",
+        "RECEIPT_AND_CORRECTION_CONTRACT",
+        "PROVIDER_SPECIFIC_ADAPTER_REVIEW"
+      ],
+      "id": "oanda-fxcm-dukascopy-leads",
+      "reference": "docs/source_reviews/source-qualification-2026-11-14.json",
+      "state": "UNAVAILABLE"
+    },
+    {
+      "available": [
+        "REDACTED_OPERATOR_RELAY",
+        "BLOCKED_CANDIDATE_CALENDARS",
+        "PUBLIC_DOCUMENT_REFERENCES",
+        "PENDING_AND_SYNTHETIC_EXAMPLE_REVIEWS"
+      ],
+      "id": "broker-documents-and-reviews",
+      "not_available": [
+        "AUTHENTICATED_REPLY_AND_ATTACHMENTS",
+        "DATED_FEED_SPEC_COST_DOCUMENTS",
+        "GENUINE_INDEPENDENT_SOURCE_AND_ADAPTER_APPROVALS"
+      ],
+      "state": "AVAILABLE_INCOMPLETE"
+    }
+  ],
+  "categories": [
+    "AVAILABLE_INDEPENDENTLY_VERIFIED",
+    "AVAILABLE_INCOMPLETE",
+    "AVAILABLE_UNQUALIFIED",
+    "UNAVAILABLE",
+    "UNSUPPORTED_CURRENT_ADAPTER"
+  ],
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "historical_comparisons": "NOT_RUN",
+  "historical_performance": "UNMEASURED",
+  "historical_validation": "PENDING",
+  "independently_qualified_e5_candidates": 0,
+  "inventory_version": 1,
+  "kind": "E5_EVIDENCE_RECOVERY_RESEARCH",
+  "metadata_references": [
+    {
+      "file_sha256": "3925ab5460dd5b31298cbaa469ef97a6441e7418153612f29ae2c5ceb9cb2b62",
+      "path": "docs/source_reviews/provenance-gap-analysis-v1/available-sources.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "be4cd1291cc7b58cc4c622b7b558c2e3268411f2d653f5e5903f74ec292af79b",
+      "path": "docs/source_reviews/source-qualification-2026-11-14.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "dda3785de354bf93c66e7f1d47d2ff9bf31a4f4ddcaae4c7b68ec84f6b788992",
+      "path": "docs/source_reviews/xauusd-pilot.manifest.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "9cb4cc219d0782c370298c1d9ea736477e83b7a79ec8cc3014dea435b9e167ee",
+      "path": "docs/source_reviews/xauusd-pilot-review.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "1457034e96a286583a62d1db19ac1b38e4e6358fd8403282537f1ae22f18862a",
+      "path": "config/examples/historical-evidence/operator-reported-v1.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "a1118640097f502863d400f782d6bba62a356c3690edde438694fc9cf80c5ce1",
+      "path": "config/examples/historical-evidence/operator-manifest-v1.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "a13472561028204d7e60bcfb4d53923ea66b9ad4b55b6694396e83c8d5b5d404",
+      "path": "config/reference/exness-2026-11-11-13.relayed.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "8b4f107ce478e7b1081769b049c51947cef5c51786777220fed6f5aa2d564dc4",
+      "path": "config/profiles/exness-xauusd-v2.candidate.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "ee93d1695d165b15a049fe4103170add960b2c50b9095ebdb5b48634808f923c",
+      "path": "config/profiles/exness-xauusd-v2.review.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "29c712f044883b90e3b5367aad5ed20cc3815f21a6cfd8839e681ec7969e23ab",
+      "path": "docs/source_reviews/exness-session-investigation-2026-11-23.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "46ab178a380d9de3ddf38bba7485059e5aee25c559672e9e11e293d7baeffffd",
+      "path": "config/profiles/exness-xauusd-observed-winter-2026-11.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "5ecef0cda77dca58e8c7bef47975329cd7070d71dc516a617755d38087fcf3de",
+      "path": "config/profiles/exness-xauusd-observed-winter-2026-11.review.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "583619875f7fe92897850364a53fdbfe97523f15887c7a68d6c1aa1d12687502",
+      "path": "docs/source_reviews/stage-b-source-readiness-v1.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    },
+    {
+      "file_sha256": "022e5527aeb7ca87a53c6acaa83af46546734f6db2b77660c6cb13b8afd214c9",
+      "path": "config/protocols/e5-usd50-m1-m5-v1.json",
+      "verified_property": "EXACT_COMMITTED_BYTES_NOT_PROVIDER_AUTHENTICITY"
+    }
+  ],
+  "mode": "READ_ONLY_SHADOW",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "review_date": "2026-11-28",
+  "scope": "REPOSITORY_METADATA_AND_EXISTING_CLOUD_PILOT_BYTES_ONLY_NO_WINDOWS_ACCESS",
+  "sha256": "3dbfb3f555514be9355519c58247ca73d88b9c011c3f32b063e27d8ec04cfd04",
+  "signal": "WAIT"
+}

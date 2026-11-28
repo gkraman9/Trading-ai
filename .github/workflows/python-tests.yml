@@ -55,6 +55,7 @@ on:
       - feat/iat-v3-protective-liquidation-v1
   pull_request:
     branches:
+      - feat/iat-v3-e5-historical-paper-adapter
       - review/iat-v3-e47-paper-readiness
       - docs/iat-v3-multi-timeframe-architecture
       - main
