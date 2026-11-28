@@ -1,0 +1,54 @@
+{
+  "after_next_m1": {
+    "closed_count": 0,
+    "states": [
+      "UNRESOLVED"
+    ],
+    "unresolved": 1
+  },
+  "analysis_age_limit_ms": 30000,
+  "at_30_seconds": {
+    "open_count": 1,
+    "stale_transition_count": 0,
+    "states": [
+      "MONITORING"
+    ]
+  },
+  "execution_allowed": false,
+  "exness": "BLOCKED",
+  "first_unresolved": [
+    {
+      "at_utc": "2026-11-12T15:36:30.001000+00:00",
+      "reason_codes": [
+        "STRUCTURAL_ANALYSIS_STALE"
+      ]
+    }
+  ],
+  "historical_comparisons": "NOT_RUN",
+  "historical_performance": "UNMEASURED",
+  "historical_validation": "PENDING",
+  "idealized_continuous_time": {
+    "interval": "[0,60000)ms after logical close; zero publication delay",
+    "interval_duration_ms": 60000,
+    "meaning": "CLOCK_GEOMETRY_NOT_MARKET_FREQUENCY_OR_PROBABILITY",
+    "stale_duration_ms": 30000,
+    "stale_interval": "(30000,60000)ms"
+  },
+  "invented_quote_offsets_seconds": [
+    1,
+    30,
+    30.001,
+    60,
+    61
+  ],
+  "invented_quote_receipt_delay_ms": 0,
+  "kind": "E5_ANALYSIS_AGE_SYNTHETIC_STUDY",
+  "m1_closed_update_interval_ms": 60000,
+  "mode": "READ_ONLY_SHADOW",
+  "protocol_sha256": "e31b4c038dccdee4426cbdef879ef0ea23f2a8afd57b8d4309042194da4c01c8",
+  "provenance": "SYNTHETIC_FIXTURE_NOT_HISTORICAL",
+  "qualification": "DATA_NOT_QUALIFIED",
+  "review_version": 1,
+  "sha256": "bad37384277a0b80b0e107d06c2c6046e7dda799ffc320d23565a9d767ffe9a1",
+  "signal": "WAIT"
+}
