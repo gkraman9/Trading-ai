@@ -1,5 +1,6 @@
 """E4.6 synthetic-only protection contracts; no broker or execution adapter."""
 
+from iat.paper_source_scope import current_source
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import timedelta
@@ -116,6 +117,13 @@ def assess_protection_plan(
         and type(liquidation_policy) is LiquidationPolicy,
         "TYPED_PROTECTION_POLICIES_REQUIRED",
     )
+    if current_source() is not None:
+        require(
+            canonical(stop_policy) == current_source().policies["stop"]
+            and canonical(liquidation_policy)
+            == current_source().policies["liquidation"],
+            "E5_FROZEN_PROTECTION_POLICY_MISMATCH",
+        )
     require(type(tape) is SyntheticQuoteTape, "QUOTE_PRODUCER_REQUIRED")
     require(
         at(as_of) == at(quote["quote"]["available_at_utc"]),

@@ -1,5 +1,6 @@
 """Version 2 synthetic protected ledger. No live data, broker or order dependencies."""
 
+from iat.paper_source_scope import require_scope
 from copy import deepcopy
 from datetime import timedelta
 import json
@@ -198,6 +199,7 @@ class ProtectedPaperAccount(PaperAccount):
 
     @fixed_decimal
     def open(self, risk, *, stop_policy, liquidation_policy, exit_policy, **inputs):
+        require_scope(self._historical_source)
         require(self._proposal is None, "REENTRANT_PROTECTION_TRANSACTION")
         try:
             plan = assess_protection_plan(
@@ -297,6 +299,7 @@ class ProtectedPaperAccount(PaperAccount):
 
     @fixed_decimal
     def observe(self, risk, *, risk_inputs, tape, quote, as_of):
+        require_scope(self._historical_source)
         require(
             len(self._state["open_positions"]) == 1, "NO_OPEN_HYPOTHETICAL_POSITION"
         )
@@ -702,6 +705,7 @@ class ProtectedPaperAccount(PaperAccount):
         return self._observation(position)
 
     def review_cutoff(self, as_of, *, end_of_input):
+        require_scope(self._historical_source)
         require(
             type(end_of_input) is bool and at(as_of) >= at(self._state["as_of_utc"]),
             "REVIEW_CUTOFF_INVALID",
@@ -777,7 +781,8 @@ class ProtectedPaperAccount(PaperAccount):
 
 def validate_protected_journal(value, *, source):
     require(
-        type(source) is ProtectedPaperAccount and reports_equal(value, source.journal()),
+        type(source) is ProtectedPaperAccount
+        and reports_equal(value, source.journal()),
         "PROTECTED_JOURNAL_SOURCE_MISMATCH",
     )
     return True

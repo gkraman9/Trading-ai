@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import datetime
 import re
 
+from iat.paper_source_scope import current_source, context_allowed
 from iat.replay_dataset import utc
 from iat.intelligence.context_models import ContextReport
 from iat.intelligence.market_view import SAFETY, plain, validate_market_view_v3
@@ -271,6 +272,7 @@ class EntryResearchSession:
     """
 
     def __init__(self):
+        self._historical_source = current_source()
         self._ledger = SRRejectionLedger()
         self._last = blocked_entry()
         self._produced = set()  # At most one hash per accepted, bounded SR snapshot.
@@ -278,7 +280,10 @@ class EntryResearchSession:
     def record(self, view, context, *, view_inputs=None, as_of=None):
         try:
             need(isinstance(context, ContextReport), "ENTRY_TYPED_CONTEXT_REQUIRED")
-            need(context.provenance == "SYNTHETIC_RESEARCH", "ENTRY_SYNTHETIC_ONLY")
+            need(
+                context_allowed(context, self._historical_source),
+                "ENTRY_SYNTHETIC_ONLY",
+            )
             at = utc(context.analysis_at)
             cutoff = (
                 at
@@ -300,12 +305,48 @@ class EntryResearchSession:
                 )
             validate_market_view_v3(view, context_report=context, **(view_inputs or {}))
             candidate = deepcopy(self._ledger)
-            entry = candidate.record(view, context, view_inputs=view_inputs)
+            if self._historical_source is None:
+                entry = candidate.record(view, context, view_inputs=view_inputs)
+            else:
+                from iat.intelligence.sr_rejection import _evaluate
+
+                entry = candidate._record(
+                    _evaluate(
+                        view,
+                        context,
+                        view_inputs=view_inputs,
+                        dataset=self._historical_source.dataset_id,
+                    )
+                )
             validate_sr_result(
-                entry["result"], view=view, context=context, view_inputs=view_inputs
+                entry["result"],
+                **(
+                    dict(view=view, context=context, view_inputs=view_inputs)
+                    if self._historical_source is None
+                    else {}
+                )
             )
             need(len(candidate.setups) <= POLICY["max_setups"], "ENTRY_RESOURCE_LIMIT")
             report = _project(candidate, view, context)
+            if self._historical_source is not None and report["status"] == "EVALUATED":
+                report.pop("sha256")
+                report["validation_status"] = (
+                    "FILE_BOUND_RESEARCH_NOT_STRATEGY_VALIDATED"
+                )
+                report["price_observation"].update(
+                    status="QUALIFIED_CANDLE_BASIS_ONLY",
+                    price_basis=self._historical_source.price_basis,
+                    reason_codes=["NO_EXECUTABLE_QUOTE_IN_ENTRY_REPORT"],
+                )
+                report["limitations"] = [
+                    x
+                    for x in report["limitations"]
+                    if x != "SYNTHETIC_ONLY_NOT_MARKET_VALIDATION"
+                ]
+                report["limitations"].append(
+                    "QUALIFIED_INPUTS_DO_NOT_ESTABLISH_STRATEGY_PERFORMANCE"
+                )
+                report = seal(report)
             self._ledger = candidate
             self._last = report
             self._produced.add(report["sha256"])

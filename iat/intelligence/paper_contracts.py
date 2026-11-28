@@ -1,5 +1,6 @@
 """Typed synthetic E4 contracts. No broker, credentials, order or live adapter."""
 
+from iat.paper_source_scope import current_source, require_scope
 from copy import deepcopy
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
@@ -58,6 +59,22 @@ def report(model, **fields):
         **fields,
         **SAFETY
     )
+    scope = current_source()
+    if scope is not None:
+        value["provenance"] = scope.provenance
+        value["source_qualification_binding"] = scope.binding
+        value["model_version"] = (
+            model.replace("SYNTHETIC", "HISTORICAL") if scope.historical else model
+        )
+        if scope.historical:
+            if "result_scope" in value:
+                value["result_scope"] = value["result_scope"].replace(
+                    "SYNTHETIC", "HISTORICAL_HYPOTHETICAL"
+                )
+            if "fill_time_basis" in value:
+                value["fill_time_basis"] = (
+                    "DECLARED_HISTORICAL_RECEIPT_SIDE_PRICE_MODEL"
+                )
     return dict(value, sha256=digest(value))
 
 
@@ -89,7 +106,15 @@ class SyntheticQuote:
         require(
             type(self.version) is int and self.version == 1, "QUOTE_VERSION_INVALID"
         )
-        require(self.provenance == "SYNTHETIC_RESEARCH", "LIVE_PROVENANCE_BLOCKED")
+        scope = current_source()
+        require(
+            (
+                self.provenance == "SYNTHETIC_RESEARCH"
+                if scope is None
+                else scope.authenticates_quote(self)
+            ),
+            "LIVE_PROVENANCE_BLOCKED",
+        )
         name(self.symbol)
         name(self.feed)
         require(
@@ -139,7 +164,15 @@ class SyntheticQuoteTape:
     """Append-only bounded invented observations; authentication is in-process only."""
 
     def __init__(self, symbol, feed, dataset_sha256, *, max_quotes=10000):
+        self._historical_source = current_source()
         self.symbol, self.feed = name(symbol), name(feed)
+        if self._historical_source is not None:
+            require(
+                symbol == "XAUUSD"
+                and feed == self._historical_source.specification.feed
+                and dataset_sha256 == self._historical_source.binding,
+                "E5_TAPE_SOURCE_BINDING_INVALID",
+            )
         require(
             type(dataset_sha256) is str
             and re.fullmatch("[a-f0-9]{64}", dataset_sha256),
@@ -152,6 +185,7 @@ class SyntheticQuoteTape:
         self._rows = []
 
     def append(self, quote):
+        require_scope(self._historical_source)
         require(type(quote) is SyntheticQuote, "TYPED_SYNTHETIC_QUOTE_REQUIRED")
         require(
             quote.symbol == self.symbol and quote.feed == self.feed,
@@ -181,6 +215,7 @@ class SyntheticQuoteTape:
         return deepcopy(row)
 
     def authenticate(self, row, *, as_of, policy, decision_at=None, opening=False):
+        require_scope(self._historical_source)
         require(type(policy) is FillPolicy, "TYPED_FILL_POLICY_REQUIRED")
         require(
             type(row) is dict and any(row == r for r in self._rows),
@@ -257,7 +292,11 @@ class BrokerSpecification:
     def validate(self, quote, cutoff):
         require(type(self.version) is int and self.version == 1, "SPEC_VERSION_INVALID")
         require(
-            self.verification == "DECLARED_SYNTHETIC_NOT_BROKER_VERIFIED",
+            (
+                self.verification == "DECLARED_SYNTHETIC_NOT_BROKER_VERIFIED"
+                if current_source() is None
+                else current_source().authenticates_specification(self)
+            ),
             "UNVERIFIED_BROKER_SPEC_BLOCKED",
         )
         require(
@@ -349,7 +388,11 @@ class SyntheticCosts:
         require(
             type(self.version) is int
             and self.version == 1
-            and self.provenance == "DECLARED_SYNTHETIC",
+            and (
+                self.provenance == "DECLARED_SYNTHETIC"
+                if current_source() is None
+                else current_source().authenticates_costs(self)
+            ),
             "COST_POLICY_INVALID",
         )
         values = {

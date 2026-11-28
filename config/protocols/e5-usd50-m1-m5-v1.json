@@ -1,0 +1,80 @@
+{
+  "context_sha256": "d8bda7da1af47cc1f1f349682b71ca75f39bef89b7fb5d5873bc0bba5510d424",
+  "correction": "REJECT_REVISIONS_UNTIL_SEPARATELY_REVIEWED_AS_OF_ADAPTER",
+  "costs": "REQUIRE_DATED_DOCUMENTS_NO_ZERO_COST_DEFAULT",
+  "exit_observation_policy": {
+    "target_observation": "WICK_CONTACT",
+    "version": 1
+  },
+  "fill": "NATIVE_RECEIPT_SIDE_PRICE_PLUS_INDEPENDENTLY_REVIEWED_DECLARED_SLIPPAGE",
+  "intelligence_sha256": "0b1db8f78abc3801b23a2aec62ee6057a1b0b711a8244405bc5f77ff582653ff",
+  "opportunity": "FIRST_QUALIFICATION_IN_EVALUATION_WARMUP_IS_STATE_ONLY",
+  "outcome": "NO_NEW_ENTRIES_AFTER_EVALUATION_END_NO_FORCED_CLOSE",
+  "parent": "2ff62c3b59b4dbb4b341f3934ec192c276eca092",
+  "policies": {
+    "baseline": "UNCHANGED_M1_M5",
+    "capital": {
+      "adverse_gap_price": "0",
+      "aggregate_risk_fraction": "0.1",
+      "daily_loss_fraction": "0.1",
+      "drawdown_fraction": "0.2",
+      "free_margin_reserve": "1",
+      "max_consecutive_losses": 3,
+      "max_cost_fraction_of_budget": "0.5",
+      "max_positions": 1,
+      "min_reference_rr": null,
+      "reference_mapping": "DECLARED_SYNTHETIC_ABSTRACT_REFERENCE_TO_QUOTE_UNITS",
+      "reserve_holding_seconds": 120,
+      "risk_fraction": "0.01",
+      "version": 1
+    },
+    "exit": {
+      "opposing_structure": true,
+      "structural_invalidation": true,
+      "structural_target": true,
+      "version": 1
+    },
+    "fill": {
+      "latency_ms": 0,
+      "max_age_ms": 2000,
+      "max_analysis_age_ms": 30000,
+      "max_gap_ms": 120000,
+      "version": 1
+    },
+    "liquidation": {
+      "action": "SYNTHETIC_EXIT_ON_STOP_OUT_ONLY",
+      "equity_basis": "NET_LIQUIDATION_EQUITY_WITH_DECLARED_COSTS",
+      "latency_ms": 0,
+      "model": "SYNTHETIC_EQUITY_OVER_FROZEN_ENTRY_MARGIN",
+      "trigger_quote_can_fill": true,
+      "version": 1
+    },
+    "starting_capital": "50",
+    "stop": {
+      "establishment_timing": "AT_ENTRY_QUOTE_RECEIPT_BEFORE_OPEN",
+      "latency_ms": 0,
+      "mapping": "DECLARED_SYNTHETIC_STRUCTURE_TO_QUOTE_STOP",
+      "trigger_basis": "LONG_BID_SHORT_ASK",
+      "trigger_quote_can_fill": true,
+      "version": 1
+    },
+    "version": 1
+  },
+  "priority": "ONE_POSITION_NO_REENTRY_SAME_SETUP_NO_CASH_EVENTS",
+  "protocol_version": 1,
+  "resources": {
+    "max_events": 10000,
+    "max_m1_snapshots": 256,
+    "max_quotes": 100000,
+    "max_report_bytes": 10000000
+  },
+  "risk_policy": {
+    "atr_timeframe": null,
+    "version": 1
+  },
+  "rule": "1.0.0",
+  "scheduling": "M1_CLOSE_BEFORE_COINCIDENT_QUOTE_RECEIPT_FIRST_CAUSAL_QUOTE_ONLY",
+  "sha256": "cdb4cc91d8cb78e14f8bf01b7df966d115574fb6b44b6d8728cc1fd83cd7d1d9",
+  "sr_policy_sha256": "c95c33cad13cbebcf64f3c27fc991ca5d2f16880866bb7f0a7114c41707242be",
+  "strategy": "SR_REJECTION_M1_CONFIRMATION"
+}

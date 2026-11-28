@@ -1,3 +1,5 @@
+from iat.paper_source_scope import context_allowed, report_allowed, current_source
+
 """E2 source-bound synthetic observations; no positions, fills or execution."""
 
 from copy import deepcopy
@@ -147,7 +149,7 @@ class ExitResearchSession:
             validate_entry_report(original, source=entry_source)
             need(
                 original["status"] == "EVALUATED"
-                and original["provenance"] == "SYNTHETIC_RESEARCH",
+                and report_allowed(original, entry_source._historical_source),
                 "E2_SYNTHETIC_ORIGINAL_REQUIRED",
             )
             plans = [p for p in original["plans"] if p["setup_id"] == setup_id]
@@ -165,6 +167,11 @@ class ExitResearchSession:
             )
             chosen = ExitPolicy() if policy is None else policy
             need(type(chosen) is ExitPolicy, "E2_TYPED_POLICY_REQUIRED")
+            if current_source() is not None:
+                need(
+                    asdict(chosen) == asdict(ExitPolicy()),
+                    "E5_FROZEN_EXIT_OBSERVATION_POLICY_MISMATCH",
+                )
             entry = entry_source.fork_at(original)
             result = entry.sr_log()["entries"][-1]["result"]
             rows = [
@@ -309,6 +316,8 @@ class ExitResearchSession:
             reason_codes=["ANALYTICAL_ONLY_NO_POSITION_OR_FILL"]
             + (["TARGET_UNAVAILABLE"] if not self._targets else []),
         )
+        if self._entry._historical_source is not None:
+            result["validation_status"] = "FILE_BOUND_RESEARCH_NOT_STRATEGY_VALIDATED"
         return seal(result)
 
     def record(self, view, context, *, view_inputs=None, as_of=None):
@@ -317,7 +326,7 @@ class ExitResearchSession:
         try:
             need(
                 isinstance(context, ContextReport)
-                and context.provenance == "SYNTHETIC_RESEARCH",
+                and context_allowed(context, self._entry._historical_source),
                 "E2_SYNTHETIC_CURRENT_REQUIRED",
             )
             at = utc(context.analysis_at)
