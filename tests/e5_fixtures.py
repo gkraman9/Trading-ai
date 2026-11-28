@@ -27,6 +27,8 @@ def source(
     receipt_delay=0,
     slippage=None,
     historical=False,
+    m1_delay=0,
+    quote_seconds=None,
 ):
     one, five = fixture(mirror)
     one = one[:40]
@@ -93,6 +95,8 @@ def source(
                 if late_bar and tf == "M5" and close == START + timedelta(minutes=35)
                 else timedelta(0)
             )
+            if tf == "M1":
+                available += timedelta(seconds=m1_delay)
             availability[(tf, r["timestamp"])] = dict(
                 timeframe=tf,
                 opened_at_utc=r["timestamp"],
@@ -108,13 +112,14 @@ def source(
     ]
     rows = []
     for i, (bid, ask) in enumerate(prices):
-        at = (START + timedelta(minutes=36, seconds=i + 1)).isoformat()
+        second = i + 1 if quote_seconds is None else quote_seconds[i]
+        at = (START + timedelta(minutes=36, seconds=second)).isoformat()
         rows.append(
             dict(
                 sequence=str(i),
                 occurred_at_utc=at,
                 available_at_utc=(
-                    START + timedelta(minutes=36, seconds=i + 1 + receipt_delay)
+                    START + timedelta(minutes=36, seconds=second + receipt_delay)
                 ).isoformat(),
                 bid=bid,
                 ask=ask,

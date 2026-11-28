@@ -83,6 +83,7 @@ class Source:
         self._bundle, self._contents = deepcopy(bundle), dict(contents)
         self._quotes, self._availability = deepcopy(quotes), deepcopy(availability)
         self._contexts = {}
+        self._knowledge = {}
         self._historical = historical
         self._provenance = "HISTORICAL_RESEARCH" if historical else "SYNTHETIC_RESEARCH"
         self._dataset_id, self._binding = digest(dataset.metadata), binding
@@ -175,15 +176,31 @@ class Source:
             context.analysis_at
         ) == digest(context.to_dict())
 
-    def context(self, at):
+    def action_time(self, anchor):
+        key = utc(
+            anchor.isoformat() if hasattr(anchor, "isoformat") else anchor
+        ).isoformat()
+        require(key in self._knowledge, "E5_ANALYTICAL_AVAILABILITY_UNBOUND")
+        return utc(self._knowledge[key])
+
+    def context(self, at, *, known_at=None):
         now = utc(at)
+        observed = now if known_at is None else utc(known_at)
+        current = self._availability.get(
+            ("M1", (now - timedelta(minutes=1)).isoformat())
+        )
+        if known_at is not None:
+            require(
+                current is not None and utc(current["available_at_utc"]) == observed,
+                "E5_KNOWLEDGE_TIME_NOT_PROVIDER_BOUND",
+            )
         rows = {}
         for tf in ("M1", "M5"):
             rows[tf] = [
                 deepcopy(r)
                 for r in self._dataset.rows[tf]
                 if utc(self._availability[(tf, r["timestamp"])]["available_at_utc"])
-                <= now
+                <= observed
             ]
         c = context_at(
             "XAUUSD",
@@ -197,11 +214,19 @@ class Source:
             provenance=self.provenance,
         )
         self._contexts[c.analysis_at] = digest(c.to_dict())
+        if current is not None and utc(current["available_at_utc"]) <= observed:
+            self._knowledge[c.analysis_at] = current["available_at_utc"]
         inputs = dict(session_snapshot=self._dataset.calendar.public_state(now))
         return c, build_market_view_v3(c, **inputs), inputs
 
     def quote_rows(self):
         return deepcopy(self._quotes)
+
+    def bar_events(self):
+        return [
+            deepcopy(self._availability[("M1", r["timestamp"])])
+            for r in self._dataset.rows["M1"]
+        ]
 
     def close_times(self):
         return [
@@ -219,6 +244,7 @@ def bar_availability(raw, dataset):
     out = {}
     expected = {(tf, r["timestamp"]) for tf in ("M1", "M5") for r in dataset.rows[tf]}
     previous = {}
+    previous_publication = {}
     for row in reader:
         exact(row, BAR_COLUMNS)
         tf = row["timeframe"]
@@ -232,6 +258,11 @@ def bar_availability(raw, dataset):
         )
         require(tf not in previous or opening > previous[tf], "E5_BAR_ORDER_INVALID")
         previous[tf] = opening
+        require(
+            tf not in previous_publication or available > previous_publication[tf],
+            "E5_BAR_PUBLICATION_ORDER_UNSUPPORTED",
+        )
+        previous_publication[tf] = available
         require(
             closing == opening + timedelta(minutes=1 if tf == "M1" else 5)
             and available >= closing,

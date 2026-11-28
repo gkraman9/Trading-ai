@@ -426,6 +426,85 @@ class E5BarChronology(unittest.TestCase):
         self.assertTrue(quotation)
         self.assertFalse(opening)
 
+    def test_late_m1_publication_is_processed_when_available_without_backdating_fill(
+        self,
+    ):
+        r = replay_source(source(m1_delay=0.2))
+        self.assertGreater(r["setup_summary"]["accepted"], 0)
+        for p in r["journal"]["account"]["closed_positions"]:
+            self.assertGreaterEqual(
+                utc(p["entry_fill"]["decision_at_utc"]),
+                START + timedelta(minutes=36, milliseconds=200),
+            )
+        self.assertTrue(
+            any(s["observed_at_utc"] != s["analysis_close_utc"] for s in r["snapshots"])
+        )
+
+    def test_native_quote_before_candle_publication_cannot_fill_its_decision(self):
+        # 35:00.100 is before initial qualification publication at35:00.200.
+        s = source(
+            m1_delay=0.2,
+            quote_seconds=[-59.9, 1, 2],
+            prices=[("2099.9", "2100.1"), ("2099.9", "2100.1"), ("2097.7", "2097.9")],
+        )
+        r = replay_source(s)
+        self.assertGreater(r["setup_summary"]["accepted"], 0)
+        for p in r["journal"]["account"]["closed_positions"]:
+            fill = p["entry_fill"]
+            self.assertGreaterEqual(
+                utc(fill["decision_at_utc"]),
+                START + timedelta(minutes=36, milliseconds=200),
+            )
+            self.assertGreater(
+                utc(fill["available_at_utc"]), utc(fill["decision_at_utc"])
+            )
+            self.assertGreaterEqual(
+                utc(fill["occurred_at_utc"]), utc(fill["decision_at_utc"])
+            )
+
+    def test_native_stop_clock_is_not_shifted_to_a_future_bar_publication(self):
+        from iat.intelligence.protection_contracts import exit_intent
+
+        s = source(m1_delay=0.2)
+        anchor = START + timedelta(minutes=36)
+        with source_scope(s):
+            s.context(
+                anchor.isoformat(),
+                known_at=(anchor + timedelta(milliseconds=200)).isoformat(),
+            )
+            kw = dict(
+                direction="BULLISH",
+                available_at=anchor,
+                occurred_at=anchor.isoformat(),
+                occurred_interval=None,
+                trigger_quote=None,
+                quote_source={},
+                entry_sequence=0,
+                latency_ms=0,
+                can_fill_trigger=False,
+                evidence={},
+            )
+            native = exit_intent(roles=["PROTECTIVE_STOP"], **kw)
+            structural = exit_intent(roles=["E2_STRUCTURAL_TARGET_OBSERVED"], **kw)
+            self.assertEqual(utc(native["decision_available_at_utc"]), anchor)
+            self.assertEqual(
+                utc(structural["decision_available_at_utc"]),
+                anchor + timedelta(milliseconds=200),
+            )
+
+    def test_out_of_order_closed_bar_publication_is_not_repaired(self):
+        s = source()
+        raw = bar_bytes(
+            s,
+            lambda i, r: (
+                r.update(available_at_utc=(START + timedelta(days=1)).isoformat())
+                if i == 0
+                else None
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "E5_BAR_PUBLICATION_ORDER_UNSUPPORTED"):
+            bar_availability(raw, s._dataset)
+
     def test_late_m5_publication_cannot_enter_earlier_context(self):
         s = source(late_bar=True)
         before, _, _ = s.context((START + timedelta(minutes=35)).isoformat())

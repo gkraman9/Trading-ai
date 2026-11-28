@@ -181,7 +181,11 @@ def assess_protection_plan(
             structural_reference=deepcopy(risk["frozen_invalidation"]),
             structural_source_price_basis=deepcopy(risk["reference_price_basis"]),
             mapping=stop_policy.mapping,
-            reference_available_at_utc=risk["evaluation_at_utc"],
+            reference_available_at_utc=(
+                risk["evaluation_at_utc"]
+                if current_source() is None
+                else current_source().action_time(risk["evaluation_at_utc"]).isoformat()
+            ),
             establishment_at_utc=at(as_of).isoformat(),
             establishment_order="ESTABLISH_BEFORE_OPEN_IN_SAME_RECEIPT_TRANSACTION",
             not_a_broker_stop=True,
@@ -263,6 +267,8 @@ def exit_intent(
     can_fill_trigger,
     evidence
 ):
+    if current_source() is not None and any(role.startswith("E2_") for role in roles):
+        available_at = current_source().action_time(available_at)
     return report(
         "IAT_PROTECTION_EXIT_INTENT_V1",
         roles=sorted(roles),

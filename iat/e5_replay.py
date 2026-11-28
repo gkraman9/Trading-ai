@@ -135,7 +135,9 @@ def replay_source(source, *, cutoff=None):
         episodes, opportunities, snapshots = {}, [], []
         active = None
         times = [
-            (utc(t), 0, "BAR", t) for t in source.close_times() if utc(t) <= cutoff
+            (utc(row["available_at_utc"]), 0, "BAR", row)
+            for row in source.bar_events()
+            if utc(row["available_at_utc"]) <= cutoff
         ]
         times += [
             (utc(q["available_at_utc"]), 1, "QUOTE", q)
@@ -161,16 +163,19 @@ def replay_source(source, *, cutoff=None):
 
         for at, _, kind, value in times:
             if kind == "BAR":
-                c, v, vi = source.context(at.isoformat())
+                anchor = utc(value["closed_at_utc"])
+                c, v, vi = source.context(anchor.isoformat(), known_at=at.isoformat())
                 entry = entries.record(v, c, view_inputs=vi)
                 if "ENTRY_RESOURCE_LIMIT" in entry["reason_codes"]:
                     raise ValueError("E5_ENTRY_SESSION_RESOURCE_LIMIT")
                 snapshots.append(
                     dict(
                         timestamp_utc=at.isoformat(),
+                        analysis_close_utc=anchor.isoformat(),
+                        observed_at_utc=at.isoformat(),
                         phase=(
                             "WARMUP"
-                            if at <= eval_a
+                            if anchor <= eval_a
                             else "EVALUATION" if at <= eval_b else "OUTCOME"
                         ),
                         context_sha256=digest(c.to_dict()),
@@ -189,13 +194,17 @@ def replay_source(source, *, cutoff=None):
                         current_e2=current,
                         entry_source=episode["entry_source"],
                         exit_source=episode["exit_source"],
-                        as_of=at,
+                        as_of=anchor,
                         context=c,
                         view=v,
                         view_inputs=vi,
                     )
                     episode.update(risk_inputs=inputs, risk=assess_risk(**inputs))
-                if eval_a < at <= eval_b and entry["status"] == "EVALUATED":
+                if (
+                    eval_a < anchor <= eval_b
+                    and at <= eval_b
+                    and entry["status"] == "EVALUATED"
+                ):
                     for plan in sorted(entry["plans"], key=lambda x: x["setup_id"]):
                         sid = plan["setup_id"]
                         if (
@@ -210,7 +219,7 @@ def replay_source(source, *, cutoff=None):
                                     "earliest_research_qualification_at_utc"
                                 ]
                             )
-                            != at
+                            != anchor
                         ):
                             continue
                         es = entries.fork_at(entry)
@@ -222,7 +231,7 @@ def replay_source(source, *, cutoff=None):
                             current_e2=original_exit,
                             entry_source=es,
                             exit_source=xs,
-                            as_of=at,
+                            as_of=anchor,
                             context=c,
                             view=v,
                             view_inputs=vi,
@@ -231,6 +240,7 @@ def replay_source(source, *, cutoff=None):
                             setup_id=sid,
                             direction=plan["research_direction"],
                             qualified_at_utc=at.isoformat(),
+                            qualification_close_utc=anchor.isoformat(),
                             outcome="PENDING_NATIVE_QUOTE",
                             reason_codes=[],
                             entry=None,
@@ -497,6 +507,7 @@ def run_historical(plan_path=None, adapter_review_path=None, *, prefix_cutoff=No
             performance_status=(
                 "PARTIALLY_MEASURED_UNRESOLVED"
                 if first["setup_summary"]["unresolved"]
+                or first["setup_summary"]["blocked"]
                 or first["blocked_evaluation_snapshots"]
                 else "MEASURED_UNDER_REVIEWED_MODEL"
             ),

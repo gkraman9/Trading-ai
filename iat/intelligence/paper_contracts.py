@@ -420,6 +420,8 @@ def quote_fill(
     )
     require(type(costs) is SyntheticCosts, "COST_ASSUMPTIONS_REQUIRED")
     c = costs.validate()
+    if current_source() is not None:
+        decision_at = current_source().action_time(decision_at)
     q = tape.authenticate(
         quote_report,
         as_of=as_of,

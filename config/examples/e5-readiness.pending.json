@@ -106,8 +106,8 @@
       "version": 1
     },
     "rule": "1.0.0",
-    "scheduling": "M1_CLOSE_BEFORE_COINCIDENT_QUOTE_RECEIPT_FIRST_CAUSAL_QUOTE_ONLY",
-    "sha256": "cdb4cc91d8cb78e14f8bf01b7df966d115574fb6b44b6d8728cc1fd83cd7d1d9",
+    "scheduling": "M1_PROVIDER_AVAILABILITY_BEFORE_COINCIDENT_QUOTE_RECEIPT_LOGICAL_CLOSE_IDENTITY_FIRST_CAUSAL_QUOTE_ONLY",
+    "sha256": "e31b4c038dccdee4426cbdef879ef0ea23f2a8afd57b8d4309042194da4c01c8",
     "sr_policy_sha256": "c95c33cad13cbebcf64f3c27fc991ca5d2f16880866bb7f0a7114c41707242be",
     "strategy": "SR_REJECTION_M1_CONFIRMATION"
   },
@@ -117,7 +117,7 @@
   ],
   "replay": null,
   "report_version": 1,
-  "sha256": "27e5a1e23265dd9786a23f1803088b82031eaa983fe2d0a0e15a9a3100b06031",
+  "sha256": "865d7c43e9939e6702cea6e6013adf15426e58eb8b0cde2eb57fa57cf48bb266",
   "signal": "WAIT",
   "source": null,
   "status": "BLOCKED"

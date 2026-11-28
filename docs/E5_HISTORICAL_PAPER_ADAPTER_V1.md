@@ -180,17 +180,29 @@ an old producer or a matching label.
 
 ## Chronological replay and reporting
 
-`e5_replay.replay_source` merges M1 nominal closes with actual native quote receipt
-events. A close is processed before a coincident quote receipt. A new entry requires
-the original strictly-after-decision/latency rule; the coincident quote is not
-silently treated as a future executable observation. Context contains only candles
-whose verified close and availability are at/before its cutoff. Late M5 publication
-cannot leak the finished bar into an earlier M1 context. Existing freshness rules
-still determine whether older available data are usable.
+`e5_replay.replay_source` merges actual M1 publication events with native quote
+receipts. Publication is processed before a coincident quote receipt. Original E1/
+E2/E3 analysis timestamps and event identities remain anchored to the logical closed
+M1 candle; snapshots separately record analysis_close_utc and observed_at_utc. Only
+candles closed by that logical anchor and actually available by the recorded
+publication time enter context. An explicit source-bound action clock prevents
+entry/structural fills before the strategy knew the observation. Freshness ages
+still use original closes/quote occurrences; no tolerance is extended. Native stop
+and liquidation clocks remain the actual triggering quote receipts, without being
+shifted to another candle's later publication.
+
+A new E5 regression reproduced the nominal-close scheduling defect: a legitimate
+200ms M1 publication delay suppressed every candidate (1 failed test,18.691s).
+The correction preserves the original closed-bar predicates/IDs and defers only
+observation/action availability to the actual source timestamp (the same test
+passes,23.178s). Additional tests cover pre-publication quotes and native-stop versus
+structural clocks. Out-of-order or tied publication of successive bars in one frame
+is unsupported and blocked, never repaired with invented timestamps. Late M5 bars
+remain absent from earlier context. Legacy unscoped behavior/goldens are unchanged.
 
 Every warm-up close updates the original entry lifecycle; warm-up is state-only.
-First qualifications strictly after evaluation start and at/before evaluation end
-are counted once. Qualified warm-up carry-ins cannot become new evaluation entries.
+First qualifications with logical closes strictly after evaluation start and
+available at/before evaluation end are counted once. Qualified warm-up carry-ins cannot become new evaluation entries.
 When setups compete for the single position, deterministic setup-ID order and the
 existing capital rules determine admission; other opportunities record rejection.
 A setup's original qualification, current analytical state and native fill receipt
@@ -265,7 +277,9 @@ only under reviewed dated coverage. This adapter rejects partial/unknown bars.
 Source gap diagnostics distinguish verified no-quote closures from unexpected
 missing open-session capture. They do not relax the frozen paper gap/analysis-age
 policies: an open position crossing an unsupported overnight horizon can still
-remain UNRESOLVED, even when the source closure is legitimate.
+remain UNRESOLVED, even when the source closure is legitimate. The unchanged
+30-second analysis-age limit can also make exposure unresolved between60-second M1
+updates; E5 reports this model limitation rather than silently raising that limit.
 
 ### Current bounded scope
 
