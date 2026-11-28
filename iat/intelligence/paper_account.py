@@ -1,5 +1,6 @@
 """Deterministic one-position synthetic ledger. Not a broker or live-paper service."""
 
+from iat.paper_source_scope import current_source, require_scope
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import timedelta
@@ -85,7 +86,11 @@ class PaperAccount:
             and 1024 <= max_report_bytes <= 10000000,
             "ACCOUNT_RESOURCE_LIMIT",
         )
+        self._historical_source = current_source()
         start = dec(starting_balance, positive=True)
+        require(
+            self._historical_source is None or start == 50, "E5_USD50_BASELINE_REQUIRED"
+        )
         self.account_id = name(account_id)
         self._max_events, self._max_report_bytes = max_events, max_report_bytes
         self._events = []
@@ -162,6 +167,7 @@ class PaperAccount:
         return self._max_report_bytes
 
     def snapshot(self):
+        require_scope(self._historical_source)
         return self._snapshot(self._state, self._events)
 
     def _journal(self, state, events):
@@ -174,6 +180,7 @@ class PaperAccount:
         )
 
     def journal(self):
+        require_scope(self._historical_source)
         return self._journal(self._state, self._events)
 
     def _prepare_position(self, position, assessment):
@@ -242,6 +249,7 @@ class PaperAccount:
 
     @fixed_decimal
     def cash_event(self, kind, amount, *, as_of, reference):
+        require(self._historical_source is None, "E5_NO_ACCOUNT_REPLENISHMENT")
         require(kind in ("DEPOSIT", "WITHDRAWAL"), "CASH_EVENT_UNSUPPORTED")
         name(reference)
         require(
@@ -282,7 +290,13 @@ class PaperAccount:
         exit_policy,
         as_of
     ):
+        require_scope(self._historical_source)
         require(type(exit_policy) is PaperExitPolicy, "TYPED_EXIT_POLICY_REQUIRED")
+        if self._historical_source is not None:
+            require(
+                canonical(exit_policy) == self._historical_source.policies["exit"],
+                "E5_FROZEN_EXIT_POLICY_MISMATCH",
+            )
         assessment = assess_capital(
             risk,
             risk_inputs=risk_inputs,
@@ -466,6 +480,7 @@ class PaperAccount:
 
     @fixed_decimal
     def observe(self, risk, *, risk_inputs, tape, quote, as_of):
+        require_scope(self._historical_source)
         require(
             len(self._state["open_positions"]) == 1, "NO_OPEN_HYPOTHETICAL_POSITION"
         )
@@ -702,6 +717,7 @@ class PaperAccount:
 
     @fixed_decimal
     def metrics(self):
+        require_scope(self._historical_source)
         return self._metrics(self._state, self._events)
 
     @fixed_decimal
@@ -773,6 +789,7 @@ class PaperAccount:
         return out
 
     def block_observation(self, code, *, as_of):
+        require_scope(self._historical_source)
         name(code)
         state = self._advance(as_of)
         state["data_quality_exclusions"] += 1

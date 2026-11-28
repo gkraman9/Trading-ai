@@ -55,6 +55,7 @@ on:
       - feat/iat-v3-protective-liquidation-v1
   pull_request:
     branches:
+      - review/iat-v3-e47-paper-readiness
       - docs/iat-v3-multi-timeframe-architecture
       - main
       - feat/iat2-foundation
@@ -119,7 +120,7 @@ jobs:
       matrix:
         python-version: ['3.11.9', '3.12']
         os: [ubuntu-24.04, windows-latest]
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -195,6 +196,8 @@ jobs:
           exit 0
       - name: E4.7 independent paper review and blocked historical readiness
         run: python -m unittest discover -s tests -p 'test_e47*.py' -v
+      - name: E5 file-bound historical adapter and causal replay (synthetic tests only)
+        run: python -m unittest discover -s tests -p 'test_e5*.py' -v
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
       - name: Windows historical evidence runner (synthetic files, no terminal)

@@ -1,5 +1,6 @@
 """E4 capital arithmetic and authenticated synthetic affordability; never sizing orders."""
 
+from iat.paper_source_scope import current_source
 from dataclasses import dataclass
 from datetime import timedelta
 from decimal import Decimal, ROUND_FLOOR, localcontext
@@ -200,6 +201,12 @@ def assess_capital(
             and type(fill_policy) is FillPolicy,
             "TYPED_FINANCIAL_POLICIES_REQUIRED",
         )
+        if current_source() is not None:
+            require(
+                canonical(policy) == current_source().policies["capital"]
+                and canonical(fill_policy) == current_source().policies["fill"],
+                "E5_FROZEN_CAPITAL_OR_FILL_POLICY_MISMATCH",
+            )
         validate_risk_report(risk, **risk_inputs)
         require(risk["source_eligibility"] == "VALID", "RISK_SOURCE_BLOCKED")
         require(
@@ -233,11 +240,16 @@ def assess_capital(
         )
         require(state["account_currency"] == "USD", "ACCOUNT_CURRENCY_UNSUPPORTED")
         require(not state["open_positions"], "MAX_CONCURRENT_POSITIONS")
+        action_at = (
+            decision
+            if current_source() is None
+            else current_source().action_time(decision)
+        )
         q = tape.authenticate(
-            quote, as_of=at_now, policy=fill_policy, decision_at=decision, opening=True
+            quote, as_of=at_now, policy=fill_policy, decision_at=action_at, opening=True
         )
         require(
-            at(q["available_at_utc"]) - decision
+            at(q["available_at_utc"]) - action_at
             <= timedelta(milliseconds=fill_policy.max_gap_ms),
             "ENTRY_QUOTE_COVERAGE_GAP",
         )

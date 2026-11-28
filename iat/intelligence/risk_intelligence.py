@@ -1,3 +1,5 @@
+from iat.paper_source_scope import current_source, context_allowed, report_allowed
+
 """Stateless E3 reference geometry; no fill, sizing, costs or trade approval."""
 
 from copy import deepcopy
@@ -259,7 +261,8 @@ def _authenticate(
     validate_exit_report(current, source=exit_source)
     need(
         original["status"] == "EVALUATED"
-        and original["provenance"] == "SYNTHETIC_RESEARCH",
+        and report_allowed(original, entry_source._historical_source)
+        and entry_source._historical_source is exit_source._entry._historical_source,
         "SYNTHETIC_SOURCE_REQUIRED",
     )
     need(
@@ -345,7 +348,7 @@ def _volatility(context, view, inputs, current, original, policy, geometry):
     need(context is not None and view is not None, "VOLATILITY_SOURCE_MISMATCH")
     need(
         isinstance(context, ContextReport)
-        and context.provenance == "SYNTHETIC_RESEARCH",
+        and context_allowed(context, current_source()),
         "VOLATILITY_SOURCE_MISMATCH",
     )
     need(
@@ -587,6 +590,11 @@ def assess_risk(
     try:
         selected = RiskPolicy() if policy is None else policy
         need(type(selected) is RiskPolicy, "RISK_TYPED_POLICY_REQUIRED")
+        if current_source() is not None:
+            need(
+                asdict(selected) == asdict(RiskPolicy()),
+                "E5_FROZEN_RISK_POLICY_MISMATCH",
+            )
         plan, bar, at = _authenticate(
             original_e1,
             original_e2,
@@ -682,6 +690,8 @@ def assess_risk(
             contradictory_evidence=deepcopy(current_e2["contradictory_evidence"]),
             reason_codes=["REFERENCE_RR_ONLY_NO_TRADE_SUITABILITY"],
         )
+        if current_source() is not None:
+            out["validation_status"] = "FILE_BOUND_RESEARCH_NOT_STRATEGY_VALIDATED"
         out["bindings"].update(
             original_e1=original_e1["sha256"],
             original_e2=original_e2["sha256"],

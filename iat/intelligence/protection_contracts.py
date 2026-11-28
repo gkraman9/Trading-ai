@@ -1,5 +1,6 @@
 """E4.6 synthetic-only protection contracts; no broker or execution adapter."""
 
+from iat.paper_source_scope import current_source
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import timedelta
@@ -116,6 +117,13 @@ def assess_protection_plan(
         and type(liquidation_policy) is LiquidationPolicy,
         "TYPED_PROTECTION_POLICIES_REQUIRED",
     )
+    if current_source() is not None:
+        require(
+            canonical(stop_policy) == current_source().policies["stop"]
+            and canonical(liquidation_policy)
+            == current_source().policies["liquidation"],
+            "E5_FROZEN_PROTECTION_POLICY_MISMATCH",
+        )
     require(type(tape) is SyntheticQuoteTape, "QUOTE_PRODUCER_REQUIRED")
     require(
         at(as_of) == at(quote["quote"]["available_at_utc"]),
@@ -173,7 +181,11 @@ def assess_protection_plan(
             structural_reference=deepcopy(risk["frozen_invalidation"]),
             structural_source_price_basis=deepcopy(risk["reference_price_basis"]),
             mapping=stop_policy.mapping,
-            reference_available_at_utc=risk["evaluation_at_utc"],
+            reference_available_at_utc=(
+                risk["evaluation_at_utc"]
+                if current_source() is None
+                else current_source().action_time(risk["evaluation_at_utc"]).isoformat()
+            ),
             establishment_at_utc=at(as_of).isoformat(),
             establishment_order="ESTABLISH_BEFORE_OPEN_IN_SAME_RECEIPT_TRANSACTION",
             not_a_broker_stop=True,
@@ -255,6 +267,8 @@ def exit_intent(
     can_fill_trigger,
     evidence
 ):
+    if current_source() is not None and any(role.startswith("E2_") for role in roles):
+        available_at = current_source().action_time(available_at)
     return report(
         "IAT_PROTECTION_EXIT_INTENT_V1",
         roles=sorted(roles),
